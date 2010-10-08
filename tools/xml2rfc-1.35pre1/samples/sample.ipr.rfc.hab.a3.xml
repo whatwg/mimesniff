@@ -1,0 +1,28 @@
+<?xml version='1.0'?> 
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc compact="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc-ext h-a-b="yes"?>
+<?rfc-ext consensus="no"?>
+<rfc number="9999" category="exp" submissionType="IETF">
+  <front>
+    <title>Example for: "IETF Experimental, No Consensus Call"</title>
+    <author fullname="John Doe" initials="J." surname="Doe">
+    </author>
+    <date year="2010" month="December" day="1"/>
+    <abstract>
+      <t>
+        Dummy Abstract.
+      </t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Dummy Section">
+      <t>
+        See <eref target="http://tools.ietf.org/html/draft-iab-streams-headers-boilerplates-08#appendix-A.3"/>.
+      </t>
+    </section>
+  </middle>
+  <back>
+  </back>
+</rfc>
