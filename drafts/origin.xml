@@ -169,6 +169,15 @@ obs-fold       = CRLF
         the same URI.</t>
       </list>
       </t>
+
+      <t>Two URIs are the same-origin if their origins are the same.
+      <list>
+        <t>NOTE: It is possible for a URIs to not be same-origin with itself.
+        For example, a data URIs is not same-origin with itself because data
+        URIs do not use a server-based naming authority and hence have globally
+        unique identifiers as origins.</t>
+      </list>
+      </t>
     </section>
     <section anchor="serialization" title="Serializing Origins">
       <section anchor="unicode-serialization"
