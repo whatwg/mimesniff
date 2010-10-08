@@ -30,7 +30,7 @@
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
-      <t>TODO: Introduce the document.</t>
+      <t>[TODO: Introduction.]</t>
     </section>
     <section anchor="conventions" title="Conventions">
       <section anchor="conformance-criteria" title="Conformance Criteria">
@@ -357,100 +357,14 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </list>
       </t>
     </section>
-    <section anchor="server-behavior" title="HTTP Server Behavior">
-      <t>HTTP Servers MAY use the Origin header to "defend themselves
-      against CSRF attacks."  Such servers are known as "participating
-      servers" in this section.</t>
-
-      <t>Let the /origin white list/ of a participating server be a set of
-      strings selected by the operator of that server.</t>
-
-      <t>The string "null" MUST NOT be a member of the /origin white list/
-      for any participating server.
-      <list style="empty">
-        <t>Example: The origin white list for the example.com Web server
-        could be the strings "http://example.com", "https://example.com",
-        "http://www.example.com", and "https://www.example.com".</t>
-      </list>
-      </t>
-
-      <t>A participating server MUST use the following algorithm when
-      determining whether to modify state in response to an HTTP request:
-      <list style="numbers">
-        <t>If the request method is safe (as defined by RFC 2616,
-        Section 9.1.1, e.g. either "GET" nor "HEAD"), return "MUST NOT
-        modify state" and abort these steps.</t>
-
-        <t>If the request does not contain a header named "Origin", return
-        "MAY modify state" abort these steps.</t>
-
-        <t>For each request header named "Origin", let the /initiating
-        origin list/ be the list of origins represented in the header:
-        <list style="numbers">
-          <t>If there exists a origin in the /initiating origin list/ is not
-          a member of the /origin white list/ for this server, return "MUST
-          NOT modify state" and abort these steps.</t>
-        </list>
-        </t>
-
-        <t>Return "MAY modify state".</t>
-      </list>
-      </t>
-
-      <t>
-      <list style="empty">
-        <t>Example: A Web server could modify state in response to POST
-        requests that lack an Origin header (because these requests are sent
-        by non-supporting user agents) and could modify state in response to
-        POST requests that have an Origin header of "http://example.com",
-        "https://example.com", "http://www.example.com", or
-        "https://www.example.com".</t>
-      </list>
-      </t>
-    </section>
     <section anchor="privacy" title="Privacy Considerations">
-      <t>This section is not normative.</t>
-
-      <t>The Origin header improves on the Referer header by respecting the
-      user's privacy: The Origin header includes only the information
-      required to identify the principal that initiated the request
-      (typically the scheme, host, and port of initiating origin).  In
-      particular, the Origin header does not contain the path or query
-      portions of the URI included in the Referer header that invade privacy
-      without providing additional security.</t>
-
-      <t>The Origin header also improves on the Referer header by not
-      leaking intranet host names to external web sites when a user follows
-      a hyperlink from an intranet host to an external site because
-      hyperlinks generate privacy-sensitive requests.</t>
+      <t>[TODO: Privacy considerations.]</t>
     </section>
     <section anchor="security" title="Security Considerations">
-      <t>This section is not normative.</t>
-
-      <t>Because a supporting user agent will always include the Origin
-      header when making HTTP requests, HTTP servers can detect that a
-      request was initiated by a supporting user agent by observing the
-      presence of the header.  This design prevents a malicious web site from
-      making a supporting user agent appear to be a non-supporting user agent.
-      Unlike the Referer header, which is absent when suppressed by the user
-      agent, the Origin header takes on the value "null" when suppressed by
-      the user agent.</t>
-
-      <t>In some legacy user agents, The Origin header can be spoofed for
-      same-site XMLHttpRequests.  Sites that rely only on network
-      connectivity for authentication should use a DNS rebinding defense,
-      such as validating the HTTP Host header, in addition to CSRF
-      protection.</t>
+      <t>[TODO: Security considerations.]</t>
     </section>
     <section anchor="iana" title="IANA Considerations">
-      <t>TODO: The "Origin" header should be registered.</t>
-    </section>
-    <section anchor="todo" title="TODO">
-      <t>Think about how this interacts with proxies.</t>
-
-      <t>Think about how this interacts with caches.</t>
-
-      <t>Think about how this interacts with IPv6.</t>
+      <t>[TODO: Register the Origin header.]</t>
     </section>
     <section anchor="implementation-considerations"
              title="Implementation Considerations">
