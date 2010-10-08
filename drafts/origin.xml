@@ -2,17 +2,17 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-abarth-origin-06">
+<rfc ipr="trust200902" docName="draft-abarth-origin-07pre" category="std">
   <front>
     <title abbrev="The Web Origin Concept">
       The Web Origin Concept
     </title>
     <author initials="A." surname="Barth" fullname="Adam Barth">
-      <organization abbrev="U.C. Berkeley">
-        University of California, Berkeley
+      <organization>
+        Google, Inc.
       </organization>
       <address>
-        <email>abarth@eecs.berkeley.edu</email>
+        <email>ietf@adambarth.com</email>
         <uri>http://www.adambarth.com/</uri>
       </address>
     </author>
@@ -34,9 +34,8 @@
         <uri>http://ln.hixie.ch/</uri>
       </address>
     </author>
-    <date month="November" year="2009"/>
-    <workgroup>Working Group</workgroup>
-    <keyword>Internet-Draft</keyword>
+    <date month="October" year="2010"/>
+    <workgroup>websec</workgroup>
     <abstract>
       <t>This document defines the concept of an "origin," which is used by
       web browsers to isolate content retrieved from different parties.  The
