@@ -252,20 +252,30 @@ obs-fold       = CRLF
         </t>
       </section>
     </section>
-    <section anchor="ua-behavior" title="User Agent Behavior">
-      <t>Whenever a user agent issues an HTTP request, the user agent MUST
-      include exactly one HTTP header named "Origin" that conforms to the
-      following ABNF [RFC5234] grammar:
-      <figure>
-        <artwork>
-  origin              = "origin" ":" origin-list-or-null
-  origin-list-or-null = OWS [ "null" / origin-list ] OWS
-  origin-list         = serialized-origin *( SP serialized-origin )
-  serialized-origin   = scheme "://" host [ ":" port ]
-   ; &lt;scheme&gt;, &lt;host&gt;, &lt;port&gt; productions from RFC3986
-        </artwork>
-      </figure>
-      </t>
+    <section anchor="origin-header" title="The HTTP Origin header">
+      <t>This section defines the HTTP Origin header.</t>
+
+      <section anchor="origin-header-syntax" title="Syntax">
+        <t>The Origin header has the following syntax:
+        <figure>
+          <artwork type="abnf">
+            <![CDATA[
+origin              = "Origin:" OWS origin-list-or-null OWS
+origin-list-or-null = "null" / origin-list
+origin-list         = serialized-origin *( SP serialized-origin )
+serialized-origin   = scheme "://" host [ ":" port ]
+                    ; <scheme>, <host>, <port> productions from RFC3986
+            ]]>
+          </artwork>
+        </figure>
+        </t>
+      </section>
+      <section anchor="origin-header-semantics" title="Semantics">
+        <t>The Origin header is 
+        </t>
+      </section>
+
+
 
       <t>Whenever a user agent would send a Origin header containing two
       consecutive, identical origin serializations, the user agent MUST remove
