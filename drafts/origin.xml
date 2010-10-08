@@ -16,50 +16,67 @@
         <uri>http://www.adambarth.com/</uri>
       </address>
     </author>
-    <author initials="C." surname="Jackson" fullname="Collin Jackson">
-      <organization abbrev="Stanford University">
-        Stanford University
-      </organization>
-      <address>
-        <email>collinj@cs.stanford.edu</email>
-        <uri>http://www.collinjackson.com/</uri>
-      </address>
-    </author>
-    <author initials="I." surname="Hickson" fullname="Ian Hickson">
-      <organization>
-        Google, Inc.
-      </organization>
-      <address>
-        <email>ian@hixie.ch</email>
-        <uri>http://ln.hixie.ch/</uri>
-      </address>
-    </author>
     <date month="October" year="2010"/>
     <workgroup>websec</workgroup>
     <abstract>
-      <t>This document defines the concept of an "origin," which is used by
-      web browsers to isolate content retrieved from different parties.  The
-      origin concept is defined by a "same-origin" relation and a serialization
-      algorithm.  This document also defines an HTTP Origin header, which a
-      user agent can use to describe the security contexts that caused the user
-      agent to initiate an HTTP request.  HTTP servers can use the Origin
-      header to mitigate against Cross-Site Request Forgery (CSRF)
-      vulnerabilities.</t>
+      <t>This document defines the concept of an "origin", which represents a
+      web pincipal.  Typically, user agents isolate content retrieved from
+      different origins to prevent a malicious web site operator for
+      interfering with the operation of benign web sites.  In particular, this
+      document defines how to compute an origin from a URL, how to serialize an
+      origin to a string, and an HTTP header, named "Origin", for indicating
+      which origin caused the user agent to issue a particular request.</t>
     </abstract>
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
-      <t>This document defines the concept of an "origin," which is used by
-      web browsers to isolate content retrieved from different parties.  The
-      origin concept is defined by a "same-origin" relation and a serialization
-      algorithm.  This document also defines an HTTP Origin header, which a
-      user agent can use to describe the security contexts that caused the user
-      agent to initiate an HTTP request.  HTTP servers can use the Origin
-      header to mitigate against Cross-Site Request Forgery (CSRF)
-      vulnerabilities.</t>
-
-      <t>TODO: Discuss other CSRF defenses.</t>
+      <t>TODO: Introduce the document.</t>
     </section>
+    <section anchor="conventions" title="Conventions">
+      <section anchor="conformance-criteria" title="Conformance Criteria">
+        <t>The keywords "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD
+        NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+        interpreted as described in <xref target="RFC2119"/>.</t>
+
+        <t>Requirements phrased in the imperative as part of algorithms (such
+        as "strip any leading space characters" or "return false and abort
+        these steps") are to be interpreted with the meaning of the key word
+        ("MUST", "SHOULD", "MAY", etc) used in introducing the algorithm.</t>
+
+        <t>Conformance requirements phrased as algorithms or specific steps can
+        be implemented in any manner, so long as the end result is equivalent.
+        In particular, the algorithms defined in this specification are
+        intended to be easy to understand and are not intended to be
+        performant.</t>
+      </section>
+      <section anchor="syntax-notation" title="Syntax Notation">
+        <t>This specification uses the Augmented Backus-Naur Form (ABNF)
+        notation of <xref target="RFC5234"/>.</t>
+
+        <t>The following core rules are included by reference, as defined in
+        <xref target="RFC5234"/>, Appendix B.1: ALPHA (letters), CR (carriage
+        return), CRLF (CR LF), CTL (controls), DIGIT (decimal 0-9), DQUOTE
+        (double quote), HEXDIG (hexadecimal 0-9/A-F/a-f), LF (line feed), OCTET
+        (any 8-bit sequence of data), SP (space), HTAB (horizontal tab), CHAR
+        (any US-ASCII character), VCHAR (any visible US-ASCII character), and
+        WSP (whitespace).</t>
+
+        <t>The OWS (optional whitespace) rule is used where zero or more
+        linear whitespace characters MAY appear:
+        <figure>
+          <artwork type="abnf">
+OWS            = *( [ obs-fold ] WSP )
+                 ; "optional" whitespace
+obs-fold       = CRLF
+          </artwork>
+        </figure>
+        OWS SHOULD either not be produced or be produced as a single SP
+        character.</t>
+      </section>
+    </section>
+
+
+
     <section anchor="origin" title="Origin">
       <t>The following algorithm MUST be used to compute the origin of a URI.
       <list style="numbers">
