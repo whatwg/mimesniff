@@ -287,35 +287,62 @@ serialized-origin   = scheme "://" host [ ":" port ]
         origins were invovled in causing the user agent to generate the
         request.</t>
       </section>
+      <section anchor="origin-header-ua-requirements"
+               title="User Agent Requirements">
+        <t>The user agent MAY include an Origin header in any HTTP request.</t>
 
+        <t>The user agent MUST NOT include more than one Origin header field in
+        any HTTP request.</t>
 
+        <t>Whenever a user agent issues an HTTP request from a
+        "privacy-sensitive" context, the user agent MUST send the value "null"
+        in the Origin header.
+        <list>
+          <t>NOTE: This document does not define the notion of a
+          privacy-sensitive context.  Applications that generate HTTP
+          requests can define contexts as privacy-sensitive to impose
+          restrictions on how user agents generate Origin headers.</t>
+        </list>
+        </t>
 
-      <t>Whenever a user agent would send a Origin header containing two
-      consecutive, identical origin serializations, the user agent MUST remove
-      one such origin serialization from the header.</t>
+        <t>When generating an Origin header, the user agent MUST meet the
+        following requirements:
+        <list style="symbols">
+          <t>Each of the serialized-origin productions in the grammar MUST be
+          the ascii-serialization of an origin.</t>
 
-      <t>Whenever a user agent issues an HTTP request from a
-      "privacy-sensitive" context, the user agent MUST send the value "null"
-      in the Origin header.</t>
+          <t>No two consequitive serialized-origin productions in the grammar
+          can be identical.  In particular, if the user agent would generate
+          two consequitive serialized-origins, the user agent MUST NOT generate
+          the second one.</t>
+        </list>
+        </t>
 
-      <t>If /B/ is the Request-URI in the Request-Line of an HTTP request, then
-      the associated HTTP response is an "HTTP redirect from URI /B/" if the
-      response contains a 3xx Status Code (all terms RFC2616).</t>
+        <t>If the user agent generated an HTTP request current-request because
+        the user agent received 3xx Status Code response to another HTTP
+        request previous-request for URI previous-uri:
+        <list style="symbols">
+          <t>The HTTP request current-request MUST include an Origin header.</t>
 
-      <t>Whenever a user agent issues an HTTP request to URI /A/ as a result of
-      an HTTP redirect from URI /B/, the user agent MUST either:
-      <list style="numbers">
-        <t>set the value of the Origin header in the HTTP request to /A/
-        to "null" (i.e., the code point sequence U+006E, U+0075, U+006C,
-        U+006C),</t>
+          <t>The value of the Origin header MUST be either:
+          <list style="symbols">
+            <t>The string "null" (i.e., the code point sequence U+006E, U+0075,
+            U+006C, U+006C).</t>
 
-        <t>set the value of the Origin header in the /A/ request to the value
-        of the Origin header in the /B/ request extended with a space and the
-        ASCII serialization of the origin of /B/, unless this would result in
-        the header containing the origin serialization "null" in a
-        component.</t>
-      </list>
-      </t>
+            <t>The value of the Origin header in the previous-request.  The
+            user agent MUST NOT choose this option if the ascii-serialization
+            of previous-uri is not identical to the last serialized-origin in
+            the Origin header of the previous request.</t>
+
+            <t>The value of the Origin header in previous header extended with
+            a space and the ascii-serialziation of the origin of previous-uri.
+            The user agent MUST NOT choose this option if the
+            ascii-serialziation of the origin of previous-uri is "null".</t>
+          </list>
+          </t>
+        </list>
+        </t>
+      </section>
 
       <t>Whenever a user agent issues an HTTP request that (1) is *not* the
       result of an HTTP redirect and (2) is *not* initiated from a
