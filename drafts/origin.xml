@@ -379,8 +379,6 @@ serialized-origin   = scheme "://" host [ ":" port ]
         the user agent MUST implement IDNA2003 <xref target="RFC3490" />.</t>
       </section>
     </section>
-    <!-- ack Larry Masinter, Anne van Kesteren, Jonas, Lucas, dveditz, Sid
-    Stamm, Collin Jackson, Ian Hickson -->
   </middle>
   <back>
     <references title="Normative References">
@@ -586,5 +584,10 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <format type="TXT" octets="38105" target="http://www.rfc-editor.org/rfc/rfc5891.txt" />
       </reference>
     </references>
+    <section title="Acknowledgements">
+      We would like to thank Lucas Adamski, Ian Hickson, Anne van Kesteren,
+      Collin Jackson, Larry Masinter, Jonas Sicking, Sid Stamm, and Daniel
+      Veditz for their valuable feedback on this document.
+    </section>
   </back>
 </rfc>
