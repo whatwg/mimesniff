@@ -180,74 +180,74 @@ obs-fold       = CRLF
       </t>
     </section>
     <section anchor="serialization" title="Serializing Origins">
+      <t>This section defines how to serialize an origin to a unicode string
+      and to an ASCII string.</t>
+
       <section anchor="unicode-serialization"
                title="Unicode Serialization of an Origin">
-        <t>Implementations MUST using the following algorithm to compute the
-        Unicode serialization of an origin:
+        <t>The unicode-serialization of an origin is the value returned by the
+        following algorithm:
         <list style="numbers">
-          <t>If the origin in question is not a scheme/host/port tuple, then
-          return the string
+          <t>If the origin is not a scheme/host/port tuple, then return the
+          string
           <list style="empty">
             <t>null</t>
           </list>
           (i.e., the code point sequence U+006E, U+0075, U+006C, U+006C) and
           abort these steps.</t>
 
-          <t>Otherwise, let /result/ be the scheme part of the origin
+          <t>Otherwise, let result be the scheme part of the origin
           tuple.</t>
 
-          <t>Append the string "://" to /result/.</t>
+          <t>Append the string "://" to result.</t>
 
-          <t>Apply the IDNA ToUnicode algorithm [RFC3490] to each component of
+          <t>Append the [TODO: IDNA ToUnicode] algorithm to each component of
           the host part of the origin tuple, and append the results of each
           component, in the same order, separated by U+002E FULL STOP code
-          points (".") to /result/.</t>
+          points (".") to result.</t>
 
-          <t>If the port part of the origin tuple gives a port that is
-          different from the default port for the protocol given by the
-          scheme part of the origin tuple, then append a U+003A COLON
-          code points (":") and the given port, in base ten, to /result/.</t>
+          <t>If the port part of the origin tuple is different than the default
+          port for the protocol given by the scheme part of the origin tuple:
+          <list>
+            <t>Append a U+003A COLON code points (":") and the given port, in
+            base ten, to result.</t>
+          </list>
+          </t>
 
-          <t>Return /result/.</t>
+          <t>Return result.</t>
         </list>
         </t>
 
-        <t>TODO: Check that we handle IPv6 literals correctly.</t>
+        <t>[TODO: Check that we handle IPv6 literals correctly.]</t>
       </section>
       <section anchor="ascii-serialization"
                title="ASCII Serialization of an Origin">
-        <t>Implementations MUST using the following algorithm to compute the
-        ASCII serialization of an origin:
+        <t>The ascii-serialization of an origin is the value returned by the
+        following algorithm:
         <list style="numbers">
-          <t>If the origin in question is not a scheme/host/port tuple, then
-          return the string
+          <t>If the origin is not a scheme/host/port tuple, then return the
+          string
           <list style="empty">
             <t>null</t>
           </list>
           (i.e., the code point sequence U+006E, U+0075, U+006C, U+006C) and
           abort these steps.</t>
 
-          <t>Otherwise, let /result/ be the scheme part of the origin tuple.</t>
+          <t>Otherwise, let result be the scheme part of the origin tuple.</t>
 
-          <t>Append the string "://" to /result/.</t>
+          <t>Append the string "://" to result.</t>
 
-          <t>If the host part of the origin tuple is in the form of a DNS
-          domain name, apply the IDNA conversion algorithm ([RFC3490] section
-          4) to it, with both the AllowUnassigned and UseSTD3ASCIIRules flags
-          set, employ the ToASCII operation, and append the result to
-          /result/.</t>
+          <t>Append the host port of the origin tuple to result.</t>
 
-          <t>If ToASCII fails to convert one of the components of the
-          string, e.g. because it is too long or because it contains invalid
-          characters, then return the literal string "null" and abort these
-          steps.</t>
+          <t>If the port part of the origin tuple is different than the default
+          port for the protocol given by the scheme part of the origin tuple:
+          <list>
+            <t>Append a U+003A COLON code points (":") and the given port, in
+            base ten, to result.</t>
+          </list>
+          </t>
 
-          <t>If the port part of the origin tuple gives a port that is
-          different from the default port for the protocol given by the
-          scheme part of the origin tuple, then append a U+003A COLON
-          code point (":") and the given port, in base ten, to /result/.</t>
-
-          <t>Return /result/.</t>
+          <t>Return result.</t>
         </list>
         </t>
       </section>
