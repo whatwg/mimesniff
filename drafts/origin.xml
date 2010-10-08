@@ -399,9 +399,225 @@ obs-fold       = CRLF
 
       <t>Think about how this interacts with IPv6.</t>
     </section>
+    <section anchor="implementation-considerations"
+             title="Implementation Considerations">
+      <section anchor="idna-migration" title="IDNA dependency and migration">
+        <t>IDNA2008 <xref target="RFC5890" /> supersedes IDNA2003 <xref
+        target="RFC3490" /> but is not backwards-compatible. For this reason,
+        there will be a transition period (possibly of a number of years).
+        User agents SHOULD implement IDNA2008 <xref target="RFC5890" /> and
+        MAY implement [Unicode Technical Standard #46
+        &lt;http://unicode.org/reports/tr46/&gt;] in order to facilitate a
+        smoother IDNA transition. If a user agent does not implement IDNA2008,
+        the user agent MUST implement IDNA2003 <xref target="RFC3490" />.</t>
+      </section>
+    </section>
     <!-- ack Larry Masinter, Anne van Kesteren, Jonas, Lucas, dveditz, Sid
-    Stamm -->
+    Stamm, Collin Jackson, Ian Hickson -->
   </middle>
   <back>
+    <references title="Normative References">
+      <!-- http://xml.resource.org/public/rfc/bibxml/reference.RFC.XXXX.xml -->
+      <reference anchor="RFC2119">
+        <front>
+          <title abbrev="RFC Key Words">
+            Key words for use in RFCs to Indicate Requirement Levels
+          </title>
+          <author initials="S." surname="Bradner" fullname="Scott Bradner">
+            <organization>Harvard University</organization>
+            <address>
+              <postal>
+                <street>1350 Mass. Ave.</street>
+                <street>Cambridge</street>
+                <street>MA 02138</street>
+              </postal>
+              <phone>- +1 617 495 3864</phone>
+              <email>sob@harvard.edu</email>
+            </address>
+          </author>
+          <date year="1997" month="March"/>
+          <area>General</area>
+          <keyword>keyword</keyword>
+          <abstract>
+            <t>In many standards track documents several words are used to
+            signify the requirements in the specification. These words are
+            often capitalized. This document defines these words as they
+            should be interpreted in IETF documents. Authors who follow these
+            guidelines should incorporate this phrase near the beginning of
+            their document:
+            <list>
+              <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+              NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+              "OPTIONAL" in this document are to be interpreted as described
+              in RFC 2119.</t>
+            </list>
+            </t>
+            <t>Note that the force of these words is modified by the
+            requirement level of the document in which they are used.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="BCP" value="14"/>
+        <seriesInfo name="RFC" value="2119"/>
+        <format type="TXT" octets="4723"
+          target="ftp://ftp.isi.edu/in-notes/rfc2119.txt"/>
+        <format type="HTML" octets="17491"
+          target="http://xml.resource.org/public/rfc/html/rfc2119.html"/>
+        <format type="XML" octets="5777"
+          target="http://xml.resource.org/public/rfc/xml/rfc2119.xml"/>
+      </reference>
+      <reference anchor="RFC2616">
+        <front>
+          <title>Hypertext Transfer Protocol -- HTTP/1.1</title>
+          <author initials="R." surname="Fielding" fullname="R. Fielding">
+            <organization>University of California, Irvine</organization>
+            <address><email>fielding@ics.uci.edu</email></address>
+          </author>
+          <author initials="J." surname="Gettys" fullname="J. Gettys">
+            <organization>W3C</organization>
+            <address><email>jg@w3.org</email></address>
+          </author>
+          <author initials="J." surname="Mogul" fullname="J. Mogul">
+            <organization>Compaq Computer Corporation</organization>
+            <address><email>mogul@wrl.dec.com</email></address>
+          </author>
+          <author initials="H." surname="Frystyk" fullname="H. Frystyk">
+            <organization>MIT Laboratory for Computer Science</organization>
+            <address><email>frystyk@w3.org</email></address>
+          </author>
+          <author initials="L." surname="Masinter" fullname="L. Masinter">
+            <organization>Xerox Corporation</organization>
+            <address><email>masinter@parc.xerox.com</email></address>
+          </author>
+          <author initials="P." surname="Leach" fullname="P. Leach">
+            <organization>Microsoft Corporation</organization>
+            <address><email>paulle@microsoft.com</email></address>
+          </author>
+          <author initials="T." surname="Berners-Lee"
+                  fullname="T. Berners-Lee">
+            <organization>W3C</organization>
+            <address><email>timbl@w3.org</email></address>
+          </author>
+          <date month="June" year="1999"/>
+        </front>
+        <seriesInfo name="RFC" value="2616"/>
+      </reference>
+      <reference anchor="RFC3490">
+        <front>
+          <title>Internationalizing Domain Names in Applications (IDNA)</title>
+            <author initials="P." surname="Faltstrom" fullname="P. Faltstrom">
+              <organization />
+            </author>
+            <author initials="P." surname="Hoffman" fullname="P. Hoffman">
+              <organization />
+            </author>
+            <author initials="A." surname="Costello" fullname="A. Costello">
+              <organization />
+            </author>
+            <date year="2003" month="March" />
+            <abstract>
+              <t>Until now, there has been no standard method for domain names
+              to use characters outside the ASCII repertoire.  This document
+              defines internationalized domain names (IDNs) and a mechanism
+              called Internationalizing Domain Names in Applications (IDNA) for
+              handling them in a standard fashion.  IDNs use characters drawn
+              from a large repertoire (Unicode), but IDNA allows the non-ASCII
+              characters to be represented using only the ASCII characters
+              already allowed in so-called host names today.  This
+              backward-compatible representation is required in existing
+              protocols like DNS, so that IDNs can be introduced with no
+              changes to the existing infrastructure.  IDNA is only meant for
+              processing domain names, not free text. [STANDARDS TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="3490" />
+        <format type="TXT" octets="51943" target="http://www.rfc-editor.org/rfc/rfc3490.txt" />
+        <annotation>
+
+          See <xref target="idna-migration" /> for an explanation why the
+          normative reference to an obsoleted specification is needed.
+        </annotation>
+      </reference>
+      <reference anchor="RFC5234">
+        <front>
+          <title abbrev="ABNF for Syntax Specifications">
+            Augmented BNF for Syntax Specifications: ABNF
+          </title>
+          <author initials="D." surname="Crocker"
+                  fullname="Dave Crocker" role="editor">
+            <organization>Brandenburg InternetWorking</organization>
+            <address>
+              <email>dcrocker@bbiw.net</email>
+            </address>
+          </author>
+          <author initials="P." surname="Overell" fullname="Paul Overell">
+            <organization>THUS plc.</organization>
+            <address>
+              <email>paul.overell@thus.net</email>
+            </address>
+          </author>
+          <date month="January" year="2008"/>
+        </front>
+        <seriesInfo name="STD" value="68"/>
+        <seriesInfo name="RFC" value="5234"/>
+      </reference>
+      <reference anchor="RFC5246">
+        <front>
+          <title>
+            The Transport Layer Security (TLS) Protocol Version 1.2
+          </title>
+          <author initials="T." surname="Dierks" fullname="T. Dierks">
+            <organization />
+          </author>
+          <author initials="E." surname="Rescorla" fullname="E. Rescorla">
+            <organization />
+          </author>
+          <date year="2008" month="August" />
+        </front>
+        <seriesInfo name="RFC" value="5246" />
+      </reference>
+      <reference anchor="RFC5890">
+        <front>
+          <title>Internationalized Domain Names for Applications (IDNA):
+          Definitions and Document Framework</title>
+          <author initials="J." surname="Klensin" fullname="J. Klensin">
+            <organization />
+          </author>
+          <date year="2010" month="August" />
+          <abstract>
+            <t>This document is one of a collection that, together, describe
+            the protocol and usage context for a revision of Internationalized
+            Domain Names for Applications (IDNA), superseding the earlier
+            version. It describes the document collection and provides
+            definitions and other material that are common to the set.
+            [STANDARDS TRACK]</t>
+          </abstract>
+        </front>
+        <seriesInfo name="RFC" value="5890" />
+        <format type="TXT" octets="54245" target="http://www.rfc-editor.org/rfc/rfc5890.txt" />
+      </reference>
+      <reference anchor="RFC5891">
+        <front>
+          <title>Internationalized Domain Names in Applications (IDNA):
+          Protocol</title>
+          <author initials="J." surname="Klensin" fullname="J. Klensin">
+            <organization />
+          </author>
+          <date year="2010" month="August" />
+          <abstract>
+            <t>This document is the revised protocol definition for
+            Internationalized Domain Names (IDNs). The rationale for changes,
+            the relationship to the older specification, and important
+            terminology are provided in other documents. This document
+            specifies the protocol mechanism, called Internationalized Domain
+            Names in Applications (IDNA), for registering and looking up IDNs
+            in a way that does not require changes to the DNS itself. IDNA is
+            only meant for processing domain names, not free text. [STANDARDS
+            TRACK]</t>
+          </abstract>
+        </front>
+        <seriesInfo name="RFC" value="5891" />
+        <format type="TXT" octets="38105" target="http://www.rfc-editor.org/rfc/rfc5891.txt" />
+      </reference>
+    </references>
   </back>
 </rfc>
