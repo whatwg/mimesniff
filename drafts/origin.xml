@@ -105,8 +105,7 @@ obs-fold       = CRLF
       the URI.  In this section, we define how to compute an origin from a
       URI.</t>
 
-      <t>The security-origin of a URI is the value computed by the following
-      algorithm:
+      <t>The origin of a URI is the value computed by the following algorithm:
       <list style="numbers">
         <t>If the URI does not use a server-based naming authority, or if the URI
         is not an absolute URI, then return a globally unqiue identifier.</t>
@@ -150,28 +149,24 @@ obs-fold       = CRLF
 
       <t>Implementations MAY define other types of origins in addition to the
       scheme/host/port tuple type defined above.  For example, an
-      implementation might define an origin based on a public key.</t>
+      implementation might define an origin based on a public key or an
+      implementation might append addition "sandbox" bits to a scheme/host/port
+      tuple.</t>
     </section>
     <section anchor="same-origin" title="Comparing Origins">
-      <t>Implementations MUST use the following algorithm to test whether
-      two origins are the "same origin".
-      <list style="numbers">
-        <t>Let /A/ be the first origin being compared, and let /B/ be the
-        second origin being compared.</t>
+      <t>To origins are "the same" if, and only if, they are identicial.  In
+      particular:
+      <list style="symbols">
+        <t>If the two origins are scheme/host/port tuples, the two origins are
+        the same if, and only if, they have identical schemes, hosts, and
+        ports.</t>
 
-        <t>If either /A/ or /B/ is not a scheme/host/port tuple, return an
-        implementation-defined value.</t>
+        <t>An origin that is globally unique identifier cannot be the same as
+        an origin that is a scheme/host/port tuple.</t>
 
-        <t>If /A/ and /B/ have scheme components that are not identical,
-        return false.</t>
-
-        <t>If /A/ and /B/ have host components that are not identical,
-        return false.</t>
-
-        <t>If /A/ and /B/ have port components that are not identical,
-        return false.</t>
-
-        <t>Return true.</t>
+        <t>Two origins that are globally unique identifiers cannot be the same
+        if they were created at different times, even if they were created for
+        the same URI.</t>
       </list>
       </t>
     </section>
