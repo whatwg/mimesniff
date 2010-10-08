@@ -344,15 +344,18 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </t>
       </section>
 
-      <t>Whenever a user agent issues an HTTP request that (1) is *not* the
-      result of an HTTP redirect and (2) is *not* initiated from a
-      "privacy-sensitive" context, the user agent SHOULD set the value of the
-      Origin header to the ASCII serialization of the origin that
-      initiated the HTTP request.</t>
-
-      <t>Note: This behavior differs from that of the HTTP Referer header,
-      which user agents often suppress when an origin with an "https" scheme
-      issues a request for a URI with an "http" scheme.</t>
+      <t>The user agent SHOULD include the Origin header in an HTTP request if
+      the user agent issues the HTTP request on behalf of a remote origin
+      (e.g., and by the user operating a trusted user interface surface).  In
+      this case, the user agent should set the value of the Origin header to
+      the ascii-serialization of that origin.
+      <list>
+        <t>NOTE: This behavior differs from the usual user agent behavior for
+        the HTTP Referer header, which user agents often suppress when an
+        origin with an "https" scheme issues a request for a URI with an "http"
+        scheme.</t>
+      </list>
+      </t>
     </section>
     <section anchor="server-behavior" title="HTTP Server Behavior">
       <t>HTTP Servers MAY use the Origin header to "defend themselves
