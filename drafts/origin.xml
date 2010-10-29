@@ -20,7 +20,7 @@
     <workgroup>websec</workgroup>
     <abstract>
       <t>This document defines the concept of an "origin", which represents a
-      web pincipal.  Typically, user agents isolate content retrieved from
+      web principal.  Typically, user agents isolate content retrieved from
       different origins to prevent a malicious web site operator for
       interfering with the operation of benign web sites.  In particular, this
       document defines how to compute an origin from a URI, how to serialize an
