@@ -335,9 +335,9 @@ serialized-origin   = scheme "://" host [ ":" port ]
             the Origin header of the previous request.</t>
 
             <t>The value of the Origin header in previous header extended with
-            a space and the ascii-serialziation of the origin of previous-uri.
+            a space and the ascii-serialization of the origin of previous-uri.
             The user agent MUST NOT choose this option if the
-            ascii-serialziation of the origin of previous-uri is "null".</t>
+            ascii-serialization of the origin of previous-uri is "null".</t>
           </list>
           </t>
         </list>
