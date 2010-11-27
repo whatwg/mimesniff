@@ -20,17 +20,56 @@
     <workgroup>websec</workgroup>
     <abstract>
       <t>This document defines the concept of an "origin", which represents a
-      web principal.  Typically, user agents isolate content retrieved from
-      different origins to prevent a malicious web site operator for
-      interfering with the operation of benign web sites.  In particular, this
-      document defines how to compute an origin from a URI, how to serialize an
-      origin to a string, and an HTTP header, named "Origin", for indicating
-      which origin caused the user agent to issue a particular request.</t>
+      web principal. Typically, user agents isolate content retrieved from
+      different origins to prevent a malicious web site operator from
+      interfering with the operation of benign web sites. In particular, this
+      document defines how to compute an origin from a URI, how to serialize
+      an origin to a string, and an HTTP header, named "Origin", for
+      indicating which origin caused the user agent to issue a particular
+      HTTP request.</t>
     </abstract>
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
-      <t>[TODO: Introduction.]</t>
+      <t>User agents interact with content created by a large number of
+      authors. Although many of those authors are well-meaning, some authors
+      might be malicious.  To the extent that user agents undertake actions
+      based on content they process, user agent implementors might wish to
+      restrict the ability of malicious authors to disrupt the confidentiality
+      or integrity of other content or servers.</t>
+
+      <t>As an example, consider an HTTP user agent that renders HTML content
+      retrieved from various servers. If the user agent executes scripts
+      contained in those documents, the user agent implementor might wish to
+      prevent scripts retrieved from a malicious server from reading documents
+      stored on an honest server, which might, for example, be behind a
+      firewall.</t>
+
+      <t>Traditionally, user agents have divided content according to its
+      "origin". More specifically, user agents allow content retrieved from
+      one origin to interact freely with other content retrieved from that
+      origin, but user agents restrict how that content can interact with
+      content from another origin.</t>
+
+      <t>This document does not describe the restrictions user agents ought to
+      impose on cross-origin interaction. Instead, this document defines the
+      origin concept itself in such a way that other specifications, such for
+      HTTP [cite] or for HTML [cite], can refer to this document for a
+      precise, common definition of the web origin concept.</t>
+
+      <t>Specifically, a user agent can compute the origin of a piece of
+      content based on the URI from which the user agent retrieved the
+      content. Given two origins computed in this way, the user agent can
+      compare the origins to determine if they are "the same", which is useful
+      for performing some security checks. Finally, given an origin, the user
+      agent can serialize that origin into either an ASCII or a Unicode
+      representation.</t>
+
+      <t>This document also defines one use of the ASCII serialization: the
+      HTTP Origin header. An Origin header attached to an HTTP request
+      contains the ASCII serializations of the origins that caused the user
+      agent to issue the HTTP request. The Origin header has a number of uses,
+      including for cross-origin resource sharing [cite].</t>
     </section>
     <section anchor="conventions" title="Conventions">
       <section anchor="conformance-criteria" title="Conformance Criteria">
@@ -43,11 +82,11 @@
         these steps") are to be interpreted with the meaning of the key word
         ("MUST", "SHOULD", "MAY", etc) used in introducing the algorithm.</t>
 
-        <t>Conformance requirements phrased as algorithms or specific steps can
-        be implemented in any manner, so long as the end result is equivalent.
-        In particular, the algorithms defined in this specification are
-        intended to be easy to understand and are not intended to be
-        performant.</t>
+        <t>Conformance requirements phrased as algorithms or specific steps
+        can be implemented in any manner, so long as the end result is
+        equivalent. In particular, the algorithms defined in this
+        specification are intended to be easy to understand and are not
+        intended to be performant.</t>
       </section>
       <section anchor="syntax-notation" title="Syntax Notation">
         <t>This specification uses the Augmented Backus-Naur Form (ABNF)
@@ -56,10 +95,10 @@
         <t>The following core rules are included by reference, as defined in
         <xref target="RFC5234"/>, Appendix B.1: ALPHA (letters), CR (carriage
         return), CRLF (CR LF), CTL (controls), DIGIT (decimal 0-9), DQUOTE
-        (double quote), HEXDIG (hexadecimal 0-9/A-F/a-f), LF (line feed), OCTET
-        (any 8-bit sequence of data), SP (space), HTAB (horizontal tab), CHAR
-        (any US-ASCII character), VCHAR (any visible US-ASCII character), and
-        WSP (whitespace).</t>
+        (double quote), HEXDIG (hexadecimal 0-9/A-F/a-f), LF (line feed),
+        OCTET (any 8-bit sequence of data), SP (space), HTAB (horizontal tab),
+        CHAR (any US-ASCII character), VCHAR (any visible US-ASCII character),
+        and WSP (whitespace).</t>
 
         <t>The OWS (optional whitespace) rule is used where zero or more
         linear whitespace characters MAY appear:
@@ -100,69 +139,70 @@ obs-fold       = CRLF
       </section>
     </section>
     <section anchor="origin" title="Origin">
-      <t>An origin represents a web principal.  Typically, user agents determine
-      the origin of a piece of content from the URI from which they retrieved
-      the URI.  In this section, we define how to compute an origin from a
-      URI.</t>
+      <t>An origin represents a web principal. Typically, user agents
+      determine the origin of a piece of content from the URI from which they
+      retrieved the content. In this section, we define how to compute an
+      origin from a URI.</t>
 
       <t>The origin of a URI is the value computed by the following algorithm:
       <list style="numbers">
-        <t>If the URI does not use a server-based naming authority, or if the URI
-        is not an absolute URI, then return a globally unqiue identifier.</t>
+        <t>If the URI does not use a server-based naming authority, or if the
+        URI is not an absolute URI, then return a globally unique
+        identifier.</t>
 
-        <t>Let scheme be the scheme component of the URI, converted to
+        <t>Let uri-scheme be the scheme component of the URI, converted to
         lowercase.</t>
 
         <t>If the implementation doesn't support the protocol given by
-        scheme, then return a globally unique identifier.</t>
+        uri-scheme, then return a globally unique identifier.</t>
 
-        <t>If scheme is "file", the implementation MAY return an
+        <t>If uri-scheme is "file", the implementation MAY return an
         implementation-defined value.
         <list>
-          <t>NOTE: Historically, user agents have granted the file a tremendous
-          amount of authority.  However, granting all local files such wide
-          privileges can lead to privilege escalation attacks.  Some user
-          agents have had success grant local files directory-based privileges,
-          but this approach has not been widely adopted.  Other user agent use
-          a globally unique identifier for file URLs, which is the most secure
-          option.</t>
+          <t>NOTE: Historically, user agents have granted content from the
+          file scheme a tremendous number of privileges. However, granting all
+          local files such wide privileges can lead to privilege escalation
+          attacks. Some user agents have had success granting local files
+          directory-based privileges, but this approach has not been widely
+          adopted. Other user agent use a globally unique identifier each file
+          URI, which is the most secure option.</t>
         </list>
         </t>
 
-        <t>Let host be the idna-canonicalization of the host component of
+        <t>Let uri-host be the idna-canonicalization of the host component of
         the URI.</t>
 
         <t>If there is no port component of the URI:
         <list>
-          <t>Let port be the default port for the protocol given by
-          scheme.</t>
+          <t>Let uri-port be the default port for the protocol given by
+          uri-scheme.</t>
         </list>
         Otherwise:
         <list>
-          <t>Let port be the port component of the URI.</t>
+          <t>Let uri-port be the port component of the URI.</t>
         </list>
         </t>
 
-        <t>Return the tuple (scheme, host, port).</t>
+        <t>Return the triple (uri-scheme, uri-host, uri-port).</t>
       </list>
       </t>
 
       <t>Implementations MAY define other types of origins in addition to the
-      scheme/host/port tuple type defined above.  For example, an
+      scheme/host/port triple type defined above. For example, an
       implementation might define an origin based on a public key or an
-      implementation might append addition "sandbox" bits to a scheme/host/port
-      tuple.</t>
+      implementation might append addition "sandbox" bits to a
+      scheme/host/port triple.</t>
     </section>
     <section anchor="same-origin" title="Comparing Origins">
-      <t>To origins are "the same" if, and only if, they are identical.  In
+      <t>To origins are "the same" if, and only if, they are identical. In
       particular:
       <list style="symbols">
-        <t>If the two origins are scheme/host/port tuples, the two origins are
+        <t>If the two origins are scheme/host/port triple, the two origins are
         the same if, and only if, they have identical schemes, hosts, and
         ports.</t>
 
         <t>An origin that is globally unique identifier cannot be the same as
-        an origin that is a scheme/host/port tuple.</t>
+        an origin that is a scheme/host/port triple.</t>
 
         <t>Two origins that are globally unique identifiers cannot be the same
         if they were created at different times, even if they were created for
@@ -172,9 +212,9 @@ obs-fold       = CRLF
 
       <t>Two URIs are the same-origin if their origins are the same.
       <list>
-        <t>NOTE: It is possible for a URIs to not be same-origin with itself.
-        For example, a data URIs is not same-origin with itself because data
-        URIs do not use a server-based naming authority and hence have globally
+        <t>NOTE: A URI is not necessarily same-origin with itself. For
+        example, a data URI is not same-origin with itself because data URIs
+        do not use a server-based naming authority and therefore have globally
         unique identifiers as origins.</t>
       </list>
       </t>
@@ -188,7 +228,7 @@ obs-fold       = CRLF
         <t>The unicode-serialization of an origin is the value returned by the
         following algorithm:
         <list style="numbers">
-          <t>If the origin is not a scheme/host/port tuple, then return the
+          <t>If the origin is not a scheme/host/port triple, then return the
           string
           <list style="empty">
             <t>null</t>
@@ -197,19 +237,20 @@ obs-fold       = CRLF
           abort these steps.</t>
 
           <t>Otherwise, let result be the scheme part of the origin
-          tuple.</t>
+          triple.</t>
 
           <t>Append the string "://" to result.</t>
 
           <t>Append the [TODO: IDNA ToUnicode] algorithm to each component of
-          the host part of the origin tuple, and append the results of each
+          the host part of the origin triple, and append the results of each
           component, in the same order, separated by U+002E FULL STOP code
           points (".") to result.</t>
 
-          <t>If the port part of the origin tuple is different than the default
-          port for the protocol given by the scheme part of the origin tuple:
+          <t>If the port part of the origin triple is different than the
+          default port for the protocol given by the scheme part of the origin
+          triple:
           <list>
-            <t>Append a U+003A COLON code points (":") and the given port, in
+            <t>Append a U+003A COLON code point (":") and the given port, in
             base ten, to result.</t>
           </list>
           </t>
@@ -225,7 +266,7 @@ obs-fold       = CRLF
         <t>The ascii-serialization of an origin is the value returned by the
         following algorithm:
         <list style="numbers">
-          <t>If the origin is not a scheme/host/port tuple, then return the
+          <t>If the origin is not a scheme/host/port triple, then return the
           string
           <list style="empty">
             <t>null</t>
@@ -233,14 +274,16 @@ obs-fold       = CRLF
           (i.e., the code point sequence U+006E, U+0075, U+006C, U+006C) and
           abort these steps.</t>
 
-          <t>Otherwise, let result be the scheme part of the origin tuple.</t>
+          <t>Otherwise, let result be the scheme part of the origin
+          triple.</t>
 
           <t>Append the string "://" to result.</t>
 
-          <t>Append the host port of the origin tuple to result.</t>
+          <t>Append the host port of the origin triple to result.</t>
 
-          <t>If the port part of the origin tuple is different than the default
-          port for the protocol given by the scheme part of the origin tuple:
+          <t>If the port part of the origin triple is different than the
+          default port for the protocol given by the scheme part of the origin
+          triple:
           <list>
             <t>Append a U+003A COLON code points (":") and the given port, in
             base ten, to result.</t>
@@ -272,36 +315,37 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </section>
       <section anchor="origin-header-semantics" title="Semantics">
         <t>When included in an HTTP request, the Origin header indicates the
-        origin(s) that caused the user agent to generate the request.</t>
+        origin(s) that caused the user agent to issue the request.</t>
 
         <t>For example, consider a user agent that executes scripts on behalf
-        of origins.  If one of those scripts causes the user agent to issue an
-        HTTP request, the user agent might wish to inform the server that the
-        request was issued by the script using the Origin header.</t>
+        of origins. If one of those scripts causes the user agent to issue an
+        HTTP request, the user agent might wish to use the Origin header to
+        inform the server that the request was issued by the script.</t>
 
         <t>In some cases, a number of origins contribute to causing the user
-        agents to issue an HTTP request.  In those cases, user agent can list
-        all the origins in the Origin header.  For example, if the HTTP request
-        was initially generated by one origin, but then later redirected by
-        another origin, the user agent might wish to inform the server that two
-        origins were involved in causing the user agent to generate the
+        agents to issue an HTTP request. In those cases, the user agent can
+        list all the origins in the Origin header. For example, if the HTTP
+        request was initially issued by one origin but then later redirected
+        by another origin, the user agent might wish to inform the server that
+        two origins were involved in causing the user agent to issue the
         request.</t>
       </section>
       <section anchor="origin-header-ua-requirements"
                title="User Agent Requirements">
-        <t>The user agent MAY include an Origin header in any HTTP request.</t>
+        <t>The user agent MAY include an Origin header in any HTTP
+        request.</t>
 
-        <t>The user agent MUST NOT include more than one Origin header field in
-        any HTTP request.</t>
+        <t>The user agent MUST NOT include more than one Origin header field
+        in any HTTP request.</t>
 
         <t>Whenever a user agent issues an HTTP request from a
         "privacy-sensitive" context, the user agent MUST send the value "null"
         in the Origin header.
         <list>
           <t>NOTE: This document does not define the notion of a
-          privacy-sensitive context.  Applications that generate HTTP
-          requests can define contexts as privacy-sensitive to impose
-          restrictions on how user agents generate Origin headers.</t>
+          privacy-sensitive context. Applications that generate HTTP requests
+          can designate contexts as privacy-sensitive to impose restrictions
+          on how user agents generate Origin headers.</t>
         </list>
         </t>
 
@@ -318,16 +362,17 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </list>
         </t>
 
-        <t>If the user agent generated an HTTP request current-request because
+        <t>If the user agent issued an HTTP request current-request because
         the user agent received 3xx Status Code response to another HTTP
         request previous-request for URI previous-uri:
         <list style="symbols">
-          <t>The HTTP request current-request MUST include an Origin header.</t>
+          <t>The HTTP request current-request MUST include an Origin
+          header.</t>
 
           <t>The value of the Origin header MUST be either:
           <list style="symbols">
-            <t>The string "null" (i.e., the code point sequence U+006E, U+0075,
-            U+006C, U+006C).</t>
+            <t>The string "null" (i.e., the byte sequence %x6E, %x75, %x6C,
+            %x6C).</t>
 
             <t>The value of the Origin header in the previous-request.  The
             user agent MUST NOT choose this option if the ascii-serialization
@@ -345,15 +390,15 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </section>
 
       <t>The user agent SHOULD include the Origin header in an HTTP request if
-      the user agent issues the HTTP request on behalf of a remote origin
-      (e.g., and by the user operating a trusted user interface surface).  In
-      this case, the user agent should set the value of the Origin header to
-      the ascii-serialization of that origin.
+      the user agent issues the HTTP request on behalf of an origin (e.g., not
+      by the user operating a trusted user interface surface). In this case,
+      the user agent SHOULD set the value of the Origin header to the
+      ascii-serialization of that origin.
       <list>
         <t>NOTE: This behavior differs from the usual user agent behavior for
         the HTTP Referer header, which user agents often suppress when an
-        origin with an "https" scheme issues a request for a URI with an "http"
-        scheme.</t>
+        origin with an "https" scheme issues a request for a URI with an
+        "http" scheme.</t>
       </list>
       </t>
     </section>
