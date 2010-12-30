@@ -8,11 +8,11 @@
       Media Type Sniffing
     </title>
     <author initials="A." surname="Barth" fullname="Adam Barth">
-      <organization abbrev="U.C. Berkeley">
-        University of California, Berkeley
+      <organization>
+        Google, Inc.
       </organization>
       <address>
-        <email>abarth@eecs.berkeley.edu</email>
+        <email>ietf@adambarth.com</email>
         <uri>http://www.adambarth.com/</uri>
       </address>
     </author>
