@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-abarth-mime-sniff-05">
+<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-00">
   <front>
     <title abbrev="Media Type Sniffing">
       Media Type Sniffing
@@ -25,7 +25,7 @@
         <uri>http://ln.hixie.ch/</uri>
       </address>
     </author>
-    <date month="May" year="2010" />
+    <date month="December" year="2010" />
     <workgroup>None</workgroup>
     <keyword>Internet-Draft</keyword>
     <abstract>
