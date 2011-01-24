@@ -536,9 +536,24 @@
 | FF FF             | 42 4D             | image/bmp       | Safe       |
 | Comment: The string "BM", a BMP signature.                           |
 +-------------------+-------------------+-----------------+------------+
+| FF FF FF FF 00 00 | 52 49 46 46 00 00 | image/webp      | Safe       |
+| 00 00 FF FF FF FF | 00 00 57 45 42 50 |                 |            |
+| FF FF             | 56 50             |                 |            |
+| Comment: "RIFF" followed by four bytes, followed by "WEBPVP".        |
++-------------------+-------------------+-----------------+------------+
 | FF FF FF FF       | 00 00 01 00       | image/vnd.      | Safe       |
 |                   |                   |  microsoft.icon |            |
 | Comment: A Windows Icon signature.                                   |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF    | 4F 67 67 53 00    | application/ogg | Safe       |
+| Comment: An Ogg Vorbis audio or video signature.                     |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF 00 00 | 52 49 46 46 00 00 | audio/x-wave    | Safe       |
+| 00 00 FF FF FF FF | 00 00 57 41 56 45 |                 |            |
+| Comment: "RIFF" followed by four bytes, followed by "WAVE".          |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF       | 1A 45 DF A3       | vidow/webm      | Safe       |
+| Comment: The WebM signature [TODO: Use more octets?]                 |
 +-------------------+-------------------+-----------------+------------+
 | FF FF FF FF FF FF | 52 61 72 20 1A 07 | application/    | Safe       |
 | FF                | 00                | x-rar-compressed|            |
@@ -551,6 +566,7 @@
 |                   |                   |          x-gzip |            |
 | Comment: A GZIP archive.                                             |
 +-------------------+-------------------+-----------------+------------+
+[TODO: MP3 audio and H.264 video.]
         </artwork>
       </figure>
       </t>
@@ -581,16 +597,17 @@
       abort these steps:
       <figure>
         <artwork>
-  +-------------------------+--------------------------+----------+
-  | Bytes in Hexadecimal    | Sniffed Type             | Comment  |
-  +-------------------------+--------------------------+----------+
-  | 47 49 46 38 37 61       | image/gif                | "GIF87a" |
-  | 47 49 46 38 39 61       | image/gif                | "GIF89a" |
-  | 89 50 4E 47 0D 0A 1A 0A | image/png                |          |
-  | FF D8 FF                | image/jpeg               |          |
-  | 42 4D                   | image/bmp                | "BM"     |
-  | 00 00 01 00             | image/vnd.microsoft.icon |          |
-  +-------------------------+--------------------------+----------+
++-------------------------+--------------------------+-----------------+
+| Bytes in Hexadecimal    | Sniffed Type             | Comment         |
++-------------------------+--------------------------+-----------------+
+| 47 49 46 38 37 61       | image/gif                | "GIF87a"        |
+| 47 49 46 38 39 61       | image/gif                | "GIF89a"        |
+| 89 50 4E 47 0D 0A 1A 0A | image/png                |                 |
+| FF D8 FF                | image/jpeg               |                 |
+| 42 4D                   | image/bmp                | "BM"            |
+| 00 00 01 00             | image/vnd.microsoft.icon |                 |
+| (see Section ??)        | image/webp               | "RIFF????WEBPVP |
++-------------------------+--------------------------+-----------------+
         </artwork>
       </figure>
       </t>
