@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-01">
+<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-02pre">
   <front>
     <title abbrev="Media Type Sniffing">
       Media Type Sniffing
@@ -37,7 +37,7 @@
       the effective media type of HTTP responses that balances security and
       compatibility considerations.</t>
 
-      <t>Please send feedback on this draft to apps-discuss@ietf.org.</t>
+      <t>Please send feedback on this draft to websec@ietf.org.</t>
     </abstract>
   </front>
   <middle>
