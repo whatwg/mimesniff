@@ -20,7 +20,7 @@
     <workgroup>websec</workgroup>
     <abstract>
       <t>This document defines the concept of an "origin", which represents a
-      web principal. Typically, user agents isolate content retrieved from
+      "web principal". Typically, user agents isolate content retrieved from
       different origins to prevent a malicious web site operator from
       interfering with the operation of benign web sites. In particular, this
       document defines how to compute an origin from a URI, how to serialize
@@ -139,7 +139,7 @@ obs-fold       = CRLF
       </section>
     </section>
     <section anchor="origin" title="Origin">
-      <t>An origin represents a web principal. Typically, user agents
+      <t>An origin represents a "web principal". Typically, user agents
       determine the origin of a piece of content from the URI from which they
       retrieved the content. In this section, we define how to compute an
       origin from a URI.</t>
