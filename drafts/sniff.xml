@@ -552,7 +552,7 @@
 | 00 00 FF FF FF FF | 00 00 57 41 56 45 |                 |            |
 | Comment: "RIFF" followed by four bytes, followed by "WAVE".          |
 +-------------------+-------------------+-----------------+------------+
-| FF FF FF FF       | 1A 45 DF A3       | vidow/webm      | Safe       |
+| FF FF FF FF       | 1A 45 DF A3       | video/webm      | Safe       |
 | Comment: The WebM signature [TODO: Use more octets?]                 |
 +-------------------+-------------------+-----------------+------------+
 | FF FF FF FF FF FF | 52 61 72 20 1A 07 | application/    | Safe       |
