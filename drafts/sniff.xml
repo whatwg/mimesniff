@@ -546,7 +546,7 @@
 | Comment: A Windows Icon signature.                                   |
 +-------------------+-------------------+-----------------+------------+
 | FF FF FF FF FF    | 4F 67 67 53 00    | application/ogg | Safe       |
-| Comment: An Ogg Vorbis audio or video signature.                     |
+| Comment: An Ogg audio or video signature.                     |
 +-------------------+-------------------+-----------------+------------+
 | FF FF FF FF 00 00 | 52 49 46 46 00 00 | audio/wave      | Safe       |
 | 00 00 FF FF FF FF | 00 00 57 41 56 45 |                 |            |
