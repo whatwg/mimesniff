@@ -235,7 +235,7 @@
       below.</t>
 
       <t>If the official-type is "unknown/unknown", "application/unknown", or
-      "*/*", jump to the "unknown" type section below.</t>
+      "*/*", jump to the "unknown type" section below.</t>
 
       <t>If the official-type ends in "+xml", or if it is either "text/xml" or
       "application/xml", then let the sniffed-type be the official-type and
@@ -366,7 +366,7 @@
             follows:
             <list style="symbols">
               <t>If the index-pattern-th octet of the pattern is a normal
-              hexadecimal octet and not a "WS" octet or a "SB" octet:
+              hexadecimal octet and not a "WS" octet or a "_>" octet:
               <list style="empty">
                 <t>If the bit-wise "and" operator, applied to the
                 index-stream-th octet of the stream and the index-pattern-th
