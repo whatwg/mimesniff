@@ -516,7 +516,7 @@
 |                   |                   |          x-gzip |            |
 | Comment: A GZIP archive.                                             |
 +-------------------+-------------------+-----------------+------------+
-[TODO: MP3 audio and H.264 video.]
+[TODO: MP3 audio.]
         </artwork>
       </figure>
       </t>
