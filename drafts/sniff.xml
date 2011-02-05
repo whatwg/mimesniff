@@ -600,6 +600,7 @@
       <list style="symbols">
         <t>video/H264</t>
         <t>video/webm</t>
+        <t>application/ogg</t>
       </list>
       </t>
 
