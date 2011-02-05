@@ -138,60 +138,6 @@
       <t>Note: Comparisons between media types, as defined by MIME
       specifications, are done in an ASCII case-insensitive manner.
       [RFC2046]</t>
-
-<!--
-      <t>The algorithm for determining the charset of a string object s,
-      which is the content (transparent octet string representation) of a
-      resource after removal of any transfer encoding (if necessary), is as
-      follows.  It returns either a charset or nothing.
-      <list style="numbers">
-        <t>Find the first seven characters in s that are an ASCII
-        case-insensitive match for the word "charset". If no such match is
-        found, return nothing.</t>
-
-        <t>Skip any U+0009, U+000A, U+000C, U+000D, or U+0020 characters
-        that immediately follow the word 'charset' (there might not be
-        any).</t>
-
-        <t>If the next character is not a U+003D EQUALS SIGN ('='), return
-        nothing.</t>
-
-        <t>Skip any U+0009, U+000A, U+000C, U+000D, or U+0020 characters
-        that immediately follow the equals sign (there might not be
-        any).</t>
-
-        <t>Process the next character as follows:
-        <list style="symbols">
-          <t>If it is a U+0022 QUOTATION MARK ('"') and there is a later
-          U+0022 QUOTATION MARK ('"') in s, or</t>
-          <t>If it is a U+0027 APOSTROPHE ("'") and there is a later U+0027
-          APOSTROPHE ("'") in s
-          <list style="empty">
-            <t>Return the string between this character and the next
-            earliest occurrence of this character.</t>
-          </list>
-          </t>
-
-          <t>If it is an unmatched U+0022 QUOTATION MARK ('"'),</t>
-          <t>If it is an unmatched U+0027 APOSTROPHE ("'"), or</t>
-          <t>If there is no next character
-          <list style="empty">
-            <t>Return nothing.</t>
-          </list>
-          </t>
-
-          <t>Otherwise
-          <list style="empty">
-            <t>Return the string from this character to the first U+0009,
-            U+000A, U+000C, U+000D, U+0020, or U+003B character or the end
-            of s, whichever comes first.</t>
-          </list>
-          </t>
-        </list>
-        </t>
-      </list>
-      </t>
--->
     </section>
     <section anchor="web-pages" title="Web Pages">
     <t>The user agent MUST use the following algorithm to determine the
@@ -253,7 +199,7 @@
     </t>
     </section>
     <section anchor="text-or-binary" title="Text or Binary">
-      <t>This section defines the *rules for distingushing if a resource is
+      <t>This section defines the *rules for distinguishing if a resource is
       text or binary*.</t>
 
       <t>
@@ -424,6 +370,10 @@
         </list>
         </t>
 
+        <t>If the first n octets match the signature for H264 (as define in
+        <xref target="h264-signature" />), then let the sniffed-type be
+        video/H264 and abort these steps.</t>
+
         <t>If none of the first n octets are binary data (as defined in the
         "text or binary" section), then let the sniffed-type be "text/plain"
         and abort these steps.</t>
@@ -584,33 +534,83 @@
       <t>Note: The column marked "security" is used by the algorithm in the
       "text or binary" section, to avoid sniffing text/plain content as a type
       that can be used for a privilege escalation attack.</t>
+      
+      <section anchor="h264-signature" title="Signature for H.264">
+        <t>This section defines whether a sequence of n octets *matches the
+        signature for H.264*.</t>
+
+        <t>If n is less than 4, then the sequence does not match the signature
+        for H264 and abort these steps.</t>
+
+        <t>Let box-size be the value of the first four octets, interpreted
+        as a 32 bit unsigned, little-endian integer.</t>
+
+        <t>If n is less than box-size or if box-size is not evenly divisible
+        by 4, then the sequence does not match the signature for H264 and
+        abort these steps.</t>
+
+        <t>If octets 5 through 8 (inclusive) of the sequence are not 0x66 0x74
+        0x79 0x70 (the ASCII string "ftyp"), then the sequence does not match
+        the signature for H264 and abort these steps.</t>
+
+        <t>For each i from 2 to box-size/4 - 1 (inclusive):
+        <list style="numbers">
+          <t>If i is equal to 3, continue to the next i, if any. (These octets
+          correspond to the minor version number.)</t>
+
+          <t>If octets 4*i through 4*i + 3 (inclusive) of the sequence are
+          0x6D 0x70 0x34 (the ASCII string "mp4"), then the sequence *does*
+          match the signature for H264 and abort these steps.</t>
+        </list>
+        </t>
+
+        <t>The sequence does not match the signature for H264.</t>
+      </section>
     </section>
     <section anchor="image" title="Image">
-      <t>This section defines the *rules for sniffing images specifically*.</t>
+      <t>This section defines the *rules for sniffing images
+      specifically*.</t>
 
       <t>If the official-type is "image/svg+xml", then let the sniffed-type be
       the official-type (an XML type) and abort these steps.</t>
 
-      <t>If the first octets match one of the octet sequences in the first
-      column of the following table, then let the sniffed-type be the type
-      given in the corresponding cell in the second column on the same row and
-      abort these steps:
-      <figure>
-        <artwork>
-+-------------------------+--------------------------+-----------------+
-| Bytes in Hexadecimal    | Sniffed Type             | Comment         |
-+-------------------------+--------------------------+-----------------+
-| 47 49 46 38 37 61       | image/gif                | "GIF87a"        |
-| 47 49 46 38 39 61       | image/gif                | "GIF89a"        |
-| 89 50 4E 47 0D 0A 1A 0A | image/png                |                 |
-| FF D8 FF                | image/jpeg               |                 |
-| 42 4D                   | image/bmp                | "BM"            |
-| 00 00 01 00             | image/vnd.microsoft.icon |                 |
-| (see Section ??)        | image/webp               | "RIFF????WEBPVP |
-+-------------------------+--------------------------+-----------------+
-        </artwork>
-      </figure>
+      <t>If the first octets match one of the signatures in <xref
+      target="unknown-type" /> for one of the following media types, then let
+      the sniffed-type be the corresponding media type and abort these steps:
+      <list style="symbols">
+        <t>image/gif</t>
+        <t>image/png</t>
+        <t>image/jpeg</t>
+        <t>image/bmp</t>
+        <t>image/vnd.microsoft.icon</t>
+        <t>image/webp</t>
+      </list>
       </t>
+
+      <t>Otherwise, let the sniffed-type be the official-type
+      and abort these steps.</t>
+    </section>
+    <section anchor="video" title="Video">
+      <t>This section defines the *rules for sniffing videos
+      specifically*.</t>
+
+      <t>If the first octets match one of the signatures in <xref
+      target="unknown-type" /> for one of the following media types, then let
+      the sniffed-type be the corresponding media type and abort these steps:
+      <list style="symbols">
+        <t>video/H264</t>
+        <t>video/webm</t>
+      </list>
+      </t>
+
+      <t>Otherwise, let the sniffed-type be the official-type
+      and abort these steps.</t>
+    </section>
+    <section anchor="fonts" title="Fonts">
+      <t>This section defines the *rules for sniffing fonts
+      specifically*.</t>
+
+      <t>TODO</t>
 
       <t>Otherwise, let the sniffed-type be the official-type
       and abort these steps.</t>
