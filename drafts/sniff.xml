@@ -371,7 +371,7 @@
         </t>
 
         <t>If the first n octets match the signature for H264 (as define in
-        <xref target="h264-signature" />), then let the sniffed-type be
+        <xref target="mp4-signature" />), then let the sniffed-type be
         video/H264 and abort these steps.</t>
 
         <t>If none of the first n octets are binary data (as defined in the
@@ -535,23 +535,23 @@
       "text or binary" section, to avoid sniffing text/plain content as a type
       that can be used for a privilege escalation attack.</t>
       
-      <section anchor="h264-signature" title="Signature for H.264">
+      <section anchor="mp4-signature" title="Signature for MP4">
         <t>This section defines whether a sequence of n octets *matches the
-        signature for H.264*.</t>
+        signature for MP4*.</t>
 
         <t>If n is less than 4, then the sequence does not match the signature
-        for H264 and abort these steps.</t>
+        for MP4 and abort these steps.</t>
 
         <t>Let box-size be the value of the first four octets, interpreted
         as a 32 bit unsigned, little-endian integer.</t>
 
         <t>If n is less than box-size or if box-size is not evenly divisible
-        by 4, then the sequence does not match the signature for H264 and
+        by 4, then the sequence does not match the signature for MP4 and
         abort these steps.</t>
 
         <t>If octets 5 through 8 (inclusive) of the sequence are not 0x66 0x74
         0x79 0x70 (the ASCII string "ftyp"), then the sequence does not match
-        the signature for H264 and abort these steps.</t>
+        the signature for MP4 and abort these steps.</t>
 
         <t>For each i from 2 to box-size/4 - 1 (inclusive):
         <list style="numbers">
@@ -560,11 +560,11 @@
 
           <t>If octets 4*i through 4*i + 3 (inclusive) of the sequence are
           0x6D 0x70 0x34 (the ASCII string "mp4"), then the sequence *does*
-          match the signature for H264 and abort these steps.</t>
+          match the signature for MP4 and abort these steps.</t>
         </list>
         </t>
 
-        <t>The sequence does not match the signature for H264.</t>
+        <t>The sequence does not match the signature for MP4.</t>
       </section>
     </section>
     <section anchor="image" title="Image">
