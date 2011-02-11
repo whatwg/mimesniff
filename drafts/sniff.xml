@@ -370,9 +370,9 @@
         </list>
         </t>
 
-        <t>If the first n octets match the signature for H264 (as define in
+        <t>If the first n octets match the signature for MP4 (as define in
         <xref target="mp4-signature" />), then let the sniffed-type be
-        video/H264 and abort these steps.</t>
+        video/mp4 and abort these steps.</t>
 
         <t>If none of the first n octets are binary data (as defined in the
         "text or binary" section), then let the sniffed-type be "text/plain"
@@ -598,7 +598,7 @@
       target="unknown-type" /> for one of the following media types, then let
       the sniffed-type be the corresponding media type and abort these steps:
       <list style="symbols">
-        <t>video/H264</t>
+        <t>video/mp4</t>
         <t>video/webm</t>
         <t>application/ogg</t>
       </list>
