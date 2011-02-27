@@ -143,7 +143,7 @@
       <section title="Pitfalls">
         <t>When designing new pieces of the web platform, be careful not to
         grant authority to resources irrespective of MIME type.  Many web
-        applications server untrusted content with restricted MIME types.  A
+        applications serve untrusted content with restricted MIME types.  A
         new web platform feature that grants authority to these pieces of
         content risks introducing vulnerabilities into existing applications.
         Instead, prefer to grant authority to MIME types that already possess
