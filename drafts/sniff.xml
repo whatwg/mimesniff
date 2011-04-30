@@ -348,8 +348,8 @@
                 <t>"_>" means "space-or-bracket", and allows HTML tag names to
                 terminate with either a space or a greater than sign.</t>
 
-                <t>If index-stream-th octet of the stream different than 0x20
-                (ASCII space) or 0x3E (ASCII ">"), then skip this row.</t>
+                <t>If index-stream-th octet of the stream is different than
+                0x20 (ASCII space) or 0x3E (ASCII ">"), then skip this row.</t>
 
                 <t>Otherwise, increment index-pattern to the next octet in
                 the mask and pattern and index-stream to the next octet in
