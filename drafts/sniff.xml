@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-03">
+<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-04pre">
   <front>
     <title abbrev="Media Type Sniffing">
       Media Type Sniffing
