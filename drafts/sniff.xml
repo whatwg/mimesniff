@@ -98,6 +98,23 @@
       specification are intended to be easy to follow, and not intended to
       be performant.)</t>
     </section>
+    <section anchor="conventions" title="Conventions">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+        document are to be interpreted as described in <xref
+        target="RFC2119"/>.</t>
+
+        <t>Requirements phrased in the imperative as part of algorithms (such
+        as "strip any leading space characters" or "return false and abort
+        these steps") are to be interpreted with the meaning of the key word
+        ("MUST", "SHOULD", "MAY", etc) used in introducing the algorithm.</t>
+
+        <t>Conformance requirements phrased as algorithms or specific steps can
+        be implemented in any manner, so long as the end result is equivalent.
+        In particular, the algorithms defined in this specification are
+        intended to be easy to understand and are not intended to be
+        performant.</t>
+    </section>
     <section anchor="metadata" title="Metadata">
       <t>The explicit media type metadata information associated with sequence
       of octets depends on the protocol that was used to fetch the octets.</t>
@@ -781,7 +798,56 @@
     </section>
   </middle>
   <back>
-  <references>
+    <references title="Normative References">
+      <reference anchor="RFC2119">
+        <front>
+          <title abbrev="RFC Key Words">
+            Key words for use in RFCs to Indicate Requirement Levels
+          </title>
+          <author initials="S." surname="Bradner" fullname="Scott Bradner">
+            <organization>Harvard University</organization>
+            <address>
+              <postal>
+                <street>1350 Mass. Ave.</street>
+                <street>Cambridge</street>
+                <street>MA 02138</street>
+              </postal>
+              <phone>- +1 617 495 3864</phone>
+              <email>sob@harvard.edu</email>
+            </address>
+          </author>
+          <date year="1997" month="March"/>
+          <area>General</area>
+          <keyword>keyword</keyword>
+          <abstract>
+            <t>In many standards track documents several words are used to
+            signify the requirements in the specification. These words are
+            often capitalized. This document defines these words as they
+            should be interpreted in IETF documents. Authors who follow these
+            guidelines should incorporate this phrase near the beginning of
+            their document:
+            <list>
+              <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+              NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+              "OPTIONAL" in this document are to be interpreted as described
+              in RFC 2119.</t>
+            </list>
+            </t>
+            <t>Note that the force of these words is modified by the
+            requirement level of the document in which they are used.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="BCP" value="14"/>
+        <seriesInfo name="RFC" value="2119"/>
+        <format type="TXT" octets="4723"
+          target="ftp://ftp.isi.edu/in-notes/rfc2119.txt"/>
+        <format type="HTML" octets="17491"
+          target="http://xml.resource.org/public/rfc/html/rfc2119.html"/>
+        <format type="XML" octets="5777"
+          target="http://xml.resource.org/public/rfc/xml/rfc2119.xml"/>
+      </reference>
+    </references>
+    <references title="Informative References">
       <reference anchor="BarthCaballeroSong2009" target="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">
          <front>
            <title>Secure Content Sniffing for Web Browsers, or How to Stop
