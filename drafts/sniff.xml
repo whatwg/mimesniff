@@ -124,7 +124,8 @@
       media type indicted by the HTTP Content-Type header field, if present.
       If the Content-Type header field is absent or if its value cannot be
       interpreted as a media type (e.g. because its value doesn't contain a
-      U+002F SOLIDUS ('/') character), then there is no official-type.
+      U+002F SOLIDUS ('/') character), then there is no official-type.  (Such
+      messages are invalid according to <xref target="RFC2616" />
       <list style="empty">
         <t>Note: If an HTTP response contains multiple Content-Type header
         fields, the user agent MUST use the textually last Content-Type header
@@ -149,8 +150,8 @@
       </list>
       </t>
 
-      <t>For octets fetched over some other protocols, e.g. FTP, there is no
-      type information.</t>
+      <t>For octets fetched over some other protocols, e.g. FTP <xref
+      target="RFC0959" />, there is no type information.</t>
 
       <t>Note: Comparisons between media types, as defined by MIME
       specifications, are done in an ASCII case-insensitive manner.
@@ -221,7 +222,7 @@
 
       <t>
       <list style="numbers">
-        <t>The user agent MAY wait for 512 or more octets be to arrive.
+        <t>The user agent MAY wait for 512 or more octets to arrive.
         <list style="empty">
           <t>Note: Waiting for 512 octets octets to arrive causes the
           text-or-binary algorithm to be deterministic for a given sequence of
@@ -799,6 +800,70 @@
   </middle>
   <back>
     <references title="Normative References">
+<reference anchor="RFC2046">
+<front>
+<title abbrev="Media Types">
+Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types
+</title>
+<author initials="N." surname="Freed" fullname="Ned Freed">
+<organization>Innosoft International, Inc.</organization>
+<address>
+<postal>
+<street>1050 East Garvey Avenue South</street>
+<city>West Covina</city>
+<region>CA</region>
+<code>91790</code>
+<country>US</country>
+</postal>
+<phone>+1 818 919 3600</phone>
+<facsimile>+1 818 919 3614</facsimile>
+<email>ned@innosoft.com</email>
+</address>
+</author>
+<author initials="N." surname="Borenstein" fullname="Nathaniel S. Borenstein">
+<organization>First Virtual Holdings</organization>
+<address>
+<postal>
+<street>25 Washington Avenue</street>
+<city>Morristown</city>
+<region>NJ</region>
+<code>07960</code>
+<country>US</country>
+</postal>
+<phone>+1 201 540 8967</phone>
+<facsimile>+1 201 993 3032</facsimile>
+<email>nsb@nsb.fv.com</email>
+</address>
+</author>
+<date year="1996" month="November"/>
+<abstract>
+<t>
+STD 11, RFC 822 defines a message representation protocol specifying considerable detail about US-ASCII message headers, but which leaves the message content, or message body, as flat US-ASCII text. This set of documents, collectively called the Multipurpose Internet Mail Extensions, or MIME, redefines the format of messages to allow for
+</t>
+<t>
+(1) textual message bodies in character sets other than US-ASCII,
+</t>
+<t>
+(2) an extensible set of different formats for non-textual message bodies,
+</t>
+<t>(3) multi-part message bodies, and</t>
+<t>
+(4) textual header information in character sets other than US-ASCII.
+</t>
+<t>
+These documents are based on earlier work documented in RFC 934, STD 11 and RFC 1049, but extends and revises them. Because RFC 822 said so little about message bodies, these documents are largely orthogonal to (rather than a revision of) RFC 822.
+</t>
+<t>
+The initial document in this set, RFC 2045, specifies the various headers used to describe the structure of MIME messages. This second document defines the general structure of the MIME media typing sytem and defines an initial set of media types. The third document, RFC 2047, describes extensions to RFC 822 to allow non-US-ASCII text data in Internet mail header fields. The fourth document, RFC 2048, specifies various IANA registration procedures for MIME-related facilities. The fifth and final document, RFC 2049, describes MIME conformance criteria as well as providing some illustrative examples of MIME message formats, acknowledgements, and the bibliography.
+</t>
+<t>
+These documents are revisions of RFCs 1521 and 1522, which themselves were revisions of RFCs 1341 and 1342. An appendix in RFC 2049 describes differences and changes from previous versions.
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="2046"/>
+<format type="TXT" octets="105854" target="http://www.rfc-editor.org/rfc/rfc2046.txt"/>
+</reference>
       <reference anchor="RFC2119">
         <front>
           <title abbrev="RFC Key Words">
@@ -846,8 +911,59 @@
         <format type="XML" octets="5777"
           target="http://xml.resource.org/public/rfc/xml/rfc2119.xml"/>
       </reference>
+      <reference anchor="RFC2616">
+        <front>
+          <title>Hypertext Transfer Protocol -- HTTP/1.1</title>
+          <author initials="R." surname="Fielding" fullname="R. Fielding">
+            <organization>University of California, Irvine</organization>
+            <address><email>fielding@ics.uci.edu</email></address>
+          </author>
+          <author initials="J." surname="Gettys" fullname="J. Gettys">
+            <organization>W3C</organization>
+            <address><email>jg@w3.org</email></address>
+          </author>
+          <author initials="J." surname="Mogul" fullname="J. Mogul">
+            <organization>Compaq Computer Corporation</organization>
+            <address><email>mogul@wrl.dec.com</email></address>
+          </author>
+          <author initials="H." surname="Frystyk" fullname="H. Frystyk">
+            <organization>MIT Laboratory for Computer Science</organization>
+            <address><email>frystyk@w3.org</email></address>
+          </author>
+          <author initials="L." surname="Masinter" fullname="L. Masinter">
+            <organization>Xerox Corporation</organization>
+            <address><email>masinter@parc.xerox.com</email></address>
+          </author>
+          <author initials="P." surname="Leach" fullname="P. Leach">
+            <organization>Microsoft Corporation</organization>
+            <address><email>paulle@microsoft.com</email></address>
+          </author>
+          <author initials="T." surname="Berners-Lee"
+                  fullname="T. Berners-Lee">
+            <organization>W3C</organization>
+            <address><email>timbl@w3.org</email></address>
+          </author>
+          <date month="June" year="1999"/>
+        </front>
+        <seriesInfo name="RFC" value="2616"/>
+      </reference>
     </references>
     <references title="Informative References">
+      <reference anchor="RFC0959">
+      <front>
+        <title abbrev="File Transfer Protocol">File Transfer Protocol</title>
+        <author initials="J." surname="Postel" fullname="J. Postel">
+          <organization>Information Sciences Institute (ISI)</organization>
+        </author>
+        <author initials="J." surname="Reynolds" fullname="J. Reynolds">
+          <organization/>
+        </author>
+        <date year="1985" day="1" month="October"/>
+      </front>
+      <seriesInfo name="STD" value="9"/>
+      <seriesInfo name="RFC" value="959"/>
+      <format type="TXT" octets="147316" target="http://www.rfc-editor.org/rfc/rfc959.txt"/>
+      </reference>
       <reference anchor="BarthCaballeroSong2009" target="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">
          <front>
            <title>Secure Content Sniffing for Web Browsers, or How to Stop
