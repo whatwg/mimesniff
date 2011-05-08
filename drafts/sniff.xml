@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-03pre">
+<rfc ipr="trust200902" docName="draft-ietf-websec-mime-sniff-03">
   <front>
     <title abbrev="Media Type Sniffing">
       Media Type Sniffing
@@ -25,7 +25,7 @@
         <uri>http://ln.hixie.ch/</uri>
       </address>
     </author>
-    <date month="February" year="2011" />
+    <date month="May" year="2011" />
     <workgroup>None</workgroup>
     <keyword>Internet-Draft</keyword>
     <abstract>
@@ -155,7 +155,7 @@
 
       <t>Note: Comparisons between media types, as defined by MIME
       specifications, are done in an ASCII case-insensitive manner.
-      [RFC2046]</t>
+      <xref target="RFC2046" /></t>
     </section>
     <section anchor="web-pages" title="Web Pages">
     <t>The user agent MUST use the following algorithm to determine the
