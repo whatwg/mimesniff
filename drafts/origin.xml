@@ -306,7 +306,10 @@ obs-fold       = CRLF
           However, sending information over the network in arbitrary formats
           is dangerous. For this reason, user agents restrict documents to
           sending information using particular protocols, such as in an HTTP
-          request without custom headers.</t>
+          request without custom headers. Expanding the set of allowed
+          protocols, for example by adding support for WebSockets, must be
+          done carefully to avoid introducing vulnerabilities <xref
+          target="websockets" />.</t>
         </section>
         <section title="Pitfalls">
           <t>Whenever user agents allow documents from one origin to interact
