@@ -146,8 +146,8 @@ obs-fold       = CRLF
       presents those concepts and provides advice to designers of new pieces
       of the web platform.</t>
       <section anchor="trust" title="Trust">
-        <t>On the web, trust is specified by URL.  For example, HTML documents
-        designate which script to run with a URL:
+        <t>On the web, trust is specified by URI.  For example, HTML documents
+        designate which script to run with a URI:
         <figure>
           <artwork>
             <![CDATA[ 
@@ -158,14 +158,14 @@ obs-fold       = CRLF
         </t>
 
         <t>When a user agent process this element, the user agent will fetch
-        the script at that URL and execute the script with the privileges of
+        the script at that URI and execute the script with the privileges of
         the document.  In this way, the document grants all the privileges it
-        has to the resource specified by the URL.  In essence, the document
+        has to the resource specified by the URI.  In essence, the document
         declares that it trusts the integrity of information retrieved from
-        that URL.</t>
+        that URI.</t>
 
-        <t>In addition to importing libraries from URLs, user agents also let
-        principals export data to URLs.  For example, consider the HTML form
+        <t>In addition to importing libraries from URIs, user agents also let
+        principals export data to URIs.  For example, consider the HTML form
         element:
         <figure>
           <artwork>
@@ -179,30 +179,30 @@ obs-fold       = CRLF
         </t>
 
         <t>When the user enters his or her password and submits the form, the
-        password is sent to the network endpoint designated by the URL.  In
-        this way, the document exports its secret data to that URL.  In
+        password is sent to the network endpoint designated by the URI.  In
+        this way, the document exports its secret data to that URI.  In
         essence, the document declares that it trusts the confidentiality of
-        information sent to that URL.</t>
+        information sent to that URI.</t>
 
         <section title="Pitfalls">
           <t> When designing new pieces of the web platform, make sure that
-          important trust distinctions are visible in URLs. For example, if
-          both TLS and non-TLS protected resources used the "http" URL scheme,
+          important trust distinctions are visible in URIs. For example, if
+          both TLS and non-TLS protected resources used the "http" URI scheme,
           a document would be unable to specify that it wished to retrieve a
-          script over TLS. By using the "https" URL scheme, documents are able
+          script over TLS. By using the "https" URI scheme, documents are able
           to indicate that they wish to interact with resources that are
           protected from active network attackers.</t>
         </section>
       </section>
       <section anchor="origin" title="Origin">
-        <t>In principle, user agents could treat every URL as a separate
-        principal and isolate each document from every other URL unless the
-        document explicitly indicated that it trusted that URL. Unfortunately,
+        <t>In principle, user agents could treat every URI as a separate
+        principal and isolate each document from every other URI unless the
+        document explicitly indicated that it trusted that URI. Unfortunately,
         this design is cumbersome for developers because web applications
         often consist of a number of resource acting in concert.</t>
 
-        <t>As an approximation, user agents group URLs together into
-        protection domains called origins. In particular, two URLs are part of
+        <t>As an approximation, user agents group URIs together into
+        protection domains called origins. In particular, two URIs are part of
         the same origin (i.e., represent the same principal) if they have the
         same scheme, host, and port.</t>
 
@@ -227,23 +227,26 @@ obs-fold       = CRLF
         https://example.edu/~student/, but that does not mean a document
         authored by a student should be part of the same origin (i.e.,
         represent the same principal) as a web application for managing grades
-        hosted at https://grades.example.edu/.</t>
+        hosted at https://grades.example.edu/. In this deployment, however,
+        every student's web site inhabits the same origin, which might not be
+        desirable.</t>
       </section>
       <section anchor="authority" title="Authority">
-        <t>Although user agents group URLs into origins, not every resource in
-        an origin carries the same authority. For example, an image is passive
-        content and, therefore, carries no authority, meaning the image has no
-        access to the objects and resources available to its origin. By
-        contrast, an HTML document contains active content and, therefore,
-        carries the full authority of its origin. The user agent determines
-        how much authority to grant a resource by examining its MIME type. For
-        example, resources with a MIME type of image/png are treated as images
-        and resources with a MIME type of text/html are treated as HTML
-        documents.</t>
+        <t>Although user agents group URIs into origins, not every resource in
+        an origin carries the same authority (in the security sense of the
+        word "authority", not in the RFC 3986 sense). For example, an image is
+        passive content and, therefore, carries no authority, meaning the
+        image has no access to the objects and resources available to its
+        origin. By contrast, an HTML document contains active content and,
+        therefore, carries the full authority of its origin. The user agent
+        determines how much authority to grant a resource by examining its
+        media type. For example, resources with a media type of image/png are
+        treated as images and resources with a media type of text/html are
+        treated as HTML documents.</t>
 
         <t>When hosting untrusted content (such as user-generated content),
         web applications can limit that content’s authority by restricting its
-        MIME type. For example, serving user-generated content as image/png is
+        media type. For example, serving user-generated content as image/png is
         less risky than serving user-generated content as text/html. Of course
         many web applications incorporate untrusted content in their HTML
         documents. If not done carefully, these applications risk leaking
@@ -252,12 +255,12 @@ obs-fold       = CRLF
 
         <section title="Pitfalls">
           <t>When designing new pieces of the web platform, be careful not to
-          grant authority to resources irrespective of MIME type. Many web
-          applications serve untrusted content with restricted MIME types. A
+          grant authority to resources irrespective of media type. Many web
+          applications serve untrusted content with restricted media types. A
           new web platform feature that grants authority to these pieces of
           content risks introducing vulnerabilities into existing
-          applications. Instead, prefer to grant authority to MIME types that
-          already possess the origin’s full authority or to new MIME types
+          applications. Instead, prefer to grant authority to media types that
+          already possess the origin’s full authority or to new media types
           designed specifically to carry the new authority.</t>
         </section>
       </section>
@@ -272,7 +275,7 @@ obs-fold       = CRLF
           APIs) exposed by the user agent respect the same-origin policy.
           Specifically, a script running on behalf of one document can access
           objects associated with another document if, and only if, the two
-          documents belong to the same origin, e.g., were retrieved from URLs
+          documents belong to the same origin, e.g., were retrieved from URIs
           with the same scheme, host, and port.</t>
 
           <t>There are some exceptions to this general policy. For example,
@@ -325,8 +328,8 @@ obs-fold       = CRLF
         </section>
       </section>
       <section anchor="conclusion" title="Conclusion">
-        <t>The web security model designates trust relationships with URLs.
-        URLs are grouped together into origins, which represent principals.
+        <t>The web security model designates trust relationships with URIs.
+        URIs are grouped together into origins, which represent principals.
         Some resources in an origin (active content) are granted the origin’s
         full authority, whereas other resources in the origin (passive
         content) are not granted the origin’s authority. Documents that carry
@@ -830,8 +833,8 @@ serialized-origin   = scheme "://" host [ ":" port ]
     </references>
     <section title="Acknowledgements">
       We would like to thank Lucas Adamski, Ian Hickson, Anne van Kesteren,
-      Collin Jackson, Larry Masinter, Jonas Sicking, Sid Stamm, and Daniel
-      Veditz for their valuable feedback on this document.
+      Collin Jackson, Larry Masinter, Julian Reschke, Jonas Sicking, Sid
+      Stamm, and Daniel Veditz for their valuable feedback on this document.
     </section>
   </back>
 </rfc>
