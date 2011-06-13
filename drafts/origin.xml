@@ -140,11 +140,11 @@ obs-fold       = CRLF
     </section>
     <section anchor="principles" title="Principles of the Same-Origin Policy">
       <t>The security model of the web platform has evolved over time to meet
-      the needs of new applications and to correct earlier mistakes.
-      Although web security has evolved largely organically, the security
-      model has converged towards a handful of key concepts.  This section
-      presents those concepts and provides advice to designers of new pieces
-      of the web platform.</t>
+      the needs of new applications and to correct earlier mistakes. Although
+      web security has evolved largely organically, the security model has
+      converged towards a handful of key concepts. This section presents those
+      concepts and provides advice to designers of new pieces of the web
+      platform.</t>
       <section anchor="trust" title="Trust">
         <t>On the web, trust is specified by URI.  For example, HTML documents
         designate which script to run with a URI:
@@ -185,13 +185,14 @@ obs-fold       = CRLF
         information sent to that URI.</t>
 
         <section title="Pitfalls">
-          <t> When designing new pieces of the web platform, make sure that
+          <t>When designing new pieces of the web platform, make sure that
           important trust distinctions are visible in URIs. For example, if
-          both TLS and non-TLS protected resources used the "http" URI scheme,
-          a document would be unable to specify that it wished to retrieve a
-          script over TLS. By using the "https" URI scheme, documents are able
-          to indicate that they wish to interact with resources that are
-          protected from active network attackers.</t>
+          both TLS and non-TLS protected resources used the "http" URI scheme
+          (as in <xref target="RFC2817" />), a document would be unable to
+          specify that it wished to retrieve a script over TLS. By using the
+          "https" URI scheme, documents are able to indicate that they wish to
+          interact with resources that are protected from active network
+          attackers.</t>
         </section>
       </section>
       <section anchor="origin" title="Origin">
@@ -246,10 +247,10 @@ obs-fold       = CRLF
 
         <t>When hosting untrusted content (such as user-generated content),
         web applications can limit that content’s authority by restricting its
-        media type. For example, serving user-generated content as image/png is
-        less risky than serving user-generated content as text/html. Of course
-        many web applications incorporate untrusted content in their HTML
-        documents. If not done carefully, these applications risk leaking
+        media type. For example, serving user-generated content as image/png
+        is less risky than serving user-generated content as text/html. Of
+        course many web applications incorporate untrusted content in their
+        HTML documents. If not done carefully, these applications risk leaking
         their origin’s authority to the untrusted content, a vulnerability
         commonly known as cross-site scripting.</t>
 
@@ -296,7 +297,10 @@ obs-fold       = CRLF
           retrieved from other origins. For example, a document is permitted
           to execute script, render images, and apply style sheets from any
           origin. Likewise, a document can display a document from another
-          origin in a frame.</t>
+          origin in a frame. Network resources can also opt in to letting
+          other origins read their information, for example using Cross-Origin
+          Resource Sharing <xref target="cors" />. In these cases, access is
+          typically granted on a per-origin basis.</t>
 
           <t>Generally, sending information to another origin is permitted.
           However, sending information over the network in arbitrary formats
@@ -833,8 +837,9 @@ serialized-origin   = scheme "://" host [ ":" port ]
     </references>
     <section title="Acknowledgements">
       We would like to thank Lucas Adamski, Ian Hickson, Anne van Kesteren,
-      Collin Jackson, Larry Masinter, Julian Reschke, Jonas Sicking, Sid
-      Stamm, and Daniel Veditz for their valuable feedback on this document.
+      Collin Jackson, Larry Masinter, Mark Nottingham, Julian Reschke, Jonas
+      Sicking, Sid Stamm, and Daniel Veditz for their valuable feedback on
+      this document.
     </section>
   </back>
 </rfc>
