@@ -231,6 +231,39 @@ obs-fold       = CRLF
         hosted at https://grades.example.edu/. In this deployment, however,
         every student's web site inhabits the same origin, which might not be
         desirable.</t>
+
+        <section title="Examples">
+          <t>All of the following resources have the same origin:
+          <figure>
+            <artwork>
+              <![CDATA[ 
+http://example.com/
+http://example.com:80/
+http://example.com/path/file
+http://example.com/
+            ]]>
+            </artwork>
+          </figure>
+          Each of the URIs has the same scheme, host, and port components.</t>
+
+          <t>Each of the following resources has a different origin from the
+          others.</t>
+          <figure>
+            <artwork>
+              <![CDATA[ 
+http://example.com/
+http://example.com:8080/
+http://www.example.com/
+https://example.com:80/
+https://example.com/
+http://example.org/
+http://ietf.org/
+            ]]>
+            </artwork>
+          </figure>
+          In each case, at least one of the scheme, host, and port component
+          will differ from the others in the list.</t>
+        </section>
       </section>
       <section anchor="authority" title="Authority">
         <t>Although user agents group URIs into origins, not every resource in
@@ -841,8 +874,8 @@ serialized-origin   = scheme "://" host [ ":" port ]
     <section title="Acknowledgements">
       We would like to thank Lucas Adamski, Ian Hickson, Anne van Kesteren,
       Collin Jackson, Larry Masinter, Mark Nottingham, Julian Reschke, Jonas
-      Sicking, Sid Stamm, and Daniel Veditz for their valuable feedback on
-      this document.
+      Sicking, Sid Stamm, Daniel Veditz, and Chris Weber for their valuable
+      feedback on this document.
     </section>
   </back>
 </rfc>
