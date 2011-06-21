@@ -318,78 +318,80 @@ http://ietf.org/
 
         <section title="Object Access">
           <t>Most objects (also known as application programming interfaces or
-          APIs) exposed by the user agent respect the same-origin policy.
-          Specifically, a script running on behalf of one document can access
-          objects associated with another document if, and only if, the two
-          documents belong to the same origin, e.g., were retrieved from URIs
-          with the same scheme, host, and port.</t>
+          APIs) exposed by the user agent are available only to the same
+          origin. Specifically, content retrieve from one URI can access
+          objects associated with content retrieved from another URI if, and
+          only if, the two URIs belong to the same origin, e.g., have same
+          scheme, host, and port.</t>
 
-          <t>There are some exceptions to this general policy. For example,
+          <t>There are some exceptions to this general rule. For example,
           some parts of HTML’s Location interface are available across origins
           (e.g., to allow for navigating other browsing contexts). As another
-          sample, HTML’s postMessage interface is visible across origins to
-          facilitate cross-origin communication. Exposing objects to foreign
-          origins is dangerous and should be done only with great care because
-          doing so exposes these objects to potential attackers.</t>
+          sample, HTML’s postMessage interface is visible across origins
+          explicitly to facilitate cross-origin communication. Exposing
+          objects to foreign origins is dangerous and should be done only with
+          great care because doing so exposes these objects to potential
+          attackers.</t>
         </section>
         <section title="Network Access">
           <t>Access to network resources varies depending on whether the
-          resources are in the same origin as the document attempting to
-          access them.</t>
+          resources are in the same origin as the content attempting to access
+          them.</t>
 
           <t>Generally, reading information from another origin is forbidden.
-          However, a document is permitted use some kinds of resources
-          retrieved from other origins. For example, a document is permitted
+          However, an origin is permitted use some kinds of resources
+          retrieved from other origins. For example, an origin is permitted
           to execute script, render images, and apply style sheets from any
-          origin. Likewise, a document can display a document from another
-          origin in a frame. Network resources can also opt in to letting
-          other origins read their information, for example using Cross-Origin
-          Resource Sharing <xref target="cors" />. In these cases, access is
-          typically granted on a per-origin basis.</t>
+          origin. Likewise, an origin can display content from
+          another origin, such as an HTML document in an HTML frame. Network
+          resources can also opt into letting other origins read their
+          information, for example using Cross-Origin Resource Sharing <xref
+          target="CORS" />. In these cases, access is typically granted on a
+          per-origin basis.</t>
 
-          <t>Generally, sending information to another origin is permitted.
-          However, sending information over the network in arbitrary formats
-          is dangerous. For this reason, user agents restrict documents to
+          <t>Sending information to another origin is permitted. However,
+          sending information over the network in arbitrary formats is
+          dangerous. For this reason, user agents restrict documents to
           sending information using particular protocols, such as in an HTTP
           request without custom headers. Expanding the set of allowed
           protocols, for example by adding support for WebSockets, must be
           done carefully to avoid introducing vulnerabilities <xref
-          target="websockets" />.</t>
+          target="WEBSOCKETS" />.</t>
         </section>
         <section title="Pitfalls">
-          <t>Whenever user agents allow documents from one origin to interact
-          with resources in another origin, they invite security issues. For
+          <t>Whenever user agents allow one origin to interact
+          with resources from another origin, they invite security issues. For
           example, the ability to display images from another origin leaks
-          their height and width across origins. Similarly, the ability to
-          send network requests to another origin gives rise to cross-site
-          request forgery vulnerabilities. However, user agents tolerate these
-          risks when the value proposition is high enough. For example, a user
+          their height and width. Similarly, the ability to send network
+          requests to another origin gives rise to cross-site request forgery
+          vulnerabilities <xref target="CSRF" />. However, user agent
+          implementors often balance these risks against the benefits of
+          allowing the cross-origin interaction. For example, an HTML user
           agent that blocked cross-origin network requests would prevent its
-          users from following hyperlinks, a core component of the web
-          architecture.</t>
+          users from following hyperlinks, a core feature of the web.</t>
 
-           <t>When designing new pieces of the web platform, it can be
-          tempting to grant a privilege to one document but to withhold that
-          privilege from another document in the same origin. However,
+          <t>When adding new functionality to the web platform, it can be
+          tempting to grant a privilege to one resource but to withhold that
+          privilege from another resource in the same origin. However,
           withholding privileges in this way is ineffective because the
-          document without the privilege can usually obtain the privilege
-          anyway because user agents do not isolate documents within an
-          origin. Instead, new pieces of the platform should grant or withhold
-          privileges from origins as a whole (rather than discriminating
-          between individual documents within an origin).</t>
+          resource without the privilege can usually obtain the privilege
+          anyway because user agents do not isolate resources within an
+          origin. Instead, privileges should be granted or withheld from
+          origins as a whole (rather than discriminating between individual
+          resources within an origin) <xref target="BOFGO" />.</t>
         </section>
       </section>
       <section anchor="conclusion" title="Conclusion">
-        <t>The web security model designates trust relationships with URIs.
-        URIs are grouped together into origins, which represent principals.
-        Some resources in an origin (active content) are granted the origin’s
-        full authority, whereas other resources in the origin (passive
-        content) are not granted the origin’s authority. Documents that carry
-        their origin’s authority are granted access to objects and network
-        resources within their own origin. These documents are also granted
-        limited access to objects and network resources of other origins, but
-        these cross-origin privileges must be carefully designed to avoid
-        introducing security vulnerabilities into the web platform.</t>
+        <t>The same-origin policy uses URIs to designates trust relationships.
+        URIs are grouped together into origins, which represent protection
+        domains. Some resources in an origin (e.g., active content) are
+        granted the origin’s full authority, whereas other resources in the
+        origin (e.g., passive content) are not granted the origin’s authority.
+        Content that carries its origin’s authority is granted access to
+        objects and network resources within its own origin. This content is
+        also granted limited access to objects and network resources of other
+        origins, but these cross-origin privileges must be designed carefully
+        to avoid security vulnerabilities.</t>
       </section>
     </section>
     <section anchor="origin" title="Origin">
