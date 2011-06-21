@@ -19,21 +19,22 @@
     <date month="December" year="2010"/>
     <workgroup>websec</workgroup>
     <abstract>
-      <t>This document defines the concept of an "origin", which represents a
-      "web principal". Typically, user agents isolate content retrieved from
-      different origins to prevent a malicious web site operator from
-      interfering with the operation of benign web sites. In particular, this
-      document defines how to compute an origin from a URI, how to serialize
-      an origin to a string, and an HTTP header, named "Origin", for
-      indicating which origin caused the user agent to issue a particular
-      HTTP request.</t>
+      <t>This document defines the concept of an "origin", which is often used
+      as the scope of authority or privilege by user agents. Typically, user
+      agents isolate content retrieved from different origins to prevent
+      malicious web site operators from interfering with the operation of
+      benign web sites. In addition to outlining the principles that underly
+      the origin concept, this document defines how to determine the origin of
+      a URI, how to serialize an origin into a string, and an HTTP header,
+      named "Origin", that indicates which origins are associated with an HTTP
+      request.</t>
     </abstract>
   </front>
   <middle>
     <section anchor="intro" title="Introduction">
       <t>User agents interact with content created by a large number of
       authors. Although many of those authors are well-meaning, some authors
-      might be malicious.  To the extent that user agents undertake actions
+      might be malicious. To the extent that user agents undertake actions
       based on content they process, user agent implementors might wish to
       restrict the ability of malicious authors to disrupt the confidentiality
       or integrity of other content or servers.</t>
@@ -51,25 +52,13 @@
       origin, but user agents restrict how that content can interact with
       content from another origin.</t>
 
-      <t>This document does not describe the restrictions user agents ought to
-      impose on cross-origin interaction. Instead, this document defines the
-      origin concept itself in such a way that other specifications, such for
-      HTTP [cite] or for HTML [cite], can refer to this document for a
-      precise, common definition of the web origin concept.</t>
-
-      <t>Specifically, a user agent can compute the origin of a piece of
-      content based on the URI from which the user agent retrieved the
-      content. Given two origins computed in this way, the user agent can
-      compare the origins to determine if they are "the same", which is useful
-      for performing some security checks. Finally, given an origin, the user
-      agent can serialize that origin into either an ASCII or a Unicode
-      representation.</t>
-
-      <t>This document also defines one use of the ASCII serialization: the
-      HTTP Origin header. An Origin header attached to an HTTP request
-      contains the ASCII serializations of the origins that caused the user
-      agent to issue the HTTP request. The Origin header has a number of uses,
-      including for cross-origin resource sharing [cite].</t>
+      <t>This document describes the principles behind the so-called
+      same-origin policy as well as the "nuts and bolts" of comparing and
+      serializing origins. This document does not describe all the facets of
+      the same-origin policy, the details of which are left to other
+      specifications, such as HTML <xref target="HTML" /> and WebSockets <xref
+      target="WEBSOCKETS" />, because the details are often
+      application-specific.</t>
     </section>
     <section anchor="conventions" title="Conventions">
       <section anchor="conformance-criteria" title="Conformance Criteria">
