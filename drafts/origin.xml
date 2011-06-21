@@ -272,12 +272,14 @@ http://ietf.org/
         word "authority", not in the RFC 3986 sense). For example, an image is
         passive content and, therefore, carries no authority, meaning the
         image has no access to the objects and resources available to its
-        origin. By contrast, an HTML document contains active content and,
-        therefore, carries the full authority of its origin. The user agent
-        determines how much authority to grant a resource by examining its
-        media type. For example, resources with a media type of image/png are
-        treated as images and resources with a media type of text/html are
-        treated as HTML documents.</t>
+        origin. By contrast, an HTML document carries the full authority of
+        its origin and scripts within (or imported into) the document can
+        access every resource in its origin.</t>
+
+        <t>User agent determine how much authority to grant a resource by
+        examining its media type. For example, resources with a media type of
+        image/png are treated as images and resources with a media type of
+        text/html are treated as HTML documents.</t>
 
         <t>When hosting untrusted content (such as user-generated content),
         web applications can limit that content’s authority by restricting its
@@ -297,6 +299,15 @@ http://ietf.org/
           applications. Instead, prefer to grant authority to media types that
           already possess the origin’s full authority or to new media types
           designed specifically to carry the new authority.</t>
+
+          <t>In order to remain compatible with servers that supply incorrect
+          media types, some user agents employ "content sniffing" and treat
+          content as if had a different media type than the media type
+          supplied by the server. If not done carefully, content sniffing can
+          lead to security vulnerabilities because user agents might grant
+          low-authority media types, such as images, the privileges of
+          high-authority media types, such as HTML documents <xref
+          target="SNIFF" />.</t>
         </section>
       </section>
       <section anchor="policy" title="Policy">
