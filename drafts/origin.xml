@@ -193,27 +193,28 @@ obs-fold       = CRLF
       </section>
       <section anchor="origin" title="Origin">
         <t>In principle, user agents could treat every URI as a separate
-        principal and isolate each document from every other URI unless the
-        document explicitly indicated that it trusted that URI. Unfortunately,
-        this design is cumbersome for developers because web applications
-        often consist of a number of resource acting in concert.</t>
+        protection domain and require explicit content for content retrieved
+        from one URI to interact with another URI. Unfortunately, this design
+        is cumbersome for developers because web applications often consist of
+        a number of resources acting in concert.</t>
 
-        <t>As an approximation, user agents group URIs together into
-        protection domains called origins. In particular, two URIs are part of
-        the same origin (i.e., represent the same principal) if they have the
-        same scheme, host, and port.</t>
+        <t>Instead, user agents group URIs together into protection domains
+        called "origins". Roughly speaking, two URIs are part of the same
+        origin (i.e., represent the same principal) if they have the same
+        scheme, host, and port. (See <xref target="origin" /> for full
+        details.)</t>
 
         <t>Q: Why not just use the host?</t>
 
         <t>A: Including the scheme in the origin tuple is essential for
         security. If user agents did not include the scheme, there would be no
-        isolation between documents from http://example.com and
-        https://example.com because the two have the same host. However,
-        without this isolation, an active network attacker could corrupt the
-        document retrieved from http://example.com and then use that document
-        as a stepping stone to compromise the confidentiality and integrity of
-        the document retrieved from https://example.com, bypassing the
-        protections afforded by TLS.</t>
+        isolation between http://example.com and https://example.com because
+        the two have the same host. However, without this isolation, an active
+        network attacker could corrupt content retrieved from
+        http://example.com and have that content instruct the user agent to
+        compromise the confidentiality and integrity of content retrieved from
+        https://example.com, bypassing the protections afforded by TLS <xref
+        target="TLS" />.</t>
 
         <t>Q: Why use the fully qualified host name instead of just the
         "top-level" domain?</t>
@@ -222,11 +223,15 @@ obs-fold       = CRLF
         relationships between host names vary by deployment. For example, at
         many educational institutions, students can host content at
         https://example.edu/~student/, but that does not mean a document
-        authored by a student should be part of the same origin (i.e.,
-        represent the same principal) as a web application for managing grades
-        hosted at https://grades.example.edu/. In this deployment, however,
-        every student's web site inhabits the same origin, which might not be
-        desirable.</t>
+        authored by a student should be part of the same origin (i.e., inhabit
+        the same protection domain) as a web application for managing grades
+        hosted at https://grades.example.edu/.</t>
+
+        <t>The example.edu deployment illustrates that grouping resources by
+        origin does not always align perfectly with every deployment scenario.
+        In this deployment every student's web site inhabits the same origin,
+        which might not be desirable. In some sense, the origin granularity is
+        a historical artifact of how the security model evolved.</t>
 
         <section title="Examples">
           <t>All of the following resources have the same origin:
