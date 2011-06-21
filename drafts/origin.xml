@@ -137,13 +137,13 @@ obs-fold       = CRLF
       detrimental to the user or to other parties. Over time, many web-related
       technologies have converged towards a common security model, known
       colloquially as the "same-origin policy". Although this security model
-      evolved largely organically, the security model can be understood in
+      evolved largely organically, the same-origin policy can be understood in
       terms of a handful of key concepts. This section presents those concepts
       and provides advice about how to use these concepts securely.</t>
 
       <section anchor="trust" title="Trust">
-        <t>On the web, trust is specified by URI.  For example, HTML documents
-        designate which script to run with a URI:
+        <t>The same-origin policy specifies trust by URI. For example, HTML
+        documents designate which script to run with a URI:
         <figure>
           <artwork>
             <![CDATA[ 
@@ -154,15 +154,15 @@ obs-fold       = CRLF
         </t>
 
         <t>When a user agent process this element, the user agent will fetch
-        the script at that URI and execute the script with the privileges of
-        the document.  In this way, the document grants all the privileges it
-        has to the resource specified by the URI.  In essence, the document
-        declares that it trusts the integrity of information retrieved from
-        that URI.</t>
+        the script at the designated URI and execute the script with the
+        privileges of the document. In this way, the document grants all the
+        privileges it has to the resource designated by the URI. In essence,
+        the document declares that it trusts the integrity of information
+        retrieved from that URI.</t>
 
-        <t>In addition to importing libraries from URIs, user agents also let
-        principals export data to URIs.  For example, consider the HTML form
-        element:
+        <t>In addition to importing libraries from URIs, user agents also send
+        information to remote parties designated by URI. For example, consider
+        the HTML form element:
         <figure>
           <artwork>
             <![CDATA[ 
@@ -175,20 +175,20 @@ obs-fold       = CRLF
         </t>
 
         <t>When the user enters his or her password and submits the form, the
-        password is sent to the network endpoint designated by the URI.  In
-        this way, the document exports its secret data to that URI.  In
-        essence, the document declares that it trusts the confidentiality of
+        user agent sends the password to the network endpoint designated by
+        the URI. In this way, the document exports its secret data to that
+        URI, in essence declaring that it trusts the confidentiality of
         information sent to that URI.</t>
 
         <section title="Pitfalls">
-          <t>When designing new pieces of the web platform, make sure that
-          important trust distinctions are visible in URIs. For example, if
-          both TLS and non-TLS protected resources used the "http" URI scheme
-          (as in <xref target="RFC2817" />), a document would be unable to
-          specify that it wished to retrieve a script over TLS. By using the
-          "https" URI scheme, documents are able to indicate that they wish to
-          interact with resources that are protected from active network
-          attackers.</t>
+          <t>When designing new protocols that use the same-origin policy,
+          make sure that important trust distinctions are visible in URIs. For
+          example, if both TLS and non-TLS protected resources used the "http"
+          URI scheme (as in <xref target="RFC2817" />), a document would be
+          unable to specify that it wished to retrieve a script only over TLS.
+          By using the "https" URI scheme, documents are able to indicate that
+          they wish to interact with resources that are protected from active
+          network attackers.</t>
         </section>
       </section>
       <section anchor="origin" title="Origin">
