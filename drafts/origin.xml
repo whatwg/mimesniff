@@ -128,12 +128,19 @@ obs-fold       = CRLF
       </section>
     </section>
     <section anchor="principles" title="Principles of the Same-Origin Policy">
-      <t>The security model of the web platform has evolved over time to meet
-      the needs of new applications and to correct earlier mistakes. Although
-      web security has evolved largely organically, the security model has
-      converged towards a handful of key concepts. This section presents those
-      concepts and provides advice to designers of new pieces of the web
-      platform.</t>
+      <t>Many user agents undertake actions on behalf of remote parties. For
+      example, HTTP user agents follow redirects, which are instructions from
+      remote servers and HTML user agents expose rich DOM interfaces to
+      scripts retrieved from remote servers.</t>
+
+      <t>Without any security model, user agents might undertake actions
+      detrimental to the user or to other parties. Over time, many web-related
+      technologies have converged towards a common security model, known
+      colloquially as the "same-origin policy". Although this security model
+      evolved largely organically, the security model can be understood in
+      terms of a handful of key concepts. This section presents those concepts
+      and provides advice about how to use these concepts securely.</t>
+
       <section anchor="trust" title="Trust">
         <t>On the web, trust is specified by URI.  For example, HTML documents
         designate which script to run with a URI:
