@@ -395,11 +395,6 @@ http://ietf.org/
       </section>
     </section>
     <section anchor="origin" title="Origin">
-      <t>An origin represents a "web principal". Typically, user agents
-      determine the origin of a piece of content from the URI from which they
-      retrieved the content. In this section, we define how to compute an
-      origin from a URI.</t>
-
       <t>The origin of a URI is the value computed by the following algorithm:
       <list style="numbers">
         <t>If the URI does not use a server-based naming authority, or if the
@@ -416,7 +411,7 @@ http://ietf.org/
         implementation-defined value.
         <list>
           <t>NOTE: Historically, user agents have granted content from the
-          file scheme a tremendous number of privileges. However, granting all
+          file scheme a tremendous amount of privilege. However, granting all
           local files such wide privileges can lead to privilege escalation
           attacks. Some user agents have had success granting local files
           directory-based privileges, but this approach has not been widely
@@ -497,10 +492,10 @@ http://ietf.org/
 
           <t>Append the string "://" to result.</t>
 
-          <t>Append the [TODO: IDNA ToUnicode] algorithm to each component of
-          the host part of the origin triple, and append the results of each
-          component, in the same order, separated by U+002E FULL STOP code
-          points (".") to result.</t>
+          <t>Append the IDNA ToUnicode algorithm <xref target="IDNA" /> to
+          each component of the host part of the origin triple, and append the
+          results of each component, in the same order, separated by U+002E
+          FULL STOP code points (".") to result.</t>
 
           <t>If the port part of the origin triple is different than the
           default port for the protocol given by the scheme part of the origin
@@ -514,8 +509,6 @@ http://ietf.org/
           <t>Return result.</t>
         </list>
         </t>
-
-        <t>[TODO: Check that we handle IPv6 literals correctly.]</t>
       </section>
       <section anchor="ascii-serialization"
                title="ASCII Serialization of an Origin">
@@ -535,7 +528,7 @@ http://ietf.org/
 
           <t>Append the string "://" to result.</t>
 
-          <t>Append the host port of the origin triple to result.</t>
+          <t>Append the host part of the origin triple to result.</t>
 
           <t>If the port part of the origin triple is different than the
           default port for the protocol given by the scheme part of the origin
@@ -571,7 +564,9 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </section>
       <section anchor="origin-header-semantics" title="Semantics">
         <t>When included in an HTTP request, the Origin header indicates the
-        origin(s) that caused the user agent to issue the request.</t>
+        origin(s) that "caused" the user agent to issue the request, as
+        defined by the API that triggered the user agent to issue the
+        request.</t>
 
         <t>For example, consider a user agent that executes scripts on behalf
         of origins. If one of those scripts causes the user agent to issue an
@@ -617,46 +612,7 @@ serialized-origin   = scheme "://" host [ ":" port ]
           the second one.</t>
         </list>
         </t>
-
-        <t>If the user agent issued an HTTP request current-request because
-        the user agent received 3xx Status Code response to another HTTP
-        request previous-request for URI previous-uri:
-        <list style="symbols">
-          <t>The HTTP request current-request MUST include an Origin
-          header.</t>
-
-          <t>The value of the Origin header MUST be either:
-          <list style="symbols">
-            <t>The string "null" (i.e., the byte sequence %x6E, %x75, %x6C,
-            %x6C).</t>
-
-            <t>The value of the Origin header in the previous-request.  The
-            user agent MUST NOT choose this option if the ascii-serialization
-            of previous-uri is not identical to the last serialized-origin in
-            the Origin header of the previous request.</t>
-
-            <t>The value of the Origin header in previous header extended with
-            a space and the ascii-serialization of the origin of previous-uri.
-            The user agent MUST NOT choose this option if the
-            ascii-serialization of the origin of previous-uri is "null".</t>
-          </list>
-          </t>
-        </list>
-        </t>
       </section>
-
-      <t>The user agent SHOULD include the Origin header in an HTTP request if
-      the user agent issues the HTTP request on behalf of an origin (e.g., not
-      by the user operating a trusted user interface surface). In this case,
-      the user agent SHOULD set the value of the Origin header to the
-      ascii-serialization of that origin.
-      <list>
-        <t>NOTE: This behavior differs from the usual user agent behavior for
-        the HTTP Referer header, which user agents often suppress when an
-        origin with an "https" scheme issues a request for a URI with an
-        "http" scheme.</t>
-      </list>
-      </t>
     </section>
     <section anchor="privacy" title="Privacy Considerations">
       <t>[TODO: Privacy considerations.]</t>
