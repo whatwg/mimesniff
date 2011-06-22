@@ -201,8 +201,8 @@ obs-fold       = CRLF
         <t>Instead, user agents group URIs together into protection domains
         called "origins". Roughly speaking, two URIs are part of the same
         origin (i.e., represent the same principal) if they have the same
-        scheme, host, and port. (See <xref target="origin" /> for full
-        details.)</t>
+        scheme, host, and port. (See <xref target="origin-of-a-uri" /> for
+        full details.)</t>
 
         <t>Q: Why not just use the host?</t>
 
@@ -214,7 +214,7 @@ obs-fold       = CRLF
         http://example.com and have that content instruct the user agent to
         compromise the confidentiality and integrity of content retrieved from
         https://example.com, bypassing the protections afforded by TLS <xref
-        target="TLS" />.</t>
+        target="RFC5246" />.</t>
 
         <t>Q: Why use the fully qualified host name instead of just the
         "top-level" domain?</t>
@@ -248,7 +248,7 @@ http://example.com/
           Each of the URIs has the same scheme, host, and port components.</t>
 
           <t>Each of the following resources has a different origin from the
-          others.</t>
+          others.
           <figure>
             <artwork>
               <![CDATA[ 
@@ -394,7 +394,7 @@ http://ietf.org/
         to avoid security vulnerabilities.</t>
       </section>
     </section>
-    <section anchor="origin" title="Origin">
+    <section anchor="origin-of-a-uri" title="Origin of a URI">
       <t>The origin of a URI is the value computed by the following algorithm:
       <list style="numbers">
         <t>If the URI does not use a server-based naming authority, or if the
@@ -492,7 +492,7 @@ http://ietf.org/
 
           <t>Append the string "://" to result.</t>
 
-          <t>Append the IDNA ToUnicode algorithm <xref target="IDNA" /> to
+          <t>Append the IDNA ToUnicode algorithm <xref target="RFC5891" /> to
           each component of the host part of the origin triple, and append the
           results of each component, in the same order, separated by U+002E
           FULL STOP code points (".") to result.</t>
@@ -782,21 +782,6 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <seriesInfo name="STD" value="68"/>
         <seriesInfo name="RFC" value="5234"/>
       </reference>
-      <reference anchor="RFC5246">
-        <front>
-          <title>
-            The Transport Layer Security (TLS) Protocol Version 1.2
-          </title>
-          <author initials="T." surname="Dierks" fullname="T. Dierks">
-            <organization />
-          </author>
-          <author initials="E." surname="Rescorla" fullname="E. Rescorla">
-            <organization />
-          </author>
-          <date year="2008" month="August" />
-        </front>
-        <seriesInfo name="RFC" value="5246" />
-      </reference>
       <reference anchor="RFC5890">
         <front>
           <title>Internationalized Domain Names for Applications (IDNA):
@@ -839,6 +824,72 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </front>
         <seriesInfo name="RFC" value="5891" />
         <format type="TXT" octets="38105" target="http://www.rfc-editor.org/rfc/rfc5891.txt" />
+      </reference>
+    </references>
+    <references title="Informative References">
+      <reference anchor="RFC5246">
+        <front>
+          <title>
+            The Transport Layer Security (TLS) Protocol Version 1.2
+          </title>
+          <author initials="T." surname="Dierks" fullname="T. Dierks">
+            <organization />
+          </author>
+          <author initials="E." surname="Rescorla" fullname="E. Rescorla">
+            <organization />
+          </author>
+          <date year="2008" month="August" />
+        </front>
+        <seriesInfo name="RFC" value="5246" />
+      </reference>
+      <reference anchor="RFC2817">
+        <front>
+          <title>
+            FIXME: RFC2817
+          </title>
+        </front>
+      </reference>
+      <reference anchor="SNIFF">
+        <front>
+          <title>
+            FIXME: Media Type Sniffing
+          </title>
+        </front>
+      </reference>
+      <reference anchor="HTML">
+        <front>
+          <title>
+            FIXME: HTML5
+          </title>
+        </front>
+      </reference>
+      <reference anchor="WEBSOCKETS">
+        <front>
+          <title>
+            FIXME: WebSockets
+          </title>
+        </front>
+      </reference>
+      <reference anchor="CORS">
+        <front>
+          <title>
+            FIXME: Cross-Origin Resource Sharing
+          </title>
+        </front>
+      </reference>
+      <reference anchor="CSRF">
+        <front>
+          <title>
+            FIXME: Robust Defenses to Cross-Site Request Forgery
+          </title>
+        </front>
+      </reference>
+      <reference anchor="BOFGO">
+        <front>
+          <title>
+            FIXME: Beware of Finer-Grained Origins
+          </title>
+        </front>
       </reference>
     </references>
     <section title="Acknowledgements">
