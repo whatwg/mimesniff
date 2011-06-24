@@ -621,7 +621,17 @@ serialized-origin   = scheme "://" host [ ":" port ]
       <t>[TODO: Security considerations.]</t>
     </section>
     <section anchor="iana" title="IANA Considerations">
-      <t>[TODO: Register the Origin header.]</t>
+      <t>The permanent message header field registry (see <xref
+      target="RFC3864"/>) should be updated with the following
+      registrations:</t>
+
+      <section title="Origin">
+        <t>Header field name: Origin</t>
+        <t>Applicable protocol: http</t>
+        <t>Status: standard</t>
+        <t>Author/Change controller: IETF</t>
+        <t>Specification document: this specification (<xref target="origin-header"/>)</t>
+      </section>
     </section>
     <section anchor="implementation-considerations"
              title="Implementation Considerations">
@@ -758,6 +768,17 @@ serialized-origin   = scheme "://" host [ ":" port ]
           See <xref target="idna-migration" /> for an explanation why the
           normative reference to an obsoleted specification is needed.
         </annotation>
+      </reference>
+      <reference anchor="RFC3864">
+        <front>
+          <title>Registration Procedures for Message Header Fields</title>
+          <author initials="G." surname="Klyne" fullname="G. Klyne"/>
+          <author initials="M." surname="Nottingham" fullname="M. Nottingham"/>
+          <author initials="J." surname="Mogul" fullname="J. Mogul"/>
+          <date year="2004" month="September" />
+        </front>
+        <seriesInfo name="BCP" value="90" />
+        <seriesInfo name="RFC" value="3864" />
       </reference>
       <reference anchor="RFC5234">
         <front>
