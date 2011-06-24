@@ -682,6 +682,22 @@ serialized-origin   = scheme "://" host [ ":" port ]
         implementation-specific. At worse, differences between URI schemes and
         implementations can lead to vulnerabilities.</t>
       </section>
+      <section anchor="ambient-authority" title="Ambient Authority">
+        <t>When using the same-origin policy, user agents grant authority to
+        content based on the URI from which the user agent retrieved the
+        content rather than based on the objects which the content is able to
+        designate. This disentangling of designation from authority is an
+        example of ambient authority and can lead to vulnerabilities.</t>
+
+        <t>Consider, for example, cross-site scripting in HTML documents. If
+        an attacker can inject script content into an HTML document, those
+        scripts will run with the authority of the document's origin, perhaps
+        allowing the script access to sensitive information, such as the
+        user's medical records. If, however, the script's authority were
+        limited to those objects that the script could designate, the attacker
+        would not gain any advantage by injecting the script into an HTML
+        document hosted by a third party.</t>
+      </section>
     </section>
     <section anchor="iana" title="IANA Considerations">
       <t>The permanent message header field registry (see <xref
