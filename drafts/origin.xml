@@ -958,32 +958,47 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <seriesInfo name="RFC" value="2817" />
         <format type="TXT" octets="27598" target="http://www.rfc-editor.org/rfc/rfc2817.txt" />
       </reference>
-      <reference anchor="SNIFF">
+      <reference anchor="SNIFF" target="http://tools.ietf.org/html/draft-ietf-websec-mime-sniff">
         <front>
           <title>
-            FIXME: Media Type Sniffing
+            Media Type Sniffing
           </title>
+          <author initials="A." surname="Barth" fullname="Adam Barth">
+            <organization />
+          </author>
+          <author initials="I." surname="Hickson" fullname="Ian Hickson">
+            <organization />
+          </author>
         </front>
       </reference>
-      <reference anchor="HTML">
+      <reference anchor="HTML" target="http://www.w3.org/TR/html5/">
         <front>
           <title>
-            FIXME: HTML5
+            HTML5: A vocabulary and associated APIs for HTML and XHTML
           </title>
+          <author initials="I." surname="Hickson" fullname="Ian Hickson">
+            <organization />
+          </author>
         </front>
       </reference>
-      <reference anchor="WEBSOCKETS">
+      <reference anchor="WEBSOCKETS" target="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol">
         <front>
           <title>
-            FIXME: WebSockets
+            The WebSocket protocol
           </title>
+          <author initials="I." surname="Fette" fullname="Ian Fette">
+            <organization />
+          </author>
         </front>
       </reference>
-      <reference anchor="CORS">
+      <reference anchor="CORS" target="http://www.w3.org/TR/cors/">
         <front>
           <title>
-            FIXME: Cross-Origin Resource Sharing
+            Cross-Origin Resource Sharing
           </title>
+          <author initials="A." surname="van Kesteren" fullname="Anne van Kesteren">
+            <organization />
+          </author>
         </front>
       </reference>
       <reference anchor="CSRF" target="http://portal.acm.org/citation.cfm?id=1455770.1455782">
