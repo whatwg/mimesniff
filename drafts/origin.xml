@@ -658,7 +658,7 @@ serialized-origin   = scheme "://" host [ ":" port ]
         rather than the fully qualified domain name as the unit of isolation
         (e.g., "example.com" instead of "www.example.com"). This practice is
         problematic for a number of reasons, and is NOT RECOMMENDED:
-        <list>
+        <list style="numbers">
           <t>The notion of a "registry-controlled" domain a function of human
           practice surrounding the DNS rather than a property of the DNS
           itself. For example, many municipalities in Japan run public
@@ -958,6 +958,37 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <seriesInfo name="RFC" value="2817" />
         <format type="TXT" octets="27598" target="http://www.rfc-editor.org/rfc/rfc2817.txt" />
       </reference>
+      <reference anchor="RFC6265">
+        <front>
+          <title>HTTP State Management Mechanism</title>
+          <author initials="A." surname="Barth" fullname="A. Barth">
+            <organization />
+          </author>
+          <date year="2011" month="April" />
+          <abstract>
+            <t>This document defines the HTTP Cookie and Set-Cookie header
+            fields. These header fields can be used by HTTP servers to store
+            state (called cookies) at HTTP user agents, letting the servers
+            maintain a stateful session over the mostly stateless HTTP
+            protocol. Although cookies have many historical infelicities that
+            degrade their security and privacy, the Cookie and Set-Cookie
+            header fields are widely used on the Internet. This document
+            obsoletes RFC 2965. [STANDARDS-TRACK]</t>
+          </abstract>
+        </front>
+        <seriesInfo name="RFC" value="6265" />
+        <format type="TXT" octets="79724" target="http://www.rfc-editor.org/rfc/rfc6265.txt" />
+      </reference>
+      <reference anchor="WEBSOCKETS" target="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol">
+        <front>
+          <title>
+            The WebSocket protocol
+          </title>
+          <author initials="I." surname="Fette" fullname="Ian Fette">
+            <organization />
+          </author>
+        </front>
+      </reference>
       <reference anchor="SNIFF" target="http://tools.ietf.org/html/draft-ietf-websec-mime-sniff">
         <front>
           <title>
@@ -977,16 +1008,6 @@ serialized-origin   = scheme "://" host [ ":" port ]
             HTML5: A vocabulary and associated APIs for HTML and XHTML
           </title>
           <author initials="I." surname="Hickson" fullname="Ian Hickson">
-            <organization />
-          </author>
-        </front>
-      </reference>
-      <reference anchor="WEBSOCKETS" target="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol">
-        <front>
-          <title>
-            The WebSocket protocol
-          </title>
-          <author initials="I." surname="Fette" fullname="Ian Fette">
             <organization />
           </author>
         </front>
@@ -1027,27 +1048,6 @@ serialized-origin   = scheme "://" host [ ":" port ]
           </author>
           <date year="2008" />
         </front>
-      </reference>
-      <reference anchor="RFC6265">
-        <front>
-          <title>HTTP State Management Mechanism</title>
-          <author initials="A." surname="Barth" fullname="A. Barth">
-            <organization />
-          </author>
-          <date year="2011" month="April" />
-          <abstract>
-            <t>This document defines the HTTP Cookie and Set-Cookie header
-            fields. These header fields can be used by HTTP servers to store
-            state (called cookies) at HTTP user agents, letting the servers
-            maintain a stateful session over the mostly stateless HTTP
-            protocol. Although cookies have many historical infelicities that
-            degrade their security and privacy, the Cookie and Set-Cookie
-            header fields are widely used on the Internet. This document
-            obsoletes RFC 2965. [STANDARDS-TRACK]</t>
-          </abstract>
-        </front>
-        <seriesInfo name="RFC" value="6265" />
-        <format type="TXT" octets="79724" target="http://www.rfc-editor.org/rfc/rfc6265.txt" />
       </reference>
     </references>
     <section title="Acknowledgements">
