@@ -614,9 +614,6 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </t>
       </section>
     </section>
-    <section anchor="privacy" title="Privacy Considerations">
-      <t>[TODO: Privacy considerations.]</t>
-    </section>
     <section anchor="security" title="Security Considerations">
       <t>The same-origin policy is one of the cornerstones of security for
       many user agents, including web browsers. Historically, some user agents
