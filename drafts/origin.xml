@@ -650,6 +650,38 @@ serialized-origin   = scheme "://" host [ ":" port ]
         compromise.</t>
       </section>
 
+      <section anchor="divergence" title="Divergent Units of Isolation">
+        <t>Over time, a number of technologies have converged on the web
+        origin concept as a convenient unit of isolation. However, many
+        technologies in use today, such as cookies <xref target="COOKIES" />,
+        pre-date the modern web origin concept. These technologies often have
+        different isolation units, leading to vulnerabilities.</t>
+
+        <t>One alternative is to use only the "registry-controlled" domain
+        rather than the fully qualified domain name as the unit of isolation
+        (e.g., "example.com" instead of "www.example.com"). This practice is
+        problematic for a number of reasons, and is NOT RECOMMENDED:
+        <list>
+          <t>The notion of a "registry-controlled" domain a function of human
+          practice surrounding the DNS rather than a property of the DNS
+          itself. For example, many municipalities in Japan run public
+          registries quite deep in the DNS hierarchy. There are widely used
+          "public suffix lists", but these lists are difficult to keep up to
+          date and vary between implementations.</t>
+
+          <t>This practice is incompatible with URIs schemes that do not use a
+          DNS-based naming authority. For example, if a given URI scheme uses
+          public keys as naming authorities, the notion of a
+          "registry-controlled" public key is somewhat incoherent. Worse, some
+          URI schemes, such as nntp, used dotted delegation in the opposite
+          direction from DNS (e.g., alt.usenet.kooks) and others use the DNS,
+          but present the labels in the reverse of the usual order (e.g.,
+          com.example.www).</t>
+        </list>
+        At best, using registry-controlled domains is URI-scheme- and
+        implementation-specific. At worse, differences between URI schemes and
+        implementations can lead to vulnerabilities.</t>
+      </section>
     </section>
     <section anchor="iana" title="IANA Considerations">
       <t>The permanent message header field registry (see <xref
