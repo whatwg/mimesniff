@@ -618,7 +618,38 @@ serialized-origin   = scheme "://" host [ ":" port ]
       <t>[TODO: Privacy considerations.]</t>
     </section>
     <section anchor="security" title="Security Considerations">
-      <t>[TODO: Security considerations.]</t>
+      <t>The same-origin policy is one of the cornerstones of security for
+      many user agents, including web browsers. Historically, some user agents
+      tried other security models, including taint tracking and exfiltration
+      prevention, but those model proved difficult to implement at the
+      time (although there has been recent interest in reviving some of these
+      ideas).</t>
+
+      <t>Evaluating the security of the same-origin policy is difficult
+      because the origin concept itself plays such a central role in the
+      security landscape. The notional origin itself is just a unit of
+      isolation, imperfect as are most one-size-fits-all notions. That said,
+      there are some systemic weaknesses, discussed below.</t>
+
+      <section anchor="reliance-on-dns" title="Reliance on DNS">
+        <t>In practice, the same-origin policy relies upon the Domain Name
+        System (DNS) for security because many commonly used URI schemes, such
+        as http, use DNS-based naming authorities. If the DNS is partially or
+        fully compromised, the same-origin policy might fail to provide the
+        security properties required by applications.</t>
+
+        <t>Some URI schemes, such as https, are more resistant to DNS
+        compromise because user agents employ other mechanisms, such as
+        certificates, to verify the source of content retrieved from these
+        URIs. Other URI schemes, such as the chrome-extension URI scheme, use
+        a public-key-based naming authority and are fully secure against DNS
+        compromise.</t>
+
+        <t>That the web origin concept isolates content retrieved from
+        different URI schemes is essential to containing the effects of DNS
+        compromise.</t>
+      </section>
+
     </section>
     <section anchor="iana" title="IANA Considerations">
       <t>The permanent message header field registry (see <xref
