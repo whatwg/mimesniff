@@ -975,6 +975,13 @@ serialized-origin   = scheme "://" host [ ":" port ]
           </title>
         </front>
       </reference>
+      <reference anchor="COOKIES">
+        <front>
+          <title>
+            FIXME: RFC 6265
+          </title>
+        </front>
+      </reference>
     </references>
     <section title="Acknowledgements">
       We would like to thank Lucas Adamski, Ian Hickson, Anne van Kesteren,
