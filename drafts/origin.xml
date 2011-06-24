@@ -650,7 +650,7 @@ serialized-origin   = scheme "://" host [ ":" port ]
       <section anchor="divergence" title="Divergent Units of Isolation">
         <t>Over time, a number of technologies have converged on the web
         origin concept as a convenient unit of isolation. However, many
-        technologies in use today, such as cookies <xref target="COOKIES" />,
+        technologies in use today, such as cookies <xref target="RFC6265" />,
         pre-date the modern web origin concept. These technologies often have
         different isolation units, leading to vulnerabilities.</t>
 
@@ -941,10 +941,22 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </reference>
       <reference anchor="RFC2817">
         <front>
-          <title>
-            FIXME: RFC2817
-          </title>
+          <title>Upgrading to TLS Within HTTP/1.1</title>
+          <author initials="R." surname="Khare" fullname="R. Khare">
+            <organization />
+          </author>
+          <author initials="S." surname="Lawrence" fullname="S. Lawrence">
+            <organization />
+          </author>
+          <date year="2000" month="May" />
+          <abstract>
+            <t>This memo explains how to use the Upgrade mechanism in HTTP/1.1
+            to initiate Transport Layer Security (TLS) over an existing TCP
+            connection. [STANDARDS-TRACK]</t>
+          </abstract>
         </front>
+        <seriesInfo name="RFC" value="2817" />
+        <format type="TXT" octets="27598" target="http://www.rfc-editor.org/rfc/rfc2817.txt" />
       </reference>
       <reference anchor="SNIFF">
         <front>
@@ -974,26 +986,53 @@ serialized-origin   = scheme "://" host [ ":" port ]
           </title>
         </front>
       </reference>
-      <reference anchor="CSRF">
+      <reference anchor="CSRF" target="http://portal.acm.org/citation.cfm?id=1455770.1455782">
         <front>
-          <title>
-            FIXME: Robust Defenses to Cross-Site Request Forgery
-          </title>
+          <title>Robust Defenses for Cross-Site Request Forgery</title>
+          <author initials="A." surname="Barth" fullname="Adam Barth">
+            <organization />
+          </author>
+          <author initials="C." surname="Jackson" fullname="Collin Jackson">
+            <organization />
+          </author>
+          <author initials="J." surname="Mitchell" fullname="John C. Mitchell">
+            <organization />
+          </author>
+          <date year="2008" />
         </front>
       </reference>
-      <reference anchor="BOFGO">
+      <reference anchor="BOFGO" target="http://w2spconf.com/2008/papers/s2p1.pdf">
         <front>
-          <title>
-            FIXME: Beware of Finer-Grained Origins
-          </title>
+          <title>Beware of Finer-Grained Origins</title>
+          <author initials="C." surname="Jackson" fullname="Collin Jackson">
+            <organization />
+          </author>
+          <author initials="A." surname="Barth" fullname="Adam Barth">
+            <organization />
+          </author>
+          <date year="2008" />
         </front>
       </reference>
-      <reference anchor="COOKIES">
+      <reference anchor="RFC6265">
         <front>
-          <title>
-            FIXME: RFC 6265
-          </title>
+          <title>HTTP State Management Mechanism</title>
+          <author initials="A." surname="Barth" fullname="A. Barth">
+            <organization />
+          </author>
+          <date year="2011" month="April" />
+          <abstract>
+            <t>This document defines the HTTP Cookie and Set-Cookie header
+            fields. These header fields can be used by HTTP servers to store
+            state (called cookies) at HTTP user agents, letting the servers
+            maintain a stateful session over the mostly stateless HTTP
+            protocol. Although cookies have many historical infelicities that
+            degrade their security and privacy, the Cookie and Set-Cookie
+            header fields are widely used on the Internet. This document
+            obsoletes RFC 2965. [STANDARDS-TRACK]</t>
+          </abstract>
         </front>
+        <seriesInfo name="RFC" value="6265" />
+        <format type="TXT" octets="79724" target="http://www.rfc-editor.org/rfc/rfc6265.txt" />
       </reference>
     </references>
     <section title="Acknowledgements">
