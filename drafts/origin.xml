@@ -492,7 +492,9 @@ http://ietf.org/
 
           <t>Append the string "://" to result.</t>
 
-          <t>Apply the IDNA ToUnicode algorithm <xref target="RFC5891" /> to
+          <t>Apply the IDNA ToUnicode algorithm (from the appropriate IDNA
+          specification <xref target="RFC5891" /> or <xref target="RFC3490" />,
+          see <xref target="idna-migration" /> of this specification) to
           each component of the host part of the origin triple, and append the
           results of each component, in the same order, separated by U+002E
           FULL STOP code points (".") to result.</t>
