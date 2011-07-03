@@ -571,7 +571,8 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <t>For example, consider a user agent that executes scripts on behalf
         of origins. If one of those scripts causes the user agent to issue an
         HTTP request, the user agent might wish to use the Origin header to
-        inform the server that the request was issued by the script.</t>
+        inform the server of the security context in which the script was
+        executing when it caused the user agent to issue the request.</t>
 
         <t>In some cases, a number of origins contribute to causing the user
         agents to issue an HTTP request. In those cases, the user agent can
