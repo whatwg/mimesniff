@@ -667,7 +667,7 @@ serialized-origin   = scheme "://" host [ ":" port ]
           "public suffix lists", but these lists are difficult to keep up to
           date and vary between implementations.</t>
 
-          <t>This practice is incompatible with URIs schemes that do not use a
+          <t>This practice is incompatible with URI schemes that do not use a
           DNS-based naming authority. For example, if a given URI scheme uses
           public keys as naming authorities, the notion of a
           "registry-controlled" public key is somewhat incoherent. Worse, some
