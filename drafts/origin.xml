@@ -420,8 +420,8 @@ http://ietf.org/
         </list>
         </t>
 
-        <t>Let uri-host be the idna-canonicalization of the host component of
-        the URI.</t>
+        <t>Let uri-host be the idna-canonicalized form of the host component
+        of the URI.</t>
 
         <t>If there is no port component of the URI:
         <list>
