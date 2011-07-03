@@ -641,9 +641,9 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <t>Some URI schemes, such as https, are more resistant to DNS
         compromise because user agents employ other mechanisms, such as
         certificates, to verify the source of content retrieved from these
-        URIs. Other URI schemes, such as the chrome-extension URI scheme, use
-        a public-key-based naming authority and are fully secure against DNS
-        compromise.</t>
+        URIs. Other URI schemes, such as the chrome-extension URI scheme
+        (see Section 4.3 of <xref target="CRX" />), use a public-key-based
+        naming authority and are fully secure against DNS compromise.</t>
 
         <t>That the web origin concept isolates content retrieved from
         different URI schemes is essential to containing the effects of DNS
@@ -1050,6 +1050,24 @@ serialized-origin   = scheme "://" host [ ":" port ]
             <organization />
           </author>
           <date year="2008" />
+        </front>
+      </reference>
+      <reference anchor="CRX" target="http://www.isoc.org/isoc/conferences/ndss/10/pdf/04.pdf">
+        <front>
+          <title>Protecting Browsers from Extension Vulnerabilities</title>
+          <author initials="A." surname="Barth" fullname="Adam Barth">
+            <organization />
+          </author>
+          <author initials="A." surname="Felt" fullname="Adrienne Porter Felt">
+            <organization />
+          </author>
+          <author initials="P." surname="Saxena" fullname="Prateek Saxena">
+            <organization />
+          </author>
+          <author initials="A." surname="Boodman" fullname="Aaron Boodman">
+            <organization />
+          </author>
+          <date year="2010" />
         </front>
       </reference>
     </references>
