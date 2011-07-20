@@ -576,7 +576,7 @@
           <t>If i is equal to 3, continue to the next i, if any. (These octets
           correspond to the minor version number.)</t>
 
-          <t>If octets 4*i through 4*i + 3 (inclusive) of the sequence are
+          <t>If octets 4*i through 4*i + 2 (inclusive) of the sequence are
           0x6D 0x70 0x34 (the ASCII string "mp4"), then the sequence *does*
           match the signature for MP4 and abort these steps.</t>
         </list>
