@@ -861,31 +861,29 @@ distinguishing if a resource is text or binary</dfn>.
   </tr>
 </table>
 
-[TODO: MP3 audio.]
-        </artwork>
-      </figure>
-      </t>
+<p class=XXX>MP3 audio.</p>
 
-      <t>User agents MAY support additional types if necessary, by implicitly
-      adding to the above table. However, user agents SHOULD NOT not use any
-      other patterns for types already mentioned in the table above because
-      this could then be used for privilege escalation (where, e.g., a server
-      uses the above table to determine that content is not HTML and thus safe
-      from cross-site scripting attacks, but then a user agent detects it as
-      HTML anyway and allows script to execute). In extending this table, user
-      agents SHOULD NOT introduce any privilege escalation
-      vulnerabilities.</t>
+<p>User agents MAY support additional types if necessary, by implicitly
+adding to the above table. However, user agents SHOULD NOT not use any
+other patterns for types already mentioned in the table above because
+this could then be used for privilege escalation (where, e.g., a server
+uses the above table to determine that content is not HTML and thus safe
+from cross-site scripting attacks, but then a user agent detects it as
+HTML anyway and allows script to execute). In extending this table, user
+agents SHOULD NOT introduce any privilege escalation
+vulnerabilities.
 
-      <t>Note: The column marked "security" is used by the algorithm in the
-      "text or binary" section, to avoid sniffing text/plain content as a type
-      that can be used for a privilege escalation attack.</t>
-      
-      <section anchor="mp4-signature" title="Signature for MP4">
-        <t>This section defines whether a sequence of n octets *matches the
-        signature for MP4*.</t>
+<p class=note>The column marked "security" is used by the algorithm in the
+"text or binary" section, to avoid sniffing text/plain content as a type that
+can be used for a privilege escalation attack.
 
-        <t>If n is less than 4, then the sequence does not match the signature
-        for MP4 and abort these steps.</t>
+<h3 id=mp4-signature><span class=secno>6.1 </span>Signature for MP4</h3>
+
+<p>This section defines whether a sequence of <var>n</var> octets <dfn
+id=matches-the-signature-for-mp4>matches the signature for MP4</dfn>.
+
+<p>If n is less than 4, then the sequence does not match the signature
+for MP4 and abort these steps.</t>
 
         <t>Let box-size be the value of the first four octets, interpreted
         as a 32 bit unsigned, big-endian integer.</t>
