@@ -561,7 +561,7 @@
         for MP4 and abort these steps.</t>
 
         <t>Let box-size be the value of the first four octets, interpreted
-        as a 32 bit unsigned, little-endian integer.</t>
+        as a 32 bit unsigned, big-endian integer.</t>
 
         <t>If n is less than box-size or if box-size is not evenly divisible
         by 4, then the sequence does not match the signature for MP4 and
