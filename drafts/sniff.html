@@ -199,12 +199,12 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 
  <li>If the octets were fetched via HTTP and there is an HTTP Content-Type
  header field and the value of the last such header field has octets that
- *exactly* match the octets contained in one of the following lines:
+ <strong>exactly</strong> match the octets contained in one of the following
+ lines:
 
  <table>
   <thead>
    <tr><th>Bytes in Hexadecimal</th><th>Textual Representation</th></tr>
-  </thead>
   <tbody>
    <tr><td>74 65 78 74 2f 70 6c 61 69 6e</td><td>text/plain</td></tr>
    <tr>
@@ -231,7 +231,6 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
     </td>
     <td>text/plain; charset=UTF-8</td>
    </tr>
-  </tbody>
  </table>
  ...then jump to the "text or binary" section below.
 
@@ -258,77 +257,64 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 
 <h2 id=text-or-binary><span class=secno>5 </span>Text or Binary</h2>
 
-      <t>This section defines the *rules for distinguishing if a resource is
-      text or binary*.</t>
+<p>This section defines the <dfn id=rules-for-text-or-binary>rules for
+distinguishing if a resource is text or binary</dfn>.
 
-      <t>
-      <list style="numbers">
-        <t>The user agent MAY wait for 512 or more octets to arrive.
-        <list style="empty">
-          <t>Note: Waiting for 512 octets octets to arrive causes the
-          text-or-binary algorithm to be deterministic for a given sequence of
-          octets. However, in some cases, the user agent might need to wait an
-          arbitrary length of time for these octets to arrive. User agents
-          SHOULD wait for 512 octets to arrive, when feasible.</t>
-        </list>
-        </t>
+<ol>
+ <li>The user agent MAY wait for 512 or more octets to arrive.
 
-        <t>Let n be the smaller of either 512 or the number of octets that
-        have already arrived.</t>
+ <p class=note>Waiting for 512 octets octets to arrive causes the
+ text-or-binary algorithm to be deterministic for a given sequence of octets.
+ However, in some cases, the user agent might need to wait an arbitrary length
+ of time for these octets to arrive. User agents SHOULD wait for 512 octets to
+ arrive, when feasible.
 
-        <t>If n is greater than or equal to 3, and the first 2 or 3 octets
-        match one of the following octet sequences:
-          <figure>
-            <artwork>
-                +----------------------+--------------+
-                | Bytes in Hexadecimal | Description  |
-                +----------------------+--------------+
-                | FE FF                | UTF-16BE BOM |
-                | FF FE                | UTF-16LE BOM |
-                | EF BB BF             | UTF-8 BOM    |
-                +----------------------+--------------+
-            </artwork>
-            <postamble>
-              ...then let the sniffed-type be "text/plain" and abort these
-              steps.
-            </postamble>
-          </figure>
-        </t>
+ <li>Let <var>n</var> be the smaller of either 512 or the number of octets that
+ have already arrived.
 
-        <t>If none of the first n octets are binary data octets then let the
-        sniffed-type be "text/plain" and abort these steps.
-          <figure>
-            <artwork>
-                      +-------------------------+
-                      | Binary Data Byte Ranges |
-                      +-------------------------+
-                      | 0x00 -- 0x08            |
-                      | 0x0B                    |
-                      | 0x0E -- 0x1A            |
-                      | 0x1C -- 0x1F            |
-                      +-------------------------+
-            </artwork>
-          </figure>
-        </t>
+ <li>If <var>n</var> is greater than or equal to 3, and the first 2 or 3 octets
+ match one of the following octet sequences:
 
-        <t>If the first octets match one of the octet sequences in the
-        "pattern" column of the table in the "unknown type" section below,
-        ignoring any rows whose cell in the "security" column says
-        "scriptable" (or "n/a"), then let the sniffed-type be the type given
-        in the corresponding cell in the "sniffed type" column on that row and
-        abort these steps.
-        <list style="empty">
-          <t>WARNING! It is critical that this step not ever return a
-          scriptable type (e.g., text/html), because otherwise that would
-          allow a privilege escalation attack.</t>
-        </list>
-        </t>
+ <table>
+  <thead>
+   <tr><th>Bytes in Hexadecimal</th><th>Description</th></tr>
+  <tbody>
+   <tr><td>FE FF</td><td>UTF-16BE BOM</td></tr>
+   <tr><td>FF FE</td><td>UTF-16LE BOM</td></tr>
+   <tr><td>EF BB BF</td><td>UTF-8 BOM</td></tr>
+ </table>
 
-        <t>Otherwise, let the sniffed-type be "application/octet-stream" and
-        abort these steps.</t>
-      </list>
-      </t>
-    </section>
+ ...then let the <var>sniffed-type</var> be "text/plain" and abort these steps.
+
+ <li>If none of the first <var>n</var> octets are binary data octets then let
+ the <var>sniffed-type</var> be "text/plain" and abort these steps.
+
+ <table>
+  <thead>
+   <tr><th>Binary Data Byte Ranges</th></tr>
+  <tbody>
+   <tr><td>0x00&ndash;0x08a</td></tr>
+   <tr><td>0x0B</td></tr>
+   <tr><td>0x0E&ndash;0x1A</td></tr>
+   <tr><td>0x1C&ndash;0x1F</td></tr>
+ </table>
+
+ <li>If the first octets match one of the octet sequences in the "pattern"
+ column of the table in the "unknown type" section below, ignoring any rows
+ whose cell in the "security" column says "scriptable" (or "n/a"), then let the
+ <var>sniffed-type</var> be the type given in the corresponding cell in the
+ "sniffed type" column on that row and abort these steps.
+
+ <p class=warning>It is critical that this step not ever return a scriptable
+ type (e.g., text/html), because otherwise that would allow a privilege
+ escalation attack.
+
+ <li>Otherwise, let the <var>sniffed-type</var> be "application/octet-stream"
+ and abort these steps.
+</ol>
+
+<h2 id=unknown-type><span class=secno>6 </span>Unknown Type</h2>
+
     <section anchor="unknown-type" title="Unknown Type">
       <t>
       <list style="numbers">
