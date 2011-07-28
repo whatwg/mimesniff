@@ -422,138 +422,445 @@ distinguishing if a resource is text or binary</dfn>.
  </ol>
 
  <p>The table used by the above algorithm is:
-      <figure>
-        <artwork>
-+-------------------+-------------------+-----------------+------------+
-| Mask in Hex       | Pattern in Hex    | Sniffed Type    | Security   |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF DF DF DF | WS 3C 21 44 4F 43 | text/html       | Scriptable |
-| DF DF DF DF FF DF | 54 59 50 45 20 48 |                 |            |
-| DF DF DF FF       | 54 4D 4C _>       |                 |            |
-| Comment: &lt;!DOCTYPE HTML                                              |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 48 54 4D 4C | text/html       | Scriptable |
-| FF                | _>                |                 |            |
-| Comment: &lt;HTML                                                       |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 48 45 41 44 | text/html       | Scriptable |
-| FF                | _>                |                 |            |
-| Comment: &lt;HEAD                                                       |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 53 43 52 49 | text/html       | Scriptable |
-| DF DF FF          | 50 54 _>          |                 |            |
-| Comment: &lt;SCRIPT                                                     |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 49 46 52 41 | text/html       | Scriptable |
-| DF DF FF          | 4d 45 _>          |                 |            |
-| Comment: &lt;IFRAME                                                     |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF FF FF    | WS 3C 48 31 _>    | text/html       | Scriptable |
-| Comment: &lt;H1                                                         |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF FF | WS 3C 44 49 56 _> | text/html       | Scriptable |
-| Comment: &lt;DIV                                                        |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 46 4f 4e 54 | text/html       | Scriptable |
-| FF                | _>                |                 |            |
-| Comment: &lt;FONT                                                       |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 54 41 42 4c | text/html       | Scriptable |
-| DF FF             | 45 _>             |                 |            |
-| Comment: &lt;TABLE                                                      |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF FF       | WS 3C 41 _>       | text/html       | Scriptable |
-| Comment: &lt;A                                                          |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 53 54 59 4c | text/html       | Scriptable |
-| DF FF             | 45 _>             |                 |            |
-| Comment: &lt;STYLE                                                      |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 54 49 54 4c | text/html       | Scriptable |
-| DF FF             | 45 _>             |                 |            |
-| Comment: &lt;TITLE                                                      |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF FF       | WS 3C 42 _>       | text/html       | Scriptable |
-| Comment: &lt;B                                                          |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF DF DF | WS 3C 42 4f 44 59 | text/html       | Scriptable |
-| FF                | _>                |                 |            |
-| Comment: &lt;BODY                                                       |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF DF FF    | WS 3C 42 52 _>    | text/html       | Scriptable |
-| Comment: &lt;BR                                                         |
-+-------------------+-------------------+-----------------+------------+
-| FF FF DF FF       | WS 3C 50 _>       | text/html       | Scriptable |
-| Comment: &lt;P                                                          |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | WS 3C 21 2d 2d _> | text/html       | Scriptable |
-| Comment: &lt;!--                                                        |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | WS 3C 3f 78 6d 6c | text/xml        | Scriptable |
-| Comment: &lt;?xml (Note the case sensitivity and lack of trailing _>)  |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF    | 25 50 44 46 2D    | application/pdf | Scriptable |
-| Comment: The string "%PDF-", the PDF signature.                      |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | 25 21 50 53 2D 41 | application/    | Safe       |
-| FF FF FF FF FF    | 64 6F 62 65 2D    |      postscript |            |
-| Comment: The string "%!PS-Adobe-", the PostScript signature.         |
-+-------------------+-------------------+-----------------+------------+
-| FF FF 00 00       | FE FF 00 00       | text/plain      | n/a        |
-| Comment: UTF-16BE BOM                                                |
-+-------------------+-------------------+-----------------+------------+
-| FF FF 00 00       | FF FE 00 00       | text/plain      | n/a        |
-| Comment: UTF-16LE BOM                                                |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF 00       | EF BB BF 00       | text/plain      | n/a        |
-| Comment: UTF-8 BOM                                                   |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | 47 49 46 38 37 61 | image/gif       | Safe       |
-| Comment: The string "GIF87a", a GIF signature.                       |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | 47 49 46 38 39 61 | image/gif       | Safe       |
-| Comment: The string "GIF89a", a GIF signature.                       |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | 89 50 4E 47 0D 0A | image/png       | Safe       |
-| FF FF             | 1A 0A             |                 |            |
-| Comment: The PNG signature.                                          |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF          | FF D8 FF          | image/jpeg      | Safe       |
-| Comment: A JPEG SOI marker followed by a octet of another marker.    |
-+-------------------+-------------------+-----------------+------------+
-| FF FF             | 42 4D             | image/bmp       | Safe       |
-| Comment: The string "BM", a BMP signature.                           |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF 00 00 | 52 49 46 46 00 00 | image/webp      | Safe       |
-| 00 00 FF FF FF FF | 00 00 57 45 42 50 |                 |            |
-| FF FF             | 56 50             |                 |            |
-| Comment: "RIFF" followed by four bytes, followed by "WEBPVP".        |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF       | 00 00 01 00       | image/vnd.      | Safe       |
-|                   |                   |  microsoft.icon |            |
-| Comment: A Windows Icon signature.                                   |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF    | 4F 67 67 53 00    | application/ogg | Safe       |
-| Comment: An Ogg audio or video signature.                     |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF 00 00 | 52 49 46 46 00 00 | audio/wave      | Safe       |
-| 00 00 FF FF FF FF | 00 00 57 41 56 45 |                 |            |
-| Comment: "RIFF" followed by four bytes, followed by "WAVE".          |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF       | 1A 45 DF A3       | video/webm      | Safe       |
-| Comment: The WebM signature [TODO: Use more octets?]                 |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF FF FF | 52 61 72 20 1A 07 | application/    | Safe       |
-| FF                | 00                | x-rar-compressed|            |
-| Comment: A RAR archive.                                              |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF FF       | 50 4B 03 04       | application/zip | Safe       |
-| Comment: A ZIP archive.                                              |
-+-------------------+-------------------+-----------------+------------+
-| FF FF FF          | 1F 8B 08          | application/    | Safe       |
-|                   |                   |          x-gzip |            |
-| Comment: A GZIP archive.                                             |
-+-------------------+-------------------+-----------------+------------+
+
+ <table>
+  <thead>
+   <tr>
+    <th>Mask in Hex</th>
+    <th>Pattern in Hex</th>
+    <th>Sniffed Type</th>
+    <th>Security</th>
+    <th>Comment</th>
+   </tr>
+  <tbody>
+   <tr>
+    <td>
+     FF FF FF DF DF DF
+     DF DF DF DF FF DF
+     DF DF DF FF
+    </td>
+    <td>
+     WS 3C 21 44 4F 43
+     54 59 50 45 20 48
+     54 4D 4C _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;!DOCTYPE HTML</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     FF
+    </td>
+    <td>
+     WS 3C 48 54 4D 4C _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;HTML</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     FF
+    </td>
+    <td>
+     WS 3C 48 45 41 44 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;HEAD</td>
+    <td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     DF DF FF
+    </td>
+    <td>
+     WS 3C 53 43 52 49
+     50 54 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;SCRIPT</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     DF DF FF
+    </td>
+    <td>
+     WS 3C 49 46 52 41
+     4d 45 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;IFRAME</tr>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF FF FF
+    </td>
+    <td>
+     WS 3C 48 31 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;H1</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF FF
+    </td>
+    <td>
+     WS 3C 44 49 56 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;DIV</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     FF
+    </td>
+    <td>
+     WS 3C 46 4f 4e 54 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;FONT</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     DF FF
+    </td>
+    <td>
+     WS 3C 54 41 42 4c 45 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;TABLE</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF FF
+    </td>
+    <td>
+     WS 3C 41 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;A</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     DF FF
+    </td>
+    <td>
+     WS 3C 53 54 59 4c
+     45 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;STYLE</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     DF FF
+    </td>
+    <td>
+     WS 3C 54 49 54 4c
+     45 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;TITLE</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF FF
+    </td>
+    <td>
+     WS 3C 42 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;B</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF DF DF
+     FF
+    </td>
+    <td>
+     WS 3C 42 4f 44 59 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;BODY</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF DF FF
+    </td>
+    <td>
+     WS 3C 42 52 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;BR</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF DF FF
+    </td>
+    <td>
+     WS 3C 50 _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;P</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+    </td>
+    <td>
+     WS 3C 21 2d 2d _>
+    </td>
+    <td>text/html</td>
+    <td>Scriptable</td>
+    <td>&lt;!--</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+    </td>
+    <td>
+     WS 3C 3f 78 6d 6c
+    </td>
+    <td>text/xml</td>
+    <td>Scriptable</td>
+    <td>&lt;?xml (Note the case sensitivity and lack of trailing _>)</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF
+    </td>
+    <td>
+     25 50 44 46 2D
+    </td>
+    <td>application/pdf</td>
+    <td>Scriptable</td>
+    <td>The string "%PDF-", the PDF signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+     FF FF FF FF FF
+    </td>
+    <td>
+     25 21 50 53 2D 41
+     64 6F 62 65 2D
+    </td>
+    <td>application/postscript</td>
+    <td>Safe</td>
+    <td>The string "%!PS-Adobe-", the PostScript signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF 00 00
+    </td>
+    <td>
+     FE FF 00 00
+    </td>
+    <td>text/plain</td>
+    <td>n/a</td>
+    <td>UTF-16BE BOM</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF 00 00
+    </td>
+    <td>
+     FF FE 00 00
+    </td>
+    <td>text/plain</td>
+    <td>n/a</td>
+    <td>UTF-16LE BOM</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF 00
+    </td>
+    <td>
+     EF BB BF 00
+    </td>
+    <td>text/plain</td>
+    <td>n/a</td>
+    <td>UTF-8 BOM</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+    </td>
+    <td>
+     47 49 46 38 37 61
+    </td>
+    <td>image/gif</td>
+    <td>Safe</td>
+    <td>The string "GIF87a", a GIF signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+    </td>
+    <td>
+     47 49 46 38 39 61
+    </td>
+    <td>image/gif</td>
+    <td>Safe</td>
+    <td>The string "GIF89a", a GIF signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+     FF FF
+    </td>
+    <td>
+     89 50 4E 47 0D 0A
+     1A 0A
+    </td>
+    <td>image/png</td>
+    <td>Safe</td>
+    <td>The PNG signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF
+    </td>
+    <td>
+     FF D8 FF
+    </td>
+    <td>image/jpeg</td>
+    <td>Safe</td>
+    <td>A JPEG SOI marker followed by a octet of another marker.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF
+    </td>
+    <td>
+     42 4D
+    </td>
+    <td>image/bmp</td>
+    <td>Safe</td>
+    <td>The string "BM", a BMP signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF 00 00
+     00 00 FF FF FF FF
+     FF FF
+    </td>
+    <td>
+     52 49 46 46 00 00
+     00 00 57 45 42 50
+    56 50
+    </td>
+    <td>image/webp</td>
+    <td>Safe</td>
+    <td>"RIFF" followed by four bytes, followed by "WEBPVP".</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF
+    </td>
+    <td>
+     00 00 01 00
+    </td>
+    <td>image/vnd.microsoft.icon</td>
+    <td>Safe</td>
+    <td>A Windows Icon signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF
+    </td>
+    <td>
+     4F 67 67 53 00
+    </td>
+    <td>application/ogg</td>
+    <td>Safe</td>
+    <td>An Ogg audio or video signature.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF 00 00
+     00 00 FF FF FF FF
+    </td>
+    <td>
+     52 49 46 46 00 00
+     00 00 57 41 56 45
+    </td>
+    <td>audio/wave</td>
+    <td>Safe</td>
+    <td>"RIFF" followed by four bytes, followed by "WAVE".</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF
+    </td>
+    <td>
+     1A 45 DF A3
+    </td>
+    <td>video/webm</td>
+    <td>Safe</td>
+    <td>The WebM signature [TODO: Use more octets?]</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF FF FF
+     FF
+    </td>
+    <td>
+     52 61 72 20 1A 07
+     00
+    </td>
+    <td>application/x-rar-compressed</td>
+    <td>Safe</td>
+    <td>A RAR archive.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF FF
+    </td>
+    <td>
+     50 4B 03 04
+    </td>
+    <td>application/zip</td>
+    <td>Safe</td>
+    <td>A ZIP archive.</td>
+   </tr>
+   <tr>
+    <td>
+     FF FF FF
+    </td>
+    <td>
+     1F 8B 08
+    </td>
+    <td>application/x-gzip</td>
+    <td>Safe</td>
+    <td>A GZIP archive.</td>
+   </tr>
+ </table>
+
 [TODO: MP3 audio.]
         </artwork>
       </figure>
