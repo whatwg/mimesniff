@@ -910,158 +910,161 @@ id=matches-the-signature-for-mp4>matches the signature for MP4</dfn>.
  <li>The sequence does not match the signature for MP4.
 </ol>
 
-    <section anchor="image" title="Image">
-      <t>This section defines the *rules for sniffing images
-      specifically*.</t>
+<h3 id=images><span class=secno>7 </span>Images</h3>
 
-      <t>If the official-type is "image/svg+xml", then let the sniffed-type be
-      the official-type (an XML type) and abort these steps.</t>
+<p>This section defines the <dfn
+id=rules-for-sniffing-images-specifically>rules for sniffing images
+specifically</dfn>.
 
-      <t>If the first octets match one of the signatures in <xref
-      target="unknown-type" /> for one of the following media types, then let
-      the sniffed-type be the corresponding media type and abort these steps:
-      <list style="symbols">
-        <t>image/gif</t>
-        <t>image/png</t>
-        <t>image/jpeg</t>
-        <t>image/bmp</t>
-        <t>image/vnd.microsoft.icon</t>
-        <t>image/webp</t>
-      </list>
-      </t>
+<ol>
+ <li>If the <var>official-type</var> is "image/svg+xml", then let the
+ <var>sniffed-type</var> be the <var>official-type</var> (an XML type) and
+ abort these steps.
 
-      <t>Otherwise, let the sniffed-type be the official-type
-      and abort these steps.</t>
-    </section>
-    <section anchor="video" title="Video">
-      <t>This section defines the *rules for sniffing videos
-      specifically*.</t>
+ <li>If the first octets match one of the signatures in <xref
+ target="unknown-type" /> for one of the following media types, then let the
+ sniffed-type be the corresponding media type and abort these steps:
+ <ul>
+  <li>image/gif</t>
+  <li>image/png</t>
+  <li>image/jpeg</t>
+  <li>image/bmp</t>
+  <li>image/vnd.microsoft.icon</t>
+  <li>image/webp</t>
+ <ul>
 
-      <t>If the first octets match one of the signatures in <xref
-      target="unknown-type" /> for one of the following media types, then let
-      the sniffed-type be the corresponding media type and abort these steps:
-      <list style="symbols">
-        <t>video/mp4</t>
-        <t>video/webm</t>
-        <t>application/ogg</t>
-      </list>
-      </t>
+ <li>Otherwise, let the sniffed-type be the official-type and abort these
+ steps.
+</ol>
 
-      <t>Otherwise, let the sniffed-type be the official-type
-      and abort these steps.</t>
-    </section>
-    <section anchor="fonts" title="Fonts">
-      <t>This section defines the *rules for sniffing fonts
-      specifically*.</t>
+<h3 id=video><span class=secno>8 </span>Video</h3>
 
-      <t>TODO</t>
+<p>This section defines the <dfn id=rules-for-sniffing-video-specifically>rules
+for sniffing videos specifically</dfn>.
 
-      <t>Otherwise, let the sniffed-type be the official-type
-      and abort these steps.</t>
-    </section>
-    <section anchor="feed-or-html" title="Feed or HTML">
-      <t>
-      <list style="numbers">
-        <t>The user agent MAY wait for 512 or more octets to arrive for the
-        same reason as in the "text or binary" section above.</t>
+<ol>
+ <li>If the first octets match one of the signatures in <xref
+ target="unknown-type" /> for one of the following media types, then let the
+ <var>sniffed-type</var> be the corresponding media type and abort these steps:
+ <ul>
+  <li>video/mp4
+  <li>video/webm
+  <li>application/ogg
+ </ul>
 
-        <t>Let s be the stream of octets, and let s[i] represent the octet in
-        s with position i, treating s as zero-indexed (so the first octet is
-        at i=0).</t>
+ <li>Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
+ and abort these steps.</t>
+</ol>
 
-        <t>If at any point this algorithm requires the user agent to determine
-        the value of a octet in s which has not yet arrived, or which is past
-        the first 512 octets, or which is beyond the end of the octet stream,
-        the algorithm stops and the sniffed-type is "text/html".
-        <list style="empty">
-          <t>Note: User agents are allowed, by the first step of this
-          algorithm, to wait until the first 512 octets have arrived.</t>
-        </list>
-        </t>
+<h3 id=fonts><span class=secno>9 </span>Fonts</h3>
 
-        <t>Initialize pos to 0.</t>
+<p>This section defines the <dfn id=rules-for-sniffing-fonts-specifically>rules
+for sniffing fonts specifically</dfn>.
 
-        <t>If s[0] equals 0xEF, s[1] equals 0xBB, and s[2] equals 0xBF, then
-        set pos to 3. (This skips over a leading UTF-8 BOM, if any.)</t>
+<p class=XXX>TODO
 
-        <t>LOOP: Examine s[pos].
-        <list style="symbols">
-          <t>If it equals 0x09 (ASCII tab), 0x20 (ASCII space), 0x0A (ASCII
-          LF), or 0x0D (ASCII CR)
-          <list style="empty">
-            <t>Increase pos by 1 and repeat this step.</t>
-          </list>
-          </t>
+<p>Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
+and abort these steps.
 
-          <t>If it equals 0x3C (ASCII "&lt;")
-          <list style="empty">
-            <t>Increase pos by 1 and go to the next step.</t>
-          </list>
-          </t>
+<h3 id=feed-or-html><span class=secno>10 </span>Feed or HTML</h3>
 
-          <t>If it is anything else
-          <list style="empty">
-            <t>Let the sniffed-type be "text/html" and abort these steps.</t>
-          </list>
-          </t>
-        </list>
-        </t>
+<ol>
+ <li>The user agent MAY wait for 512 or more octets to arrive for the same
+ reason as in the "text or binary" section above.
 
-        <t>If the octets with positions pos to pos+2 in s are exactly equal
-        to 0x21, 0x2D, 0x2D respectively (ASCII for "!--"), then:
-        <list style="numbers">
-          <t>Increase pos by 3.</t>
+ <li>Let <var>s</var> be the stream of octets, and let
+ <var>s</var>[<var>i</var>] represent the octet in <var>s</var> with position
+ <var>i</var>, treating <var>s</var> as zero-indexed (so the first octet is at
+ <var>i</var>=0).
 
-          <t>If the octets with positions pos to pos+2 in s are exactly equal
-          to 0x2D, 0x2D, 0x3E respectively (ASCII for "--&gt;"), then increase
-          pos by 3 and jump back to the previous step (the step labeled loop
-          start) in the overall algorithm in this section.</t>
+ <li>If at any point this algorithm requires the user agent to determine the
+ value of a octet in <var>s</var> which has not yet arrived, or which is past
+ the first 512 octets, or which is beyond the end of the octet stream, the
+ algorithm stops and the <var>sniffed-type</var> is "text/html".
 
-          <t>Otherwise, increase pos by 1.</t>
+ <p class=note>User agents are allowed, by the first step of this algorithm, to
+ wait until the first 512 octets have arrived.
 
-          <t>Return to step 2 in these substeps.</t>
-        </list>
-        </t>
+ <li>Initialize <var>pos</var> to 0.
 
-        <t>If s[pos] equals 0x21 (ASCII "!"):
-        <list style="numbers">
-          <t>Increase pos by 1.</t>
+ <li>If <var>s</var>[0] equals 0xEF, <var>s</var>[1] equals 0xBB, and
+ <var>s</var>[2] equals 0xBF, then set <var>pos</var> to 3. (This skips over a
+ leading UTF-8 BOM, if any.)
 
-          <t>If s[pos] equals 0x3E, then increase pos by 1 and jump back to
-          the step labeled LOOP in the overall algorithm in this section.</t>
+ <li>LOOP: Examine <var>s</var>[<var>pos</var>].
+ <dl class=switch>
+  <dt>If it equals 0x09 (ASCII tab), 0x20 (ASCII space), 0x0A (ASCII LF), or
+  0x0D (ASCII CR)
+  <dd>Increase <var>pos</var> by 1 and repeat this step.
 
-          <t>Otherwise, return to step 1 in these substeps.</t>
-        </list>
-        </t>
+  <dt>If it equals 0x3C (ASCII "&lt;")
+  <dd>Increase <var>pos</var> by 1 and go to the next step.
 
-        <t>If s[pos] equals 0x3F (ASCII "?"):
-        <list style="numbers">
-          <t>Increase pos by 1.</t>
+  <dt>If it is anything else
+  <dd>Let the <var>sniffed-type</var> be "text/html" and abort these steps.
+ </dl>
 
-          <t>If s[pos] and s[pos+1] equal 0x3F and 0x3E respectively, then
-          increase pos by 1 and jump back to the step labeled LOOP in the
-          overall algorithm in this section.</t>
+ <li>If the octets with positions <var>pos</var> to <var>pos</var>+2 in
+ <var>s</var> are exactly equal to 0x21, 0x2D, 0x2D respectively (ASCII for
+ "!--"), then:
+ <ol>
+  <li>Increase <var>pos</var> by 3.
 
-          <t>Otherwise, return to step 1 in these substeps.</t>
-        </list>
-        </t>
+  <li>If the octets with positions <var>pos</var> to <var>pos</var>+2 in
+  <var>s</var> are exactly equal to 0x2D, 0x2D, 0x3E respectively (ASCII for
+  "--&gt;"), then increase <var>pos</var> by 3 and jump back to the previous
+  step (the step labeled loop start) in the overall algorithm in this section.
 
-        <t>Otherwise, if the octets in s starting at pos match any of the
-        sequences of octets in the first column of the following table, then
-        the user agent MUST follow the steps given in the corresponding cell
-        in the second column of the same row.
-        <figure>
-          <artwork>
-+----------------------+------------------------------------+---------+
-| Bytes in Hexadecimal | Requirement                        | Comment |
-+----------------------+------------------------------------+---------+
-| 72 73 73             | Let the sniffed-type be            | rss     |
-|                      | "application/rss+xml" and abort    |         |
-|                      | these steps.                       |         |
-+----------------------+------------------------------------+---------+
-| 66 65 65 64          | Let the sniffed-type be            | feed    |
-|                      | "application/atom+xml" and abort   |         |
-|                      | these steps.                       |         |
+  <li>Otherwise, increase <var>pos</var> by 1.
+
+  <li>Return to step 2 in these substeps.
+ </ol>
+
+ <li>If <var>s</var>[<var>pos</var>] equals 0x21 (ASCII "!"):
+ <ol>
+  <li>Increase <var>pos</var> by 1.
+
+  <li>If <var>s</var>[<var>pos</var>] equals 0x3E, then increase <var>pos</var>
+  by 1 and jump back to the step labeled LOOP in the overall algorithm in this
+  section.
+
+  <li>Otherwise, return to step 1 in these substeps.
+ </ol>
+
+ <li>If <var>s</var>[<var>pos</var>] equals 0x3F (ASCII "?"):
+ <ol>
+  <li>Increase <var>pos</var> by 1.
+
+  <li>If <var>s</var>[<var>pos</var>] and <var>s</var>[<var>pos</var>+1] equal
+  0x3F and 0x3E respectively, then increase <var>pos</var> by 1 and jump back
+  to the step labeled LOOP in the overall algorithm in this section.
+
+  <li>Otherwise, return to step 1 in these substeps.
+ </ol>
+
+ <li>Otherwise, if the octets in <var>s</var> starting at <var>pos</var> match
+ any of the sequences of octets in the first column of the following table,
+ then the user agent MUST follow the steps given in the corresponding cell in
+ the second column of the same row.
+
+ <table>
+  <thead>
+   <tr>
+    <th>Bytes in Hexadecimal</th>
+    <th>Requirement</th>
+    <th>Comment</th>
+   </tr>
+  <tbody>
+   <tr>
+    <td>72 73 73</td>
+    <td>Let the sniffed-type be "application/rss+xml" and abort these steps.</td>
+    <td>rss</td>
+   </tr>
+   <tr>
+    <td>66 65 65 64</td>
+    <td>Let the sniffed-type be "application/atom+xml" and abort these steps.</td>
+    <td>feed</td>
+   </tr>
 +----------------------+------------------------------------+---------+
 | 72 64 66 3A 52 44 46 | Continue to the next step in this  | rdf:RDF |
 |                      | algorithm.                         |         |
