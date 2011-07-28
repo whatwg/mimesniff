@@ -315,120 +315,113 @@ distinguishing if a resource is text or binary</dfn>.
 
 <h2 id=unknown-type><span class=secno>6 </span>Unknown Type</h2>
 
-    <section anchor="unknown-type" title="Unknown Type">
-      <t>
-      <list style="numbers">
-        <t>The user agent MAY wait for 512 or more octets to arrive for the
-        same reason as in the "text or binary" section above.</t>
+<ol>
+ <li>The user agent MAY wait for 512 or more octets to arrive for the same
+ reason as in the "text or binary" section above.
 
-        <t>Let n be the smaller of either 512 or the number of octets that
-        have already arrived.</t>
+ <li>Let <var>n</var> be the smaller of either 512 or the number of octets that
+ have already arrived.
 
-        <t>For each row in the table below:
-        <list style="symbols">
-          <t>If the row has no "WS" octets:
-          <list style="numbers">
-            <t>Let pattern-length be the length of the pattern.</t>
+ <li>For each row in the table below:
+  <dl class=switch>
+   <dt>If the row has no "WS" octets:
+   <dd>
+    <ol>
+     <li>Let <var>pattern-length</var> be the length of the pattern.
 
-            <t>If n is smaller than pattern-length then skip this row.</t>
+     <li>If <var>n</var> is smaller than <var>pattern-length</var> then skip
+     this row.</t>
 
-            <t>Apply the bit-wise "and" operator to the first pattern-length
-            octets and the given mask, and let the result be the
-            masked-data.</t>
+     <li>Apply the bit-wise "and" operator to the first
+     <var>pattern-length</var> octets and the given mask, and let the result be
+     the <var>masked-data</var>.
 
-            <t>If the octets of the masked-data matches the given pattern
-            octets exactly, then let the sniffed-type be the type given in the
-            cell of the third column in that row and abort these steps.</t>
-          </list>
-          </t>
+     <li>If the octets of the <var>masked-data</var> matches the given pattern
+     octets exactly, then let the <var>sniffed-type</var> be the type given in
+     the cell of the third column in that row and abort these steps.
+    </ol>
+   <dt>If the row has a "WS" octet or a "_>" octet:
+   <dd>
+    <ol>
+     <li>Let <var>index-pattern</var> be an index into the mask and pattern
+     octet strings of the row.
 
-          <t>If the row has a "WS" octet or a "_>" octet:
-          <list style="numbers">
-            <t>Let index-pattern be an index into the mask and pattern octet
-            strings of the row.</t>
+     <li>Let <var>index-stream</var> be an index into the octet stream being
+     examined.
 
-            <t>Let index-stream be an index into the octet stream being
-            examined.</t>
+     <li>LOOP: If <var>index-stream</var> points beyond the end of the octet
+     stream, then this row doesn't match and skip this row.
 
-            <t>LOOP: If index-stream points beyond the end of the octet
-            stream, then this row doesn't match and skip this row.</t>
+     <li>Examine the <var>index-stream</var>-th octet of the octet stream as
+     follows:
+      <dl class=switch>
+       <dt>If the <var>index-pattern</var>-th octet of the pattern is a normal
+       hexadecimal octet and not a "WS" octet or a "_>" octet:
+       <dd>
+        <ol>
+         <li>If the bit-wise "and" operator, applied to the
+         <var>index-stream</var>-th octet of the stream and the
+         <var>index-pattern</var>-th octet of the mask, yield a value different
+         than the <var>index-pattern</var>-th octet of the pattern, then skip
+         this row.
 
-            <t>Examine the index-stream-th octet of the octet stream as
-            follows:
-            <list style="symbols">
-              <t>If the index-pattern-th octet of the pattern is a normal
-              hexadecimal octet and not a "WS" octet or a "_>" octet:
-              <list style="empty">
-                <t>If the bit-wise "and" operator, applied to the
-                index-stream-th octet of the stream and the index-pattern-th
-                octet of the mask, yield a value different than the
-                index-pattern-th octet of the pattern, then skip this row.</t>
+         <li>Otherwise, increment <var>index-pattern</var> to the next octet in
+         the mask and pattern and <var>index-stream</var> to the next octet in
+         the octet stream.
+        </ol>
+       <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern
+       is a "WS" octet:
+       <dd>
+        <p class=note>"WS" means "whitespace", and allows insignificant whitespace to be
+        skipped when sniffing for a type signature.
 
-                <t>Otherwise, increment index-pattern to the next octet in
-                the mask and pattern and index-stream to the next octet in
-                the octet stream.</t>
-              </list>
-              </t>
+        <ol>
+         <li>If the <var>index-stream</var>-th octet of the stream is one of
+         0x09 (ASCII TAB), 0x0A (ASCII LF), 0x0C (ASCII FF), 0x0D (ASCII CR),
+         or 0x20 (ASCII space), then increment only the <var>index-stream</var>
+         to the next octet in the octet stream.
 
-              <t>Otherwise, if the index-pattern-th octet of the pattern is a
-              "WS" octet:
-              <list style="empty">
-                <t>"WS" means "whitespace", and allows insignificant
-                whitespace to be skipped when sniffing for a type
-                signature.</t>
+         <li>Otherwise, increment only the <var>index-pattern</var> to the next
+         octet in the mask and pattern.
+        </ol>
+       <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern
+       is a "_>" octet:
+       <dd>
+        <p class=note>"_>" means "space-or-bracket", and allows HTML tag names
+        to terminate with either a space or a greater than sign.
 
-                <t>If the index-stream-th octet of the stream is one of 0x09
-                (ASCII TAB), 0x0A (ASCII LF), 0x0C (ASCII FF), 0x0D (ASCII
-                CR), or 0x20 (ASCII space), then increment only the
-                index-stream to the next octet in the octet stream.</t>
+        <ol>
+         <li>If <var>index-stream</var>-th octet of the stream is different
+         than 0x20 (ASCII space) or 0x3E (ASCII ">"), then skip this row.
 
-                <t>Otherwise, increment only the index-pattern to the next
-                octet in the mask and pattern.</t>
-              </list>
-              </t>
+         <li>Otherwise, increment <var>index-pattern</var> to the next octet in
+         the mask and pattern and <var>index-stream</var> to the next octet in
+         the octet stream.
+        </ol>
+      </dl>
 
-              <t>Otherwise, if the index-pattern-th octet of the pattern is a
-              "_>" octet:
-              <list style="empty">
-                <t>"_>" means "space-or-bracket", and allows HTML tag names to
-                terminate with either a space or a greater than sign.</t>
+     <li>If <var>index-pattern</var> does not point beyond the end of the mask
+     and pattern octet strings, then jump back to the LOOP step in this
+     algorithm.
 
-                <t>If index-stream-th octet of the stream is different than
-                0x20 (ASCII space) or 0x3E (ASCII ">"), then skip this row.</t>
+     <li>Otherwise, let the <var>sniffed-type</var> be the type given in the
+     cell of the third column in that row and abort these steps.
+    </ol>
+  </dl>
 
-                <t>Otherwise, increment index-pattern to the next octet in
-                the mask and pattern and index-stream to the next octet in
-                the octet stream.</t>
-              </list>
-              </t>
-            </list>
-            </t>
+  <li>If the first n octets match the signature for MP4 (as define in <xref
+  target="mp4-signature" />), then let the <var>sniffed-type</var> be video/mp4
+  and abort these steps.
 
-            <t>If index-pattern does not point beyond the end of the mask
-            and pattern octet strings, then jump back to the LOOP step in
-            this algorithm.</t>
+  <li>If none of the first n octets are binary data (as defined in the "text or
+  binary" section), then let the <var>sniffed-type</var> be "text/plain" and
+  abort these steps.
 
-            <t>Otherwise, let the sniffed-type be the type given in the cell
-            of the third column in that row and abort these steps.</t>
-          </list>
-          </t>
-        </list>
-        </t>
+  <li>Otherwise, let the <var>sniffed-type</var> be "application/octet-stream"
+  and abort these steps
+ </ol>
 
-        <t>If the first n octets match the signature for MP4 (as define in
-        <xref target="mp4-signature" />), then let the sniffed-type be
-        video/mp4 and abort these steps.</t>
-
-        <t>If none of the first n octets are binary data (as defined in the
-        "text or binary" section), then let the sniffed-type be "text/plain"
-        and abort these steps.</t>
-
-        <t>Otherwise, let the sniffed-type be "application/octet-stream" and
-        abort these steps.</t>
-      </list>
-      </t>
-
-      <t>The table used by the above algorithm is:
+ <p>The table used by the above algorithm is:
       <figure>
         <artwork>
 +-------------------+-------------------+-----------------+------------+
@@ -1025,4 +1018,4 @@ These documents are revisions of RFCs 1521 and 1522, which themselves were revis
   <li>TODO
 </ul>
 
-<script src=http://www.whatwg.org/specs/web-apps/current-work/dfn.js></script>
+<!-- <script src=http://www.whatwg.org/specs/web-apps/current-work/dfn.js></script> -->
