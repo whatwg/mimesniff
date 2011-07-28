@@ -882,34 +882,34 @@ can be used for a privilege escalation attack.
 <p>This section defines whether a sequence of <var>n</var> octets <dfn
 id=matches-the-signature-for-mp4>matches the signature for MP4</dfn>.
 
-<p>If n is less than 4, then the sequence does not match the signature
-for MP4 and abort these steps.</t>
+<ol>
+ <li>If <var>n</var> is less than 4, then the sequence does not match the
+ signature for MP4 and abort these steps.
 
-        <t>Let box-size be the value of the first four octets, interpreted
-        as a 32 bit unsigned, big-endian integer.</t>
+ <li>Let <var>box-size</var> be the value of the first four octets, interpreted
+ as a 32 bit unsigned, big-endian integer.
 
-        <t>If n is less than box-size or if box-size is not evenly divisible
-        by 4, then the sequence does not match the signature for MP4 and
-        abort these steps.</t>
+ <li>If <var>n</var> is less than <var>box-size</var> or if <var>box-size</var>
+ is not evenly divisible by 4, then the sequence does not match the signature
+ for MP4 and abort these steps.
 
-        <t>If octets 5 through 8 (inclusive) of the sequence are not 0x66 0x74
-        0x79 0x70 (the ASCII string "ftyp"), then the sequence does not match
-        the signature for MP4 and abort these steps.</t>
+ <li>If octets 5 through 8 (inclusive) of the sequence are not 0x66 0x74 0x79
+ 0x70 (the ASCII string "ftyp"), then the sequence does not match the signature
+ for MP4 and abort these steps.
 
-        <t>For each i from 2 to box-size/4 - 1 (inclusive):
-        <list style="numbers">
-          <t>If i is equal to 3, continue to the next i, if any. (These octets
-          correspond to the minor version number.)</t>
+ <li>For each <var>i</var> from 2 to <var>box-size</var>/4 - 1 (inclusive):
+ <ol>
+  <li>If <var>i</var> is equal to 3, continue to the next <var>i</var>, if any.
+  (These octets correspond to the minor version number.)
 
-          <t>If octets 4*i through 4*i + 2 (inclusive) of the sequence are
-          0x6D 0x70 0x34 (the ASCII string "mp4"), then the sequence *does*
-          match the signature for MP4 and abort these steps.</t>
-        </list>
-        </t>
+  <li>If octets 4*i through 4*i + 2 (inclusive) of the sequence are 0x6D 0x70
+  0x34 (the ASCII string "mp4"), then the sequence <strong>does</strong> match
+  the signature for MP4 and abort these steps.
+ </ol>
 
-        <t>The sequence does not match the signature for MP4.</t>
-      </section>
-    </section>
+ <li>The sequence does not match the signature for MP4.
+</ol>
+
     <section anchor="image" title="Image">
       <t>This section defines the *rules for sniffing images
       specifically*.</t>
