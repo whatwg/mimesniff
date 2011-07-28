@@ -76,8 +76,960 @@ a code { text-decoration: underline }
 
 <h2 id=abstract>Abstract</h2>
 
+<p>Many web servers supply incorrect Content-Type header fields with their HTTP
+responses.  In order to be compatible with these servers, user agents consider
+the content of HTTP responses as well as the Content-Type header fields when
+determining the effective media type of the response.  This document describes
+an algorithm for determining the effective media type of HTTP responses that
+balances security and compatibility considerations.
 
 <h2 id=introduction><span class=secno>1 </span>Introduction</h2>
+
+<p>The HTTP Content-Type header field indicates the media type of an HTTP
+response.  However, many HTTP servers supply a Content-Type that does not match
+the actual contents of the response.  Historically, web browsers have tolerated
+these servers by examining the content of HTTP responses in addition to the
+Content-Type header field to determine the effective media type of the
+response.
+
+<p>Without a clear specification of how to "sniff" the media type, each user
+agent implementor was forced to reverse engineer the behavior of the other user
+agents and to develop their own algorithm.  These divergent algorithms have
+lead to a lack of interoperability between user agents and to security issues
+when the server intends an HTTP response to be interpreted as one media type
+but some user agents interpret the responses as another media type.
+
+<p>These security issues are most severe when an "honest" server lets
+potentially malicious users upload files and then serves the contents of those
+files with a low-privilege media type (such as text/plain or image/jpeg).
+(Malicious servers, of course, can specify an arbitrary media type in the
+Content-Type header field.)  In the absence of media type sniffing, this
+user-generated content would not be interpreted as a high-privilege media type,
+such as text/html.  However, if a user agent does interpret a low-privilege
+media type, such as image/gif, as a high-privilege media type, such as
+text/html, the user agent has created a privilege escalation vulnerability in
+the server.  For example, a malicious user might be able to leverage content
+sniffing to mount a cross-site script attack by including JavaScript code in
+the uploaded file that a user agent treats as text/html.
+
+<p>This document describes a content sniffing algorithm that carefully balances
+the compatibility needs of user agent implementors with the security
+constraints.  The algorithm has been constructed with reference to content
+sniffing algorithms present in popular user agents, an extensive database of
+existing web content, and metrics collected from implementations deployed to a
+sizable number of users <xref target="BarthCaballeroSong2009" />.
+
+<p>Whenever possible, user agents SHOULD NOT employ a content sniffing
+algorithm.  However, if a user agent does employ a content sniffing algorithm,
+the user agent SHOULD use the algorithm in this document because using a
+different content sniffing algorithm than servers expect causes security
+problems.  For example, if a server believes that the client will treat a
+contributed file as an image (and thus treat it as benign), but a user agent
+believes the content to be HTML (and thus privileged to execute any scripts
+contained therein), an attacker might be able to steal the user's
+authentication credentials and mount other cross-site scripting attacks.
+
+
+<h2 id=conventions><span class=secno>2 </span>Conventions</h2>
+
+<P>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document
+are to be interpreted as described in RFC2119.
+
+<p>Requirements phrased in the imperative as part of algorithms (such as "strip
+any leading space characters" or "return false and abort these steps") are to
+be interpreted with the meaning of the key word ("MUST", "SHOULD", "MAY", etc)
+used in introducing the algorithm.
+
+<p>Conformance requirements phrased as algorithms or specific steps can
+be implemented in any manner, so long as the end result is equivalent.
+In particular, the algorithms defined in this specification are
+intended to be easy to understand and are not intended to be
+performant.
+
+
+<h2 id=metadata><span class=secno>3 </span>Metadata</h2>
+
+<p>The explicit media type metadata information associated with sequence
+of octets depends on the protocol that was used to fetch the octets.
+
+<p>For octets received via HTTP, the Content-Type HTTP header field, if
+present, indicates the media type. Let the official-type be the media type
+indicted by the HTTP Content-Type header field, if present.  If the
+Content-Type header field is absent or if its value cannot be interpreted as a
+media type (e.g. because its value doesn't contain a U+002F SOLIDUS ('/')
+character), then there is no official-type.  (Such messages are invalid
+according to RFC2616.
+
+<p>If an HTTP response contains multiple Content-Type header
+fields, the user agent MUST use the textually last Content-Type header
+field to the official-type. For example, if the last
+Content-Type header field contains the value "foo", then there is no
+official media type because "foo" cannot be interpreted as a media
+type (even if the HTTP response contains another Content-Type header
+field that could be interpreted as a media type).
+
+<p>For octets fetched from the file system, user agents should use
+platform-specific conventions (e.g., operating system file extension/type
+mappings) to determine the official-type.
+
+<p class=note>It is essential that file extensions are not used for determining
+the media type for octets fetched over HTTP because, in some cases, file
+extensions can be supplied by malicious parties. For example, most PHP
+installations let the attacker append arbitrary path information to URLs (e.g.,
+http://example.com/foo.php/bar.html) and thereby determine the file extension.
+
+<p>For octets fetched over some other protocols, e.g. FTP RFC0959, there is no
+type information.
+
+<p class=note>Comparisons between media types, as defined by MIME
+specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
+
+
+<h2 id=web-pages><span class=secno>4 </span>Web Pages</h2>
+
+<p>The user agent MUST use the following algorithm to determine the
+<var>sniffed-type</var> of a sequence of octets:
+
+<ol>
+ <li>If the user agent is configured to strictly obey the
+ <var>official-type</var>, then let the <var>sniffed-type</var> be the
+ <var>official-type</var> and
+ abort these steps.
+
+ <li>If the octets were fetched via HTTP and there is an HTTP Content-Type
+ header field and the value of the last such header field has octets that
+ *exactly* match the octets contained in one of the following lines:
+
+ <table>
+  <thead>
+   <tr><th>Bytes in Hexadecimal</th><th>Textual Representation</th></tr>
+  </thead>
+  <tbody>
+   <tr><td>74 65 78 74 2f 70 6c 61 69 6e</td><td>text/plain</td></tr>
+   <tr>
+    <td>
+     74 65 78 74 2f 70 6c 61 69 6e<br>
+     3b 20 63 68 61 72 73 65 74 3d<br>
+     49 53 4f 2d 38 38 35 39 2d 31
+    </td>
+    <td>text/plain; charset=ISO-8859-1</td>
+   </tr>
+   <tr>
+    <td>
+     74 65 78 74 2f 70 6c 61 69 6e<br>
+     3b 20 63 68 61 72 73 65 74 3d<br>
+     69 73 6f 2d 38 38 35 39 2d 31
+    </td>
+    <td>text/plain; charset=iso-8859-1</td>
+   </tr>
+   <tr>
+    <td>
+     74 65 78 74 2f 70 6c 61 69 6e<br>
+     3b 20 63 68 61 72 73 65 74 3d<br>
+     55 54 46 2d 38
+    </td>
+    <td>text/plain; charset=UTF-8</td>
+   </tr>
+  </tbody>
+ </table>
+ ...then jump to the "text or binary" section below.
+
+ <li>If there is no <var>official-type</var>, jump to the "unknown type"
+ section below.
+
+ <li>If the <var>official-type</var> is "unknown/unknown",
+ "application/unknown", or "*/*", jump to the "unknown type" section below.
+
+ <li>If the <var>official-type</var> ends in "+xml", or if it is either
+ "text/xml" or "application/xml", then let the sniffed-type be the
+ official-type and abort these steps.
+
+ <li>If the <var>official-type</var> is an image type supported by the user
+ agent (e.g., "image/png", "image/gif", "image/jpeg", etc), then jump to the
+ "images" section below.
+
+ <li>If the <var>official-type</var> is "text/html", then jump to the "feed or
+ HTML" section below.
+
+ <li>Let the <var>sniffed-type</var> be the <var>official-type</var>.
+</ol>
+
+
+<h2 id=text-or-binary><span class=secno>5 </span>Text or Binary</h2>
+
+      <t>This section defines the *rules for distinguishing if a resource is
+      text or binary*.</t>
+
+      <t>
+      <list style="numbers">
+        <t>The user agent MAY wait for 512 or more octets to arrive.
+        <list style="empty">
+          <t>Note: Waiting for 512 octets octets to arrive causes the
+          text-or-binary algorithm to be deterministic for a given sequence of
+          octets. However, in some cases, the user agent might need to wait an
+          arbitrary length of time for these octets to arrive. User agents
+          SHOULD wait for 512 octets to arrive, when feasible.</t>
+        </list>
+        </t>
+
+        <t>Let n be the smaller of either 512 or the number of octets that
+        have already arrived.</t>
+
+        <t>If n is greater than or equal to 3, and the first 2 or 3 octets
+        match one of the following octet sequences:
+          <figure>
+            <artwork>
+                +----------------------+--------------+
+                | Bytes in Hexadecimal | Description  |
+                +----------------------+--------------+
+                | FE FF                | UTF-16BE BOM |
+                | FF FE                | UTF-16LE BOM |
+                | EF BB BF             | UTF-8 BOM    |
+                +----------------------+--------------+
+            </artwork>
+            <postamble>
+              ...then let the sniffed-type be "text/plain" and abort these
+              steps.
+            </postamble>
+          </figure>
+        </t>
+
+        <t>If none of the first n octets are binary data octets then let the
+        sniffed-type be "text/plain" and abort these steps.
+          <figure>
+            <artwork>
+                      +-------------------------+
+                      | Binary Data Byte Ranges |
+                      +-------------------------+
+                      | 0x00 -- 0x08            |
+                      | 0x0B                    |
+                      | 0x0E -- 0x1A            |
+                      | 0x1C -- 0x1F            |
+                      +-------------------------+
+            </artwork>
+          </figure>
+        </t>
+
+        <t>If the first octets match one of the octet sequences in the
+        "pattern" column of the table in the "unknown type" section below,
+        ignoring any rows whose cell in the "security" column says
+        "scriptable" (or "n/a"), then let the sniffed-type be the type given
+        in the corresponding cell in the "sniffed type" column on that row and
+        abort these steps.
+        <list style="empty">
+          <t>WARNING! It is critical that this step not ever return a
+          scriptable type (e.g., text/html), because otherwise that would
+          allow a privilege escalation attack.</t>
+        </list>
+        </t>
+
+        <t>Otherwise, let the sniffed-type be "application/octet-stream" and
+        abort these steps.</t>
+      </list>
+      </t>
+    </section>
+    <section anchor="unknown-type" title="Unknown Type">
+      <t>
+      <list style="numbers">
+        <t>The user agent MAY wait for 512 or more octets to arrive for the
+        same reason as in the "text or binary" section above.</t>
+
+        <t>Let n be the smaller of either 512 or the number of octets that
+        have already arrived.</t>
+
+        <t>For each row in the table below:
+        <list style="symbols">
+          <t>If the row has no "WS" octets:
+          <list style="numbers">
+            <t>Let pattern-length be the length of the pattern.</t>
+
+            <t>If n is smaller than pattern-length then skip this row.</t>
+
+            <t>Apply the bit-wise "and" operator to the first pattern-length
+            octets and the given mask, and let the result be the
+            masked-data.</t>
+
+            <t>If the octets of the masked-data matches the given pattern
+            octets exactly, then let the sniffed-type be the type given in the
+            cell of the third column in that row and abort these steps.</t>
+          </list>
+          </t>
+
+          <t>If the row has a "WS" octet or a "_>" octet:
+          <list style="numbers">
+            <t>Let index-pattern be an index into the mask and pattern octet
+            strings of the row.</t>
+
+            <t>Let index-stream be an index into the octet stream being
+            examined.</t>
+
+            <t>LOOP: If index-stream points beyond the end of the octet
+            stream, then this row doesn't match and skip this row.</t>
+
+            <t>Examine the index-stream-th octet of the octet stream as
+            follows:
+            <list style="symbols">
+              <t>If the index-pattern-th octet of the pattern is a normal
+              hexadecimal octet and not a "WS" octet or a "_>" octet:
+              <list style="empty">
+                <t>If the bit-wise "and" operator, applied to the
+                index-stream-th octet of the stream and the index-pattern-th
+                octet of the mask, yield a value different than the
+                index-pattern-th octet of the pattern, then skip this row.</t>
+
+                <t>Otherwise, increment index-pattern to the next octet in
+                the mask and pattern and index-stream to the next octet in
+                the octet stream.</t>
+              </list>
+              </t>
+
+              <t>Otherwise, if the index-pattern-th octet of the pattern is a
+              "WS" octet:
+              <list style="empty">
+                <t>"WS" means "whitespace", and allows insignificant
+                whitespace to be skipped when sniffing for a type
+                signature.</t>
+
+                <t>If the index-stream-th octet of the stream is one of 0x09
+                (ASCII TAB), 0x0A (ASCII LF), 0x0C (ASCII FF), 0x0D (ASCII
+                CR), or 0x20 (ASCII space), then increment only the
+                index-stream to the next octet in the octet stream.</t>
+
+                <t>Otherwise, increment only the index-pattern to the next
+                octet in the mask and pattern.</t>
+              </list>
+              </t>
+
+              <t>Otherwise, if the index-pattern-th octet of the pattern is a
+              "_>" octet:
+              <list style="empty">
+                <t>"_>" means "space-or-bracket", and allows HTML tag names to
+                terminate with either a space or a greater than sign.</t>
+
+                <t>If index-stream-th octet of the stream is different than
+                0x20 (ASCII space) or 0x3E (ASCII ">"), then skip this row.</t>
+
+                <t>Otherwise, increment index-pattern to the next octet in
+                the mask and pattern and index-stream to the next octet in
+                the octet stream.</t>
+              </list>
+              </t>
+            </list>
+            </t>
+
+            <t>If index-pattern does not point beyond the end of the mask
+            and pattern octet strings, then jump back to the LOOP step in
+            this algorithm.</t>
+
+            <t>Otherwise, let the sniffed-type be the type given in the cell
+            of the third column in that row and abort these steps.</t>
+          </list>
+          </t>
+        </list>
+        </t>
+
+        <t>If the first n octets match the signature for MP4 (as define in
+        <xref target="mp4-signature" />), then let the sniffed-type be
+        video/mp4 and abort these steps.</t>
+
+        <t>If none of the first n octets are binary data (as defined in the
+        "text or binary" section), then let the sniffed-type be "text/plain"
+        and abort these steps.</t>
+
+        <t>Otherwise, let the sniffed-type be "application/octet-stream" and
+        abort these steps.</t>
+      </list>
+      </t>
+
+      <t>The table used by the above algorithm is:
+      <figure>
+        <artwork>
++-------------------+-------------------+-----------------+------------+
+| Mask in Hex       | Pattern in Hex    | Sniffed Type    | Security   |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF DF DF DF | WS 3C 21 44 4F 43 | text/html       | Scriptable |
+| DF DF DF DF FF DF | 54 59 50 45 20 48 |                 |            |
+| DF DF DF FF       | 54 4D 4C _>       |                 |            |
+| Comment: &lt;!DOCTYPE HTML                                              |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 48 54 4D 4C | text/html       | Scriptable |
+| FF                | _>                |                 |            |
+| Comment: &lt;HTML                                                       |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 48 45 41 44 | text/html       | Scriptable |
+| FF                | _>                |                 |            |
+| Comment: &lt;HEAD                                                       |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 53 43 52 49 | text/html       | Scriptable |
+| DF DF FF          | 50 54 _>          |                 |            |
+| Comment: &lt;SCRIPT                                                     |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 49 46 52 41 | text/html       | Scriptable |
+| DF DF FF          | 4d 45 _>          |                 |            |
+| Comment: &lt;IFRAME                                                     |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF FF FF    | WS 3C 48 31 _>    | text/html       | Scriptable |
+| Comment: &lt;H1                                                         |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF FF | WS 3C 44 49 56 _> | text/html       | Scriptable |
+| Comment: &lt;DIV                                                        |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 46 4f 4e 54 | text/html       | Scriptable |
+| FF                | _>                |                 |            |
+| Comment: &lt;FONT                                                       |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 54 41 42 4c | text/html       | Scriptable |
+| DF FF             | 45 _>             |                 |            |
+| Comment: &lt;TABLE                                                      |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF FF       | WS 3C 41 _>       | text/html       | Scriptable |
+| Comment: &lt;A                                                          |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 53 54 59 4c | text/html       | Scriptable |
+| DF FF             | 45 _>             |                 |            |
+| Comment: &lt;STYLE                                                      |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 54 49 54 4c | text/html       | Scriptable |
+| DF FF             | 45 _>             |                 |            |
+| Comment: &lt;TITLE                                                      |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF FF       | WS 3C 42 _>       | text/html       | Scriptable |
+| Comment: &lt;B                                                          |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF DF DF | WS 3C 42 4f 44 59 | text/html       | Scriptable |
+| FF                | _>                |                 |            |
+| Comment: &lt;BODY                                                       |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF DF FF    | WS 3C 42 52 _>    | text/html       | Scriptable |
+| Comment: &lt;BR                                                         |
++-------------------+-------------------+-----------------+------------+
+| FF FF DF FF       | WS 3C 50 _>       | text/html       | Scriptable |
+| Comment: &lt;P                                                          |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | WS 3C 21 2d 2d _> | text/html       | Scriptable |
+| Comment: &lt;!--                                                        |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | WS 3C 3f 78 6d 6c | text/xml        | Scriptable |
+| Comment: &lt;?xml (Note the case sensitivity and lack of trailing _>)  |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF    | 25 50 44 46 2D    | application/pdf | Scriptable |
+| Comment: The string "%PDF-", the PDF signature.                      |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | 25 21 50 53 2D 41 | application/    | Safe       |
+| FF FF FF FF FF    | 64 6F 62 65 2D    |      postscript |            |
+| Comment: The string "%!PS-Adobe-", the PostScript signature.         |
++-------------------+-------------------+-----------------+------------+
+| FF FF 00 00       | FE FF 00 00       | text/plain      | n/a        |
+| Comment: UTF-16BE BOM                                                |
++-------------------+-------------------+-----------------+------------+
+| FF FF 00 00       | FF FE 00 00       | text/plain      | n/a        |
+| Comment: UTF-16LE BOM                                                |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF 00       | EF BB BF 00       | text/plain      | n/a        |
+| Comment: UTF-8 BOM                                                   |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | 47 49 46 38 37 61 | image/gif       | Safe       |
+| Comment: The string "GIF87a", a GIF signature.                       |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | 47 49 46 38 39 61 | image/gif       | Safe       |
+| Comment: The string "GIF89a", a GIF signature.                       |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | 89 50 4E 47 0D 0A | image/png       | Safe       |
+| FF FF             | 1A 0A             |                 |            |
+| Comment: The PNG signature.                                          |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF          | FF D8 FF          | image/jpeg      | Safe       |
+| Comment: A JPEG SOI marker followed by a octet of another marker.    |
++-------------------+-------------------+-----------------+------------+
+| FF FF             | 42 4D             | image/bmp       | Safe       |
+| Comment: The string "BM", a BMP signature.                           |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF 00 00 | 52 49 46 46 00 00 | image/webp      | Safe       |
+| 00 00 FF FF FF FF | 00 00 57 45 42 50 |                 |            |
+| FF FF             | 56 50             |                 |            |
+| Comment: "RIFF" followed by four bytes, followed by "WEBPVP".        |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF       | 00 00 01 00       | image/vnd.      | Safe       |
+|                   |                   |  microsoft.icon |            |
+| Comment: A Windows Icon signature.                                   |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF    | 4F 67 67 53 00    | application/ogg | Safe       |
+| Comment: An Ogg audio or video signature.                     |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF 00 00 | 52 49 46 46 00 00 | audio/wave      | Safe       |
+| 00 00 FF FF FF FF | 00 00 57 41 56 45 |                 |            |
+| Comment: "RIFF" followed by four bytes, followed by "WAVE".          |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF       | 1A 45 DF A3       | video/webm      | Safe       |
+| Comment: The WebM signature [TODO: Use more octets?]                 |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF FF FF | 52 61 72 20 1A 07 | application/    | Safe       |
+| FF                | 00                | x-rar-compressed|            |
+| Comment: A RAR archive.                                              |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF FF       | 50 4B 03 04       | application/zip | Safe       |
+| Comment: A ZIP archive.                                              |
++-------------------+-------------------+-----------------+------------+
+| FF FF FF          | 1F 8B 08          | application/    | Safe       |
+|                   |                   |          x-gzip |            |
+| Comment: A GZIP archive.                                             |
++-------------------+-------------------+-----------------+------------+
+[TODO: MP3 audio.]
+        </artwork>
+      </figure>
+      </t>
+
+      <t>User agents MAY support additional types if necessary, by implicitly
+      adding to the above table. However, user agents SHOULD NOT not use any
+      other patterns for types already mentioned in the table above because
+      this could then be used for privilege escalation (where, e.g., a server
+      uses the above table to determine that content is not HTML and thus safe
+      from cross-site scripting attacks, but then a user agent detects it as
+      HTML anyway and allows script to execute). In extending this table, user
+      agents SHOULD NOT introduce any privilege escalation
+      vulnerabilities.</t>
+
+      <t>Note: The column marked "security" is used by the algorithm in the
+      "text or binary" section, to avoid sniffing text/plain content as a type
+      that can be used for a privilege escalation attack.</t>
+      
+      <section anchor="mp4-signature" title="Signature for MP4">
+        <t>This section defines whether a sequence of n octets *matches the
+        signature for MP4*.</t>
+
+        <t>If n is less than 4, then the sequence does not match the signature
+        for MP4 and abort these steps.</t>
+
+        <t>Let box-size be the value of the first four octets, interpreted
+        as a 32 bit unsigned, big-endian integer.</t>
+
+        <t>If n is less than box-size or if box-size is not evenly divisible
+        by 4, then the sequence does not match the signature for MP4 and
+        abort these steps.</t>
+
+        <t>If octets 5 through 8 (inclusive) of the sequence are not 0x66 0x74
+        0x79 0x70 (the ASCII string "ftyp"), then the sequence does not match
+        the signature for MP4 and abort these steps.</t>
+
+        <t>For each i from 2 to box-size/4 - 1 (inclusive):
+        <list style="numbers">
+          <t>If i is equal to 3, continue to the next i, if any. (These octets
+          correspond to the minor version number.)</t>
+
+          <t>If octets 4*i through 4*i + 2 (inclusive) of the sequence are
+          0x6D 0x70 0x34 (the ASCII string "mp4"), then the sequence *does*
+          match the signature for MP4 and abort these steps.</t>
+        </list>
+        </t>
+
+        <t>The sequence does not match the signature for MP4.</t>
+      </section>
+    </section>
+    <section anchor="image" title="Image">
+      <t>This section defines the *rules for sniffing images
+      specifically*.</t>
+
+      <t>If the official-type is "image/svg+xml", then let the sniffed-type be
+      the official-type (an XML type) and abort these steps.</t>
+
+      <t>If the first octets match one of the signatures in <xref
+      target="unknown-type" /> for one of the following media types, then let
+      the sniffed-type be the corresponding media type and abort these steps:
+      <list style="symbols">
+        <t>image/gif</t>
+        <t>image/png</t>
+        <t>image/jpeg</t>
+        <t>image/bmp</t>
+        <t>image/vnd.microsoft.icon</t>
+        <t>image/webp</t>
+      </list>
+      </t>
+
+      <t>Otherwise, let the sniffed-type be the official-type
+      and abort these steps.</t>
+    </section>
+    <section anchor="video" title="Video">
+      <t>This section defines the *rules for sniffing videos
+      specifically*.</t>
+
+      <t>If the first octets match one of the signatures in <xref
+      target="unknown-type" /> for one of the following media types, then let
+      the sniffed-type be the corresponding media type and abort these steps:
+      <list style="symbols">
+        <t>video/mp4</t>
+        <t>video/webm</t>
+        <t>application/ogg</t>
+      </list>
+      </t>
+
+      <t>Otherwise, let the sniffed-type be the official-type
+      and abort these steps.</t>
+    </section>
+    <section anchor="fonts" title="Fonts">
+      <t>This section defines the *rules for sniffing fonts
+      specifically*.</t>
+
+      <t>TODO</t>
+
+      <t>Otherwise, let the sniffed-type be the official-type
+      and abort these steps.</t>
+    </section>
+    <section anchor="feed-or-html" title="Feed or HTML">
+      <t>
+      <list style="numbers">
+        <t>The user agent MAY wait for 512 or more octets to arrive for the
+        same reason as in the "text or binary" section above.</t>
+
+        <t>Let s be the stream of octets, and let s[i] represent the octet in
+        s with position i, treating s as zero-indexed (so the first octet is
+        at i=0).</t>
+
+        <t>If at any point this algorithm requires the user agent to determine
+        the value of a octet in s which has not yet arrived, or which is past
+        the first 512 octets, or which is beyond the end of the octet stream,
+        the algorithm stops and the sniffed-type is "text/html".
+        <list style="empty">
+          <t>Note: User agents are allowed, by the first step of this
+          algorithm, to wait until the first 512 octets have arrived.</t>
+        </list>
+        </t>
+
+        <t>Initialize pos to 0.</t>
+
+        <t>If s[0] equals 0xEF, s[1] equals 0xBB, and s[2] equals 0xBF, then
+        set pos to 3. (This skips over a leading UTF-8 BOM, if any.)</t>
+
+        <t>LOOP: Examine s[pos].
+        <list style="symbols">
+          <t>If it equals 0x09 (ASCII tab), 0x20 (ASCII space), 0x0A (ASCII
+          LF), or 0x0D (ASCII CR)
+          <list style="empty">
+            <t>Increase pos by 1 and repeat this step.</t>
+          </list>
+          </t>
+
+          <t>If it equals 0x3C (ASCII "&lt;")
+          <list style="empty">
+            <t>Increase pos by 1 and go to the next step.</t>
+          </list>
+          </t>
+
+          <t>If it is anything else
+          <list style="empty">
+            <t>Let the sniffed-type be "text/html" and abort these steps.</t>
+          </list>
+          </t>
+        </list>
+        </t>
+
+        <t>If the octets with positions pos to pos+2 in s are exactly equal
+        to 0x21, 0x2D, 0x2D respectively (ASCII for "!--"), then:
+        <list style="numbers">
+          <t>Increase pos by 3.</t>
+
+          <t>If the octets with positions pos to pos+2 in s are exactly equal
+          to 0x2D, 0x2D, 0x3E respectively (ASCII for "--&gt;"), then increase
+          pos by 3 and jump back to the previous step (the step labeled loop
+          start) in the overall algorithm in this section.</t>
+
+          <t>Otherwise, increase pos by 1.</t>
+
+          <t>Return to step 2 in these substeps.</t>
+        </list>
+        </t>
+
+        <t>If s[pos] equals 0x21 (ASCII "!"):
+        <list style="numbers">
+          <t>Increase pos by 1.</t>
+
+          <t>If s[pos] equals 0x3E, then increase pos by 1 and jump back to
+          the step labeled LOOP in the overall algorithm in this section.</t>
+
+          <t>Otherwise, return to step 1 in these substeps.</t>
+        </list>
+        </t>
+
+        <t>If s[pos] equals 0x3F (ASCII "?"):
+        <list style="numbers">
+          <t>Increase pos by 1.</t>
+
+          <t>If s[pos] and s[pos+1] equal 0x3F and 0x3E respectively, then
+          increase pos by 1 and jump back to the step labeled LOOP in the
+          overall algorithm in this section.</t>
+
+          <t>Otherwise, return to step 1 in these substeps.</t>
+        </list>
+        </t>
+
+        <t>Otherwise, if the octets in s starting at pos match any of the
+        sequences of octets in the first column of the following table, then
+        the user agent MUST follow the steps given in the corresponding cell
+        in the second column of the same row.
+        <figure>
+          <artwork>
++----------------------+------------------------------------+---------+
+| Bytes in Hexadecimal | Requirement                        | Comment |
++----------------------+------------------------------------+---------+
+| 72 73 73             | Let the sniffed-type be            | rss     |
+|                      | "application/rss+xml" and abort    |         |
+|                      | these steps.                       |         |
++----------------------+------------------------------------+---------+
+| 66 65 65 64          | Let the sniffed-type be            | feed    |
+|                      | "application/atom+xml" and abort   |         |
+|                      | these steps.                       |         |
++----------------------+------------------------------------+---------+
+| 72 64 66 3A 52 44 46 | Continue to the next step in this  | rdf:RDF |
+|                      | algorithm.                         |         |
++----------------------+------------------------------------+---------+
+          </artwork>
+          <postamble>
+            If none of the octet sequences above match the octets in s
+            starting at pos, then let the sniffed-type be "text/html" and
+            abort these steps.
+          </postamble>
+        </figure>
+        </t>
+
+        <t>Initialize RDF-flag to 0.</t>
+
+        <t>Initialize RSS-flag to 0.</t>
+
+        <t>If the octets with positions pos to pos+23 in s are exactly equal
+        to 0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F, 0x70, 0x75, 0x72, 0x6C,
+        0x2E, 0x6F, 0x72, 0x67, 0x2F, 0x72, 0x73, 0x73, 0x2F, 0x31, 0x2E,
+        0x30, 0x2F respectively (ASCII for "http://purl.org/rss/1.0/"), then:
+        <list style="numbers">
+          <t>Increase pos by 23.</t>
+
+          <t>Set RSS-flag to 1.</t>
+        </list>
+        </t>
+
+        <t>If the octets with positions pos to pos+42 in s are exactly equal
+        to 0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F, 0x77, 0x77, 0x77, 0x2E,
+        0x77, 0x33, 0x2E, 0x6F, 0x72, 0x67, 0x2F, 0x31, 0x39, 0x39, 0x39,
+        0x2F, 0x30, 0x32, 0x2F, 0x32, 0x32, 0x2D, 0x72, 0x64, 0x66, 0x2D,
+        0x73, 0x79, 0x6E, 0x74, 0x61, 0x78, 0x2D, 0x6E, 0x73, 0x23
+        respectively (ASCII for
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#"), then:
+        <list style="numbers">
+          <t>Increase pos by 42.</t>
+
+          <t>Set RDF-flag to 1.</t>
+        </list>
+        </t>
+
+        <t>Increase pos by 1.</t>
+
+        <t>If RDF-flag is 1 and RSS-flag is 1, then let the sniffed-type be
+        "application/rss+xml" and abort these steps.</t>
+
+        <t>If pos points beyond the end of the octet stream s, then continue
+        to step 19 of this algorithm.</t>
+
+        <t>Jump back to step 13 of this algorithm.</t>
+
+        <t>Let the sniffed-type be "text/html" and abort these steps.</t>
+      </list>
+      </t>
+
+      <t>For efficiency reasons, implementations might wish to implement this
+      algorithm and the algorithm for detecting the character encoding of HTML
+      documents in parallel.</t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References">
+<reference anchor="RFC2046">
+<front>
+<title abbrev="Media Types">
+Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types
+</title>
+<author initials="N." surname="Freed" fullname="Ned Freed">
+<organization>Innosoft International, Inc.</organization>
+<address>
+<postal>
+<street>1050 East Garvey Avenue South</street>
+<city>West Covina</city>
+<region>CA</region>
+<code>91790</code>
+<country>US</country>
+</postal>
+<phone>+1 818 919 3600</phone>
+<facsimile>+1 818 919 3614</facsimile>
+<email>ned@innosoft.com</email>
+</address>
+</author>
+<author initials="N." surname="Borenstein" fullname="Nathaniel S. Borenstein">
+<organization>First Virtual Holdings</organization>
+<address>
+<postal>
+<street>25 Washington Avenue</street>
+<city>Morristown</city>
+<region>NJ</region>
+<code>07960</code>
+<country>US</country>
+</postal>
+<phone>+1 201 540 8967</phone>
+<facsimile>+1 201 993 3032</facsimile>
+<email>nsb@nsb.fv.com</email>
+</address>
+</author>
+<date year="1996" month="November"/>
+<abstract>
+<t>
+STD 11, RFC 822 defines a message representation protocol specifying considerable detail about US-ASCII message headers, but which leaves the message content, or message body, as flat US-ASCII text. This set of documents, collectively called the Multipurpose Internet Mail Extensions, or MIME, redefines the format of messages to allow for
+</t>
+<t>
+(1) textual message bodies in character sets other than US-ASCII,
+</t>
+<t>
+(2) an extensible set of different formats for non-textual message bodies,
+</t>
+<t>(3) multi-part message bodies, and</t>
+<t>
+(4) textual header information in character sets other than US-ASCII.
+</t>
+<t>
+These documents are based on earlier work documented in RFC 934, STD 11 and RFC 1049, but extends and revises them. Because RFC 822 said so little about message bodies, these documents are largely orthogonal to (rather than a revision of) RFC 822.
+</t>
+<t>
+The initial document in this set, RFC 2045, specifies the various headers used to describe the structure of MIME messages. This second document defines the general structure of the MIME media typing sytem and defines an initial set of media types. The third document, RFC 2047, describes extensions to RFC 822 to allow non-US-ASCII text data in Internet mail header fields. The fourth document, RFC 2048, specifies various IANA registration procedures for MIME-related facilities. The fifth and final document, RFC 2049, describes MIME conformance criteria as well as providing some illustrative examples of MIME message formats, acknowledgements, and the bibliography.
+</t>
+<t>
+These documents are revisions of RFCs 1521 and 1522, which themselves were revisions of RFCs 1341 and 1342. An appendix in RFC 2049 describes differences and changes from previous versions.
+</t>
+</abstract>
+</front>
+<seriesInfo name="RFC" value="2046"/>
+<format type="TXT" octets="105854" target="http://www.rfc-editor.org/rfc/rfc2046.txt"/>
+</reference>
+      <reference anchor="RFC2119">
+        <front>
+          <title abbrev="RFC Key Words">
+            Key words for use in RFCs to Indicate Requirement Levels
+          </title>
+          <author initials="S." surname="Bradner" fullname="Scott Bradner">
+            <organization>Harvard University</organization>
+            <address>
+              <postal>
+                <street>1350 Mass. Ave.</street>
+                <street>Cambridge</street>
+                <street>MA 02138</street>
+              </postal>
+              <phone>- +1 617 495 3864</phone>
+              <email>sob@harvard.edu</email>
+            </address>
+          </author>
+          <date year="1997" month="March"/>
+          <area>General</area>
+          <keyword>keyword</keyword>
+          <abstract>
+            <t>In many standards track documents several words are used to
+            signify the requirements in the specification. These words are
+            often capitalized. This document defines these words as they
+            should be interpreted in IETF documents. Authors who follow these
+            guidelines should incorporate this phrase near the beginning of
+            their document:
+            <list>
+              <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+              NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+              "OPTIONAL" in this document are to be interpreted as described
+              in RFC 2119.</t>
+            </list>
+            </t>
+            <t>Note that the force of these words is modified by the
+            requirement level of the document in which they are used.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="BCP" value="14"/>
+        <seriesInfo name="RFC" value="2119"/>
+        <format type="TXT" octets="4723"
+          target="ftp://ftp.isi.edu/in-notes/rfc2119.txt"/>
+        <format type="HTML" octets="17491"
+          target="http://xml.resource.org/public/rfc/html/rfc2119.html"/>
+        <format type="XML" octets="5777"
+          target="http://xml.resource.org/public/rfc/xml/rfc2119.xml"/>
+      </reference>
+      <reference anchor="RFC2616">
+        <front>
+          <title>Hypertext Transfer Protocol -- HTTP/1.1</title>
+          <author initials="R." surname="Fielding" fullname="R. Fielding">
+            <organization>University of California, Irvine</organization>
+            <address><email>fielding@ics.uci.edu</email></address>
+          </author>
+          <author initials="J." surname="Gettys" fullname="J. Gettys">
+            <organization>W3C</organization>
+            <address><email>jg@w3.org</email></address>
+          </author>
+          <author initials="J." surname="Mogul" fullname="J. Mogul">
+            <organization>Compaq Computer Corporation</organization>
+            <address><email>mogul@wrl.dec.com</email></address>
+          </author>
+          <author initials="H." surname="Frystyk" fullname="H. Frystyk">
+            <organization>MIT Laboratory for Computer Science</organization>
+            <address><email>frystyk@w3.org</email></address>
+          </author>
+          <author initials="L." surname="Masinter" fullname="L. Masinter">
+            <organization>Xerox Corporation</organization>
+            <address><email>masinter@parc.xerox.com</email></address>
+          </author>
+          <author initials="P." surname="Leach" fullname="P. Leach">
+            <organization>Microsoft Corporation</organization>
+            <address><email>paulle@microsoft.com</email></address>
+          </author>
+          <author initials="T." surname="Berners-Lee"
+                  fullname="T. Berners-Lee">
+            <organization>W3C</organization>
+            <address><email>timbl@w3.org</email></address>
+          </author>
+          <date month="June" year="1999"/>
+        </front>
+        <seriesInfo name="RFC" value="2616"/>
+      </reference>
+    </references>
+    <references title="Informative References">
+      <reference anchor="RFC0959">
+      <front>
+        <title abbrev="File Transfer Protocol">File Transfer Protocol</title>
+        <author initials="J." surname="Postel" fullname="J. Postel">
+          <organization>Information Sciences Institute (ISI)</organization>
+        </author>
+        <author initials="J." surname="Reynolds" fullname="J. Reynolds">
+          <organization/>
+        </author>
+        <date year="1985" day="1" month="October"/>
+      </front>
+      <seriesInfo name="STD" value="9"/>
+      <seriesInfo name="RFC" value="959"/>
+      <format type="TXT" octets="147316" target="http://www.rfc-editor.org/rfc/rfc959.txt"/>
+      </reference>
+      <reference anchor="BarthCaballeroSong2009" target="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">
+         <front>
+           <title>Secure Content Sniffing for Web Browsers, or How to Stop
+           Papers from Reviewing Themselves</title>
+           <author initials="A." surname="Barth" fullname="Adam Barth">
+             <organization>UC Berkeley</organization>
+           </author>
+           <author initials="J." surname="Caballero" fullname="Juan Caballero">
+             <organization>UC Berkeley and CMU</organization>
+           </author>
+           <author initials="D." surname="Song" fullname="Dawn Song">
+             <organization>UC Berkeley</organization>
+           </author>
+           <date year="2009"/>
+         </front>
+      </reference>
+    </references>
+    <!--
+    TODO:
+      * Transcribe the tables into C and auto generate the tables.
+    -->
+    <!-- Ack Alfred HÎnes, Mark Pilgrim -->
+  </back>
+</rfc>
+
 
 
 <h2 class=no-num id=acknowledgements>Acknowledgements</h2>
