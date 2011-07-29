@@ -1013,48 +1013,80 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <seriesInfo name="RFC" value="6265" />
         <format type="TXT" octets="79724" target="http://www.rfc-editor.org/rfc/rfc6265.txt" />
       </reference>
-      <reference anchor="WEBSOCKETS" target="http://tools.ietf.org/html/draft-ietf-hybi-thewebsocketprotocol">
+      <reference anchor="WEBSOCKETS">
         <front>
-          <title>
-            The WebSocket protocol
-          </title>
-          <author initials="I." surname="Fette" fullname="Ian Fette">
-            <organization />
+          <title>The WebSocket protocol</title>
+          <author initials="I" surname="Fette" fullname="Ian Fette">
+            <organization/>
           </author>
+          <date month="June" day="13" year="2011"/>
+          <abstract>
+            <t>The WebSocket protocol enables two-way communication between a
+            client running untrusted code running in a controlled environment
+            to a remote host that has opted-in to communications from that
+            code. The security model used for this is the Origin-based security
+            model commonly used by Web browsers. The protocol consists of an
+            opening handshake followed by basic message framing, layered over
+            TCP. (In theory, any transport protocol could be used so long as it
+            provides for reliable transport, is byte clean, and supports
+            relatively large message sizes. However, for this document, we
+            consider only TCP.) The goal of this technology is to provide a
+            mechanism for browser- based applications that need two-way
+            communication with servers that does not rely on opening multiple
+            HTTP connections (e.g. using XMLHttpRequest or &lt;iframe&gt;s and long
+            polling). Please send feedback to the hybi@ietf.org mailing list.</t>
+          </abstract>
         </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-hybi-thewebsocketprotocol-09"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-hybi-thewebsocketprotocol-09.txt"/>
       </reference>
-      <reference anchor="SNIFF" target="http://tools.ietf.org/html/draft-ietf-websec-mime-sniff">
+      <reference anchor="SNIFF">
         <front>
-          <title>
-            Media Type Sniffing
-          </title>
-          <author initials="A." surname="Barth" fullname="Adam Barth">
-            <organization />
+          <title>Media Type Sniffing</title>
+          <author initials="A" surname="Barth" fullname="Adam Barth">
+            <organization/>
           </author>
-          <author initials="I." surname="Hickson" fullname="Ian Hickson">
-            <organization />
+          <author initials="I" surname="Hickson" fullname="Ian Hickson">
+            <organization/>
           </author>
+          <date month="May" day="7" year="2011"/>
+          <abstract>
+            <t>Many web servers supply incorrect Content-Type header fields
+            with their HTTP responses. In order to be compatible with these
+            servers, user agents consider the content of HTTP responses as well
+            as the Content-Type header fields when determining the effective
+            media type of the response. This document describes an algorithm
+            for determining the effective media type of HTTP responses that
+            balances security and compatibility considerations. Please send
+            feedback on this draft to websec@ietf.org.</t>
+          </abstract>
         </front>
+        <seriesInfo name="Internet-Draft" value="draft-ietf-websec-mime-sniff-03"/>
+        <format type="TXT" target="http://www.ietf.org/internet-drafts/draft-ietf-websec-mime-sniff-03.txt"/>
       </reference>
-      <reference anchor="HTML" target="http://www.w3.org/TR/html5/">
-        <front>
-          <title>
-            HTML5: A vocabulary and associated APIs for HTML and XHTML
-          </title>
-          <author initials="I." surname="Hickson" fullname="Ian Hickson">
-            <organization />
-          </author>
-        </front>
+      <reference anchor="HTML" target="http://www.w3.org/TR/2011/WD-html5-20110525/">
+       <front>
+         <title>HTML5</title>
+         <author fullname="Ian Hickson" surname="Hickson" initials="I."/>
+         <date year="2011" month="May" day="25"/>
+       </front>
+       <seriesInfo name="W3C Working Draft" value="WD-html5-20110525"/>
+       <annotation>
+         Latest version available at
+         <eref target="http://www.w3.org/TR/html5/"/>.
+       </annotation>
       </reference>
-      <reference anchor="CORS" target="http://www.w3.org/TR/cors/">
-        <front>
-          <title>
-            Cross-Origin Resource Sharing
-          </title>
-          <author initials="A." surname="van Kesteren" fullname="Anne van Kesteren">
-            <organization />
-          </author>
-        </front>
+      <reference anchor="CORS" target="http://www.w3.org/TR/2010/WD-cors-20100727/">
+       <front>
+         <title>Cross-Origin Resource Sharing</title>
+         <author fullname="Anne van Kesteren" surname="van Kesteren" initials="A."/>
+         <date year='2010' month='July' day='27'/>
+       </front>
+       <seriesInfo name="W3C Working Draft" value="WD-cors-20100727"/>
+       <annotation>
+         Latest version available at
+         <eref target="http://www.w3.org/TR/cors/"/>.
+       </annotation>
       </reference>
       <reference anchor="CSRF" target="http://portal.acm.org/citation.cfm?id=1455770.1455782">
         <front>
