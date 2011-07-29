@@ -119,7 +119,8 @@ obs-fold       = CRLF
           target="RFC5891" /> or <xref target="RFC3490" /> (see <xref
           target="idna-migration" /> of this specification)</t>
 
-          <t>Convert the labels to lower case.</t>
+          <t>Convert the labels to lower case (using the i;ascii-casemap
+          collation defined in <xref target="RFC4790"/>).</t>
 
           <t>Concatenate the labels, separating each label from the next
           with a %x2E (".") character.</t>
@@ -858,6 +859,36 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </front>
         <seriesInfo name="BCP" value="90" />
         <seriesInfo name="RFC" value="3864" />
+      </reference>
+      <reference anchor="RFC4790">
+        <front>
+          <title>Internet Application Protocol Collation Registry</title>
+          <author initials="C." surname="Newman" fullname="C. Newman">
+            <organization />
+          </author>
+          <author initials="M." surname="Duerst" fullname="M. Duerst">
+            <organization />
+          </author>
+          <author initials="A." surname="Gulbrandsen"
+                  fullname="A. Gulbrandsen">
+            <organization />
+          </author>
+          <date year="2007" month="March" />
+          <abstract>
+            <t>Many Internet application protocols include string-based
+            lookup, searching, or sorting operations. However, the problem
+            space for searching and sorting international strings is large,
+            not fully explored, and is outside the area of expertise for the
+            Internet Engineering Task Force (IETF). Rather than attempt to
+            solve such a large problem, this specification creates an
+            abstraction framework so that application protocols can precisely
+            identify a comparison function, and the repertoire of comparison
+            functions can be extended in the future.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="RFC" value="4790" />
+        <format type="TXT" octets="55591"
+                target="http://www.rfc-editor.org/rfc/rfc4790.txt" />
       </reference>
       <reference anchor="RFC5234">
         <front>
