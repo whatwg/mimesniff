@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-ietf-websec-origin-02" category="std">
+<rfc ipr="trust200902" docName="draft-ietf-websec-origin-03" category="std">
   <front>
     <title abbrev="The Web Origin Concept">
       The Web Origin Concept
@@ -16,7 +16,7 @@
         <uri>http://www.adambarth.com/</uri>
       </address>
     </author>
-    <date month="June" year="2011" />
+    <date month="August" year="2011" />
     <workgroup>websec</workgroup>
     <abstract>
       <t>This document defines the concept of an "origin", which is often used
