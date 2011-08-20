@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-ietf-websec-origin-03" category="std">
+<rfc ipr="trust200902" docName="draft-ietf-websec-origin-04pre" category="std">
   <front>
     <title abbrev="The Web Origin Concept">
       The Web Origin Concept
@@ -242,7 +242,6 @@ obs-fold       = CRLF
 http://example.com/
 http://example.com:80/
 http://example.com/path/file
-http://example.com/
             ]]>
             </artwork>
           </figure>
@@ -465,15 +464,16 @@ http://ietf.org/
       <t>Two URIs are the same-origin if their origins are the same.
       <list>
         <t>NOTE: A URI is not necessarily same-origin with itself. For
-        example, a data URI is not same-origin with itself because data URIs
-        do not use a server-based naming authority and therefore have globally
-        unique identifiers as origins.</t>
+        example, a data URI <xref target="RFC2397" /> is not same-origin with
+        itself because data URIs do not use a server-based naming authority
+        and therefore have globally unique identifiers as origins.</t>
       </list>
       </t>
     </section>
     <section anchor="serialization" title="Serializing Origins">
-      <t>This section defines how to serialize an origin to a unicode string
-      and to an ASCII string.</t>
+      <t>This section defines how to serialize an origin to a unicode <xref
+      target="RFC5198" /> string and to an ASCII <xref target="RFC20" />
+      string.</t>
 
       <section anchor="unicode-serialization"
                title="Unicode Serialization of an Origin">
