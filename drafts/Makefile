@@ -1,4 +1,4 @@
-all: origin.txt sniff.txt
+all: origin.txt
 
 push:
 	scp sniff.html adambarth@mimesniff.spec.whatwg.org:~/mimesniff.spec.whatwg.org

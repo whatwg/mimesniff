@@ -730,6 +730,21 @@ serialized-origin   = scheme "://" host [ ":" port ]
   <back>
     <references title="Normative References">
       <!-- http://xml.resource.org/public/rfc/bibxml/reference.RFC.XXXX.xml -->
+      <reference anchor="RFC20">
+        <front>
+          <title>ASCII format for network interchange</title>
+          <author initials="V." surname="Cerf" fullname="Vint Cerf">
+            <organization>University California Los Angeles (UCLA)</organization>
+          </author>
+          <date year="1969" day="16" month="October"/>
+          <abstract>
+            <t>For concreteness, we suggest the use of standard 7-bit ASCII
+            embedded in an 8 bit byte whose high order bit is always 0.</t>
+          </abstract>
+        </front>
+        <seriesInfo name="RFC" value="20"/>
+        <format type="TXT" octets="18504" target="http://www.rfc-editor.org/rfc/rfc20.txt"/>
+      </reference>
       <reference anchor="RFC2119">
         <front>
           <title abbrev="RFC Key Words">
@@ -890,6 +905,28 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <format type="TXT" octets="55591"
                 target="http://www.rfc-editor.org/rfc/rfc4790.txt" />
       </reference>
+      <reference anchor="RFC5198">
+        <front>
+          <title>Unicode Format for Network Interchange</title>
+          <author initials="J." surname="Klensin" fullname="J. Klensin">
+            <organization/>
+          </author>
+          <author initials="M." surname="Padlipsky" fullname="M. Padlipsky">
+            <organization/>
+          </author>
+          <date year="2008" month="March"/>
+          <abstract>
+            <t>The Internet today is in need of a standardized form for the
+            transmission of internationalized "text" information, paralleling
+            the specifications for the use of ASCII that date from the early
+            days of the ARPANET. This document specifies that format, using
+            UTF-8 with normalization and specific line-ending sequences.
+            [STANDARDS-TRACK]</t>
+          </abstract>
+        </front>
+        <seriesInfo name="RFC" value="5198"/>
+        <format type="TXT" octets="45708" target="http://www.rfc-editor.org/rfc/rfc5198.txt"/>
+      </reference>
       <reference anchor="RFC5234">
         <front>
           <title abbrev="ABNF for Syntax Specifications">
@@ -972,6 +1009,30 @@ serialized-origin   = scheme "://" host [ ":" port ]
           <date year="2008" month="August" />
         </front>
         <seriesInfo name="RFC" value="5246" />
+      </reference>
+      <reference anchor="RFC2397">
+        <front>
+          <title abbrev="The &quot;data&quot; URL scheme">The "data" URL scheme</title>
+          <author initials="L." surname="Masinter" fullname="Larry Masinter">
+            <organization>Xerox Palo Alto Research Center</organization>
+            <address>
+              <postal>
+                <street>3333 Coyote Hill Road</street>
+                <street>Palo Alto</street>
+                <street>CA 94304</street>
+              </postal>
+              <email>masinter@parc.xerox.com</email>
+            </address>
+          </author>
+          <date year="1998" month="August"/>
+          <area>Applications</area>
+          <keyword>URL</keyword>
+          <keyword>uniform resource</keyword>
+        </front>
+        <seriesInfo name="RFC" value="2397"/>
+        <format type="TXT" octets="9514" target="http://www.rfc-editor.org/rfc/rfc2397.txt"/>
+        <format type="HTML" octets="20874" target="http://xml.resource.org/public/rfc/html/rfc2397.html"/>
+        <format type="XML" octets="9931" target="http://xml.resource.org/public/rfc/xml/rfc2397.xml"/>
       </reference>
       <reference anchor="RFC2817">
         <front>
