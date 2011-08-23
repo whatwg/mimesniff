@@ -1227,10 +1227,10 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </reference>
     </references>
     <section title="Acknowledgements">
-      We would like to thank Lucas Adamski, Tobias Gondrom, Ian Hickson, Anne
-      van Kesteren, Collin Jackson, Larry Masinter, Alexey Melnikov, Mark
+      <t>We would like to thank Lucas Adamski, Tobias Gondrom, Ian Hickson,
+      Anne van Kesteren, Collin Jackson, Larry Masinter, Alexey Melnikov, Mark
       Nottingham, Julian Reschke, Jonas Sicking, Sid Stamm, Daniel Veditz, and
-      Chris Weber for their valuable feedback on this document.
+      Chris Weber for their valuable feedback on this document.</t>
     </section>
   </back>
 </rfc>
