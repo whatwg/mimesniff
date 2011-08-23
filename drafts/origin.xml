@@ -472,7 +472,7 @@ http://ietf.org/
     </section>
     <section anchor="serialization" title="Serializing Origins">
       <t>This section defines how to serialize an origin to a unicode <xref
-      target="RFC5198" /> string and to an ASCII <xref target="RFC20" />
+      target="Unicode52" /> string and to an ASCII <xref target="RFC20" />
       string.</t>
 
       <section anchor="unicode-serialization"
@@ -945,27 +945,17 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <format type="TXT" octets="55591"
                 target="http://www.rfc-editor.org/rfc/rfc4790.txt" />
       </reference>
-      <reference anchor="RFC5198">
+      <reference anchor="Unicode52"
+                 target="http://www.unicode.org/versions/Unicode5.2.0/">
         <front>
-          <title>Unicode Format for Network Interchange</title>
-          <author initials="J." surname="Klensin" fullname="J. Klensin">
-            <organization/>
+          <title>The Unicode Standard, Version 5.1.0</title>
+          <author>
+            <organization>The Unicode Consortium</organization>
           </author>
-          <author initials="M." surname="Padlipsky" fullname="M. Padlipsky">
-            <organization/>
-          </author>
-          <date year="2008" month="March"/>
-          <abstract>
-            <t>The Internet today is in need of a standardized form for the
-            transmission of internationalized "text" information, paralleling
-            the specifications for the use of ASCII that date from the early
-            days of the ARPANET. This document specifies that format, using
-            UTF-8 with normalization and specific line-ending sequences.
-            [STANDARDS-TRACK]</t>
-          </abstract>
+          <date year="2008" />
         </front>
-        <seriesInfo name="RFC" value="5198"/>
-        <format type="TXT" octets="45708" target="http://www.rfc-editor.org/rfc/rfc5198.txt"/>
+        <seriesInfo name="Unicode 5.0.0, Boston, MA, Addison-Wesley" value="ISBN 0-321-48091-0" />
+        <seriesInfo name="as amended by" value="Unicode 5.1.0     http://www.unicode.org/versions/Unicode5.1.0/" />
       </reference>
       <reference anchor="RFC5234">
         <front>
