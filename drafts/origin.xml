@@ -154,7 +154,7 @@ obs-fold       = CRLF
         </figure>
         </t>
 
-        <t>When a user agent process this element, the user agent will fetch
+        <t>When a user agent processes this element, the user agent will fetch
         the script at the designated URI and execute the script with the
         privileges of the document. In this way, the document grants all the
         privileges it has to the resource designated by the URI. In essence,
