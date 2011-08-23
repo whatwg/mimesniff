@@ -62,9 +62,10 @@
     </section>
     <section anchor="conventions" title="Conventions">
       <section anchor="conformance-criteria" title="Conformance Criteria">
-        <t>The keywords "MUST", "MUST NOT", "REQUIRED", "SHOULD", "SHOULD
-        NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
-        interpreted as described in <xref target="RFC2119"/>.</t>
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+        document are to be interpreted as described in <xref
+        target="RFC2119"/>.</t>
 
         <t>Requirements phrased in the imperative as part of algorithms (such
         as "strip any leading space characters" or "return false and abort
