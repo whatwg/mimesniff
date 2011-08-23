@@ -397,9 +397,9 @@ http://ietf.org/
     <section anchor="origin-of-a-uri" title="Origin of a URI">
       <t>The origin of a URI is the value computed by the following algorithm:
       <list style="numbers">
-        <t>If the URI does not use a server-based naming authority, or if the
-        URI is not an absolute URI, then return a globally unique
-        identifier.</t>
+        <t>If the URI does not use a hierarchical element as a naming
+        authority (see <xref target="RFC3986" />, Section 3.2), or if the URI
+        is not an absolute URI, then return a globally unique identifier.</t>
 
         <t>Let uri-scheme be the scheme component of the URI, converted to
         lowercase.</t>
@@ -874,6 +874,46 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </front>
         <seriesInfo name="BCP" value="90" />
         <seriesInfo name="RFC" value="3864" />
+      </reference>
+      <reference anchor="RFC3986">
+        <front>
+          <title abbrev="URI Generic Syntax">Uniform Resource Identifier (URI): Generic Syntax</title>
+          <author initials="T." surname="Berners-Lee" fullname="Tim Berners-Lee">
+          <organization abbrev="W3C/MIT">World Wide Web Consortium</organization>
+        </author>
+        <author initials="R." surname="Fielding" fullname="Roy T. Fielding">
+          <organization abbrev="Day Software">Day Software</organization>
+        </author>
+        <author initials="L." surname="Masinter" fullname="Larry Masinter">
+          <organization abbrev="Adobe Systems">Adobe Systems Incorporated</organization>
+        </author>
+        <date year="2005" month="January"/>
+        <area>Applications</area>
+        <keyword>uniform resource identifier</keyword>
+        <keyword>URI</keyword>
+        <keyword>URL</keyword>
+        <keyword>URN</keyword>
+        <keyword>WWW</keyword>
+        <keyword>resource</keyword>
+        <abstract>
+          <t>A Uniform Resource Identifier (URI) is a compact sequence of
+          characters that identifies an abstract or physical resource. This
+          specification defines the generic URI syntax and a process for
+          resolving URI references that might be in relative form, along with
+          guidelines and security considerations for the use of URIs on the
+          Internet. The URI syntax defines a grammar that is a superset of all
+          valid URIs, allowing an implementation to parse the common
+          components of a URI reference without knowing the scheme-specific
+          requirements of every possible identifier. This specification does
+          not define a generative grammar for URIs; that task is performed by
+          the individual specifications of each URI scheme.</t>
+        </abstract>
+        </front>
+        <seriesInfo name="STD" value="66"/>
+        <seriesInfo name="RFC" value="3986"/>
+        <format type="TXT" octets="141811" target="http://www.rfc-editor.org/rfc/rfc3986.txt"/>
+        <format type="HTML" octets="213584" target="http://xml.resource.org/public/rfc/html/rfc3986.html"/>
+        <format type="XML" octets="163534" target="http://xml.resource.org/public/rfc/xml/rfc3986.xml"/>
       </reference>
       <reference anchor="RFC4790">
         <front>
