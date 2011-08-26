@@ -25,7 +25,7 @@
       malicious web site operators from interfering with the operation of
       benign web sites. In addition to outlining the principles that underlie
       the concept of origin, this document defines how to determine the origin of
-      a URI, how to serialize an origin into a string, and an HTTP header,
+      a URI, how to serialize an origin into a string, and an HTTP header field,
       named "Origin", that indicates which origins are associated with an HTTP
       request.</t>
     </abstract>
@@ -549,10 +549,10 @@ http://ietf.org/
       </section>
     </section>
     <section anchor="origin-header" title="The HTTP Origin header">
-      <t>This section defines the HTTP Origin header.</t>
+      <t>This section defines the HTTP Origin header field.</t>
 
       <section anchor="origin-header-syntax" title="Syntax">
-        <t>The Origin header has the following syntax:
+        <t>The Origin header field has the following syntax:
         <figure>
           <artwork type="abnf">
             <![CDATA[
@@ -567,28 +567,28 @@ serialized-origin   = scheme "://" host [ ":" port ]
         </t>
       </section>
       <section anchor="origin-header-semantics" title="Semantics">
-        <t>When included in an HTTP request, the Origin header indicates the
-        origin(s) that "caused" the user agent to issue the request, as
+        <t>When included in an HTTP request, the Origin header field indicates
+        the origin(s) that "caused" the user agent to issue the request, as
         defined by the API that triggered the user agent to issue the
         request.</t>
 
         <t>For example, consider a user agent that executes scripts on behalf
         of origins. If one of those scripts causes the user agent to issue an
-        HTTP request, the user agent might wish to use the Origin header to
-        inform the server of the security context in which the script was
+        HTTP request, the user agent might wish to use the Origin header field
+        to inform the server of the security context in which the script was
         executing when it caused the user agent to issue the request.</t>
 
         <t>In some cases, a number of origins contribute to causing the user
         agents to issue an HTTP request. In those cases, the user agent can
-        list all the origins in the Origin header. For example, if the HTTP
-        request was initially issued by one origin but then later redirected
-        by another origin, the user agent might wish to inform the server that
-        two origins were involved in causing the user agent to issue the
-        request.</t>
+        list all the origins in the Origin header field. For example, if the
+        HTTP request was initially issued by one origin but then later
+        redirected by another origin, the user agent might wish to inform the
+        server that two origins were involved in causing the user agent to
+        issue the request.</t>
       </section>
       <section anchor="origin-header-ua-requirements"
                title="User Agent Requirements">
-        <t>The user agent MAY include an Origin header in any HTTP
+        <t>The user agent MAY include an Origin header field in any HTTP
         request.</t>
 
         <t>The user agent MUST NOT include more than one Origin header field
@@ -596,16 +596,16 @@ serialized-origin   = scheme "://" host [ ":" port ]
 
         <t>Whenever a user agent issues an HTTP request from a
         "privacy-sensitive" context, the user agent MUST send the value "null"
-        in the Origin header.
+        in the Origin header field.
         <list>
           <t>NOTE: This document does not define the notion of a
           privacy-sensitive context. Applications that generate HTTP requests
           can designate contexts as privacy-sensitive to impose restrictions
-          on how user agents generate Origin headers.</t>
+          on how user agents generate Origin header fields.</t>
         </list>
         </t>
 
-        <t>When generating an Origin header, the user agent MUST meet the
+        <t>When generating an Origin header field, the user agent MUST meet the
         following requirements:
         <list style="symbols">
           <t>Each of the serialized-origin productions in the grammar MUST be
