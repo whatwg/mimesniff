@@ -623,7 +623,7 @@ serialized-origin   = scheme "://" host [ ":" port ]
       <t>The same-origin policy is one of the cornerstones of security for
       many user agents, including web browsers. Historically, some user agents
       tried other security models, including taint tracking and exfiltration
-      prevention, but those model proved difficult to implement at the
+      prevention, but those models proved difficult to implement at the
       time (although there has been recent interest in reviving some of these
       ideas).</t>
 
