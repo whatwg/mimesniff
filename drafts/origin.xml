@@ -270,12 +270,12 @@ http://ietf.org/
       <section anchor="authority" title="Authority">
         <t>Although user agents group URIs into origins, not every resource in
         an origin carries the same authority (in the security sense of the
-        word "authority", not in the RFC 3986 sense). For example, an image is
-        passive content and, therefore, carries no authority, meaning the
-        image has no access to the objects and resources available to its
-        origin. By contrast, an HTML document carries the full authority of
-        its origin and scripts within (or imported into) the document can
-        access every resource in its origin.</t>
+        word "authority", not in the <xref target="RFC3986" /> sense). For
+        example, an image is passive content and, therefore, carries no
+        authority, meaning the image has no access to the objects and resources
+        available to its origin. By contrast, an HTML document carries the full
+        authority of its origin and scripts within (or imported into) the
+        document can access every resource in its origin.</t>
 
         <t>User agent determine how much authority to grant a resource by
         examining its media type. For example, resources with a media type of
@@ -1227,10 +1227,11 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </reference>
     </references>
     <section title="Acknowledgements">
-      <t>We would like to thank Lucas Adamski, Tobias Gondrom, Ian Hickson,
-      Anne van Kesteren, Collin Jackson, Larry Masinter, Alexey Melnikov, Mark
-      Nottingham, Julian Reschke, Jonas Sicking, Sid Stamm, Daniel Veditz, and
-      Chris Weber for their valuable feedback on this document.</t>
+      <t>We would like to thank Lucas Adamski, Miguel A. Garcia, Tobias
+      Gondrom, Ian Hickson, Anne van Kesteren, Collin Jackson, Larry Masinter,
+      Alexey Melnikov, Mark Nottingham, Julian Reschke, Jonas Sicking, Sid
+      Stamm, Daniel Veditz, and Chris Weber for their valuable feedback on this
+      document.</t>
     </section>
   </back>
 </rfc>
