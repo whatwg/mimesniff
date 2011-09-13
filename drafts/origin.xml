@@ -548,7 +548,7 @@ http://ietf.org/
         </t>
       </section>
     </section>
-    <section anchor="origin-header" title="The HTTP Origin header">
+    <section anchor="origin-header" title="The HTTP Origin header field">
       <t>This section defines the HTTP Origin header field.</t>
 
       <section anchor="origin-header-syntax" title="Syntax">
