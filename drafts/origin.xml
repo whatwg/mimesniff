@@ -277,7 +277,7 @@ http://ietf.org/
         authority of its origin and scripts within (or imported into) the
         document can access every resource in its origin.</t>
 
-        <t>User agent determine how much authority to grant a resource by
+        <t>User agents determine how much authority to grant a resource by
         examining its media type. For example, resources with a media type of
         image/png are treated as images and resources with a media type of
         text/html are treated as HTML documents.</t>
@@ -416,8 +416,8 @@ http://ietf.org/
           local files such wide privileges can lead to privilege escalation
           attacks. Some user agents have had success granting local files
           directory-based privileges, but this approach has not been widely
-          adopted. Other user agent use a globally unique identifier each file
-          URI, which is the most secure option.</t>
+          adopted. Other user agents use globally unique identifiers for each
+          file URI, which is the most secure option.</t>
         </list>
         </t>
 
@@ -438,12 +438,6 @@ http://ietf.org/
         <t>Return the triple (uri-scheme, uri-host, uri-port).</t>
       </list>
       </t>
-
-      <t>Implementations MAY define other types of origins in addition to the
-      scheme/host/port triple type defined above. For example, an
-      implementation might define an origin based on a public key or an
-      implementation might append additional "sandbox" bits to a
-      scheme/host/port triple.</t>
     </section>
     <section anchor="same-origin" title="Comparing Origins">
       <t>Two origins are "the same" if, and only if, they are identical. In
@@ -574,17 +568,17 @@ serialized-origin   = scheme "://" host [ ":" port ]
 
         <t>For example, consider a user agent that executes scripts on behalf
         of origins. If one of those scripts causes the user agent to issue an
-        HTTP request, the user agent might wish to use the Origin header field
-        to inform the server of the security context in which the script was
-        executing when it caused the user agent to issue the request.</t>
+        HTTP request, the user agent MAY use the Origin header field to inform
+        the server of the security context in which the script was executing
+        when it caused the user agent to issue the request.</t>
 
         <t>In some cases, a number of origins contribute to causing the user
-        agents to issue an HTTP request. In those cases, the user agent can
+        agents to issue an HTTP request. In those cases, the user agent MAY
         list all the origins in the Origin header field. For example, if the
         HTTP request was initially issued by one origin but then later
-        redirected by another origin, the user agent might wish to inform the
-        server that two origins were involved in causing the user agent to
-        issue the request.</t>
+        redirected by another origin, the user agent MAY inform the server that
+        two origins were involved in causing the user agent to issue the
+        request.</t>
       </section>
       <section anchor="origin-header-ua-requirements"
                title="User Agent Requirements">
@@ -664,8 +658,8 @@ serialized-origin   = scheme "://" host [ ":" port ]
         (e.g., "example.com" instead of "www.example.com"). This practice is
         problematic for a number of reasons, and is NOT RECOMMENDED:
         <list style="numbers">
-          <t>The notion of a "registry-controlled" domain a function of human
-          practice surrounding the DNS rather than a property of the DNS
+          <t>The notion of a "registry-controlled" domain is a function of
+          human practice surrounding the DNS rather than a property of the DNS
           itself. For example, many municipalities in Japan run public
           registries quite deep in the DNS hierarchy. There are widely used
           "public suffix lists", but these lists are difficult to keep up to
@@ -681,14 +675,13 @@ serialized-origin   = scheme "://" host [ ":" port ]
           com.example.www).</t>
         </list>
         At best, using registry-controlled domains is URI-scheme- and
-        implementation-specific. At worse, differences between URI schemes and
+        implementation-specific. At worst, differences between URI schemes and
         implementations can lead to vulnerabilities.</t>
       </section>
       <section anchor="ambient-authority" title="Ambient Authority">
         <t>When using the same-origin policy, user agents grant authority to
-        content based on the URI from which the user agent retrieved the
-        content rather than based on the objects which the content is able to
-        designate. This disentangling of designation from authority is an
+        content based on its URI rather than based which objects the content
+        can designate. This disentangling of designation from authority is an
         example of ambient authority and can lead to vulnerabilities.</t>
 
         <t>Consider, for example, cross-site scripting in HTML documents. If
@@ -714,17 +707,14 @@ serialized-origin   = scheme "://" host [ ":" port ]
         <t>Specification document: this specification (<xref target="origin-header"/>)</t>
       </section>
     </section>
-    <section anchor="implementation-considerations"
-             title="Implementation Considerations">
-      <section anchor="idna-migration" title="IDNA dependency and migration">
-        <t>IDNA2008 <xref target="RFC5890" /> supersedes IDNA2003 <xref
-        target="RFC3490" /> but is not backwards-compatible. For this reason,
-        there will be a transition period (possibly of a number of years).
-        User agents SHOULD implement IDNA2008 <xref target="RFC5890" /> and MAY
-        implement <xref target="UnicodeTR46"/ > in order to facilitate a smoother
-        IDNA transition. If a user agent does not implement IDNA2008, the user
-        agent MUST implement IDNA2003 <xref target="RFC3490" />.</t>
-      </section>
+    <section anchor="idna-migration" title="IDNA dependency and migration">
+      <t>IDNA2008 <xref target="RFC5890" /> supersedes IDNA2003 <xref
+      target="RFC3490" /> but is not backwards-compatible. For this reason,
+      there will be a transition period (possibly of a number of years).
+      User agents SHOULD implement IDNA2008 <xref target="RFC5890" /> and MAY
+      implement <xref target="UnicodeTR46"/ > in order to facilitate a smoother
+      IDNA transition. If a user agent does not implement IDNA2008, the user
+      agent MUST implement IDNA2003 <xref target="RFC3490" />.</t>
     </section>
   </middle>
   <back>
@@ -1236,11 +1226,11 @@ serialized-origin   = scheme "://" host [ ":" port ]
       </reference>
     </references>
     <section title="Acknowledgements">
-      <t>We would like to thank Lucas Adamski, Miguel A. Garcia, Tobias
-      Gondrom, Ian Hickson, Anne van Kesteren, Collin Jackson, Larry Masinter,
-      Alexey Melnikov, Mark Nottingham, Julian Reschke, Jonas Sicking, Sid
-      Stamm, Daniel Veditz, and Chris Weber for their valuable feedback on this
-      document.</t>
+      <t>We would like to thank Lucas Adamski, Stephen Farrell, Miguel A.
+      Garcia, Tobias Gondrom, Ian Hickson, Anne van Kesteren, Collin Jackson,
+      Larry Masinter, Alexey Melnikov, Mark Nottingham, Julian Reschke, Jonas
+      Sicking, Sid Stamm, Daniel Veditz, and Chris Weber for their valuable
+      feedback on this document.</t>
     </section>
   </back>
 </rfc>
