@@ -2,7 +2,7 @@
 <?rfc toc="yes"?>
 <?xml-stylesheet type="text/xml" href="rfc2629.xslt"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
-<rfc ipr="trust200902" docName="draft-ietf-websec-origin-04" category="std">
+<rfc ipr="trust200902" docName="draft-ietf-websec-origin-05" category="std">
   <front>
     <title abbrev="The Web Origin Concept">
       The Web Origin Concept
@@ -16,7 +16,7 @@
         <uri>http://www.adambarth.com/</uri>
       </address>
     </author>
-    <date month="August" year="2011" />
+    <date month="September" year="2011" />
     <workgroup>websec</workgroup>
     <abstract>
       <t>This document defines the concept of an "origin", which is often used
@@ -721,7 +721,7 @@ serialized-origin   = scheme "://" host [ ":" port ]
       target="RFC3490" /> but is not backwards-compatible. For this reason,
       there will be a transition period (possibly of a number of years).
       User agents SHOULD implement IDNA2008 <xref target="RFC5890" /> and MAY
-      implement <xref target="UnicodeTR46"/ > in order to facilitate a smoother
+      implement <xref target="UnicodeTR46" /> in order to facilitate a smoother
       IDNA transition. If a user agent does not implement IDNA2008, the user
       agent MUST implement IDNA2003 <xref target="RFC3490" />.</t>
     </section>
