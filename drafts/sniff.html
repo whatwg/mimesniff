@@ -102,9 +102,9 @@ response.
 <p>Without a clear specification of how to "sniff" the media type, each user
 agent implementor was forced to reverse engineer the behavior of the other user
 agents and to develop their own algorithm.  These divergent algorithms have
-lead to a lack of interoperability between user agents and to security issues
+lead to a lack of interoperability between User Agents and to security issues
 when the server intends an HTTP response to be interpreted as one media type
-but some user agents interpret the responses as another media type.
+but some User Agents interpret the responses as another media type.
 
 <p>These security issues are most severe when an "honest" server lets
 potentially malicious users upload files and then serves the contents of those
@@ -112,26 +112,26 @@ files with a low-privilege media type (such as text/plain or image/jpeg).
 (Malicious servers, of course, can specify an arbitrary media type in the
 <code>Content-Type</code> header field.)  In the absence of media type sniffing, this
 user-generated content would not be interpreted as a high-privilege media type,
-such as text/html.  However, if a user agent does interpret a low-privilege
+such as text/html.  However, if a User Agent does interpret a low-privilege
 media type, such as image/gif, as a high-privilege media type, such as
-text/html, the user agent has created a privilege escalation vulnerability in
+text/html, the User Agent has created a privilege escalation vulnerability in
 the server.  For example, a malicious user might be able to leverage content
 sniffing to mount a cross-site script attack by including JavaScript code in
-the uploaded file that a user agent treats as text/html.
+the uploaded file that a User Agent treats as text/html.
 
 <p>This document describes a content sniffing algorithm that carefully balances
-the compatibility needs of user agent implementors with the security
+the compatibility needs of User Agent implementors with the security
 constraints.  The algorithm has been constructed with reference to content
-sniffing algorithms present in popular user agents, an extensive database of
+sniffing algorithms present in popular User Agents, an extensive database of
 existing web content, and metrics collected from implementations deployed to a
 sizable number of users <xref target="BarthCaballeroSong2009" />.
 
-<p>Whenever possible, user agents SHOULD NOT employ a content sniffing
-algorithm.  However, if a user agent does employ a content sniffing algorithm,
-the user agent SHOULD use the algorithm in this document because using a
+<p>Whenever possible, User Agents SHOULD NOT employ a content sniffing
+algorithm.  However, if a User Agent does employ a content sniffing algorithm,
+the User Agent SHOULD use the algorithm in this document because using a
 different content sniffing algorithm than servers expect causes security
 problems.  For example, if a server believes that the client will treat a
-contributed file as an image (and thus treat it as benign), but a user agent
+contributed file as an image (and thus treat it as benign), but a User Agent
 believes the content to be HTML (and thus privileged to execute any scripts
 contained therein), an attacker might be able to steal the user's
 authentication credentials and mount other cross-site scripting attacks.
@@ -169,14 +169,14 @@ character), then there is no official-type.  (Such messages are invalid
 according to RFC2616.
 
 <p>If an HTTP response contains multiple <code>Content-Type</code> header
-fields, the user agent MUST use the textually last <code>Content-Type</code> header
+fields, the User Agent MUST use the textually last <code>Content-Type</code> header
 field to the official-type. For example, if the last
 <code>Content-Type</code> header field contains the value "foo", then there is no
 official media type because "foo" cannot be interpreted as a media
 type (even if the HTTP response contains another <code>Content-Type</code> header
 field that could be interpreted as a media type).
 
-<p>For octets fetched from the file system, user agents should use
+<p>For octets fetched from the file system, User Agents should use
 platform-specific conventions (e.g., operating system file extension/type
 mappings) to determine the official-type.
 
@@ -195,11 +195,11 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 
 <h2 id=web-pages><span class=secno>4 </span>Web Pages</h2>
 
-<p>The user agent MUST use the following algorithm to determine the
+<p>The User Agent MUST use the following algorithm to determine the
 <var>sniffed-type</var> of a sequence of octets:
 
 <ol>
- <li>If the user agent is configured to strictly obey the
+ <li>If the User Agent is configured to strictly obey the
  <var>official-type</var>, then let the <var>sniffed-type</var> be the
  <var>official-type</var> and
  abort these steps.
@@ -268,11 +268,11 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 distinguishing if a resource is text or binary</dfn>.
 
 <ol>
- <li>The user agent MAY wait for 512 or more octets to arrive.
+ <li>The User Agent MAY wait for 512 or more octets to arrive.
 
  <p class=note>Waiting for 512 octets octets to arrive causes the
  text-or-binary algorithm to be deterministic for a given sequence of octets.
- However, in some cases, the user agent might need to wait an arbitrary length
+ However, in some cases, the User Agent might need to wait an arbitrary length
  of time for these octets to arrive. User agents SHOULD wait for 512 octets to
  arrive, when feasible.
 
@@ -323,7 +323,7 @@ distinguishing if a resource is text or binary</dfn>.
 <h2 id=unknown-type><span class=secno>6 </span>Unknown Type</h2>
 
 <ol>
- <li>The user agent MAY wait for 512 or more octets to arrive for the same
+ <li>The User Agent MAY wait for 512 or more octets to arrive for the same
  reason as in the "text or binary" section above.
 
  <li>Let <var>n</var> be the smaller of either 512 or the number of octets that
@@ -871,11 +871,11 @@ distinguishing if a resource is text or binary</dfn>.
 <p class=XXX>MP3 audio.</p>
 
 <p>User agents MAY support additional types if necessary, by implicitly
-adding to the above table. However, user agents SHOULD NOT not use any
+adding to the above table. However, User Agents SHOULD NOT not use any
 other patterns for types already mentioned in the table above because
 this could then be used for privilege escalation (where, e.g., a server
 uses the above table to determine that content is not HTML and thus safe
-from cross-site scripting attacks, but then a user agent detects it as
+from cross-site scripting attacks, but then a User Agent detects it as
 HTML anyway and allows script to execute). In extending this table, user
 agents SHOULD NOT introduce any privilege escalation
 vulnerabilities.
@@ -976,7 +976,7 @@ and abort these steps.
 <h3 id=feed-or-html><span class=secno>10 </span>Feed or HTML</h3>
 
 <ol>
- <li>The user agent MAY wait for 512 or more octets to arrive for the same
+ <li>The User Agent MAY wait for 512 or more octets to arrive for the same
  reason as in the "text or binary" section above.
 
  <li>Let <var>s</var> be the stream of octets, and let
@@ -984,7 +984,7 @@ and abort these steps.
  <var>i</var>, treating <var>s</var> as zero-indexed (so the first octet is at
  <var>i</var>=0).
 
- <li>If at any point this algorithm requires the user agent to determine the
+ <li>If at any point this algorithm requires the User Agent to determine the
  value of a octet in <var>s</var> which has not yet arrived, or which is past
  the first 512 octets, or which is beyond the end of the octet stream, the
  algorithm stops and the <var>sniffed-type</var> is "text/html".
@@ -1051,7 +1051,7 @@ and abort these steps.
 
  <li>Otherwise, if the octets in <var>s</var> starting at <var>pos</var> match
  any of the sequences of octets in the first column of the following table,
- then the user agent MUST follow the steps given in the corresponding cell in
+ then the User Agent MUST follow the steps given in the corresponding cell in
  the second column of the same row.
 
  <table>
