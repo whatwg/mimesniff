@@ -84,8 +84,8 @@ a code { text-decoration: underline }
 <h2 id=abstract>Abstract</h2>
 
 <p>Many web servers supply incorrect <code>Content-Type</code> header fields
-with their HTTP responses.  In order to be compatible with these servers, user
-agents consider the content of HTTP responses as well as the <code>Content-Type</code>
+with their HTTP responses.  In order to be compatible with these servers, User
+Agents consider the content of HTTP responses as well as the <code>Content-Type</code>
 header fields when determining the effective media type of the response.  This
 document describes an algorithm for determining the effective media type of
 HTTP responses that balances security and compatibility considerations.
@@ -99,9 +99,9 @@ these servers by examining the content of HTTP responses in addition to the
 <code>Content-Type</code> header field to determine the effective media type of the
 response.
 
-<p>Without a clear specification of how to "sniff" the media type, each user
-agent implementor was forced to reverse engineer the behavior of the other user
-agents and to develop their own algorithm.  These divergent algorithms have
+<p>Without a clear specification of how to "sniff" the media type, each User
+Agent implementor was forced to reverse engineer the behavior of the other User
+Agents and to develop their own algorithm.  These divergent algorithms have
 lead to a lack of interoperability between User Agents and to security issues
 when the server intends an HTTP response to be interpreted as one media type
 but some User Agents interpret the responses as another media type.
@@ -251,8 +251,8 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
  "text/xml" or "application/xml", then let the sniffed-type be the
  official-type and abort these steps.
 
- <li>If the <var>official-type</var> is an image type supported by the user
- agent (e.g., "image/png", "image/gif", "image/jpeg", etc), then jump to the
+ <li>If the <var>official-type</var> is an image type supported by the User
+ Agent (e.g., "image/png", "image/gif", "image/jpeg", etc), then jump to the
  "images" section below.
 
  <li>If the <var>official-type</var> is "text/html", then jump to the "feed or
@@ -273,7 +273,7 @@ distinguishing if a resource is text or binary</dfn>.
  <p class=note>Waiting for 512 octets octets to arrive causes the
  text-or-binary algorithm to be deterministic for a given sequence of octets.
  However, in some cases, the User Agent might need to wait an arbitrary length
- of time for these octets to arrive. User agents SHOULD wait for 512 octets to
+ of time for these octets to arrive. User Agents SHOULD wait for 512 octets to
  arrive, when feasible.
 
  <li>Let <var>n</var> be the smaller of either 512 or the number of octets that
@@ -870,14 +870,14 @@ distinguishing if a resource is text or binary</dfn>.
 
 <p class=XXX>MP3 audio.</p>
 
-<p>User agents MAY support additional types if necessary, by implicitly
+<p>User Agents MAY support additional types if necessary, by implicitly
 adding to the above table. However, User Agents SHOULD NOT not use any
 other patterns for types already mentioned in the table above because
 this could then be used for privilege escalation (where, e.g., a server
 uses the above table to determine that content is not HTML and thus safe
 from cross-site scripting attacks, but then a User Agent detects it as
-HTML anyway and allows script to execute). In extending this table, user
-agents SHOULD NOT introduce any privilege escalation
+HTML anyway and allows script to execute). In extending this table, User
+Agents SHOULD NOT introduce any privilege escalation
 vulnerabilities.
 
 <p class=note>The column marked "security" is used by the algorithm in the
@@ -989,7 +989,7 @@ and abort these steps.
  the first 512 octets, or which is beyond the end of the octet stream, the
  algorithm stops and the <var>sniffed-type</var> is "text/html".
 
- <p class=note>User agents are allowed, by the first step of this algorithm, to
+ <p class=note>User Agents are allowed, by the first step of this algorithm, to
  wait until the first 512 octets have arrived.
 
  <li>Initialize <var>pos</var> to 0.
