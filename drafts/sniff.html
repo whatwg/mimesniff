@@ -83,20 +83,20 @@ a code { text-decoration: underline }
 
 <h2 id=abstract>Abstract</h2>
 
-<p>Many web servers supply incorrect Content-Type header fields with their HTTP
-responses.  In order to be compatible with these servers, user agents consider
-the content of HTTP responses as well as the Content-Type header fields when
-determining the effective media type of the response.  This document describes
-an algorithm for determining the effective media type of HTTP responses that
-balances security and compatibility considerations.
+<p>Many web servers supply incorrect <code>Content-Type</code> header fields
+with their HTTP responses.  In order to be compatible with these servers, user
+agents consider the content of HTTP responses as well as the <code>Content-Type</code>
+header fields when determining the effective media type of the response.  This
+document describes an algorithm for determining the effective media type of
+HTTP responses that balances security and compatibility considerations.
 
 <h2 id=introduction><span class=secno>1 </span>Introduction</h2>
 
-<p>The HTTP Content-Type header field indicates the media type of an HTTP
-response.  However, many HTTP servers supply a Content-Type that does not match
+<p>The HTTP <code>Content-Type</code> header field indicates the media type of an HTTP
+response.  However, many HTTP servers supply a <code>Content-Type</code> that does not match
 the actual contents of the response.  Historically, web browsers have tolerated
 these servers by examining the content of HTTP responses in addition to the
-Content-Type header field to determine the effective media type of the
+<code>Content-Type</code> header field to determine the effective media type of the
 response.
 
 <p>Without a clear specification of how to "sniff" the media type, each user
@@ -110,7 +110,7 @@ but some user agents interpret the responses as another media type.
 potentially malicious users upload files and then serves the contents of those
 files with a low-privilege media type (such as text/plain or image/jpeg).
 (Malicious servers, of course, can specify an arbitrary media type in the
-Content-Type header field.)  In the absence of media type sniffing, this
+<code>Content-Type</code> header field.)  In the absence of media type sniffing, this
 user-generated content would not be interpreted as a high-privilege media type,
 such as text/html.  However, if a user agent does interpret a low-privilege
 media type, such as image/gif, as a high-privilege media type, such as
@@ -160,20 +160,20 @@ performant.
 <p>The explicit media type metadata information associated with sequence
 of octets depends on the protocol that was used to fetch the octets.
 
-<p>For octets received via HTTP, the Content-Type HTTP header field, if
+<p>For octets received via HTTP, the <code>Content-Type</code> HTTP header field, if
 present, indicates the media type. Let the official-type be the media type
-indicted by the HTTP Content-Type header field, if present.  If the
-Content-Type header field is absent or if its value cannot be interpreted as a
+indicted by the HTTP <code>Content-Type</code> header field, if present.  If the
+<code>Content-Type</code> header field is absent or if its value cannot be interpreted as a
 media type (e.g. because its value doesn't contain a U+002F SOLIDUS ('/')
 character), then there is no official-type.  (Such messages are invalid
 according to RFC2616.
 
-<p>If an HTTP response contains multiple Content-Type header
-fields, the user agent MUST use the textually last Content-Type header
+<p>If an HTTP response contains multiple <code>Content-Type</code> header
+fields, the user agent MUST use the textually last <code>Content-Type</code> header
 field to the official-type. For example, if the last
-Content-Type header field contains the value "foo", then there is no
+<code>Content-Type</code> header field contains the value "foo", then there is no
 official media type because "foo" cannot be interpreted as a media
-type (even if the HTTP response contains another Content-Type header
+type (even if the HTTP response contains another <code>Content-Type</code> header
 field that could be interpreted as a media type).
 
 <p>For octets fetched from the file system, user agents should use
@@ -204,7 +204,7 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
  <var>official-type</var> and
  abort these steps.
 
- <li>If the octets were fetched via HTTP and there is an HTTP Content-Type
+ <li>If the octets were fetched via HTTP and there is an HTTP <code>Content-Type</code>
  header field and the value of the last such header field has octets that
  <strong>exactly</strong> match the octets contained in one of the following
  lines:
