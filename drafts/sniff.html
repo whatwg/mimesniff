@@ -121,10 +121,11 @@ the uploaded file that a User Agent treats as text/html.
 
 <p>This document describes a content sniffing algorithm that carefully balances
 the compatibility needs of User Agent implementors with the security
-constraints.  The algorithm has been constructed with reference to content
-sniffing algorithms present in popular User Agents, an extensive database of
-existing web content, and metrics collected from implementations deployed to a
-sizable number of users <xref target="BarthCaballeroSong2009" />.
+constraints imposed by existing web content. The algorithm has been
+constructed with reference to content sniffing algorithms present in popular
+User Agents, an extensive database of existing web content, and metrics
+collected from implementations deployed to a sizable number of users, as
+described in <xref target="BarthCaballeroSong2009" />.
 
 <p>Whenever possible, User Agents SHOULD NOT employ a content sniffing
 algorithm.  However, if a User Agent does employ a content sniffing algorithm,
@@ -145,7 +146,7 @@ are to be interpreted as described in RFC2119.
 
 <p>Requirements phrased in the imperative as part of algorithms (such as "strip
 any leading space characters" or "return false and abort these steps") are to
-be interpreted with the meaning of the key word ("MUST", "SHOULD", "MAY", etc)
+be interpreted with the meaning of the key word ("MUST", "SHOULD", "MAY", etc.)
 used in introducing the algorithm.
 
 <p>Conformance requirements phrased as algorithms or specific steps can
@@ -161,16 +162,16 @@ performant.
 of octets depends on the protocol that was used to fetch the octets.
 
 <p>For octets received via HTTP, the <code>Content-Type</code> HTTP header field, if
-present, indicates the media type. Let the official-type be the media type
+present, indicates the media type. Let the <var>official-type</var> be the media type
 indicted by the HTTP <code>Content-Type</code> header field, if present.  If the
 <code>Content-Type</code> header field is absent or if its value cannot be interpreted as a
 media type (e.g. because its value doesn't contain a U+002F SOLIDUS ('/')
-character), then there is no official-type.  (Such messages are invalid
-according to RFC2616.
+character), then there is no <var>official-type</var>.  (Such messages are invalid
+according to RFC2616.)
 
 <p>If an HTTP response contains multiple <code>Content-Type</code> header
 fields, the User Agent MUST use the textually last <code>Content-Type</code> header
-field to the official-type. For example, if the last
+field as the <var>official-type</var>. For example, if the last
 <code>Content-Type</code> header field contains the value "foo", then there is no
 official media type because "foo" cannot be interpreted as a media
 type (even if the HTTP response contains another <code>Content-Type</code> header
@@ -178,7 +179,7 @@ field that could be interpreted as a media type).
 
 <p>For octets fetched from the file system, User Agents should use
 platform-specific conventions (e.g., operating system file extension/type
-mappings) to determine the official-type.
+mappings) to determine the <var>official-type</var>.
 
 <p class=note>It is essential that file extensions are not used for determining
 the media type for octets fetched over HTTP because, in some cases, file
@@ -186,7 +187,7 @@ extensions can be supplied by malicious parties. For example, most PHP
 installations let the attacker append arbitrary path information to URLs (e.g.,
 http://example.com/foo.php/bar.html) and thereby determine the file extension.
 
-<p>For octets fetched over some other protocols, e.g. FTP RFC0959, there is no
+<p>For octets fetched over some other protocols, e.g. FTP [RFC959], there is no
 type information.
 
 <p class=note>Comparisons between media types, as defined by MIME
@@ -248,11 +249,11 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
  "application/unknown", or "*/*", jump to the "unknown type" section below.
 
  <li>If the <var>official-type</var> ends in "+xml", or if it is either
- "text/xml" or "application/xml", then let the sniffed-type be the
- official-type and abort these steps.
+ "text/xml" or "application/xml", then let the <var>sniffed-type</var> be the
+ <var>official-type</var> and abort these steps.
 
  <li>If the <var>official-type</var> is an image type supported by the User
- Agent (e.g., "image/png", "image/gif", "image/jpeg", etc), then jump to the
+ Agent (e.g., "image/png", "image/gif", "image/jpeg"), then jump to the
  "images" section below.
 
  <li>If the <var>official-type</var> is "text/html", then jump to the "feed or
@@ -293,8 +294,9 @@ distinguishing if a resource is text or binary</dfn>.
 
  ...then let the <var>sniffed-type</var> be "text/plain" and abort these steps.
 
- <li>If none of the first <var>n</var> octets are binary data octets then let
- the <var>sniffed-type</var> be "text/plain" and abort these steps.
+ <li>If none of the first <var>n</var> octets are binary data octets (i.e.,
+ fall in the Binary Data Byte Ranges defined below) then let the
+ <var>sniffed-type</var> be "text/plain" and abort these steps.
 
  <table>
   <thead>
@@ -307,7 +309,7 @@ distinguishing if a resource is text or binary</dfn>.
  </table>
 
  <li>If the first octets match one of the octet sequences in the "pattern"
- column of the table in the "unknown type" section below, ignoring any rows
+ column of the table in the <a href=#unknown-type>"unknown type" section</a> below, ignoring any rows
  whose cell in the "security" column says "scriptable" (or "n/a"), then let the
  <var>sniffed-type</var> be the type given in the corresponding cell in the
  "sniffed type" column on that row and abort these steps.
@@ -331,7 +333,7 @@ distinguishing if a resource is text or binary</dfn>.
 
  <li>For each row in the table below:
   <dl class=switch>
-   <dt>If the row has no "WS" octets:
+   <dt>If the row has no "WS" octets (see <a href=#ws-note>Note</a>):
    <dd>
     <ol>
      <li>Let <var>pattern-length</var> be the length of the pattern.
@@ -343,11 +345,11 @@ distinguishing if a resource is text or binary</dfn>.
      <var>pattern-length</var> octets and the given mask, and let the result be
      the <var>masked-data</var>.
 
-     <li>If the octets of the <var>masked-data</var> matches the given pattern
+     <li>If the octets of the <var>masked-data</var> match the given pattern
      octets exactly, then let the <var>sniffed-type</var> be the type given in
      the cell of the third column in that row and abort these steps.
     </ol>
-   <dt>If the row has a "WS" octet or a "_>" octet:
+   <dt>If the row has a "WS" octet or a "_>" octet (see <a href=#sb-note>Note</a>):
    <dd>
     <ol>
      <li>Let <var>index-pattern</var> be an index into the mask and pattern
@@ -356,14 +358,14 @@ distinguishing if a resource is text or binary</dfn>.
      <li>Let <var>index-stream</var> be an index into the octet stream being
      examined.
 
-     <li>LOOP: If <var>index-stream</var> points beyond the end of the octet
+     <li><var>LOOP</var>: If <var>index-stream</var> points beyond the end of the octet
      stream, then this row doesn't match and skip this row.
 
      <li>Examine the <var>index-stream</var>-th octet of the octet stream as
      follows:
       <dl class=switch>
        <dt>If the <var>index-pattern</var>-th octet of the pattern is a normal
-       hexadecimal octet and not a "WS" octet or a "_>" octet:
+       hexadecimal octet and neither a "WS" octet nor a "_>" octet:
        <dd>
         <ol>
          <li>If the bit-wise "and" operator, applied to the
@@ -379,7 +381,7 @@ distinguishing if a resource is text or binary</dfn>.
        <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern
        is a "WS" octet:
        <dd>
-        <p class=note>"WS" means "whitespace", and allows insignificant whitespace to be
+        <p class=note id=ws-note>"WS" means "whitespace", and allows insignificant whitespace to be
         skipped when sniffing for a type signature.
 
         <ol>
@@ -394,7 +396,7 @@ distinguishing if a resource is text or binary</dfn>.
        <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern
        is a "_>" octet:
        <dd>
-        <p class=note>"_>" means "space-or-bracket", and allows HTML tag names
+        <p class=note id=sb-note>"_>" means "space-or-bracket", and allows HTML tag names
         to terminate with either a space or a greater than sign.
 
         <ol>
@@ -408,7 +410,7 @@ distinguishing if a resource is text or binary</dfn>.
       </dl>
 
      <li>If <var>index-pattern</var> does not point beyond the end of the mask
-     and pattern octet strings, then jump back to the LOOP step in this
+     and pattern octet strings, then jump back to the <var>LOOP</var> step in this
      algorithm.
 
      <li>Otherwise, let the <var>sniffed-type</var> be the type given in the
@@ -416,9 +418,9 @@ distinguishing if a resource is text or binary</dfn>.
     </ol>
   </dl>
 
- <li>If the first n octets match the signature for MP4 (as define in <xref
- target="mp4-signature" />), then let the <var>sniffed-type</var> be video/mp4
- and abort these steps.
+ <li>If the first n octets match <a href=#signature-for-mp4>the signature for
+ MP4</a>, then let the <var>sniffed-type</var> be video/mp4 and abort these
+ steps.
 
  <li>If none of the first n octets are binary data (as defined in the "text or
  binary" section), then let the <var>sniffed-type</var> be "text/plain" and
@@ -654,7 +656,7 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>text/xml</td>
    <td>Scriptable</td>
-   <td>&lt;?xml (Note the case sensitivity and lack of trailing _>)</td>
+   <td>&lt;?xml (Note the case sensitivity [mask = FF instead of DF] and lack of trailing _>)</td>
   </tr>
   <tr>
    <td>
@@ -757,7 +759,7 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>image/jpeg</td>
    <td>Safe</td>
-   <td>A JPEG SOI marker followed by a octet of another marker.</td>
+   <td>A JPEG SOI marker followed by an octet of another marker.</td>
   </tr>
   <tr>
    <td>
@@ -887,34 +889,35 @@ can be used for a privilege escalation attack.
 <h3 id=signature-for-mp4><span class=secno>6.1 </span>Signature for MP4</h3>
 
 <p>This section defines whether a sequence of <var>n</var> octets <dfn
-id=matches-the-signature-for-mp4>matches the signature for MP4</dfn>.
+id=matches-the-signature-for-mp4>match the signature for MP4</dfn>.
 
 <ol>
- <li>If <var>n</var> is less than 4, then the sequence does not match the
- signature for MP4 and abort these steps.
+ <li>If <var>n</var> is less than 4, then return that the sequence does not
+ match the signature for MP4 and abort these steps.
 
  <li>Let <var>box-size</var> be the value of the first four octets, interpreted
  as a 32 bit unsigned, big-endian integer.
 
- <li>If <var>n</var> is less than <var>box-size</var> or if <var>box-size</var>
- is not evenly divisible by 4, then the sequence does not match the signature
- for MP4 and abort these steps.
+ <li>If <var>n</var> is less than <var>box-size</var> or if
+ <var>box-size</var> is not evenly divisible by 4, then return that the
+ sequence does not match the signature for MP4 and abort these steps.
 
- <li>If octets 5 through 8 (inclusive) of the sequence are not 0x66 0x74 0x79
- 0x70 (the ASCII string "ftyp"), then the sequence does not match the signature
- for MP4 and abort these steps.
+ <li>If octets 5 through 8 (inclusive) of the sequence are not the sequence
+ 0x66 0x74 0x79 0x70 (the ASCII string "ftyp"), then return that the sequence
+ does not match the signature for MP4 and abort these steps.
 
- <li>For each <var>i</var> from 2 to <var>box-size</var>/4 - 1 (inclusive):
+ <li>For each <var>i</var> from 2 to <code><var>box-size</var>/4 - 1</code> (inclusive):
  <ol>
   <li>If <var>i</var> is equal to 3, continue to the next <var>i</var>, if any.
   (These octets correspond to the minor version number.)
 
-  <li>If octets 4*i through 4*i + 2 (inclusive) of the sequence are 0x6D 0x70
-  0x34 (the ASCII string "mp4"), then the sequence <strong>does</strong> match
-  the signature for MP4 and abort these steps.
+  <li>If octets <code>4*i</code> through <code>4*i + 2</code> (inclusive) of
+  the sequence are the sequence 0x6D 0x70 0x34 (the ASCII string "mp4"), then
+  return that the sequence <strong>does</strong> match the signature for MP4
+  and abort these steps.
  </ol>
 
- <li>The sequence does not match the signature for MP4.
+ <li>Return that the sequence does not match the signature for MP4.
 </ol>
 
 <h3 id=images><span class=secno>7 </span>Images</h3>
@@ -930,7 +933,7 @@ specifically</dfn>.
 
  <li>If the first octets match one of the signatures in <xref
  target="unknown-type" /> for one of the following media types, then let the
- sniffed-type be the corresponding media type and abort these steps:
+ <var>sniffed-type</var> be the corresponding media type and abort these steps:
  <ul>
   <li>image/gif</t>
   <li>image/png</t>
@@ -938,9 +941,9 @@ specifically</dfn>.
   <li>image/bmp</t>
   <li>image/vnd.microsoft.icon</t>
   <li>image/webp</t>
- <ul>
+ </ul>
 
- <li>Otherwise, let the sniffed-type be the official-type and abort these
+ <li>Otherwise, let the <var>sniffed-type</var> be the official-type and abort these
  steps.
 </ol>
 
@@ -985,7 +988,7 @@ and abort these steps.
  <var>i</var>=0).
 
  <li>If at any point this algorithm requires the User Agent to determine the
- value of a octet in <var>s</var> which has not yet arrived, or which is past
+ value of an octet in <var>s</var> which has not yet arrived, or which is past
  the first 512 octets, or which is beyond the end of the octet stream, the
  algorithm stops and the <var>sniffed-type</var> is "text/html".
 
@@ -998,7 +1001,7 @@ and abort these steps.
  <var>s</var>[2] equals 0xBF, then set <var>pos</var> to 3. (This skips over a
  leading UTF-8 BOM, if any.)
 
- <li>LOOP: Examine <var>s</var>[<var>pos</var>].
+ <li><var>LOOP</var>: Examine <var>s</var>[<var>pos</var>].
  <dl class=switch>
   <dt>If it equals 0x09 (ASCII tab), 0x20 (ASCII space), 0x0A (ASCII LF), or
   0x0D (ASCII CR)
@@ -1020,7 +1023,7 @@ and abort these steps.
   <li>If the octets with positions <var>pos</var> to <var>pos</var>+2 in
   <var>s</var> are exactly equal to 0x2D, 0x2D, 0x3E respectively (ASCII for
   "--&gt;"), then increase <var>pos</var> by 3 and jump back to the previous
-  step (the step labeled loop start) in the overall algorithm in this section.
+  step (the step labeled <var>LOOP</var>) in the overall algorithm in this section.
 
   <li>Otherwise, increase <var>pos</var> by 1.
 
@@ -1032,7 +1035,7 @@ and abort these steps.
   <li>Increase <var>pos</var> by 1.
 
   <li>If <var>s</var>[<var>pos</var>] equals 0x3E, then increase <var>pos</var>
-  by 1 and jump back to the step labeled LOOP in the overall algorithm in this
+  by 1 and jump back to the step labeled <var>LOOP</var> in the overall algorithm in this
   section.
 
   <li>Otherwise, return to step 1 in these substeps.
@@ -1044,7 +1047,7 @@ and abort these steps.
 
   <li>If <var>s</var>[<var>pos</var>] and <var>s</var>[<var>pos</var>+1] equal
   0x3F and 0x3E respectively, then increase <var>pos</var> by 1 and jump back
-  to the step labeled LOOP in the overall algorithm in this section.
+  to the step labeled <var>LOOP</var> in the overall algorithm in this section.
 
   <li>Otherwise, return to step 1 in these substeps.
  </ol>
@@ -1064,12 +1067,12 @@ and abort these steps.
   <tbody>
    <tr>
     <td>72 73 73</td>
-    <td>Let the sniffed-type be "application/rss+xml" and abort these steps.</td>
+    <td>Let the <var>sniffed-type</var> be "application/rss+xml" and abort these steps.</td>
     <td>rss</td>
    </tr>
    <tr>
     <td>66 65 65 64</td>
-    <td>Let the sniffed-type be "application/atom+xml" and abort these steps.</td>
+    <td>Let the <var>sniffed-type</var> be "application/atom+xml" and abort these steps.</td>
     <td>feed</td>
    </tr>
    <tr>
@@ -1112,8 +1115,9 @@ and abort these steps.
 
  <li>Increase <var>pos</var> by 1.
 
- <li>If <var>RDF-flag</var> is 1 and <var>RSS-flag</var> is 1, then let the
- <var>sniffed-type</var> be "application/rss+xml" and abort these steps.
+ <li>If the <var>RDF-flag</var> is 1 <strong>and</strong> the <var>RSS-flag</var> is 1, then
+ let the <var>sniffed-type</var> be "application/rss+xml" and abort these
+ steps.
 
  <li>If <var>pos</var> points beyond the end of the octet stream <var>s</var>,
  then continue to step 19 of this algorithm.
