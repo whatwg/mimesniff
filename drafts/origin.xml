@@ -1240,10 +1240,10 @@ serialized-origin   = scheme "://" host [ ":" port ]
     </references>
     <section title="Acknowledgements">
       <t>We would like to thank Lucas Adamski, Stephen Farrell, Miguel A.
-      Garcia, Tobias Gondrom, Ian Hickson, Anne van Kesteren, Collin Jackson,
-      Larry Masinter, Alexey Melnikov, Mark Nottingham, Julian Reschke, Jonas
-      Sicking, Sid Stamm, Daniel Veditz, and Chris Weber for their valuable
-      feedback on this document.</t>
+      Garcia, Tobias Gondrom, Ian Hickson, Anne van Kesteren, Jeff Hodges,
+      Collin Jackson, Larry Masinter, Alexey Melnikov, Mark Nottingham, Julian
+      Reschke, Peter Saint-Andre, Jonas Sicking, Sid Stamm, Daniel Veditz, and
+      Chris Weber for their valuable feedback on this document.</t>
     </section>
   </back>
 </rfc>
