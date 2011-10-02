@@ -95,7 +95,7 @@
         single SP. Multiple OWS octets that occur within field-content SHOULD
         either be replaced with a single SP or transformed to all SP octets
         (each octet other than SP replaced with SP) before interpreting the
-        field value or forwarding the message downstream.</t>
+        field value or forwarding the message downstream.
         <figure>
           <artwork type="abnf">
 OWS            = *( SP / HTAB / obs-fold )
@@ -409,7 +409,7 @@ http://ietf.org/
         authority (see <xref target="RFC3986" />, Section 3.2), or if the URI
         is not an absolute URI, then generate a fresh globally unique
         identifier and return that value.
-        <list style="none">
+        <list style="empty">
           <t>NOTE: Running this algorithm multiple times for the same URI can
           produce different values each time. Typically, user agents compute
           the origin of, for example, an HTML document once and use that
