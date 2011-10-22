@@ -242,6 +242,11 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
  </table>
  ...then jump to the "text or binary" section below.
 
+ <p class=note>The algorithm detects these exact octet sequences because some
+ older installations of Apache contain a bug that causes them to supply one
+ of these Content-Type headers when serving files with unrecognized file
+ extensions.</p>
+
  <li>If there is no <var>official-type</var>, jump to the "unknown type"
  section below.
 
