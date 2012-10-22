@@ -1,18 +1,19 @@
-<!DOCTYPE html><meta charset="utf-8">
+<!DOCTYPE html>
+<meta charset=utf-8>
 <title>MIME Sniffing Standard</title>
 <style>
  @media print { [data-anolis-spec]::after { content:"[" attr(data-anolis-spec) "]"; font-size:.6em; vertical-align:super; text-transform:uppercase } }
 </style>
 
-<div class="head" id="head">
+<div class=head id=head>
 
-<p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
+<p><a class=logo href=http://www.whatwg.org/><img alt=WHATWG height=101 src=http://www.whatwg.org/images/logo width=101></a></p>
 <h1>MIME Sniffing</h1>
-<h2 class="no-num no-toc" id="living-standard-—-last-updated-22-october-2012">Living Standard — Last Updated 22 October 2012</h2>
+<h2 class="no-num no-toc">Living Standard &mdash; Last Updated [DATE: 01 Jan 1901]</h2>
 
 <dl>
  <dt>This Version:
- <dd><a href="http://mimesniff.spec.whatwg.org/">http://mimesniff.spec.whatwg.org/</a>
+ <dd><a href=http://mimesniff.spec.whatwg.org/>http://mimesniff.spec.whatwg.org/</a>
 
  <dt>Participate:
  <dd>Send feedback to <a href="http://www.whatwg.org/mailing-list">whatwg@whatwg.org</a>
@@ -25,7 +26,7 @@
  <dd><a href="http://wiki.whatwg.org/wiki/IRC">IRC: #whatwg on Freenode</a>
 
  <dt>Version history:
- <dd><a href="https://github.com/whatwg/mimesniff/commits">https://github.com/whatwg/mimesniff/commits</a>
+ <dd><a href=https://github.com/whatwg/mimesniff/commits>https://github.com/whatwg/mimesniff/commits</a>
 
  <dt>Editors:
  <dd>Adam Barth, Google, whatwg@adambarth.com
@@ -36,12 +37,13 @@
 <script src=//dvcs.w3.org/hg/quirks-mode/raw-file/tip/file-bug.js async></script>
 -->
 
-<p class="copyright"><a href="http://creativecommons.org/publicdomain/zero/1.0/" rel="license">CC0 1.0 Universal</a>.
+<p class=copyright><a rel="license" href="http://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>.
 To the extent possible under law, the editor has waived all copyright and
 related or neighboring rights to this work. In addition, as of
-22 October 2012, the editor has made this specification available
+[DATE: 01 Jan 1901], the editor has made this specification available
 under the
-<a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
+<a rel="license"
+href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0">Open Web Foundation Agreement Version 1.0</a>,
 which is available at
 http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 
@@ -49,7 +51,7 @@ http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0.
 
 
 
-<h2 class="no-num no-toc" id="abstract">Abstract</h2>
+<h2 id=abstract class="no-num no-toc">Abstract</h2>
 
 <p>Many web servers supply incorrect <code>Content-Type</code> header fields
 with their HTTP responses.  In order to be compatible with these servers, User
@@ -60,31 +62,13 @@ HTTP responses that balances security and compatibility considerations.
 
 
 
-<h2 class="no-num" id="table-of-contents">Table of contents</h2>
+<h2 class=no-num>Table of contents</h2>
 
-
-<!--begin-toc-->
-<ol class="toc">
- <li><a class="no-num" href="#table-of-contents">Table of contents</a></li>
- <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
- <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
- <li><a href="#metadata"><span class="secno">3 </span>Metadata</a></li>
- <li><a href="#web-pages"><span class="secno">4 </span>Web Pages</a></li>
- <li><a href="#text-or-binary"><span class="secno">5 </span>Text or Binary</a></li>
- <li><a href="#unknown-type"><span class="secno">6 </span>Unknown Type</a>
-  <ol>
-   <li><a href="#signature-for-mp4"><span class="secno">6.1 </span>Signature for MP4</a></li>
-   <li><a href="#images"><span class="secno">6.2 </span>Images</a></li>
-   <li><a href="#video"><span class="secno">6.3 </span>Video</a></li>
-   <li><a href="#fonts"><span class="secno">6.4 </span>Fonts</a></li>
-   <li><a href="#feed-or-html"><span class="secno">6.5 </span>Feed or HTML</a></ol></li>
- <li><a class="no-num" href="#references">References</a></li>
- <li><a class="no-num" href="#acknowledgments">Acknowledgments</a></ol>
-<!--end-toc-->
+<!--toc-->
 
 
 
-<h2 id="introduction"><span class="secno">1 </span>Introduction</h2>
+<h2 id=introduction>Introduction</h2>
 
 <p>The HTTP <code>Content-Type</code> header field indicates the media type of an HTTP
 response.  However, many HTTP servers supply a <code>Content-Type</code> that does not match
@@ -119,7 +103,7 @@ constraints imposed by existing web content. The algorithm has been
 constructed with reference to content sniffing algorithms present in popular
 User Agents, an extensive database of existing web content, and metrics
 collected from implementations deployed to a sizable number of users, as
-described in <span class="XXX">BarthCaballeroSong2009</span>.
+described in <span class=XXX>BarthCaballeroSong2009</span>.
 
 <p>Whenever possible, User Agents SHOULD NOT employ a content sniffing
 algorithm.  However, if a User Agent does employ a content sniffing algorithm,
@@ -132,9 +116,9 @@ contained therein), an attacker might be able to steal the user's
 authentication credentials and mount other cross-site scripting attacks.
 
 
-<h2 id="conventions"><span class="secno">2 </span>Conventions</h2>
+<h2 id=conventions>Conventions</h2>
 
-<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+<P>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document
 are to be interpreted as described in RFC2119.
 
@@ -150,7 +134,7 @@ intended to be easy to understand and are not intended to be
 performant.
 
 
-<h2 id="metadata"><span class="secno">3 </span>Metadata</h2>
+<h2 id=metadata>Metadata</h2>
 
 <p>The explicit media type metadata information associated with sequence
 of octets depends on the protocol that was used to fetch the octets.
@@ -175,7 +159,7 @@ field that could be interpreted as a media type).
 platform-specific conventions (e.g., operating system file extension/type
 mappings) to determine the <var>official-type</var>.
 
-<p class="note">It is essential that file extensions are not used for determining
+<p class=note>It is essential that file extensions are not used for determining
 the media type for octets fetched over HTTP because, in some cases, file
 extensions can be supplied by malicious parties. For example, most PHP
 installations let the attacker append arbitrary path information to URLs (e.g.,
@@ -184,12 +168,12 @@ http://example.com/foo.php/bar.html) and thereby determine the file extension.
 <p>For octets fetched over some other protocols, e.g. FTP [RFC959], there is no
 type information.
 
-<p class="note">Comparisons between media types, as defined by MIME
+<p class=note>Comparisons between media types, as defined by MIME
 specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 
 
 
-<h2 id="web-pages"><span class="secno">4 </span>Web Pages</h2>
+<h2 id=web-pages>Web Pages</h2>
 
 <p>The User Agent MUST use the following algorithm to determine the
 <var>sniffed-type</var> of a sequence of octets:
@@ -207,9 +191,9 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 
  <table>
   <thead>
-   <tr><th>Bytes in Hexadecimal<th>Textual Representation</tr>
+   <tr><th>Bytes in Hexadecimal</th><th>Textual Representation</th></tr>
   <tbody>
-   <tr><td>74 65 78 74 2f 70 6c 61 69 6e<td>text/plain</tr>
+   <tr><td>74 65 78 74 2f 70 6c 61 69 6e</td><td>text/plain</td></tr>
    <tr>
     <td>
      74 65 78 74 2f 70 6c 61 69 6e<br>
@@ -237,7 +221,7 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
  </table>
  ...then jump to the "text or binary" section below.
 
- <p class="note">The algorithm detects these exact octet sequences because some
+ <p class=note>The algorithm detects these exact octet sequences because some
  older installations of Apache contain a bug that causes them to supply one
  of these Content-Type headers when serving files with unrecognized file
  extensions.</p>
@@ -264,15 +248,15 @@ specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
 
 
 
-<h2 id="text-or-binary"><span class="secno">5 </span>Text or Binary</h2>
+<h2 id=text-or-binary>Text or Binary</h2>
 
-<p>This section defines the <dfn id="rules-for-text-or-binary">rules for
+<p>This section defines the <dfn id=rules-for-text-or-binary>rules for
 distinguishing if a resource is text or binary</dfn>.
 
 <ol>
  <li>The User Agent MAY wait for 512 or more octets to arrive.
 
- <p class="note">Waiting for 512 octets octets to arrive causes the
+ <p class=note>Waiting for 512 octets octets to arrive causes the
  text-or-binary algorithm to be deterministic for a given sequence of octets.
  However, in some cases, the User Agent might need to wait an arbitrary length
  of time for these octets to arrive. User Agents SHOULD wait for 512 octets to
@@ -286,11 +270,11 @@ distinguishing if a resource is text or binary</dfn>.
 
  <table>
   <thead>
-   <tr><th>Bytes in Hexadecimal<th>Description</tr>
+   <tr><th>Bytes in Hexadecimal</th><th>Description</th></tr>
   <tbody>
-   <tr><td>FE FF<td>UTF-16BE BOM</tr>
-   <tr><td>FF FE<td>UTF-16LE BOM</tr>
-   <tr><td>EF BB BF<td>UTF-8 BOM</tr>
+   <tr><td>FE FF</td><td>UTF-16BE BOM</td></tr>
+   <tr><td>FF FE</td><td>UTF-16LE BOM</td></tr>
+   <tr><td>EF BB BF</td><td>UTF-8 BOM</td></tr>
  </table>
 
  ...then let the <var>sniffed-type</var> be "text/plain" and abort these steps.
@@ -301,21 +285,21 @@ distinguishing if a resource is text or binary</dfn>.
 
  <table>
   <thead>
-   <tr><th>Binary Data Byte Ranges</tr>
+   <tr><th>Binary Data Byte Ranges</th></tr>
   <tbody>
-   <tr><td>0x00–0x08</tr>
-   <tr><td>0x0B</tr>
-   <tr><td>0x0E–0x1A</tr>
-   <tr><td>0x1C–0x1F</tr>
+   <tr><td>0x00&ndash;0x08</td></tr>
+   <tr><td>0x0B</td></tr>
+   <tr><td>0x0E&ndash;0x1A</td></tr>
+   <tr><td>0x1C&ndash;0x1F</td></tr>
  </table>
 
  <li>If the first octets match one of the octet sequences in the "pattern"
- column of the table in the <a href="#unknown-type">"unknown type" section</a> below, ignoring any rows
+ column of the table in the <a href=#unknown-type>"unknown type" section</a> below, ignoring any rows
  whose cell in the "security" column says "scriptable" (or "n/a"), then let the
  <var>sniffed-type</var> be the type given in the corresponding cell in the
  "sniffed type" column on that row and abort these steps.
 
- <p class="warning">It is critical that this step not ever return a scriptable
+ <p class=warning>It is critical that this step not ever return a scriptable
  type (e.g., text/html), because otherwise that would allow a privilege
  escalation attack.
 
@@ -325,7 +309,7 @@ distinguishing if a resource is text or binary</dfn>.
 
 
 
-<h2 id="unknown-type"><span class="secno">6 </span>Unknown Type</h2>
+<h2 id=unknown-type>Unknown Type</h2>
 
 <ol>
  <li>The User Agent MAY wait for 512 or more octets to arrive for the same
@@ -335,14 +319,14 @@ distinguishing if a resource is text or binary</dfn>.
  have already arrived.
 
  <li>For each row in the table below:
-  <dl class="switch">
-   <dt>If the row has no "WS" octets (see <a href="#ws-note">Note</a>):
+  <dl class=switch>
+   <dt>If the row has no "WS" octets (see <a href=#ws-note>Note</a>):
    <dd>
     <ol>
      <li>Let <var>pattern-length</var> be the length of the pattern.
 
      <li>If <var>n</var> is smaller than <var>pattern-length</var> then skip
-     this row.
+     this row.</t>
 
      <li>Apply the bit-wise "and" operator to the first
      <var>pattern-length</var> octets and the given mask, and let the result be
@@ -352,7 +336,7 @@ distinguishing if a resource is text or binary</dfn>.
      octets exactly, then let the <var>sniffed-type</var> be the type given in
      the cell of the third column in that row and abort these steps.
     </ol>
-   <dt>If the row has a "WS" octet or a "_&gt;" octet (see <a href="#sb-note">Note</a>):
+   <dt>If the row has a "WS" octet or a "_>" octet (see <a href=#sb-note>Note</a>):
    <dd>
     <ol>
      <li>Let <var>index-pattern</var> be an index into the mask and pattern
@@ -366,9 +350,9 @@ distinguishing if a resource is text or binary</dfn>.
 
      <li>Examine the <var>index-stream</var>-th octet of the octet stream as
      follows:
-      <dl class="switch">
+      <dl class=switch>
        <dt>If the <var>index-pattern</var>-th octet of the pattern is a normal
-       hexadecimal octet and neither a "WS" octet nor a "_&gt;" octet:
+       hexadecimal octet and neither a "WS" octet nor a "_>" octet:
        <dd>
         <ol>
          <li>If the bit-wise "and" operator, applied to the
@@ -384,7 +368,7 @@ distinguishing if a resource is text or binary</dfn>.
        <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern
        is a "WS" octet:
        <dd>
-        <p class="note" id="ws-note">"WS" means "whitespace", and allows insignificant whitespace to be
+        <p class=note id=ws-note>"WS" means "whitespace", and allows insignificant whitespace to be
         skipped when sniffing for a type signature.
 
         <ol>
@@ -397,14 +381,14 @@ distinguishing if a resource is text or binary</dfn>.
          octet in the mask and pattern.
         </ol>
        <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern
-       is a "_&gt;" octet:
+       is a "_>" octet:
        <dd>
-        <p class="note" id="sb-note">"_&gt;" means "space-or-bracket", and allows HTML tag names
+        <p class=note id=sb-note>"_>" means "space-or-bracket", and allows HTML tag names
         to terminate with either a space or a greater than sign.
 
         <ol>
          <li>If <var>index-stream</var>-th octet of the stream is different
-         than 0x20 (ASCII space) or 0x3E (ASCII "&gt;"), then skip this row.
+         than 0x20 (ASCII space) or 0x3E (ASCII ">"), then skip this row.
 
          <li>Otherwise, increment <var>index-pattern</var> to the next octet in
          the mask and pattern and <var>index-stream</var> to the next octet in
@@ -421,7 +405,7 @@ distinguishing if a resource is text or binary</dfn>.
     </ol>
   </dl>
 
- <li>If the first n octets match <a href="#signature-for-mp4">the signature for
+ <li>If the first n octets match <a href=#signature-for-mp4>the signature for
  MP4</a>, then let the <var>sniffed-type</var> be video/mp4 and abort these
  steps.
 
@@ -454,7 +438,7 @@ distinguishing if a resource is text or binary</dfn>.
    <td>
     WS 3C 21 44 4F 43
     54 59 50 45 20 48
-    54 4D 4C _&gt;
+    54 4D 4C _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -466,7 +450,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF
    </td>
    <td>
-    WS 3C 48 54 4D 4C _&gt;
+    WS 3C 48 54 4D 4C _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -478,7 +462,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF
    </td>
    <td>
-    WS 3C 48 45 41 44 _&gt;
+    WS 3C 48 45 41 44 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -492,7 +476,7 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>
     WS 3C 53 43 52 49
-    50 54 _&gt;
+    50 54 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -505,18 +489,18 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>
     WS 3C 49 46 52 41
-    4d 45 _&gt;
+    4d 45 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
    <td>&lt;IFRAME</tr>
-  
+  </tr>
   <tr>
    <td>
     FF FF DF FF FF
    </td>
    <td>
-    WS 3C 48 31 _&gt;
+    WS 3C 48 31 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -527,7 +511,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF FF DF DF DF FF
    </td>
    <td>
-    WS 3C 44 49 56 _&gt;
+    WS 3C 44 49 56 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -539,7 +523,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF
    </td>
    <td>
-    WS 3C 46 4f 4e 54 _&gt;
+    WS 3C 46 4f 4e 54 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -551,7 +535,7 @@ distinguishing if a resource is text or binary</dfn>.
     DF FF
    </td>
    <td>
-    WS 3C 54 41 42 4c 45 _&gt;
+    WS 3C 54 41 42 4c 45 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -562,7 +546,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF FF DF FF
    </td>
    <td>
-    WS 3C 41 _&gt;
+    WS 3C 41 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -575,7 +559,7 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>
     WS 3C 53 54 59 4c
-    45 _&gt;
+    45 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -588,7 +572,7 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>
     WS 3C 54 49 54 4c
-    45 _&gt;
+    45 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -599,7 +583,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF FF DF FF
    </td>
    <td>
-    WS 3C 42 _&gt;
+    WS 3C 42 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -611,7 +595,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF
    </td>
    <td>
-    WS 3C 42 4f 44 59 _&gt;
+    WS 3C 42 4f 44 59 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -622,7 +606,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF FF DF DF FF
    </td>
    <td>
-    WS 3C 42 52 _&gt;
+    WS 3C 42 52 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -633,7 +617,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF FF DF FF
    </td>
    <td>
-    WS 3C 50 _&gt;
+    WS 3C 50 _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -644,7 +628,7 @@ distinguishing if a resource is text or binary</dfn>.
     FF FF FF FF FF FF
    </td>
    <td>
-    WS 3C 21 2d 2d _&gt;
+    WS 3C 21 2d 2d _>
    </td>
    <td>text/html</td>
    <td>Scriptable</td>
@@ -659,7 +643,7 @@ distinguishing if a resource is text or binary</dfn>.
    </td>
    <td>text/xml</td>
    <td>Scriptable</td>
-   <td>&lt;?xml (Note the case sensitivity [mask = FF instead of DF] and lack of trailing _&gt;)</td>
+   <td>&lt;?xml (Note the case sensitivity [mask = FF instead of DF] and lack of trailing _>)</td>
   </tr>
   <tr>
    <td>
@@ -873,7 +857,7 @@ distinguishing if a resource is text or binary</dfn>.
   </tr>
 </table>
 
-<p class="XXX">MP3 audio.</p>
+<p class=XXX>MP3 audio.</p>
 
 <p>User Agents MAY support additional types if necessary, by implicitly
 adding to the above table. However, User Agents SHOULD NOT not use any
@@ -885,15 +869,16 @@ HTML anyway and allows script to execute). In extending this table, User
 Agents SHOULD NOT introduce any privilege escalation
 vulnerabilities.
 
-<p class="note">The column marked "security" is used by the algorithm in the
+<p class=note>The column marked "security" is used by the algorithm in the
 "text or binary" section, to avoid sniffing text/plain content as a type that
 can be used for a privilege escalation attack.
 
 
 
-<h3 id="signature-for-mp4"><span class="secno">6.1 </span>Signature for MP4</h3>
+<h3 id=signature-for-mp4>Signature for MP4</h3>
 
-<p>This section defines whether a sequence of <var>n</var> octets <dfn id="matches-the-signature-for-mp4">match the signature for MP4</dfn>.
+<p>This section defines whether a sequence of <var>n</var> octets <dfn
+id=matches-the-signature-for-mp4>match the signature for MP4</dfn>.
 
 <ol>
  <li>If <var>n</var> is less than 12, then return that the sequence does not
@@ -925,9 +910,10 @@ can be used for a privilege escalation attack.
 </ol>
 
 
-<h3 id="images"><span class="secno">6.2 </span>Images</h3>
+<h3 id=images>Images</h3>
 
-<p>This section defines the <dfn id="rules-for-sniffing-images-specifically">rules for sniffing images
+<p>This section defines the <dfn
+id=rules-for-sniffing-images-specifically>rules for sniffing images
 specifically</dfn>.
 
 <ol>
@@ -940,12 +926,12 @@ specifically</dfn>.
  for one of the following media types, then let the
  <var>sniffed-type</var> be the corresponding media type and abort these steps:
  <ul>
-  <li>image/gif
-  <li>image/png
-  <li>image/jpeg
-  <li>image/bmp
-  <li>image/vnd.microsoft.icon
-  <li>image/webp
+  <li>image/gif</t>
+  <li>image/png</t>
+  <li>image/jpeg</t>
+  <li>image/bmp</t>
+  <li>image/vnd.microsoft.icon</t>
+  <li>image/webp</t>
  </ul>
 
  <li>Otherwise, let the <var>sniffed-type</var> be the official-type and abort these
@@ -953,9 +939,9 @@ specifically</dfn>.
 </ol>
 
 
-<h3 id="video"><span class="secno">6.3 </span>Video</h3>
+<h3 id=video>Video</h3>
 
-<p>This section defines the <dfn id="rules-for-sniffing-video-specifically">rules
+<p>This section defines the <dfn id=rules-for-sniffing-video-specifically>rules
 for sniffing videos specifically</dfn>.
 
 <ol>
@@ -970,22 +956,22 @@ for sniffing videos specifically</dfn>.
  </ul>
 
  <li>Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
- and abort these steps.
+ and abort these steps.</t>
 </ol>
 
 
-<h3 id="fonts"><span class="secno">6.4 </span>Fonts</h3>
+<h3 id=fonts>Fonts</h3>
 
-<p>This section defines the <dfn id="rules-for-sniffing-fonts-specifically">rules
+<p>This section defines the <dfn id=rules-for-sniffing-fonts-specifically>rules
 for sniffing fonts specifically</dfn>.
 
-<p class="XXX">TODO
+<p class=XXX>TODO
 
 <p>Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
 and abort these steps.
 
 
-<h3 id="feed-or-html"><span class="secno">6.5 </span>Feed or HTML</h3>
+<h3 id=feed-or-html>Feed or HTML</h3>
 
 <ol>
  <li>The User Agent MAY wait for 512 or more octets to arrive for the same
@@ -1001,7 +987,7 @@ and abort these steps.
  the first 512 octets, or which is beyond the end of the octet stream, the
  algorithm stops and the <var>sniffed-type</var> is "text/html".
 
- <p class="note">User Agents are allowed, by the first step of this algorithm, to
+ <p class=note>User Agents are allowed, by the first step of this algorithm, to
  wait until the first 512 octets have arrived.
 
  <li>Initialize <var>pos</var> to 0.
@@ -1011,7 +997,7 @@ and abort these steps.
  leading UTF-8 BOM, if any.)
 
  <li><var>LOOP</var>: Examine <var>s</var>[<var>pos</var>].
- <dl class="switch">
+ <dl class=switch>
   <dt>If it equals 0x09 (ASCII tab), 0x20 (ASCII space), 0x0A (ASCII LF), or
   0x0D (ASCII CR)
   <dd>Increase <var>pos</var> by 1 and repeat this step.
@@ -1142,14 +1128,14 @@ documents in parallel.
 
 
 
-<h2 class="no-num" id="references">References</h2>
+<h2 class=no-num id=references>References</h2>
 
-<div id="anolis-references"><dl></dl></div>
+<div id=anolis-references></div>
 
 
 
-<h2 class="no-num" id="acknowledgments">Acknowledgments</h2>
+<h2 class=no-num>Acknowledgments</h2>
 
 <p>Thanks to Alfred HÎnes, Boris Zbarsky, David Singer, Mark Pilgrim, and Russ Cox.
 
-<script src="//www.whatwg.org/specs/web-apps/current-work/dfn.js"></script>
+<script src=//www.whatwg.org/specs/web-apps/current-work/dfn.js></script>
