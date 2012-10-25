@@ -135,8 +135,8 @@ authentication credentials and mount other cross-site scripting attacks.
 <h2 id="conventions"><span class="secno">2 </span>Conventions</h2>
 
 <p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document
-are to be interpreted as described in RFC2119.
+"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document
+are to be interpreted as described in <a href="#refsRFC2119">[RFC2119]</a>.
 
 <p>Requirements phrased in the imperative as part of algorithms (such as "strip
 any leading space characters" or "return false and abort these steps") are to
@@ -161,7 +161,7 @@ indicted by the HTTP <code>Content-Type</code> header field, if present.  If the
 <code>Content-Type</code> header field is absent or if its value cannot be interpreted as a
 media type (e.g. because its value doesn't contain a U+002F SOLIDUS ('/')
 character), then there is no <var>official-type</var>.  (Such messages are invalid
-according to RFC2616.)
+according to <a href="#refsHTTP">[HTTP]</a>.)
 
 <p>If an HTTP response contains multiple <code>Content-Type</code> header
 fields, the User Agent MUST use the textually last <code>Content-Type</code> header
@@ -181,11 +181,11 @@ extensions can be supplied by malicious parties. For example, most PHP
 installations let the attacker append arbitrary path information to URLs (e.g.,
 http://example.com/foo.php/bar.html) and thereby determine the file extension.
 
-<p>For octets fetched over some other protocols, e.g. FTP <a href="#refsRFC959">[RFC959]</a>, there is no
+<p>For octets fetched over some other protocols, e.g. FTP <a href="#refsFTP">[FTP]</a>, there is no
 type information.
 
 <p class="note">Comparisons between media types, as defined by MIME
-specifications, are done in an ASCII case-insensitive manner. <a href="#refsRFC2046">[RFC2046]</a>
+specifications, are done in an ASCII case-insensitive manner. <a href="#refsMIMETYPE">[MIMETYPE]</a>
 
 
 
@@ -1144,11 +1144,17 @@ documents in parallel.
 
 <h2 class="no-num" id="references">References</h2>
 
-<div id="anolis-references"><dl><dt id="refsRFC2046">[RFC2046]
+<div id="anolis-references"><dl><dt id="refsFTP">[FTP]
+<dd><cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
+
+<dt id="refsHTTP">[HTTP]
+<dd><cite><a href="http://tools.ietf.org/html/rfc2616">Hypertext Transfer Protocol -- HTTP/1.1</a></cite>, Roy Fielding, James Gettys, Jeffrey Mogul et al.. IETF.
+
+<dt id="refsMIMETYPE">[MIMETYPE]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2046">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</a></cite>, Ned Freed and Nathaniel Borenstein. IETF.
 
-<dt id="refsRFC959">[RFC959]
-<dd><cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
+<dt id="refsRFC2119">[RFC2119]
+<dd><cite><a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a></cite>, Scott Bradner. IETF.
 
 <dt id="refsSECCONTSNIFF">[SECCONTSNIFF]
 <dd><cite><a href="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves</a></cite>, Adam Barth, Juan Caballero and Dawn Song.
