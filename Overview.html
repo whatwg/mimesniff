@@ -119,7 +119,7 @@ constraints imposed by existing web content. The algorithm has been
 constructed with reference to content sniffing algorithms present in popular
 User Agents, an extensive database of existing web content, and metrics
 collected from implementations deployed to a sizable number of users, as
-described in <span class="XXX">BarthCaballeroSong2009</span>.
+described in <a href="#refsSECCONTSNIFF">[SECCONTSNIFF]</a>.
 
 <p>Whenever possible, User Agents SHOULD NOT employ a content sniffing
 algorithm.  However, if a User Agent does employ a content sniffing algorithm,
@@ -181,11 +181,11 @@ extensions can be supplied by malicious parties. For example, most PHP
 installations let the attacker append arbitrary path information to URLs (e.g.,
 http://example.com/foo.php/bar.html) and thereby determine the file extension.
 
-<p>For octets fetched over some other protocols, e.g. FTP [RFC959], there is no
+<p>For octets fetched over some other protocols, e.g. FTP <a href="#refsRFC959">[RFC959]</a>, there is no
 type information.
 
 <p class="note">Comparisons between media types, as defined by MIME
-specifications, are done in an ASCII case-insensitive manner.  [RFC2046]
+specifications, are done in an ASCII case-insensitive manner. <a href="#refsRFC2046">[RFC2046]</a>
 
 
 
@@ -1144,7 +1144,16 @@ documents in parallel.
 
 <h2 class="no-num" id="references">References</h2>
 
-<div id="anolis-references"><dl></dl></div>
+<div id="anolis-references"><dl><dt id="refsRFC2046">[RFC2046]
+<dd><cite><a href="http://tools.ietf.org/html/rfc2046">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</a></cite>, Ned Freed and Nathaniel Borenstein. IETF.
+
+<dt id="refsRFC959">[RFC959]
+<dd><cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
+
+<dt id="refsSECCONTSNIFF">[SECCONTSNIFF]
+<dd><cite><a href="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves</a></cite>, Adam Barth, Juan Caballero and Dawn Song.
+
+</dl></div>
 
 
 
