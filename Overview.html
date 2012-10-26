@@ -12,7 +12,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-25-october-2012">Living Standard — Last Updated 25 October 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-26-october-2012">Living Standard — Last Updated 26 October 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -53,7 +53,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 25 October 2012, the editor has made this
+  In addition, as of 26 October 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -117,57 +117,51 @@
 
 <p>
  Without a clear specification of how to "sniff" the media type, each User
- Agent implementor was forced to reverse engineer the behavior of other User
- Agents and to develop his or her own algorithm.
+ Agent has been forced to reverse-engineer the algorithms of other User Agents
+ in order to maintain interoperability.
 
- These divergent algorithms have lead to a lack of interoperability between
- User Agents and to security issues when the server intends an HTTP response
- to be interpreted as one media type but some User Agents interpret the
- responses as another media type.
+ Inevitably, these efforts have not been entirely successful, resulting in
+ divergent behaviors among User Agents.
 
-<p>
- These security issues are most severe when an "honest" server lets
- potentially malicious users upload files and then serves the contents of
- those files with a low-privilege media type (such as text/plain or
- image/jpeg).
-
- (Malicious servers, of course, can specify an arbitrary media type in the
- <code>Content-Type</code> header field.)
-
- In the absence of media type sniffing, this user-generated content would not
- be interpreted as a high-privilege media type, such as text/html.
-
- However, if a User Agent does interpret a low-privilege media type, such as
- image/gif, as a high-privilege media type, such as text/html, then the User
- Agent has created a privilege escalation vulnerability in the server.
-
- For example, a malicious user might be able to leverage content sniffing to
- mount a cross-site script attack by including JavaScript code in the uploaded
- file that a User Agent treats as text/html.
+ In some cases, these divergent behaviors have had security implications, as a
+ User Agent could interpret an HTTP response as a different media type than
+ the server intended.
 
 <p>
- This document describes a content sniffing algorithm that carefully balances
- the compatibility needs of User Agent implementors with the security
- constraints imposed by existing web content.
-
- The algorithm has been constructed with reference to content sniffing
- algorithms present in popular User Agents, an extensive database of existing
- web content, and metrics collected from implementations deployed to a sizable
- number of users, as described in <a href="#refsSECCONTSNIFF">[SECCONTSNIFF]</a>.
-
-<p>
- Whenever possible, User Agents SHOULD NOT employ a content sniffing
- algorithm.
-
- However, if a User Agent does employ a content sniffing algorithm, the User
- Agent SHOULD use the algorithm in this document because using a different
- content sniffing algorithm than servers expect causes security problems.
+ These security issues are most severe when an "honest" server allows
+ potentially malicious users to upload their own files and then serves the
+ contents of those files with a low-privilege media type.
 
  For example, if a server believes that the client will treat a contributed
  file as an image (and thus treat it as benign), but a User Agent believes the
  content to be HTML (and thus privileged to execute any scripts contained
  therein), an attacker might be able to steal the user's authentication
  credentials and mount other cross-site scripting attacks.
+
+ (Malicious servers, of course, can specify an arbitrary media type in the
+ <code>Content-Type</code> header field.)
+
+ In the absence of media type sniffing, this user-generated content would not
+ be interpreted as a high-privilege media type.
+
+<p>
+ This document describes a content sniffing algorithm that carefully balances
+ the compatibility needs of User Agent with the security constraints imposed
+ by existing web content.
+
+ The algorithm originated from research conducted by Adam Barth, Juan
+ Caballero, and Dawn Song, based on content sniffing algorithms present in
+ popular User Agents, an extensive database of existing web content, and
+ metrics collected from implementations deployed to a sizable number of users.
+ <a href="#refsSECCONTSNIFF">[SECCONTSNIFF]</a>
+
+<p>
+ Whenever possible, User Agents SHOULD NOT employ a content sniffing
+ algorithm.
+
+ However, if a User Agent does employ a content sniffing algorithm, the User
+ Agent SHOULD use the algorithm in this document; using a different content
+ sniffing algorithm could have unexpected security implications.
 
 
 
@@ -176,8 +170,8 @@
 <p>
  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
  "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
- document are to be interpreted as described in
- <a href="#refsRFC2119">[RFC2119]</a>.
+ document are to be interpreted as described in RFC 2119.
+ <a href="#refsRFC2119">[RFC2119]</a>
 
 <p>
  Requirements phrased in the imperative as part of algorithms (such as "strip
@@ -189,8 +183,8 @@
  Conformance requirements phrased as algorithms or specific steps can be
  implemented in any manner, so long as the end result is equivalent.
 
- In particular, the algorithms defined in this specification are intended to
- be easy to understand and are not intended to be performant.
+ In particular, note that the algorithms defined in this specification are
+ intended to be easy to understand and are not intended to be performant.
 
 
 
