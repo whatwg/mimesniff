@@ -189,8 +189,9 @@
  <span title=byte>bytes</span>: 0x20 (SP), 0x3E (>).
 
 <p>
- The <dfn>media type</dfn> of a file is a technical hint about the use and
- format of that file. <span data-anolis-ref class=informative>MIMETYPE</span>
+ The <dfn>media type</dfn> of a resource is a technical hint about the use and
+ format of that resource.
+ <span data-anolis-ref class=informative>MIMETYPE</span>
 
 <p>
  A <dfn>valid media type</dfn> is a
@@ -208,13 +209,13 @@
  and is case-insensitive. <span data-anolis-ref>HTTP</span>
 
 <p>
- The <dfn>official media type</dfn> of a file is the <span>valid media
- type</span> of the file as determined by the <span>official media type
+ The <dfn>official media type</dfn> of a resource is the <span>valid media
+ type</span> of the resource as determined by the <span>official media type
  detection algorithm</span>.
 
 <p>
- The <dfn>sniffed media type</dfn> of a file is the <span>valid media
- type</span> of the file as determined by the <span>media type sniffing
+ The <dfn>sniffed media type</dfn> of a resource is the <span>valid media
+ type</span> of the resource as determined by the <span>media type sniffing
  algorithm</span>.
 
 
@@ -222,38 +223,38 @@
 <h2>The official media type</h2>
 
 <p>
- The <span>official media type</span> of a file is provided to the User Agent
- by an external source associated with that file.
+ The <span>official media type</span> of a resource is provided to the User
+ Agent by an external source associated with that resource.
 
- The method of obtaining this information varies depending upon how the file
- is retrieved.
+ The method of obtaining this information varies depending upon how the
+ resource is retrieved.
 
 <p>
- To determine the <span>official media type</span> of a file, User Agents MUST
- use the following <dfn>official media type detection algorithm</dfn>:
+ To determine the <span>official media type</span> of a resource, User Agents
+ MUST use the following <dfn>official media type detection algorithm</dfn>:
 
  <ol>
   <li>
    Let <var>official-type</var> be null.
 
   <li>
-   If the file is retrieved via HTTP and one or more <code>Content-Type</code>
-   headers are associated with the file, set <var>official-type</var> to the
-   value associated with the last such <code>Content-Type</code> header.
-   <span data-anolis-ref=http>HTTP</span>
+   If the resource is retrieved via HTTP and one or more
+   <code>Content-Type</code> headers are associated with the resource, set
+   <var>official-type</var> to the value associated with the last such
+   <code>Content-Type</code> header. <span data-anolis-ref=http>HTTP</span>
 
    <p class=note>
-    File extensions MUST NOT be used to determine the <span>official media
-    type</span> of a file retrieved via HTTP, as they are unreliable and
-    easily spoofed.
+    File extensions are not used to determine the <span>official media
+    type</span> of a resource retrieved via HTTP because they are unreliable
+    and easily spoofed.
 
   <li>
-   If the file is retrieved directly from the file system, set
+   If the resource is retrieved directly from the file system, set
    <var>official-type</var> to the <span>media type</span> provided by the
    file system.
 
   <li>
-   If the file is retrieved via another protocol (such as FTP), set
+   If the resource is retrieved via another protocol (such as FTP), set
    <var>official-type</var> to the <span>media type</span> as determined by
    that protocol, if any. <span data-anolis-ref class=informative>FTP</span>
 
