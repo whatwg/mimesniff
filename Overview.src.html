@@ -174,17 +174,24 @@
 <h2>Terminology</h2>
 
 <p>
- A <dfn>byte</dfn> is a sequence of eight bits, represented by a hexadecimal
- number in the range 0x00 to 0xFF.
+ This document uses the term <span data-anolis-spec=encoding>byte</span> as
+ defined in the Encoding Standard. <span data-anolis-ref>ENCODING</span>
 
 <p>
- A <dfn>whitespace byte</dfn> is a <span>byte</span> with a value equal to one of the following: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR), 0x20 (SP).
+ A <dfn>whitespace byte</dfn> is one of the following
+ <span title=byte>bytes</span>: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR),
+ 0x20 (SP).
 
 <p>
- A <dfn>tag-terminating byte</dfn> is a <span>byte</span> with a value equal to one of the following: 0x20 (SP), 0x3E (>).
+ A <dfn>tag-terminating byte</dfn> is one of the following
+ <span title=byte>bytes</span>: 0x20 (SP), 0x3E (>).
 
 <p>
- A <dfn>valid media type</dfn> is a <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its successor, and is made up in part by a <span data-anolis-spec=http>type</span> and a <span data-anolis-spec=http>subtype</span>. <span data-anolis-ref>HTTP</span>
+ A <dfn>valid media type</dfn> is a
+ <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its
+ successor, and is made up in part by a
+ <span data-anolis-spec=http>type</span> and a
+ <span data-anolis-spec=http>subtype</span>. <span data-anolis-ref>HTTP</span>
 
 
 

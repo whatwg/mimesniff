@@ -192,17 +192,24 @@
 <h2 id="terminology"><span class="secno">3 </span>Terminology</h2>
 
 <p>
- A <dfn id="byte">byte</dfn> is a sequence of eight bits, represented by a hexadecimal
- number in the range 0x00 to 0xFF.
+ This document uses the term <a class="external" data-anolis-spec="encoding" href="http://encoding.spec.whatwg.org/#byte">byte</a> as
+ defined in the Encoding Standard. <a href="#refsENCODING">[ENCODING]</a>
 
 <p>
- A <dfn id="whitespace-byte">whitespace byte</dfn> is a <a href="#byte">byte</a> with a value equal to one of the following: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR), 0x20 (SP).
+ A <dfn id="whitespace-byte">whitespace byte</dfn> is one of the following
+ <span title="byte">bytes</span>: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR),
+ 0x20 (SP).
 
 <p>
- A <dfn id="tag-terminating-byte">tag-terminating byte</dfn> is a <a href="#byte">byte</a> with a value equal to one of the following: 0x20 (SP), 0x3E (&gt;).
+ A <dfn id="tag-terminating-byte">tag-terminating byte</dfn> is one of the following
+ <span title="byte">bytes</span>: 0x20 (SP), 0x3E (&gt;).
 
 <p>
- A <dfn id="valid-media-type">valid media type</dfn> is a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its successor, and is made up in part by a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>. <a href="#refsHTTP">[HTTP]</a>
+ A <dfn id="valid-media-type">valid media type</dfn> is a
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its
+ successor, and is made up in part by a
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>. <a href="#refsHTTP">[HTTP]</a>
 
 
 
@@ -1392,7 +1399,10 @@
 
 <h2 class="no-num" id="references">References</h2>
 
-<div id="anolis-references"><dl><dt id="refsFTP">[FTP]
+<div id="anolis-references"><dl><dt id="refsENCODING">[ENCODING]
+<dd><cite><a href="http://encoding.spec.whatwg.org/">Encoding Standard</a></cite>, Anne van Kesteren. WHATWG.
+
+<dt id="refsFTP">[FTP]
 <dd><cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
 
 <dt id="refsHTTP">[HTTP]
