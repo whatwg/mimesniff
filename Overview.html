@@ -87,7 +87,7 @@
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#metadata"><span class="secno">4 </span>Metadata</a></li>
+ <li><a href="#the-official-media-type"><span class="secno">4 </span>The official media type</a></li>
  <li><a href="#web-pages"><span class="secno">5 </span>Web Pages</a></li>
  <li><a href="#text-or-binary"><span class="secno">6 </span>Text or Binary</a></li>
  <li><a href="#unknown-type"><span class="secno">7 </span>Unknown Type</a>
@@ -209,60 +209,74 @@
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its
  successor, and is made up in part by a
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>. <a href="#refsHTTP">[HTTP]</a>
-
-
-
-<h2 id="metadata"><span class="secno">4 </span>Metadata</h2>
-
-<p>
- The explicit media type metadata information associated with sequence of
- bytes depends on the protocol that was used to fetch the bytes.
-
-<p>
- For bytes received via HTTP, the <code>Content-Type</code> HTTP header field,
- if present, indicates the media type. Let the <var>official-type</var> be the
- media type indicted by the HTTP <code>Content-Type</code> header field, if
- present.
-
- If the <code>Content-Type</code> header field is absent or if its value
- cannot be interpreted as a media type (e.g. because its value doesn't contain
- a U+002F SOLIDUS ('/') character), then there is no <var>official-type</var>.
-
- (Such messages are invalid according to <a href="#refsHTTP">[HTTP]</a>.)
-
-<p>
- If an HTTP response contains multiple <code>Content-Type</code> header
- fields, the User Agent MUST use the textually last <code>Content-Type</code>
- header field as the <var>official-type</var>.
-
- For example, if the last <code>Content-Type</code> header field contains the
- value "foo", then there is no official media type because "foo" cannot be
- interpreted as a media type (even if the HTTP response contains another
- <code>Content-Type</code> header field that could be interpreted as a media
- type).
-
-<p>
- For bytes fetched from the file system, User Agents should use
- platform-specific conventions (e.g., operating system file extension/type
- mappings) to determine the <var>official-type</var>.
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>. The <dfn id="media-type-portion">media type portion</dfn>
+ of a <a href="#valid-media-type">valid media type</a> is the string represented by concatenating
+ <span>type</span>, the string "/", and <span>subtype</span>.
+ <a href="#refsHTTP">[HTTP]</a>
 
 <p class="note">
- It is essential that file extensions are not used for determining the media
- type for bytes fetched over HTTP because, in some cases, file extensions can
- be supplied by malicious parties.
-
- For example, most PHP installations let the attacker append arbitrary path
- information to URLs (e.g., http://example.com/foo.php/bar.html) and thereby
- determine the file extension.
+ The <a href="#media-type-portion">media type portion</a> of a <a href="#valid-media-type">valid media type</a>
+ excludes all <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7" title="parameter">parameters</a>
+ and is case-insensitive. <a href="#refsHTTP">[HTTP]</a>
 
 <p>
- For bytes fetched over some other protocols, e.g. FTP
- <a href="#refsFTP">[FTP]</a>, there is no type information.
+ The <dfn id="official-media-type">official media type</dfn> of a file is the <a href="#valid-media-type">valid media
+ type</a> of the file as determined by the <a href="#official-media-type-detection-algorithm">official media type
+ detection algorithm</a>.
 
-<p class="note">
- Comparisons between media types, as defined by MIME specifications, are done
- in an ASCII case-insensitive manner. <a href="#refsMIMETYPE">[MIMETYPE]</a>
+<p>
+ The <dfn id="sniffed-media-type">sniffed media type</dfn> of a file is the <a href="#valid-media-type">valid media
+ type</a> of the file as determined by the <span>media type sniffing
+ algorithm</span>.
+
+
+
+<h2 id="the-official-media-type"><span class="secno">4 </span>The official media type</h2>
+
+<p>
+ The <a href="#official-media-type">official media type</a> of a file is provided to the User Agent
+ by an external source associated with that file.
+
+ The method of obtaining this information varies depending upon how the file
+ is retrieved.
+
+<p>
+ To determine the <a href="#official-media-type">official media type</a> of a file, User Agents MUST
+ use the following <dfn id="official-media-type-detection-algorithm">official media type detection algorithm</dfn>:
+
+ <ol>
+  <li>
+   Let <var>official-type</var> be null.
+
+  <li>
+   If the file is retrieved via HTTP and one or more <code>Content-Type</code>
+   headers are associated with the file, set <var>official-type</var> to the
+   value associated with the last such <code>Content-Type</code> header.
+   <a href="#refsHTTP">[HTTP]</a>
+
+   <p class="note">
+    File extensions MUST NOT be used to determine the <a href="#official-media-type">official media
+    type</a> of a file retrieved via HTTP, as they are unreliable and
+    easily spoofed.
+
+  <li>
+   If the file is retrieved directly from the file system, set
+   <var>official-type</var> to the <span>media type</span> provided by the
+   file system.
+
+  <li>
+   If the file is retrieved via another protocol (such as FTP), set
+   <var>official-type</var> to the <span>media type</span> as determined by
+   that protocol, if any.
+   <a class="informative" href="#refsFTP">[FTP]</a>
+
+  <li>
+   If <var>official-type</var> is not a <a href="#valid-media-type">valid media type</a>, set
+   <var>official-type</var> to null.
+
+  <li>
+   The <a href="#official-media-type">official media type</a> is <var>official-type</var>.
+ </ol>
 
 
 
@@ -1403,13 +1417,10 @@
 <dd><cite><a href="http://encoding.spec.whatwg.org/">Encoding Standard</a></cite>, Anne van Kesteren. WHATWG.
 
 <dt id="refsFTP">[FTP]
-<dd><cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
+<dd>(Non-normative) <cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
 
 <dt id="refsHTTP">[HTTP]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2616">Hypertext Transfer Protocol -- HTTP/1.1</a></cite>, Roy Fielding, James Gettys, Jeffrey Mogul et al.. IETF.
-
-<dt id="refsMIMETYPE">[MIMETYPE]
-<dd><cite><a href="http://tools.ietf.org/html/rfc2046">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</a></cite>, Ned Freed and Nathaniel Borenstein. IETF.
 
 <dt id="refsRFC2119">[RFC2119]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a></cite>, Scott Bradner. IETF.
