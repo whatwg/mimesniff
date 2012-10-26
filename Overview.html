@@ -207,6 +207,10 @@
  <span title="byte">bytes</span>: 0x20 (SP), 0x3E (&gt;).
 
 <p>
+ The <dfn id="media-type">media type</dfn> of a file is a technical hint about the use and
+ format of that file. <a class="informative" href="#refsMIMETYPE">[MIMETYPE]</a>
+
+<p>
  A <dfn id="valid-media-type">valid media type</dfn> is a
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its
  successor, and is made up in part by a
@@ -263,14 +267,13 @@
 
   <li>
    If the file is retrieved directly from the file system, set
-   <var>official-type</var> to the <span>media type</span> provided by the
+   <var>official-type</var> to the <a href="#media-type">media type</a> provided by the
    file system.
 
   <li>
    If the file is retrieved via another protocol (such as FTP), set
-   <var>official-type</var> to the <span>media type</span> as determined by
-   that protocol, if any.
-   <a class="informative" href="#refsFTP">[FTP]</a>
+   <var>official-type</var> to the <a href="#media-type">media type</a> as determined by
+   that protocol, if any. <a class="informative" href="#refsFTP">[FTP]</a>
 
   <li>
    If <var>official-type</var> is not a <a href="#valid-media-type">valid media type</a>, set
@@ -1423,6 +1426,9 @@
 
 <dt id="refsHTTP">[HTTP]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2616">Hypertext Transfer Protocol -- HTTP/1.1</a></cite>, Roy Fielding, James Gettys, Jeffrey Mogul et al.. IETF.
+
+<dt id="refsMIMETYPE">[MIMETYPE]
+<dd>(Non-normative) <cite><a href="http://tools.ietf.org/html/rfc2046">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</a></cite>, Ned Freed and Nathaniel Borenstein. IETF.
 
 <dt id="refsRFC2119">[RFC2119]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a></cite>, Scott Bradner. IETF.

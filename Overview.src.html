@@ -189,6 +189,10 @@
  <span title=byte>bytes</span>: 0x20 (SP), 0x3E (>).
 
 <p>
+ The <dfn>media type</dfn> of a file is a technical hint about the use and
+ format of that file. <span data-anolis-ref class=informative>MIMETYPE</span>
+
+<p>
  A <dfn>valid media type</dfn> is a
  <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its
  successor, and is made up in part by a
@@ -201,7 +205,7 @@
 <p class=note>
  The <span>media type portion</span> of a <span>valid media type</span>
  excludes all <span title=parameter data-anolis-spec=http>parameters</span>
- and is case-insensitive. <span data-anolis-ref=http>HTTP</span>
+ and is case-insensitive. <span data-anolis-ref>HTTP</span>
 
 <p>
  The <dfn>official media type</dfn> of a file is the <span>valid media
@@ -251,8 +255,7 @@
   <li>
    If the file is retrieved via another protocol (such as FTP), set
    <var>official-type</var> to the <span>media type</span> as determined by
-   that protocol, if any.
-   <span data-anolis-ref=ftp class=informative>FTP</span>
+   that protocol, if any. <span data-anolis-ref class=informative>FTP</span>
 
   <li>
    If <var>official-type</var> is not a <span>valid media type</span>, set
