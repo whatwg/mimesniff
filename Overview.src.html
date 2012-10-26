@@ -171,6 +171,23 @@
 
 
 
+<h2>Terminology</h2>
+
+<p>
+ An <dfn>octet</dfn> is a sequence of eight bits, represented by a hexadecimal
+ number in the range 0x00 to 0xFF.
+
+<p>
+ A <dfn>whitespace octet</dfn> is an <span>octet</span> with a value equal to one of the following: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR), 0x20 (SP).
+
+<p>
+ A <dfn>tag-terminating octet</dfn> is an <span>octet</span> with a value equal to one of the following: 0x20 (SP), 0x3E (>).
+
+<p>
+ A <dfn>valid media type</dfn> is a <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its successor, and is made up in part by a <span data-anolis-spec=http>type</span> and a <span data-anolis-spec=http>subtype</span>. <span data-anolis-ref>HTTP</span>
+
+
+
 <h2 id=metadata>Metadata</h2>
 
 <p>

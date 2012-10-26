@@ -86,16 +86,17 @@
  <li><a class="no-num" href="#table-of-contents">Table of contents</a></li>
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
- <li><a href="#metadata"><span class="secno">3 </span>Metadata</a></li>
- <li><a href="#web-pages"><span class="secno">4 </span>Web Pages</a></li>
- <li><a href="#text-or-binary"><span class="secno">5 </span>Text or Binary</a></li>
- <li><a href="#unknown-type"><span class="secno">6 </span>Unknown Type</a>
+ <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
+ <li><a href="#metadata"><span class="secno">4 </span>Metadata</a></li>
+ <li><a href="#web-pages"><span class="secno">5 </span>Web Pages</a></li>
+ <li><a href="#text-or-binary"><span class="secno">6 </span>Text or Binary</a></li>
+ <li><a href="#unknown-type"><span class="secno">7 </span>Unknown Type</a>
   <ol>
-   <li><a href="#signature-for-mp4"><span class="secno">6.1 </span>Signature for MP4</a></li>
-   <li><a href="#images"><span class="secno">6.2 </span>Images</a></li>
-   <li><a href="#video"><span class="secno">6.3 </span>Video</a></li>
-   <li><a href="#fonts"><span class="secno">6.4 </span>Fonts</a></li>
-   <li><a href="#feed-or-html"><span class="secno">6.5 </span>Feed or HTML</a></ol></li>
+   <li><a href="#signature-for-mp4"><span class="secno">7.1 </span>Signature for MP4</a></li>
+   <li><a href="#images"><span class="secno">7.2 </span>Images</a></li>
+   <li><a href="#video"><span class="secno">7.3 </span>Video</a></li>
+   <li><a href="#fonts"><span class="secno">7.4 </span>Fonts</a></li>
+   <li><a href="#feed-or-html"><span class="secno">7.5 </span>Feed or HTML</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -188,7 +189,24 @@
 
 
 
-<h2 id="metadata"><span class="secno">3 </span>Metadata</h2>
+<h2 id="terminology"><span class="secno">3 </span>Terminology</h2>
+
+<p>
+ An <dfn id="octet">octet</dfn> is a sequence of eight bits, represented by a hexadecimal
+ number in the range 0x00 to 0xFF.
+
+<p>
+ A <dfn id="whitespace-octet">whitespace octet</dfn> is an <a href="#octet">octet</a> with a value equal to one of the following: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR), 0x20 (SP).
+
+<p>
+ A <dfn id="tag-terminating-octet">tag-terminating octet</dfn> is an <a href="#octet">octet</a> with a value equal to one of the following: 0x20 (SP), 0x3E (&gt;).
+
+<p>
+ A <dfn id="valid-media-type">valid media type</dfn> is a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its successor, and is made up in part by a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>. <a href="#refsHTTP">[HTTP]</a>
+
+
+
+<h2 id="metadata"><span class="secno">4 </span>Metadata</h2>
 
 <p>
  The explicit media type metadata information associated with sequence of
@@ -241,7 +259,7 @@
 
 
 
-<h2 id="web-pages"><span class="secno">4 </span>Web Pages</h2>
+<h2 id="web-pages"><span class="secno">5 </span>Web Pages</h2>
 
 <p>
  The User Agent MUST use the following algorithm to determine the
@@ -326,7 +344,7 @@
 
 
 
-<h2 id="text-or-binary"><span class="secno">5 </span>Text or Binary</h2>
+<h2 id="text-or-binary"><span class="secno">6 </span>Text or Binary</h2>
 
 <p>
  This section defines the <dfn id="rules-for-text-or-binary">rules for
@@ -400,7 +418,7 @@
 
 
 
-<h2 id="unknown-type"><span class="secno">6 </span>Unknown Type</h2>
+<h2 id="unknown-type"><span class="secno">7 </span>Unknown Type</h2>
 
 <ol>
  <li>
@@ -1031,7 +1049,7 @@
  a privilege escalation attack.
 
 
-<h3 id="signature-for-mp4"><span class="secno">6.1 </span>Signature for MP4</h3>
+<h3 id="signature-for-mp4"><span class="secno">7.1 </span>Signature for MP4</h3>
 
 <p>
  This section defines whether a sequence of <var>n</var> octets
@@ -1078,7 +1096,7 @@
 </ol>
 
 
-<h3 id="images"><span class="secno">6.2 </span>Images</h3>
+<h3 id="images"><span class="secno">7.2 </span>Images</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-images-specifically">rules
@@ -1123,7 +1141,7 @@
 </ol>
 
 
-<h3 id="video"><span class="secno">6.3 </span>Video</h3>
+<h3 id="video"><span class="secno">7.3 </span>Video</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-video-specifically">rules
@@ -1154,7 +1172,7 @@
 </ol>
 
 
-<h3 id="fonts"><span class="secno">6.4 </span>Fonts</h3>
+<h3 id="fonts"><span class="secno">7.4 </span>Fonts</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-fonts-specifically">rules
@@ -1167,7 +1185,7 @@
  and abort these steps.
 
 
-<h3 id="feed-or-html"><span class="secno">6.5 </span>Feed or HTML</h3>
+<h3 id="feed-or-html"><span class="secno">7.5 </span>Feed or HTML</h3>
 
 <ol>
  <li>
