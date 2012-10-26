@@ -89,7 +89,7 @@
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#the-official-media-type"><span class="secno">4 </span>The official media type</a></li>
+ <li><a href="#the-specified-media-type"><span class="secno">4 </span>The specified media type</a></li>
  <li><a href="#web-pages"><span class="secno">5 </span>Web Pages</a></li>
  <li><a href="#text-or-binary"><span class="secno">6 </span>Text or Binary</a></li>
  <li><a href="#unknown-type"><span class="secno">7 </span>Unknown Type</a>
@@ -227,29 +227,29 @@
  and is case-insensitive. <a href="#refsHTTP">[HTTP]</a>
 
 <p>
- The <dfn id="official-media-type">official media type</dfn> of a resource is the <a href="#valid-media-type">valid media
- type</a> of the resource as determined by the <a href="#official-media-type-detection-algorithm">official media type
+ The <dfn id="specified-media-type">specified media type</dfn> of a resource is the <a href="#valid-media-type">valid media
+ type</a> of the resource as determined by the <a href="#specified-media-type-detection-algorithm">specified media type
  detection algorithm</a>.
 
 <p>
- The <dfn id="sniffed-media-type">sniffed media type</dfn> of a resource is the <a href="#valid-media-type">valid media
+ The <dfn id="actual-media-type">actual media type</dfn> of a resource is the <a href="#valid-media-type">valid media
  type</a> of the resource as determined by the <span>media type sniffing
  algorithm</span>.
 
 
 
-<h2 id="the-official-media-type"><span class="secno">4 </span>The official media type</h2>
+<h2 id="the-specified-media-type"><span class="secno">4 </span>The specified media type</h2>
 
 <p>
- The <a href="#official-media-type">official media type</a> of a resource is provided to the User
+ The <a href="#specified-media-type">specified media type</a> of a resource is provided to the User
  Agent by an external source associated with that resource.
 
  The method of obtaining this information varies depending upon how the
  resource is retrieved.
 
 <p>
- To determine the <a href="#official-media-type">official media type</a> of a resource, User Agents
- MUST use the following <dfn id="official-media-type-detection-algorithm">official media type detection algorithm</dfn>:
+ To determine the <a href="#specified-media-type">specified media type</a> of a resource, User Agents
+ MUST use the following <dfn id="specified-media-type-detection-algorithm">specified media type detection algorithm</dfn>:
 
  <ol>
   <li>
@@ -262,8 +262,8 @@
    <code>Content-Type</code> header. <a href="#refsHTTP">[HTTP]</a>
 
    <p class="note">
-    File extensions are not used to determine the <a href="#official-media-type">official media
-    type</a> of a resource retrieved via HTTP because they are unreliable
+    File extensions are not used to determine the <span>official media
+    type</span> of a resource retrieved via HTTP because they are unreliable
     and easily spoofed.
 
   <li>
@@ -281,7 +281,7 @@
    <var>official-type</var> to null.
 
   <li>
-   The <a href="#official-media-type">official media type</a> is <var>official-type</var>.
+   The <a href="#specified-media-type">specified media type</a> is <var>official-type</var>.
  </ol>
 
 
