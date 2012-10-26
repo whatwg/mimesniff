@@ -192,14 +192,14 @@
 <h2 id="terminology"><span class="secno">3 </span>Terminology</h2>
 
 <p>
- An <dfn id="octet">octet</dfn> is a sequence of eight bits, represented by a hexadecimal
+ A <dfn id="byte">byte</dfn> is a sequence of eight bits, represented by a hexadecimal
  number in the range 0x00 to 0xFF.
 
 <p>
- A <dfn id="whitespace-octet">whitespace octet</dfn> is an <a href="#octet">octet</a> with a value equal to one of the following: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR), 0x20 (SP).
+ A <dfn id="whitespace-byte">whitespace byte</dfn> is a <a href="#byte">byte</a> with a value equal to one of the following: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR), 0x20 (SP).
 
 <p>
- A <dfn id="tag-terminating-octet">tag-terminating octet</dfn> is an <a href="#octet">octet</a> with a value equal to one of the following: 0x20 (SP), 0x3E (&gt;).
+ A <dfn id="tag-terminating-byte">tag-terminating byte</dfn> is a <a href="#byte">byte</a> with a value equal to one of the following: 0x20 (SP), 0x3E (&gt;).
 
 <p>
  A <dfn id="valid-media-type">valid media type</dfn> is a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its successor, and is made up in part by a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>. <a href="#refsHTTP">[HTTP]</a>
@@ -210,13 +210,13 @@
 
 <p>
  The explicit media type metadata information associated with sequence of
- octets depends on the protocol that was used to fetch the octets.
+ bytes depends on the protocol that was used to fetch the bytes.
 
 <p>
- For octets received via HTTP, the <code>Content-Type</code> HTTP header
- field, if present, indicates the media type. Let the <var>official-type</var>
- be the media type indicted by the HTTP <code>Content-Type</code> header
- field, if present.
+ For bytes received via HTTP, the <code>Content-Type</code> HTTP header field,
+ if present, indicates the media type. Let the <var>official-type</var> be the
+ media type indicted by the HTTP <code>Content-Type</code> header field, if
+ present.
 
  If the <code>Content-Type</code> header field is absent or if its value
  cannot be interpreted as a media type (e.g. because its value doesn't contain
@@ -236,13 +236,13 @@
  type).
 
 <p>
- For octets fetched from the file system, User Agents should use
+ For bytes fetched from the file system, User Agents should use
  platform-specific conventions (e.g., operating system file extension/type
  mappings) to determine the <var>official-type</var>.
 
 <p class="note">
  It is essential that file extensions are not used for determining the media
- type for octets fetched over HTTP because, in some cases, file extensions can
+ type for bytes fetched over HTTP because, in some cases, file extensions can
  be supplied by malicious parties.
 
  For example, most PHP installations let the attacker append arbitrary path
@@ -250,7 +250,7 @@
  determine the file extension.
 
 <p>
- For octets fetched over some other protocols, e.g. FTP
+ For bytes fetched over some other protocols, e.g. FTP
  <a href="#refsFTP">[FTP]</a>, there is no type information.
 
 <p class="note">
@@ -263,7 +263,7 @@
 
 <p>
  The User Agent MUST use the following algorithm to determine the
- <var>sniffed-type</var> of a sequence of octets:
+ <var>sniffed-type</var> of a sequence of bytes:
 
 <ol>
  <li>
@@ -272,9 +272,9 @@
   <var>official-type</var> and abort these steps.
 
  <li>
-  If the octets were fetched via HTTP and there is an HTTP
+  If the bytes were fetched via HTTP and there is an HTTP
   <code>Content-Type</code> header field and the value of the last such header
-  field has octets that <strong>exactly</strong> match the octets contained in
+  field has bytes that <strong>exactly</strong> match the bytes contained in
   one of the following lines:
 
   <table>
@@ -311,7 +311,7 @@
   ...then jump to the "text or binary" section below.
 
   <p class="note">
-   The algorithm detects these exact octet sequences because some older
+   The algorithm detects these exact byte sequences because some older
    installations of Apache contain a bug that causes them to supply one of
    these Content-Type headers when serving files with unrecognized file
    extensions.
@@ -352,24 +352,24 @@
 
 <ol>
  <li>
-  The User Agent MAY wait for 512 or more octets to arrive.
+  The User Agent MAY wait for 512 or more bytes to arrive.
 
   <p class="note">
-   Waiting for 512 octets octets to arrive causes the text-or-binary algorithm
-   to be deterministic for a given sequence of octets.
+   Waiting for 512 bytes bytes to arrive causes the text-or-binary algorithm
+   to be deterministic for a given sequence of bytes.
 
    However, in some cases, the User Agent might need to wait an arbitrary
-   length of time for these octets to arrive.
+   length of time for these bytes to arrive.
 
-   User Agents SHOULD wait for 512 octets to arrive, when feasible.
+   User Agents SHOULD wait for 512 bytes to arrive, when feasible.
 
  <li>
-  Let <var>n</var> be the smaller of either 512 or the number of octets that
+  Let <var>n</var> be the smaller of either 512 or the number of bytes that
   have already arrived.
 
  <li>
-  If <var>n</var> is greater than or equal to 3, and the first 2 or 3 octets
-  match one of the following octet sequences:
+  If <var>n</var> is greater than or equal to 3, and the first 2 or 3 bytes
+  match one of the following byte sequences:
 
   <table>
    <thead>
@@ -384,8 +384,8 @@
   steps.
 
  <li>
-  If none of the first <var>n</var> octets are binary data octets (i.e., fall
-  in the Binary Data Byte Ranges defined below) then let the
+  If none of the first <var>n</var> bytes are binary data bytes (i.e., fall in
+  the Binary Data Byte Ranges defined below) then let the
   <var>sniffed-type</var> be "text/plain" and abort these steps.
 
   <table>
@@ -399,7 +399,7 @@
   </table>
 
  <li>
-  If the first octets match one of the octet sequences in the "pattern" column
+  If the first bytes match one of the byte sequences in the "pattern" column
   of the table in the <a href="#unknown-type">"unknown type" section</a> below,
   ignoring any rows whose cell in the "security" column says "scriptable" (or
   "n/a"), then let the <var>sniffed-type</var> be the type given in the
@@ -412,7 +412,7 @@
    attack.
 
  <li>
-  Otherwise, let the <var>sniffed-type</var> be "application/octet-stream" and
+  Otherwise, let the <var>sniffed-type</var> be "application/byte-stream" and
   abort these steps.
 </ol>
 
@@ -422,18 +422,18 @@
 
 <ol>
  <li>
-  The User Agent MAY wait for 512 or more octets to arrive for the same reason
+  The User Agent MAY wait for 512 or more bytes to arrive for the same reason
   as in the "text or binary" section above.
 
  <li>
-  Let <var>n</var> be the smaller of either 512 or the number of octets that
+  Let <var>n</var> be the smaller of either 512 or the number of bytes that
   have already arrived.
 
  <li>
   For each row in the table below:
 
   <dl class="switch">
-   <dt>If the row has no "WS" octets (see <a href="#ws-note">Note</a>):
+   <dt>If the row has no "WS" bytes (see <a href="#ws-note">Note</a>):
    <dd>
     <ol>
      <li>
@@ -445,52 +445,53 @@
 
      <li>
       Apply the bit-wise "and" operator to the first <var>pattern-length</var>
-      octets and the given mask, and let the result be the
+      bytes and the given mask, and let the result be the
       <var>masked-data</var>.
 
      <li>
-      If the octets of the <var>masked-data</var> match the given pattern
-      octets exactly, then let the <var>sniffed-type</var> be the type given
-      in the cell of the third column in that row and abort these steps.
+      If the bytes of the <var>masked-data</var> match the given pattern bytes
+      exactly, then let the <var>sniffed-type</var> be the type given in the
+      cell of the third column in that row and abort these steps.
     </ol>
 
-   <dt>If the row has a "WS" octet or a "_&gt;" octet (see <a href="#sb-note">Note</a>):
+   <dt>If the row has a "WS" byte or a "_&gt;" byte (see <a href="#sb-note">Note</a>):
    <dd>
     <ol>
      <li>
-      Let <var>index-pattern</var> be an index into the mask and pattern octet
+      Let <var>index-pattern</var> be an index into the mask and pattern byte
       strings of the row.
 
      <li>
-      Let <var>index-stream</var> be an index into the octet stream being examined.
+      Let <var>index-stream</var> be an index into the byte stream being
+      examined.
 
      <li>
       <var>LOOP</var>:
-      If <var>index-stream</var> points beyond the end of the octet stream,
+      If <var>index-stream</var> points beyond the end of the byte stream,
       then this row doesn't match and skip this row.
 
      <li>
-      Examine the <var>index-stream</var>-th octet of the octet stream as
+      Examine the <var>index-stream</var>-th byte of the byte stream as
       follows:
 
       <dl class="switch">
-       <dt>If the <var>index-pattern</var>-th octet of the pattern is a normal hexadecimal octet and neither a "WS" octet nor a "_&gt;" octet:
+       <dt>If the <var>index-pattern</var>-th byte of the pattern is a normal hexadecimal byte and neither a "WS" byte nor a "_&gt;" byte:
        <dd>
         <ol>
          <li>
           If the bit-wise "and" operator, applied to the
-          <var>index-stream</var>-th octet of the stream and the
-          <var>index-pattern</var>-th octet of the mask, yield a value
-          different than the <var>index-pattern</var>-th octet of the pattern,
+          <var>index-stream</var>-th byte of the stream and the
+          <var>index-pattern</var>-th byte of the mask, yield a value
+          different than the <var>index-pattern</var>-th byte of the pattern,
           then skip this row.
 
          <li>
-          Otherwise, increment <var>index-pattern</var> to the next octet in
-          the mask and pattern and <var>index-stream</var> to the next octet
-          in the octet stream.
+          Otherwise, increment <var>index-pattern</var> to the next byte in
+          the mask and pattern and <var>index-stream</var> to the next byte
+          in the byte stream.
         </ol>
 
-       <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern is a "WS" octet:
+       <dt>Otherwise, if the <var>index-pattern</var>-th byte of the pattern is a "WS" byte:
        <dd>
         <p class="note" id="ws-note">
          "WS" means "whitespace", and allows insignificant whitespace to be
@@ -498,17 +499,17 @@
 
         <ol>
          <li>
-          If the <var>index-stream</var>-th octet of the stream is one of 0x09
+          If the <var>index-stream</var>-th byte of the stream is one of 0x09
           (ASCII TAB), 0x0A (ASCII LF), 0x0C (ASCII FF), 0x0D (ASCII CR), or
           0x20 (ASCII space), then increment only the <var>index-stream</var>
-          to the next octet in the octet stream.
+          to the next byte in the byte stream.
 
          <li>
           Otherwise, increment only the <var>index-pattern</var> to the next
-          octet in the mask and pattern.
+          byte in the mask and pattern.
         </ol>
 
-       <dt>Otherwise, if the <var>index-pattern</var>-th octet of the pattern is a "_&gt;" octet:
+       <dt>Otherwise, if the <var>index-pattern</var>-th byte of the pattern is a "_&gt;" byte:
        <dd>
         <p class="note" id="sb-note">
          "_&gt;" means "space-or-bracket", and allows HTML tag names to terminate
@@ -516,19 +517,19 @@
 
         <ol>
          <li>
-          If <var>index-stream</var>-th octet of the stream is different than
+          If <var>index-stream</var>-th byte of the stream is different than
           0x20 (ASCII space) or 0x3E (ASCII "&gt;"), then skip this row.
 
          <li>
-          Otherwise, increment <var>index-pattern</var> to the next octet in
-          the mask and pattern and <var>index-stream</var> to the next octet
-          in the octet stream.
+          Otherwise, increment <var>index-pattern</var> to the next byte in
+          the mask and pattern and <var>index-stream</var> to the next byte
+          in the byte stream.
         </ol>
       </dl>
 
      <li>
       If <var>index-pattern</var> does not point beyond the end of the mask
-      and pattern octet strings, then jump back to the <var>LOOP</var> step in
+      and pattern byte strings, then jump back to the <var>LOOP</var> step in
       this algorithm.
 
      <li>
@@ -538,17 +539,17 @@
   </dl>
 
  <li>
-  If the first n octets match <a href="#signature-for-mp4">the signature for
+  If the first n bytes match <a href="#signature-for-mp4">the signature for
   MP4</a>, then let the <var>sniffed-type</var> be video/mp4 and abort these
   steps.
 
  <li>
-  If none of the first n octets are binary data (as defined in the "text or
+  If none of the first n bytes are binary data (as defined in the "text or
   binary" section), then let the <var>sniffed-type</var> be "text/plain" and
   abort these steps.
 
  <li>
-  Otherwise, let the <var>sniffed-type</var> be "application/octet-stream" and
+  Otherwise, let the <var>sniffed-type</var> be "application/byte-stream" and
   abort these steps.
 </ol>
 
@@ -911,7 +912,7 @@
     </td>
     <td>image/jpeg</td>
     <td>Safe</td>
-    <td>A JPEG SOI marker followed by an octet of another marker.</td>
+    <td>A JPEG SOI marker followed by a byte of another marker.</td>
    </tr>
    <tr>
     <td>
@@ -989,7 +990,7 @@
     </td>
     <td>video/webm</td>
     <td>Safe</td>
-    <td>The WebM signature [TODO: Use more octets?]</td>
+    <td>The WebM signature [TODO: Use more bytes?]</td>
    </tr>
    <tr>
     <td>
@@ -1052,7 +1053,7 @@
 <h3 id="signature-for-mp4"><span class="secno">7.1 </span>Signature for MP4</h3>
 
 <p>
- This section defines whether a sequence of <var>n</var> octets
+ This section defines whether a sequence of <var>n</var> bytes
  <dfn id="matches-the-signature-for-mp4">match the signature for MP4</dfn>.
 
 <ol>
@@ -1061,8 +1062,8 @@
   match the signature for MP4 and abort these steps.
 
  <li>
-  Let <var>box-size</var> be the value of the first four octets, interpreted
-  as a 32 bit unsigned, big-endian integer.
+  Let <var>box-size</var> be the value of the first four bytes, interpreted as
+  a 32 bit unsigned, big-endian integer.
 
  <li>
   If <var>n</var> is less than <var>box-size</var> or if <var>box-size</var>
@@ -1070,7 +1071,7 @@
   the signature for MP4 and abort these steps.
 
  <li>
-  If octets 4 through 7 (inclusive, zero-based) of the sequence are not the
+  If bytes 4 through 7 (inclusive, zero-based) of the sequence are not the
   sequence 0x66 0x74 0x79 0x70 (the ASCII string "ftyp"), then return that the
   sequence does not match the signature for MP4 and abort these steps.
 
@@ -1082,10 +1083,10 @@
    <li>
     If <var>i</var> is equal to 3, continue to the next <var>i</var>, if any.
 
-    (These octets correspond to the minor version number.)
+    (These bytes correspond to the minor version number.)
 
    <li>
-    If octets <code>4*i</code> through <code>4*i + 2</code> (inclusive,
+    If bytes <code>4*i</code> through <code>4*i + 2</code> (inclusive,
     zero-based) of the sequence are the sequence 0x6D 0x70 0x34 (the ASCII
     string "mp4"), then return that the sequence <strong>does</strong> match
     the signature for MP4 and abort these steps.
@@ -1110,7 +1111,7 @@
 
  <li>
   <!-- XXX the <a> needs to be a <span> linking to a <dfn> -->
-  If the first octets match one of the signatures in
+  If the first bytes match one of the signatures in
   <a href="#unknown-type">unknown type</a> for one of the following media
   types, then let the <var>sniffed-type</var> be the corresponding media type
   and abort these steps:
@@ -1150,7 +1151,7 @@
 <ol>
  <li>
   <!-- XXX the <a> needs to be a <span> linking to a <dfn> -->
-  If the first octets match one of the signatures in
+  If the first bytes match one of the signatures in
   <a href="#unknown-type">unknown type</a> for one of the following media
   types, then let the <var>sniffed-type</var> be the corresponding media type
   and abort these steps:
@@ -1189,23 +1190,23 @@
 
 <ol>
  <li>
-  The User Agent MAY wait for 512 or more octets to arrive for the same reason
+  The User Agent MAY wait for 512 or more bytes to arrive for the same reason
   as in the "text or binary" section above.
 
  <li>
-  Let <var>s</var> be the stream of octets, and let <var>s</var>[<var>i</var>]
-  represent the octet in <var>s</var> with position <var>i</var>, treating
-  <var>s</var> as zero-indexed (so the first octet is at <var>i</var>=0).
+  Let <var>s</var> be the stream of bytes, and let <var>s</var>[<var>i</var>]
+  represent the byte in <var>s</var> with position <var>i</var>, treating
+  <var>s</var> as zero-indexed (so the first byte is at <var>i</var>=0).
 
  <li>
   If at any point this algorithm requires the User Agent to determine the
-  value of an octet in <var>s</var> which has not yet arrived, or which is
-  past the first 512 octets, or which is beyond the end of the octet stream,
-  the algorithm stops and the <var>sniffed-type</var> is "text/html".
+  value of a byte in <var>s</var> which has not yet arrived, or which is past
+  the first 512 bytes, or which is beyond the end of the byte stream, the
+  algorithm stops and the <var>sniffed-type</var> is "text/html".
 
   <p class="note">
    User Agents are allowed, by the first step of this algorithm, to wait until
-   the first 512 octets have arrived.
+   the first 512 bytes have arrived.
 
  <li>
   Initialize <var>pos</var> to 0.
@@ -1235,7 +1236,7 @@
   </dl>
 
  <li>
-  If the octets with positions <var>pos</var> to <var>pos</var>+2 in
+  If the bytes with positions <var>pos</var> to <var>pos</var>+2 in
   <var>s</var> are exactly equal to 0x21, 0x2D, 0x2D respectively (ASCII for
   "!--"), then:
 
@@ -1244,7 +1245,7 @@
     Increase <var>pos</var> by 3.
 
    <li>
-    If the octets with positions <var>pos</var> to <var>pos</var>+2 in
+    If the bytes with positions <var>pos</var> to <var>pos</var>+2 in
     <var>s</var> are exactly equal to 0x2D, 0x2D, 0x3E respectively (ASCII for
     "--&gt;"), then increase <var>pos</var> by 3 and jump back to the previous
     step (the step labeled <var>LOOP</var>) in the overall algorithm in this
@@ -1291,10 +1292,10 @@
   </ol>
 
  <li>
-  Otherwise, if the octets in <var>s</var> starting at <var>pos</var> match
-  any of the sequences of octets in the first column of the following table,
-  then the User Agent MUST follow the steps given in the corresponding cell in
-  the second column of the same row.
+  Otherwise, if the bytes in <var>s</var> starting at <var>pos</var> match any
+  of the sequences of bytes in the first column of the following table, then
+  the User Agent MUST follow the steps given in the corresponding cell in the
+  second column of the same row.
 
   <table>
    <thead>
@@ -1322,7 +1323,7 @@
   </table>
 
   <p>
-   If none of the octet sequences above match the octets in <var>s</var>
+   If none of the byte sequences above match the bytes in <var>s</var>
    starting at <var>pos</var>, then let the <var>sniffed-type</var> be
    "text/html" and abort these steps.
 
@@ -1333,7 +1334,7 @@
   Initialize <var>RSS-flag</var> to 0.
 
  <li>
-  If the octets with positions <var>pos</var> to <var>pos</var>+23 in
+  If the bytes with positions <var>pos</var> to <var>pos</var>+23 in
   <var>s</var> are exactly equal to 0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F,
   0x70, 0x75, 0x72, 0x6C, 0x2E, 0x6F, 0x72, 0x67, 0x2F, 0x72, 0x73, 0x73,
   0x2F, 0x31, 0x2E, 0x30, 0x2F respectively (ASCII for
@@ -1348,7 +1349,7 @@
   </ol>
 
  <li>
-  If the octets with positions <var>pos</var> to <var>pos</var>+42 in
+  If the bytes with positions <var>pos</var> to <var>pos</var>+42 in
   <var>s</var> are exactly equal to 0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F,
   0x77, 0x77, 0x77, 0x2E, 0x77, 0x33, 0x2E, 0x6F, 0x72, 0x67, 0x2F, 0x31,
   0x39, 0x39, 0x39, 0x2F, 0x30, 0x32, 0x2F, 0x32, 0x32, 0x2D, 0x72, 0x64,
@@ -1372,7 +1373,7 @@
   the <var>sniffed-type</var> be "application/rss+xml" and abort these steps.
 
  <li>
-  If <var>pos</var> points beyond the end of the octet stream <var>s</var>,
+  If <var>pos</var> points beyond the end of the byte stream <var>s</var>,
   then continue to step 19 of this algorithm.
 
  <li>
