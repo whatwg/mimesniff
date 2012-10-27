@@ -72,7 +72,7 @@
  Many web servers supply incorrect <code>Content-Type</code> header fields
  with their HTTP responses.
 
- In order to be compatible with these servers, User Agents consider the
+ In order to be compatible with these servers, user agents consider the
  content of HTTP responses as well as the <code>Content-Type</code> header
  fields when determining the effective media type of the response.
 
@@ -101,15 +101,15 @@
  field to determine the effective media type of the response.
 
 <p>
- Without a clear specification of how to "sniff" the media type, each User
- Agent has been forced to reverse-engineer the algorithms of other User Agents
+ Without a clear specification of how to "sniff" the media type, each user
+ agent has been forced to reverse-engineer the algorithms of other user agents
  in order to maintain interoperability.
 
  Inevitably, these efforts have not been entirely successful, resulting in
- divergent behaviors among User Agents.
+ divergent behaviors among user agents.
 
  In some cases, these divergent behaviors have had security implications, as a
- User Agent could interpret an HTTP response as a different media type than
+ user agent could interpret an HTTP response as a different media type than
  the server intended.
 
 <p>
@@ -118,7 +118,7 @@
  contents of those files with a low-privilege media type.
 
  For example, if a server believes that the client will treat a contributed
- file as an image (and thus treat it as benign), but a User Agent believes the
+ file as an image (and thus treat it as benign), but a user agent believes the
  content to be HTML (and thus privileged to execute any scripts contained
  therein), an attacker might be able to steal the user's authentication
  credentials and mount other cross-site scripting attacks.
@@ -131,21 +131,22 @@
 
 <p>
  This document describes a content sniffing algorithm that carefully balances
- the compatibility needs of User Agent with the security constraints imposed
+ the compatibility needs of user agent with the security constraints imposed
  by existing web content.
 
  The algorithm originated from research conducted by Adam Barth, Juan
  Caballero, and Dawn Song, based on content sniffing algorithms present in
- popular User Agents, an extensive database of existing web content, and
+ popular user agents, an extensive database of existing web content, and
  metrics collected from implementations deployed to a sizable number of users.
+
  <span data-anolis-ref>SECCONTSNIFF</span>
 
 <p>
- Whenever possible, User Agents SHOULD NOT employ a content sniffing
+ Whenever possible, user agents should not employ a content sniffing
  algorithm.
 
- However, if a User Agent does employ a content sniffing algorithm, the User
- Agent SHOULD use the algorithm in this document; using a different content
+ However, if a user agent does employ a content sniffing algorithm, the user
+ agent should use the algorithm in this document; using a different content
  sniffing algorithm could have unexpected security implications.
 
 
@@ -156,6 +157,7 @@
  The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
  "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
  document are to be interpreted as described in RFC 2119.
+
  <span data-anolis-ref>RFC2119</span>
 
 <p>
@@ -177,8 +179,11 @@
 
 <p>
  This document uses the term <span data-anolis-spec=encoding>byte</span> as
- defined in the Encoding Standard. When helpful, a <span>byte</span> will be
- accompanied by information about the ASCII code point it represents.
+ defined in the Encoding Standard.
+
+ When helpful, a <span>byte</span> will be accompanied by information about
+ the ASCII code point it represents.
+
  <span data-anolis-ref>ENCODING</span>
  <span data-anolis-ref class=informative>ASCII</span>
 
@@ -194,6 +199,7 @@
 <p>
  The <dfn>media type</dfn> of a resource is a technical hint about the use and
  format of that resource.
+
  <span data-anolis-ref class=informative>MIMETYPE</span>
 
 <p>
@@ -201,15 +207,20 @@
  <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its
  successor, and is made up in part by a
  <span data-anolis-spec=http>type</span> and a
- <span data-anolis-spec=http>subtype</span>. The <dfn>media type portion</dfn>
- of a <span>valid media type</span> is the string represented by concatenating
- <span>type</span>, the string "/", and <span>subtype</span>.
+ <span data-anolis-spec=http>subtype</span>.
+
+ The <dfn>media type portion</dfn> of a <span>valid media type</span> is the
+ string represented by concatenating <span>type</span>, the string
+ "<code title>/</code>", and <span>subtype</span>.
+
  <span data-anolis-ref>HTTP</span>
 
 <p class=note>
  The <span>media type portion</span> of a <span>valid media type</span>
  excludes all <span title=parameter data-anolis-spec=http>parameters</span>
- and is case-insensitive. <span data-anolis-ref>HTTP</span>
+ and is case-insensitive.
+
+ <span data-anolis-ref>HTTP</span>
 
 <p>
  The <dfn>specified media type</dfn> of a resource is the <span>valid media
@@ -226,21 +237,21 @@
 <h2>The specified media type</h2>
 
 <p>
- The <span>specified media type</span> of a resource is provided to the User
- Agent by an external source associated with that resource.
+ The <span>specified media type</span> of a resource is provided to the user
+ agent by an external source associated with that resource.
 
  The method of obtaining this information varies depending upon how the
  resource is retrieved.
 
 <p>
  The <span>specified media type detection algorithm</span> makes use of the
- <dfn>has-content-type flag</dfn>, which MUST be unset by default and MUST
+ <dfn>has-content-type flag</dfn>, which must be unset by default and must
  only be set from within the <span>specified media type detection
  algorithm</span>.
 
 <p>
- To determine the <span>specified media type</span> of a resource, User Agents
- MUST use the following <dfn>specified media type detection algorithm</dfn>:
+ To determine the <span>specified media type</span> of a resource, user agents
+ must use the following <dfn>specified media type detection algorithm</dfn>:
 
  <ol>
   <li>
@@ -251,7 +262,9 @@
    <code>Content-Type</code> headers are associated with the resource, set
    <var>official-type</var> to the value associated with the last such
    <code>Content-Type</code> header and set the <span>has-content-type
-   flag</span>. <span data-anolis-ref=http>HTTP</span>
+   flag</span>.
+
+   <span data-anolis-ref=http>HTTP</span>
 
    <p class=note>
     File extensions are not used to determine the <span>specified media
@@ -266,7 +279,9 @@
   <li>
    If the resource is retrieved via another protocol (such as FTP), set
    <var>official-type</var> to the <span>media type</span> as determined by
-   that protocol, if any. <span data-anolis-ref class=informative>FTP</span>
+   that protocol, if any.
+
+   <span data-anolis-ref class=informative>FTP</span>
 
   <li>
    If <var>official-type</var> is not a <span>valid media type</span>, set
@@ -282,24 +297,27 @@
 
 <p>
  The following flags are used in the <span>media type sniffing
- algorithm</span> and MUST be unset by default:
+ algorithm</span> and must be unset by default:
  <var class=flag>sniff-all</var>, <var class=flag>sniff-unknown</var>,
  <var class=flag>sniff-text-or-binary</var>,
  <var class=flag>sniff-feed-or-html</var>, <var class=flag>sniff-images</var>,
  <var class=flag>sniff-audio</var>, <var class=flag>sniff-video</var>,
- <var class=flag>sniff-fonts</var>. User Agents MAY explicitly set one or more
- of these flags when calling the <span>media type sniffing algorithm</span>.
+ <var class=flag>sniff-fonts</var>.
+
+ User agents may explicitly set one or more of these flags when calling the
+ <span>media type sniffing algorithm</span>.
 
 <p>
- To determine the <span>actual media type</span> of a resource, User Agents
- MUST use the following <dfn>media type sniffing algorithm</dfn>:
+ To determine the <span>actual media type</span> of a resource, user agents
+ must use the following <dfn>media type sniffing algorithm</dfn>:
 
  <ol>
   <li>
    If the <span>specified media type</span> is not null and the <span>media
-   type portion</span> of the <span>specified media type</span> ends in "+xml"
-   or is equal to "text/xml" or "application/xml", the <span>actual media
-   type</span> is the <span>specified media type</span>.
+   type portion</span> of the <span>specified media type</span> ends in
+   "<code title>+xml</code>" or is equal to "<code title>text/xml</code>" or
+   "<code title>application/xml</code>", the <span>actual media type</span> is
+   the <span>specified media type</span>.
 
    Abort these steps.
 
@@ -324,31 +342,30 @@
 
    <ol>
     <li>
-     Begin reading bytes of the resource into <var>buffer</var>, beginning
-     with byte 0.
-
-    <li>
-     Continue reading bytes of the resource into <var>buffer</var> until one
-     of the following conditions is met:
+     Read <span title=byte>bytes</span> of the resource into <var>buffer</var>
+     until one of the following conditions is met:
 
      <ul>
       <li>
        the end of the resource is reached.
 
       <li>
-       the length of <var>buffer</var> is greater than or equal to 512 bytes.
+       the length of <var>buffer</var> is greater than or equal to 512
+       <span title=byte>bytes</span>.
 
       <li>
-       a reasonable amount of time has elapsed, as determined by the User
-       Agent.
+       a reasonable amount of time has elapsed, as determined by the user
+       agent.
      </ul>
 
      <p class=note>
       If the length of <var>buffer</var> is greater than or equal to 512
-      bytes, the <span>media type sniffing algorithm</span> will be
-      deterministic for the majority of cases. However, certain factors (such
-      as a slow connection) may prevent the User Agent from reading 512 bytes
-      in a reasonable amount of time.
+      <span title=byte>bytes</span>, the <span>media type sniffing
+      algorithm</span> will be deterministic for the majority of cases.
+
+      However, certain factors (such as a slow connection) may prevent the
+      user agent from reading 512 <span title=byte>bytes</span> in a
+      reasonable amount of time.
 
      <li>
       The <dfn>resource header</dfn> is <var>buffer</var>.
@@ -362,9 +379,10 @@
    <span>specified media type</span> is null or if the
    <var class=flag>sniff-unknown</var> flag is set and the <span>specified
    media type</span> is not null and the <span>media type portion</span> of
-   the <span>specified media type</span> is equal to "unknown/unknown",
-   "application/unknown", or "*/*", execute the <span>rules for identifying an
-   unknown media type</span>.
+   the <span>specified media type</span> is equal to
+   "<code title>unknown/unknown</code>",
+   "<code title>application/unknown</code>", or "<code title>*/*</code>",
+   execute the <span>rules for identifying an unknown media type</span>.
 
   <li>
    If the <var class=flag>sniff-text-or-binary</var> flag is set and the
@@ -421,49 +439,49 @@
    </table>
 
    <p class=note>
-    The <span>media type sniffing algorithm</span> detects these exact byte
-    sequences because some older installations of Apache contain a bug that
-    causes them to supply one of these Content-Type headers when serving files
-    with unrecognized file extensions.
+    The <span>media type sniffing algorithm</span> detects these exact
+    <span>byte</span> sequences because some older installations of Apache
+    contain a bug that causes them to supply one of these Content-Type headers
+    when serving files with unrecognized file extensions.
 
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
-             User Agent if we're just going to sniff it again anyway? -->
+             user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-images</var> flag is set and the
    <span>specified media type</span> is <span>an image type supported by the
-   User Agent</span>, execute the <span>rules for sniffing images
+   user agent</span>, execute the <span>rules for sniffing images
    specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
-             User Agent if we're just going to sniff it again anyway? -->
+             user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-audio</var> flag is set and the
    <span>specified media type</span> is <span>an audio type supported by the
-   User Agent</span>, execute the <span>rules for sniffing audio
+   user agent</span>, execute the <span>rules for sniffing audio
    specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
-             User Agent if we're just going to sniff it again anyway? -->
+             user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-video</var> flag is set and the
    <span>specified media type</span> is <span>a video type supported by the
-   User Agent</span>, execute the <span>rules for sniffing videos
+   user agent</span>, execute the <span>rules for sniffing videos
    specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
-             User Agent if we're just going to sniff it again anyway? -->
+             user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-fonts</var> flag is set and the
    <span>specified media type</span> is <span>a font type supported by the
-   User Agent</span>, execute the <span>rules for sniffing fonts
+   user agent</span>, execute the <span>rules for sniffing fonts
    specifically</span>.
 
   <li>
    If the <var class=flag>sniff-feed-or-html</var> flag is set and the
    <span>specified media type</span> is not null and the <span>media type
    portion</span> of the <span>specified media type</span> is equal to
-   "text/html", execute the <span>rules for distinguishing if a resource is a
-   feed or HTML</span>.
+   "<code title>text/html</code>", execute the <span>rules for distinguishing
+   if a resource is a feed or HTML</span>.
 
   <li>
    The <span>actual media type</span> is the <span>specified media
@@ -480,16 +498,16 @@
 
 <ol>
  <li>
-  The User Agent MAY wait for 512 or more bytes to arrive.
+  The user agent MAY wait for 512 or more bytes to arrive.
 
   <p class=note>
    Waiting for 512 bytes bytes to arrive causes the text-or-binary algorithm
    to be deterministic for a given sequence of bytes.
 
-   However, in some cases, the User Agent might need to wait an arbitrary
+   However, in some cases, the user agent might need to wait an arbitrary
    length of time for these bytes to arrive.
 
-   User Agents SHOULD wait for 512 bytes to arrive, when feasible.
+   User agents SHOULD wait for 512 bytes to arrive, when feasible.
 
  <li>
   Let <var>n</var> be the smaller of either 512 or the number of bytes that
@@ -550,7 +568,7 @@
 
 <ol>
  <li>
-  The User Agent MAY wait for 512 or more bytes to arrive for the same reason
+  The user agent MAY wait for 512 or more bytes to arrive for the same reason
   as in the "text or binary" section above.
 
  <li>
@@ -1160,16 +1178,16 @@
 <p class=XXX>MP3 audio.</p>
 
 <p>
- User Agents MAY support additional types if necessary, by implicitly adding
+ user agents MAY support additional types if necessary, by implicitly adding
  to the above table.
 
- However, User Agents SHOULD NOT not use any other patterns for types already
+ However, user agents SHOULD NOT not use any other patterns for types already
  mentioned in the table above because this could then be used for privilege
  escalation (where, e.g., a server uses the above table to determine that
  content is not HTML and thus safe from cross-site scripting attacks, but then
- a User Agent detects it as HTML anyway and allows script to execute).
+ a user agent detects it as HTML anyway and allows script to execute).
 
- In extending this table, User Agents SHOULD NOT introduce any privilege
+ In extending this table, user agents SHOULD NOT introduce any privilege
  escalation vulnerabilities.
 
 <p class=note>
@@ -1318,7 +1336,7 @@
 
 <ol>
  <li>
-  The User Agent MAY wait for 512 or more bytes to arrive for the same reason
+  The user agent MAY wait for 512 or more bytes to arrive for the same reason
   as in the "text or binary" section above.
 
  <li>
@@ -1327,13 +1345,13 @@
   <var>s</var> as zero-indexed (so the first byte is at <var>i</var>=0).
 
  <li>
-  If at any point this algorithm requires the User Agent to determine the
+  If at any point this algorithm requires the user agent to determine the
   value of a byte in <var>s</var> which has not yet arrived, or which is past
   the first 512 bytes, or which is beyond the end of the byte stream, the
   algorithm stops and the <var>sniffed-type</var> is "text/html".
 
   <p class=note>
-   User Agents are allowed, by the first step of this algorithm, to wait until
+   User agents are allowed, by the first step of this algorithm, to wait until
    the first 512 bytes have arrived.
 
  <li>
@@ -1422,7 +1440,7 @@
  <li>
   Otherwise, if the bytes in <var>s</var> starting at <var>pos</var> match any
   of the sequences of bytes in the first column of the following table, then
-  the User Agent MUST follow the steps given in the corresponding cell in the
+  the user agent MUST follow the steps given in the corresponding cell in the
   second column of the same row.
 
   <table>
