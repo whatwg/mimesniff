@@ -12,7 +12,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-26-october-2012">Living Standard — Last Updated 26 October 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-27-october-2012">Living Standard — Last Updated 27 October 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -55,7 +55,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 26 October 2012, the editor has made this
+  In addition, as of 27 October 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -90,15 +90,16 @@
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
  <li><a href="#the-specified-media-type"><span class="secno">4 </span>The specified media type</a></li>
- <li><a href="#web-pages"><span class="secno">5 </span>Web Pages</a></li>
- <li><a href="#text-or-binary"><span class="secno">6 </span>Text or Binary</a></li>
- <li><a href="#unknown-type"><span class="secno">7 </span>Unknown Type</a>
+ <li><a href="#the-actual-media-type"><span class="secno">5 </span>The actual media type</a>
   <ol>
-   <li><a href="#signature-for-mp4"><span class="secno">7.1 </span>Signature for MP4</a></li>
-   <li><a href="#images"><span class="secno">7.2 </span>Images</a></li>
-   <li><a href="#video"><span class="secno">7.3 </span>Video</a></li>
-   <li><a href="#fonts"><span class="secno">7.4 </span>Fonts</a></li>
-   <li><a href="#feed-or-html"><span class="secno">7.5 </span>Feed or HTML</a></ol></li>
+   <li><a href="#text-or-binary"><span class="secno">5.1 </span>Text or Binary</a></li>
+   <li><a href="#unknown-type"><span class="secno">5.2 </span>Unknown Type</a>
+    <ol>
+     <li><a href="#signature-for-mp4"><span class="secno">5.2.1 </span>Signature for MP4</a></ol></li>
+   <li><a href="#images"><span class="secno">5.3 </span>Images</a></li>
+   <li><a href="#video"><span class="secno">5.4 </span>Video</a></li>
+   <li><a href="#fonts"><span class="secno">5.5 </span>Fonts</a></li>
+   <li><a href="#feed-or-html"><span class="secno">5.6 </span>Feed or HTML</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -195,7 +196,10 @@
 
 <p>
  This document uses the term <a class="external" data-anolis-spec="encoding" href="http://encoding.spec.whatwg.org/#byte">byte</a> as
- defined in the Encoding Standard. <a href="#refsENCODING">[ENCODING]</a>
+ defined in the Encoding Standard. When helpful, a <span>byte</span> will be
+ accompanied by information about the ASCII code point it represents.
+ <a href="#refsENCODING">[ENCODING]</a>
+ <a class="informative" href="#refsASCII">[ASCII]</a>
 
 <p>
  A <dfn id="whitespace-byte">whitespace byte</dfn> is one of the following
@@ -233,8 +237,8 @@
 
 <p>
  The <dfn id="actual-media-type">actual media type</dfn> of a resource is the <a href="#valid-media-type">valid media
- type</a> of the resource as determined by the <span>media type sniffing
- algorithm</span>.
+ type</a> of the resource as determined by the <a href="#media-type-sniffing-algorithm">media type sniffing
+ algorithm</a>.
 
 
 
@@ -248,6 +252,12 @@
  resource is retrieved.
 
 <p>
+ The <a href="#specified-media-type-detection-algorithm">specified media type detection algorithm</a> makes use of the
+ <dfn id="has-content-type-flag">has-content-type flag</dfn>, which MUST be unset by default and MUST
+ only be set from within the <a href="#specified-media-type-detection-algorithm">specified media type detection
+ algorithm</a>.
+
+<p>
  To determine the <a href="#specified-media-type">specified media type</a> of a resource, User Agents
  MUST use the following <dfn id="specified-media-type-detection-algorithm">specified media type detection algorithm</dfn>:
 
@@ -259,7 +269,8 @@
    If the resource is retrieved via HTTP and one or more
    <code>Content-Type</code> headers are associated with the resource, set
    <var>official-type</var> to the value associated with the last such
-   <code>Content-Type</code> header. <a href="#refsHTTP">[HTTP]</a>
+   <code>Content-Type</code> header and set the <a href="#has-content-type-flag">has-content-type
+   flag</a>. <a href="#refsHTTP">[HTTP]</a>
 
    <p class="note">
     File extensions are not used to determine the <a href="#specified-media-type">specified media
@@ -286,92 +297,201 @@
 
 
 
-<h2 id="web-pages"><span class="secno">5 </span>Web Pages</h2>
+<h2 id="the-actual-media-type"><span class="secno">5 </span>The actual media type</h2>
 
 <p>
- The User Agent MUST use the following algorithm to determine the
- <var>sniffed-type</var> of a sequence of bytes:
+ The following flags are used in the <a href="#media-type-sniffing-algorithm">media type sniffing
+ algorithm</a> and MUST be unset by default:
+ <var class="flag">sniff-all</var>, <var class="flag">sniff-unknown</var>,
+ <var class="flag">sniff-text-or-binary</var>,
+ <var class="flag">sniff-feed-or-html</var>, <var class="flag">sniff-images</var>,
+ <var class="flag">sniff-audio</var>, <var class="flag">sniff-video</var>,
+ <var class="flag">sniff-fonts</var>. User Agents MAY explicitly set one or more
+ of these flags when calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
 
-<ol>
- <li>
-  If the User Agent is configured to strictly obey the
-  <var>official-type</var>, then let the <var>sniffed-type</var> be the
-  <var>official-type</var> and abort these steps.
+<p>
+ To determine the <a href="#actual-media-type">actual media type</a> of a resource, User Agents
+ MUST use the following <dfn id="media-type-sniffing-algorithm">media type sniffing algorithm</dfn>:
 
- <li>
-  If the bytes were fetched via HTTP and there is an HTTP
-  <code>Content-Type</code> header field and the value of the last such header
-  field has bytes that <strong>exactly</strong> match the bytes contained in
-  one of the following lines:
+ <ol>
+  <li>
+   If the <a href="#specified-media-type">specified media type</a> is not null and the <a href="#media-type-portion">media
+   type portion</a> of the <a href="#specified-media-type">specified media type</a> ends in "+xml"
+   or is equal to "text/xml" or "application/xml", the <a href="#actual-media-type">actual media
+   type</a> is the <a href="#specified-media-type">specified media type</a>.
 
-  <table>
-   <thead>
-    <tr><th>Bytes in Hexadecimal<th>Textual Representation</tr>
-   <tbody>
-    <tr><td>74 65 78 74 2f 70 6c 61 69 6e<td>text/plain</tr>
-    <tr>
-     <td>
-      74 65 78 74 2f 70 6c 61 69 6e<br>
-      3b 20 63 68 61 72 73 65 74 3d<br>
-      49 53 4f 2d 38 38 35 39 2d 31
-     </td>
-     <td>text/plain; charset=ISO-8859-1</td>
-    </tr>
-    <tr>
-     <td>
-      74 65 78 74 2f 70 6c 61 69 6e<br>
-      3b 20 63 68 61 72 73 65 74 3d<br>
-      69 73 6f 2d 38 38 35 39 2d 31
-     </td>
-     <td>text/plain; charset=iso-8859-1</td>
-    </tr>
-    <tr>
-     <td>
-      74 65 78 74 2f 70 6c 61 69 6e<br>
-      3b 20 63 68 61 72 73 65 74 3d<br>
-      55 54 46 2d 38
-     </td>
-     <td>text/plain; charset=UTF-8</td>
-    </tr>
-  </table>
+   Abort these steps.
 
-  ...then jump to the "text or binary" section below.
+  <li>
+   If the <var class="flag">sniff-all</var> flag is set, set the
+   <var class="flag">sniff-unknown</var>,
+   <var class="flag">sniff-text-or-binary</var>,
+   <var class="flag">sniff-feed-or-html</var>,
+   <var class="flag">sniff-images</var>, <var class="flag">sniff-audio</var>,
+   <var class="flag">sniff-video</var>, and <var class="flag">sniff-fonts</var>
+   flags.
 
-  <p class="note">
-   The algorithm detects these exact byte sequences because some older
-   installations of Apache contain a bug that causes them to supply one of
-   these Content-Type headers when serving files with unrecognized file
-   extensions.
+  <li>
+   If the <var class="flag">sniff-unknown</var> flag is set or the
+   <var class="flag">sniff-text-or-binary</var> flag is set or the
+   <var class="flag">sniff-feed-or-html</var> flag is set or the
+   <var class="flag">sniff-images</var> flag is set or the
+   <var class="flag">sniff-audio</var> flag is set or the
+   <var class="flag">sniff-video</var> flag is set or the
+   <var class="flag">sniff-fonts</var> flag is set, <dfn id="read-the-resource-header">read the resource
+   header</dfn> by performing the following steps:
 
- <li>
-  If there is no <var>official-type</var>, jump to the "unknown type" section
-  below.
+   <ol>
+    <li>
+     Begin reading bytes of the resource into <var>buffer</var>, beginning
+     with byte 0.
 
- <li>
-  If the <var>official-type</var> is "unknown/unknown", "application/unknown",
-  or "*/*", jump to the "unknown type" section below.
+    <li>
+     Continue reading bytes of the resource into <var>buffer</var> until one
+     of the following conditions is met:
 
- <li>
-  If the <var>official-type</var> ends in "+xml", or if it is either
-  "text/xml" or "application/xml", then let the <var>sniffed-type</var> be the
-  <var>official-type</var> and abort these steps.
+     <ul>
+      <li>
+       the end of the resource is reached.
 
- <li>
-  If the <var>official-type</var> is an image type supported by the User Agent
-  (e.g., "image/png", "image/gif", "image/jpeg"), then jump to the "images"
-  section below.
+      <li>
+       the length of <var>buffer</var> is greater than or equal to 512 bytes.
 
- <li>
-  If the <var>official-type</var> is "text/html", then jump to the "feed or
-  HTML" section below.
+      <li>
+       a reasonable amount of time has elapsed, as determined by the User
+       Agent.
+     </ul>
 
- <li>
-  Let the <var>sniffed-type</var> be the <var>official-type</var>.
-</ol>
+     <p class="note">
+      If the length of <var>buffer</var> is greater than or equal to 512
+      bytes, the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> will be
+      deterministic for the majority of cases. However, certain factors (such
+      as a slow connection) may prevent the User Agent from reading 512 bytes
+      in a reasonable amount of time.
+
+     <li>
+      The <dfn id="resource-header">resource header</dfn> is <var>buffer</var>.
+   </ol>
+
+   <p class="note">
+    This step is always performed if any sniffing is allowed.
+
+  <li>
+   If the <var class="flag">sniff-unknown</var> flag is set and the
+   <a href="#specified-media-type">specified media type</a> is null or if the
+   <var class="flag">sniff-unknown</var> flag is set and the <a href="#specified-media-type">specified
+   media type</a> is not null and the <a href="#media-type-portion">media type portion</a> of
+   the <a href="#specified-media-type">specified media type</a> is equal to "unknown/unknown",
+   "application/unknown", or "*/*", execute the <span>rules for identifying an
+   unknown media type</span>.
+
+  <li>
+   If the <var class="flag">sniff-text-or-binary</var> flag is set and the
+   <a href="#has-content-type-flag">has-content-type flag</a> is set and the <a href="#specified-media-type">specified media
+   type</a> is <strong>exactly</strong> equal to one of the values in the
+   following table, execute the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource
+   is text or binary</a>:
+
+   <table>
+    <thead>
+     <tr>
+      <th>Bytes in Hexadecimal</th>
+      <th>Bytes in ASCII</th>
+     </tr>
+    <tbody>
+     <tr>
+      <td>
+       74 65 78 74 2F 70 6C 61 69 6E
+      </td>
+      <td>
+       text/plain
+      </td>
+     </tr>
+     <tr>
+      <td>
+       74 65 78 74 2F 70 6C 61 69 6E<br>
+       3B 20 63 68 61 72 73 65 74 3D<br>
+       49 53 4F 2D 38 38 35 39 2D 31
+      </td>
+      <td>
+       text/plain; charset=ISO-8859-1
+      </td>
+     </tr>
+     <tr>
+      <td>
+       74 65 78 74 2F 70 6C 61 69 6E<br>
+       3B 20 63 68 61 72 73 65 74 3D<br>
+       69 73 6F 2D 38 38 35 39 2D 31
+      </td>
+      <td>
+       text/plain; charset=iso-8859-1
+      </td>
+     </tr>
+     <tr>
+      <td>
+       74 65 78 74 2F 70 6C 61 69 6E<br>
+       3B 20 63 68 61 72 73 65 74 3D<br>
+       55 54 46 2D 38
+      </td>
+      <td>
+       text/plain; charset=UTF-8
+      </td>
+     </tr>
+   </table>
+
+   <p class="note">
+    The <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> detects these exact byte
+    sequences because some older installations of Apache contain a bug that
+    causes them to supply one of these Content-Type headers when serving files
+    with unrecognized file extensions.
+
+  <li>
+   <!-- XXX: Why are we checking to see if the image type is supported by the
+             User Agent if we're just going to sniff it again anyway? -->
+   If the <var class="flag">sniff-images</var> flag is set and the
+   <a href="#specified-media-type">specified media type</a> is <span>an image type supported by the
+   User Agent</span>, execute the <a href="#rules-for-sniffing-images-specifically">rules for sniffing images
+   specifically</a>.
+
+  <li>
+   <!-- XXX: Why are we checking to see if the audio type is supported by the
+             User Agent if we're just going to sniff it again anyway? -->
+   If the <var class="flag">sniff-audio</var> flag is set and the
+   <a href="#specified-media-type">specified media type</a> is <span>an audio type supported by the
+   User Agent</span>, execute the <span>rules for sniffing audio
+   specifically</span>.
+
+  <li>
+   <!-- XXX: Why are we checking to see if the video type is supported by the
+             User Agent if we're just going to sniff it again anyway? -->
+   If the <var class="flag">sniff-video</var> flag is set and the
+   <a href="#specified-media-type">specified media type</a> is <span>a video type supported by the
+   User Agent</span>, execute the <a href="#rules-for-sniffing-video-specifically">rules for sniffing videos
+   specifically</a>.
+
+  <li>
+   <!-- XXX: Why are we checking to see if the font type is supported by the
+             User Agent if we're just going to sniff it again anyway? -->
+   If the <var class="flag">sniff-fonts</var> flag is set and the
+   <a href="#specified-media-type">specified media type</a> is <span>a font type supported by the
+   User Agent</span>, execute the <a href="#rules-for-sniffing-fonts-specifically">rules for sniffing fonts
+   specifically</a>.
+
+  <li>
+   If the <var class="flag">sniff-feed-or-html</var> flag is set and the
+   <a href="#specified-media-type">specified media type</a> is not null and the <a href="#media-type-portion">media type
+   portion</a> of the <a href="#specified-media-type">specified media type</a> is equal to
+   "text/html", execute the <span>rules for distinguishing if a resource is a
+   feed or HTML</span>.
+
+  <li>
+   The <a href="#actual-media-type">actual media type</a> is the <a href="#specified-media-type">specified media
+   type</a>.
+ </ol>
 
 
 
-<h2 id="text-or-binary"><span class="secno">6 </span>Text or Binary</h2>
+<h3 id="text-or-binary"><span class="secno">5.1 </span>Text or Binary</h3>
 
 <p>
  This section defines the <dfn id="rules-for-text-or-binary">rules for
@@ -439,13 +559,13 @@
    attack.
 
  <li>
-  Otherwise, let the <var>sniffed-type</var> be "application/byte-stream" and
+  Otherwise, let the <var>sniffed-type</var> be "application/octet-stream" and
   abort these steps.
 </ol>
 
 
 
-<h2 id="unknown-type"><span class="secno">7 </span>Unknown Type</h2>
+<h3 id="unknown-type"><span class="secno">5.2 </span>Unknown Type</h3>
 
 <ol>
  <li>
@@ -576,7 +696,7 @@
   abort these steps.
 
  <li>
-  Otherwise, let the <var>sniffed-type</var> be "application/byte-stream" and
+  Otherwise, let the <var>sniffed-type</var> be "application/octet-stream" and
   abort these steps.
 </ol>
 
@@ -1077,7 +1197,7 @@
  a privilege escalation attack.
 
 
-<h3 id="signature-for-mp4"><span class="secno">7.1 </span>Signature for MP4</h3>
+<h4 id="signature-for-mp4"><span class="secno">5.2.1 </span>Signature for MP4</h4>
 
 <p>
  This section defines whether a sequence of <var>n</var> bytes
@@ -1124,7 +1244,7 @@
 </ol>
 
 
-<h3 id="images"><span class="secno">7.2 </span>Images</h3>
+<h3 id="images"><span class="secno">5.3 </span>Images</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-images-specifically">rules
@@ -1169,7 +1289,7 @@
 </ol>
 
 
-<h3 id="video"><span class="secno">7.3 </span>Video</h3>
+<h3 id="video"><span class="secno">5.4 </span>Video</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-video-specifically">rules
@@ -1200,7 +1320,7 @@
 </ol>
 
 
-<h3 id="fonts"><span class="secno">7.4 </span>Fonts</h3>
+<h3 id="fonts"><span class="secno">5.5 </span>Fonts</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-fonts-specifically">rules
@@ -1213,7 +1333,7 @@
  and abort these steps.
 
 
-<h3 id="feed-or-html"><span class="secno">7.5 </span>Feed or HTML</h3>
+<h3 id="feed-or-html"><span class="secno">5.6 </span>Feed or HTML</h3>
 
 <ol>
  <li>
@@ -1419,7 +1539,10 @@
 
 <h2 class="no-num" id="references">References</h2>
 
-<div id="anolis-references"><dl><dt id="refsENCODING">[ENCODING]
+<div id="anolis-references"><dl><dt id="refsASCII">[ASCII]
+<dd>(Non-normative) <cite><a href="http://tools.ietf.org/html/rfc20">ASCII format for Network Interchange</a></cite>, Vint Cerf. IETF.
+
+<dt id="refsENCODING">[ENCODING]
 <dd><cite><a href="http://encoding.spec.whatwg.org/">Encoding Standard</a></cite>, Anne van Kesteren. WHATWG.
 
 <dt id="refsFTP">[FTP]
