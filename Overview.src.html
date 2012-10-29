@@ -178,8 +178,8 @@
 <h2>Terminology</h2>
 
 <p>
- This document uses the term <span data-anolis-spec=encoding>byte</span> as
- defined in the Encoding Standard.
+ A <dfn>byte</dfn> is a <span data-anolis-spec=encoding>byte</span> as defined
+ in the Encoding Standard.
 
  When helpful, a <span>byte</span> will be accompanied by information about
  the ASCII code point it represents.
@@ -188,12 +188,18 @@
  <span data-anolis-ref class=informative>ASCII</span>
 
 <p>
- A <dfn>whitespace byte</dfn> is one of the following
+ A <dfn>binary data byte</dfn> is a <span>byte</span> in the range 0x00 to
+ 0x08 (NUL to BS), the <span>byte</span> 0x0B (VT), a <span>byte</span> in the
+ range 0x0E to 0x1A (SO to SUB), or a <span>byte</span> in the range 0x1C to
+ 0x1F (FS to US).
+
+<p>
+ A <dfn>whitespace byte</dfn> is any of the following
  <span title=byte>bytes</span>: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR),
  0x20 (SP).
 
 <p>
- A <dfn>tag-terminating byte</dfn> is one of the following
+ A <dfn>tag-terminating byte</dfn> is any of the following
  <span title=byte>bytes</span>: 0x20 (SP), 0x3E (>).
 
 <p>
@@ -231,6 +237,21 @@
  The <dfn>actual media type</dfn> of a resource is the <span>valid media
  type</span> of the resource as determined by the <span>media type sniffing
  algorithm</span>.
+
+<p>
+ A <dfn>scriptable media type</dfn> is any of the following
+ <span title="valid media type">valid media types</span>:
+
+ <ul>
+  <li>
+   <code title>text/html</code>
+
+  <li>
+   <code title>text/xml</code>
+
+  <li>
+   <code title>application/pdf</code>
+ </ul>
 
 
 
@@ -490,76 +511,48 @@
 
 
 
-<h3>Text or Binary</h3>
+<h3>Text or binary</h3>
 
 <p>
  This section defines the <dfn id=rules-for-text-or-binary>rules for
- distinguishing if a resource is text or binary</dfn>.
+ distinguishing if a resource is text or binary</dfn>:
 
 <ol>
  <li>
-  The user agent MAY wait for 512 or more bytes to arrive.
-
-  <p class=note>
-   Waiting for 512 bytes bytes to arrive causes the text-or-binary algorithm
-   to be deterministic for a given sequence of bytes.
-
-   However, in some cases, the user agent might need to wait an arbitrary
-   length of time for these bytes to arrive.
-
-   User agents SHOULD wait for 512 bytes to arrive, when feasible.
+  Let <var>length</var> be the number of <span title=byte>bytes</span> in the
+  <span>resource header</span>.
 
  <li>
-  Let <var>n</var> be the smaller of either 512 or the number of bytes that
-  have already arrived.
+  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
+  the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
+  0xFF 0xFE (UTF-16LE BOM), the <span>actual media type</span> is
+  "<code title>text/plain</code>".
+
+  Abort these steps.
 
  <li>
-  If <var>n</var> is greater than or equal to 3, and the first 2 or 3 bytes
-  match one of the following byte sequences:
+  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
+  the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
+  the <span>actual media type</span> is "<code title>text/plain</code>".
 
-  <table>
-   <thead>
-    <tr><th>Bytes in Hexadecimal</th><th>Description</th></tr>
-   <tbody>
-    <tr><td>FE FF</td><td>UTF-16BE BOM</td></tr>
-    <tr><td>FF FE</td><td>UTF-16LE BOM</td></tr>
-    <tr><td>EF BB BF</td><td>UTF-8 BOM</td></tr>
-  </table>
-
-  ...then let the <var>sniffed-type</var> be "text/plain" and abort these
-  steps.
+  Abort these steps.
 
  <li>
-  If none of the first <var>n</var> bytes are binary data bytes (i.e., fall in
-  the Binary Data Byte Ranges defined below) then let the
-  <var>sniffed-type</var> be "text/plain" and abort these steps.
+  If the <span>resource header</span> contains no
+  <span title="binary data byte">binary data bytes</span>, the <span>actual
+  media type</span> is "<code title>text/plain</code>".
 
-  <table>
-   <thead>
-    <tr><th>Binary Data Byte Ranges</th></tr>
-   <tbody>
-    <tr><td>0x00&ndash;0x08</td></tr>
-    <tr><td>0x0B</td></tr>
-    <tr><td>0x0E&ndash;0x1A</td></tr>
-    <tr><td>0x1C&ndash;0x1F</td></tr>
-  </table>
+  Abort these steps.
 
  <li>
-  If the first bytes match one of the byte sequences in the "pattern" column
-  of the table in the <a href=#unknown-type>"unknown type" section</a> below,
-  ignoring any rows whose cell in the "security" column says "scriptable" (or
-  "n/a"), then let the <var>sniffed-type</var> be the type given in the
-  corresponding cell in the "sniffed type" column on that row and abort these
-  steps.
+  Execute the <span>rules for identifying an unknown media type</span> with
+  the <var>sniff-scriptable</var> flag unset.
 
   <p class=warning>
-   It is critical that this step not ever return a scriptable type (e.g.,
-   text/html), because otherwise that would allow a privilege escalation
-   attack.
-
- <li>
-  Otherwise, let the <var>sniffed-type</var> be "application/octet-stream" and
-  abort these steps.
+   It is critical that the <span>rules for distinguishing if a resource is
+   text or binary</span> never determine the <span>actual media type</span> to
+   be a <span>scriptable media type</span>, as this could allow a privilege
+   escalation attack.
 </ol>
 
 
