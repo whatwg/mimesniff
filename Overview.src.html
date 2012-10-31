@@ -194,12 +194,12 @@
  0x1F (FS to US).
 
 <p>
- A <dfn>whitespace byte</dfn> is any of the following
+ A <dfn>whitespace byte</dfn> (0xWS) is any of the following
  <span title=byte>bytes</span>: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR),
  0x20 (SP).
 
 <p>
- A <dfn>tag-terminating byte</dfn> is any of the following
+ A <dfn>tag-terminating byte</dfn> (0xTT) is any of the following
  <span title=byte>bytes</span>: 0x20 (SP), 0x3E (<code title>&gt;</code>).
 
 <p>
@@ -252,6 +252,25 @@
   <li>
    <code title>application/pdf</code>
  </ul>
+
+<p>
+ A <dfn>byte sequence</dfn> is a <span>sequence</span> of
+ <span title=byte>bytes</span>.
+
+<p>
+ A <dfn>byte pattern</dfn> is a <span>byte sequence</span> used as a template
+ to be matched against in the <span>pattern matching algorithm</span>.
+
+<p>
+ A <dfn>pattern mask</dfn> is a <span>byte sequence</span> used to determine
+ the significance of <span title=byte>bytes</span> being compared against a
+ <span>byte pattern</span> in the <span>pattern matching algorithm</span>.
+
+<p class=note>
+ In a <span>pattern mask</span>, 0xFF indicates the <span>byte</span> is
+ strictly significant, 0xDF indicates that the <span>byte</span> is
+ significant in an ASCII case-insensitive way, and 0x00 indicates that the
+ <span>byte</span> is not significant.
 
 
 
@@ -418,6 +437,7 @@
       <th>Bytes in Hexadecimal</th>
       <th>Bytes in ASCII</th>
      </tr>
+    </thead>
     <tbody>
      <tr>
       <td>
@@ -457,6 +477,7 @@
        <code title>text/plain; charset=UTF-8</code>
       </td>
      </tr>
+    </tbody>
    </table>
 
    <p class=note>
@@ -511,7 +532,7 @@
 
 
 
-<h3>Text or binary</h3>
+<h3>Text or binary media type</h3>
 
 <p>
  This section defines the <dfn id=rules-for-text-or-binary>rules for
@@ -557,682 +578,944 @@
 
 
 
-<h3>Unknown Type</h3>
-
-<ol>
- <li>
-  The user agent MAY wait for 512 or more bytes to arrive for the same reason
-  as in the "text or binary" section above.
-
- <li>
-  Let <var>n</var> be the smaller of either 512 or the number of bytes that
-  have already arrived.
-
- <li>
-  For each row in the table below:
-
-  <dl class=switch>
-   <dt>If the row has no "WS" bytes (see <a href=#ws-note>Note</a>):
-   <dd>
-    <ol>
-     <li>
-      Let <var>pattern-length</var> be the length of the pattern.
-
-     <li>
-      If <var>n</var> is smaller than <var>pattern-length</var> then skip this
-      row.
-
-     <li>
-      Apply the bit-wise "and" operator to the first <var>pattern-length</var>
-      bytes and the given mask, and let the result be the
-      <var>masked-data</var>.
-
-     <li>
-      If the bytes of the <var>masked-data</var> match the given pattern bytes
-      exactly, then let the <var>sniffed-type</var> be the type given in the
-      cell of the third column in that row and abort these steps.
-    </ol>
-
-   <dt>If the row has a "WS" byte or a "_>" byte (see <a href=#sb-note>Note</a>):
-   <dd>
-    <ol>
-     <li>
-      Let <var>index-pattern</var> be an index into the mask and pattern byte
-      strings of the row.
-
-     <li>
-      Let <var>index-stream</var> be an index into the byte stream being
-      examined.
-
-     <li>
-      <var>LOOP</var>:
-      If <var>index-stream</var> points beyond the end of the byte stream,
-      then this row doesn't match and skip this row.
-
-     <li>
-      Examine the <var>index-stream</var>-th byte of the byte stream as
-      follows:
-
-      <dl class=switch>
-       <dt>If the <var>index-pattern</var>-th byte of the pattern is a normal hexadecimal byte and neither a "WS" byte nor a "_>" byte:
-       <dd>
-        <ol>
-         <li>
-          If the bit-wise "and" operator, applied to the
-          <var>index-stream</var>-th byte of the stream and the
-          <var>index-pattern</var>-th byte of the mask, yield a value
-          different than the <var>index-pattern</var>-th byte of the pattern,
-          then skip this row.
-
-         <li>
-          Otherwise, increment <var>index-pattern</var> to the next byte in
-          the mask and pattern and <var>index-stream</var> to the next byte
-          in the byte stream.
-        </ol>
-
-       <dt>Otherwise, if the <var>index-pattern</var>-th byte of the pattern is a "WS" byte:
-       <dd>
-        <p class=note id=ws-note>
-         "WS" means "whitespace", and allows insignificant whitespace to be
-         skipped when sniffing for a type signature.
-
-        <ol>
-         <li>
-          If the <var>index-stream</var>-th byte of the stream is one of 0x09
-          (ASCII TAB), 0x0A (ASCII LF), 0x0C (ASCII FF), 0x0D (ASCII CR), or
-          0x20 (ASCII space), then increment only the <var>index-stream</var>
-          to the next byte in the byte stream.
-
-         <li>
-          Otherwise, increment only the <var>index-pattern</var> to the next
-          byte in the mask and pattern.
-        </ol>
-
-       <dt>Otherwise, if the <var>index-pattern</var>-th byte of the pattern is a "_>" byte:
-       <dd>
-        <p class=note id=sb-note>
-         "_>" means "space-or-bracket", and allows HTML tag names to terminate
-         with either a space or a greater than sign.
-
-        <ol>
-         <li>
-          If <var>index-stream</var>-th byte of the stream is different than
-          0x20 (ASCII space) or 0x3E (ASCII ">"), then skip this row.
-
-         <li>
-          Otherwise, increment <var>index-pattern</var> to the next byte in
-          the mask and pattern and <var>index-stream</var> to the next byte
-          in the byte stream.
-        </ol>
-      </dl>
-
-     <li>
-      If <var>index-pattern</var> does not point beyond the end of the mask
-      and pattern byte strings, then jump back to the <var>LOOP</var> step in
-      this algorithm.
-
-     <li>
-      Otherwise, let the <var>sniffed-type</var> be the type given in the cell
-      of the third column in that row and abort these steps.
-    </ol>
-  </dl>
-
- <li>
-  If the first n bytes match <a href=#signature-for-mp4>the signature for
-  MP4</a>, then let the <var>sniffed-type</var> be video/mp4 and abort these
-  steps.
-
- <li>
-  If none of the first n bytes are binary data (as defined in the "text or
-  binary" section), then let the <var>sniffed-type</var> be "text/plain" and
-  abort these steps.
-
- <li>
-  Otherwise, let the <var>sniffed-type</var> be "application/octet-stream" and
-  abort these steps.
-</ol>
+<h3>Unknown media type</h3>
 
 <p>
- The table used by the above algorithm is:
+ The <span>rules for identifying an unknown media type</span> use the
+ <var>sniff-scriptable</var> flag, which must be unset by default.
 
- <table>
-  <thead>
-   <tr>
-    <th>Mask in Hex</th>
-    <th>Pattern in Hex</th>
-    <th>Sniffed Type</th>
-    <th>Security</th>
-    <th>Comment</th>
-   </tr>
-  <tbody>
-   <tr>
-    <td>
-     FF FF FF DF
-     DF DF DF DF
-     DF DF FF DF
-     DF DF DF FF
-    </td>
-    <td>
-     WS 3C 21 44
-     4F 43 54 59
-     50 45 20 48
-     54 4D 4C _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;!DOCTYPE HTML</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF FF
-    </td>
-    <td>
-     WS 3C 48 54
-     4D 4C _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;HTML</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF FF
-    </td>
-    <td>
-     WS 3C 48 45
-     41 44 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;HEAD</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF DF DF
-     FF
-    </td>
-    <td>
-     WS 3C 53 43
-     52 49 50 54
-     _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;SCRIPT</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF DF DF
-     FF
-    </td>
-    <td>
-     WS 3C 49 46
-     52 41 4d 45
-     _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;IFRAME</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF FF
-     FF
-    </td>
-    <td>
-     WS 3C 48 31
-     _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;H1</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF FF
-    </td>
-    <td>
-     WS 3C 44 49
-     56 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;DIV</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF FF
-    </td>
-    <td>
-     WS 3C 46 4f
-     4e 54 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;FONT</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF DF FF
-    </td>
-    <td>
-     WS 3C 54 41
-     42 4c 45 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;TABLE</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF FF
-    </td>
-    <td>
-     WS 3C 41 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;A</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF DF FF
-    </td>
-    <td>
-     WS 3C 53 54
-     59 4c 45 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;STYLE</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF DF FF
-    </td>
-    <td>
-     WS 3C 54 49
-     54 4c 45 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;TITLE</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF FF
-    </td>
-    <td>
-     WS 3C 42 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;B</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     DF DF FF
-    </td>
-    <td>
-     WS 3C 42 4f
-     44 59 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;BODY</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF DF
-     FF
-    </td>
-    <td>
-     WS 3C 42 52
-     _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;BR</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF DF FF
-    </td>
-    <td>
-     WS 3C 50 _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;P</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF
-    </td>
-    <td>
-     WS 3C 21 2d
-     2d _>
-    </td>
-    <td>text/html</td>
-    <td>Scriptable</td>
-    <td>&lt;!--</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF
-    </td>
-    <td>
-     WS 3C 3f 78
-     6d 6c
-    </td>
-    <td>text/xml</td>
-    <td>Scriptable</td>
-    <td>&lt;?xml (Note the case sensitivity [mask = FF instead of DF] and lack of trailing _>)</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF
-    </td>
-    <td>
-     25 50 44 46
-     2D
-    </td>
-    <td>application/pdf</td>
-    <td>Scriptable</td>
-    <td>The string "%PDF-", the PDF signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF FF FF
-     FF FF FF
-    </td>
-    <td>
-     25 21 50 53
-     2D 41 64 6F
-     62 65 2D
-    </td>
-    <td>application/postscript</td>
-    <td>Safe</td>
-    <td>The string "%!PS-Adobe-", the PostScript signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF 00 00
-    </td>
-    <td>
-     FE FF 00 00
-    </td>
-    <td>text/plain</td>
-    <td>n/a</td>
-    <td>UTF-16BE BOM</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF 00 00
-    </td>
-    <td>
-     FF FE 00 00
-    </td>
-    <td>text/plain</td>
-    <td>n/a</td>
-    <td>UTF-16LE BOM</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF 00
-    </td>
-    <td>
-     EF BB BF 00
-    </td>
-    <td>text/plain</td>
-    <td>n/a</td>
-    <td>UTF-8 BOM</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF
-    </td>
-    <td>
-     47 49 46 38
-     37 61
-    </td>
-    <td>image/gif</td>
-    <td>Safe</td>
-    <td>The string "GIF87a", a GIF signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF
-    </td>
-    <td>
-     47 49 46 38
-     39 61
-    </td>
-    <td>image/gif</td>
-    <td>Safe</td>
-    <td>The string "GIF89a", a GIF signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF FF FF
-    </td>
-    <td>
-     89 50 4E 47
-     0D 0A 1A 0A
-    </td>
-    <td>image/png</td>
-    <td>Safe</td>
-    <td>The PNG signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF
-    </td>
-    <td>
-     FF D8 FF
-    </td>
-    <td>image/jpeg</td>
-    <td>Safe</td>
-    <td>A JPEG SOI marker followed by a byte of another marker.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF
-    </td>
-    <td>
-     42 4D
-    </td>
-    <td>image/bmp</td>
-    <td>Safe</td>
-    <td>The string "BM", a BMP signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     00 00 00 00
-     FF FF FF FF
-     FF FF
-    </td>
-    <td>
-     52 49 46 46
-     00 00 00 00
-     57 45 42 50
-     56 50
-    </td>
-    <td>image/webp</td>
-    <td>Safe</td>
-    <td>"RIFF" followed by four bytes, followed by "WEBPVP".</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-    </td>
-    <td>
-     00 00 01 00
-    </td>
-    <td>image/vnd.microsoft.icon</td>
-    <td>Safe</td>
-    <td>A Windows Icon signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF
-    </td>
-    <td>
-     4F 67 67 53
-     00
-    </td>
-    <td>application/ogg</td>
-    <td>Safe</td>
-    <td>An Ogg audio or video signature.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     00 00 00 00
-     FF FF FF FF
-    </td>
-    <td>
-     52 49 46 46
-     00 00 00 00
-     57 41 56 45
-    </td>
-    <td>audio/wave</td>
-    <td>Safe</td>
-    <td>"RIFF" followed by four bytes, followed by "WAVE".</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-    </td>
-    <td>
-     1A 45 DF A3
-    </td>
-    <td>video/webm</td>
-    <td>Safe</td>
-    <td>The WebM signature [TODO: Use more bytes?]</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-     FF FF FF
-    </td>
-    <td>
-     52 61 72 20
-     1A 07 00
-    </td>
-    <td>application/x-rar-compressed</td>
-    <td>Safe</td>
-    <td>A RAR archive.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF FF
-    </td>
-    <td>
-     50 4B 03 04
-    </td>
-    <td>application/zip</td>
-    <td>Safe</td>
-    <td>A ZIP archive.</td>
-   </tr>
-   <tr>
-    <td>
-     FF FF FF
-    </td>
-    <td>
-     1F 8B 08
-    </td>
-    <td>application/x-gzip</td>
-    <td>Safe</td>
-    <td>A GZIP archive.</td>
-   </tr>
- </table>
-
-<p class=XXX>MP3 audio.</p>
+ User agents may explicitly set the <var>sniff-scriptable</var> flag when
+ calling the <span>rules for identifying an unknown media type</span>.
 
 <p>
- user agents MAY support additional types if necessary, by implicitly adding
- to the above table.
+ To determine the <span>actual media type</span> of a <span>resource</span>
+ with an unknown <span>media type</span>, execute the following <dfn>rules for
+ identifying an unknown media type</dfn>:
 
- However, user agents SHOULD NOT not use any other patterns for types already
- mentioned in the table above because this could then be used for privilege
- escalation (where, e.g., a server uses the above table to determine that
- content is not HTML and thus safe from cross-site scripting attacks, but then
- a user agent detects it as HTML anyway and allows script to execute).
+ <ol>
+  <li>
+   Let <var>length</var> be the number of <span title=byte>bytes</span> in the
+   <span>resource header</span>.
 
- In extending this table, user agents SHOULD NOT introduce any privilege
- escalation vulnerabilities.
+  <li>
+   If the <var>sniff-scriptable</var> flag is set, execute the following steps
+   for each row in the following table:
 
-<p class=note>
- The column marked "security" is used by the algorithm in the "text or binary"
- section, to avoid sniffing text/plain content as a type that can be used for
- a privilege escalation attack.
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <span>pattern matching algorithm</span> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <span>byte sequence</span> to be matched be the <span>resource
+       header</span>.
+
+      <li>
+       Let the <span>byte pattern</span> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <span>pattern mask</span> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <span title=byte>bytes</span> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, the <span>actual media type</span>
+     is the value in the fourth column of the current row.
+
+     Abort these steps.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <span>Byte Pattern</span>
+      </th>
+      <th>
+       <span>Pattern Mask</span>
+      </th>
+      <th>
+       Leading <span title=byte>Bytes</span> to Be Ignored
+      </th>
+      <th>
+       <span>Actual Media Type</span>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C TT
+      </td>
+      <td>
+       FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;!DOCTYPE HTML</code>"
+       followed by a <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 48 54 4D 4C TT
+      </td>
+      <td>
+       FF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;HTML</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 48 45 41 44 TT
+      </td>
+      <td>
+       FF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;HEAD</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 53 43 52 49 50 54 TT
+      </td>
+      <td>
+       FF DF DF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;SCRIPT</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 49 46 52 41 4D 45 TT
+      </td>
+      <td>
+       FF DF DF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;IFRAME</code>" followed by
+       a <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 48 31 TT
+      </td>
+      <td>
+       FF DF FF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;H1</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 44 49 56 TT
+      </td>
+      <td>
+       FF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;DIV</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 46 4F 4E 54 TT
+      </td>
+      <td>
+       FF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;FONT</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 54 41 42 4C 45 TT
+      </td>
+      <td>
+       FF DF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;TABLE</code>" followed by
+       a <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 41 TT
+      </td>
+      <td>
+       FF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;A</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 53 54 59 4C 45 TT
+      </td>
+      <td>
+       FF DF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;STYLE</code>" followed by
+       a <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 54 49 54 4C 45 TT
+      </td>
+      <td>
+       FF DF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;TITLE</code>" followed by
+       a <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 42 TT
+      </td>
+      <td>
+       FF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;B</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 42 4F 44 59 TT
+      </td>
+      <td>
+       FF DF DF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;BODY</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 42 52 TT
+      </td>
+      <td>
+       FF DF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;BR</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 50 TT
+      </td>
+      <td>
+       FF DF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The case-insensitive string "<code title>&lt;P</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 21 2D 2D TT
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/html</code>
+      </td>
+      <td>
+       The string "<code title>&lt;!--</code>" followed by a
+       <span>tag-terminating byte</span>.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       3C 3F 78 6D 6C
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       <span title="whitespace byte">Whitespace bytes</span>.
+      </td>
+      <td>
+       <code title>text/xml</code>
+      </td>
+      <td>
+       The string "<code title>&lt;?xml</code>".
+      </td>
+     </tr>
+     <tr>
+      <td>
+       25 50 44 46 2D
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/pdf</code>
+      </td>
+      <td>
+       The string "<code title>%PDF-</code>", the PDF signature.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <span>pattern matching algorithm</span> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <span>byte sequence</span> to be matched be the <span>resource
+       header</span>.
+
+      <li>
+       Let the <span>byte pattern</span> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <span>pattern mask</span> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <span title=byte>bytes</span> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, the <span>actual media type</span>
+     is the value in the fourth column of the current row.
+
+     Abort these steps.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <span>Byte Pattern</span>
+      </th>
+      <th>
+       <span>Pattern Mask</span>
+      </th>
+      <th>
+       Leading <span title=byte>Bytes</span> to Be Ignored
+      </th>
+      <th>
+       <span>Actual Media Type</span>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       25 21 50 53 2D 41 64 6F 62 65 2D
+      </td>
+      <td>
+       FF FF FF FF FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/postscript</code>
+      </td>
+      <td>
+       The string "<code title>%!PS-Adobe-</code>", the PostScript signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       FE FF 00 00
+      </td>
+      <td>
+       FF FF 00 00
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>text/plain</code>
+      </td>
+      <td>
+       UTF-16BE BOM
+      </td>
+     </tr>
+     <tr>
+      <td>
+       FF FE 00 00
+      </td>
+      <td>
+       FF FF 00 00
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>text/plain</code>
+      </td>
+      <td>
+       UTF-16LE BOM
+      </td>
+     </tr>
+     <tr>
+      <td>
+       EF BB BF 00
+      </td>
+      <td>
+       FF FF FF 00
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>text/plain</code>
+      </td>
+      <td>
+       UTF-8 BOM
+      </td>
+     </tr>
+     <tr>
+      <td>
+       47 49 46 38 37 61
+      </td>
+      <td>
+       FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/gif</code>
+      </td>
+      <td>
+       The string "<code title>GIF87a</code>", a GIF signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       47 49 46 38 39 61
+      </td>
+      <td>
+       FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/gif</code>
+      </td>
+      <td>
+       The string "<code title>GIF89a</code>", a GIF signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       89 50 4E 47 0D 0A 1A 0A
+      </td>
+      <td>
+       FF FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/png</code>
+      </td>
+      <td>
+       The PNG signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       FF D8 FF
+      </td>
+      <td>
+       FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/jpeg</code>
+      </td>
+      <td>
+       A JPEG SOI marker followed by a byte of another marker.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       42 4D
+      </td>
+      <td>
+       FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/bmp</code>
+      </td>
+      <td>
+       The string "<code title>BM</code>", a BMP signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       52 49 46 46 00 00 00 00 57 45 42 50 56 50
+      </td>
+      <td>
+       FF FF FF FF 00 00 00 00 FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/webp</code>
+      </td>
+      <td>
+       The string "<code title>RIFF</code>" followed by four bytes followed by
+       the string "<code title>WEBPVP</code>".
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00 00 01 00
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/vnd.microsoft.icon</code>
+      </td>
+      <td>
+       A Windows Icon signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       4F 67 67 53 00
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/ogg</code>
+      </td>
+      <td>
+       An Ogg audio or video signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       52 49 46 46 00 00 00 00 57 41 56 45
+      </td>
+      <td>
+       FF FF FF FF 00 00 00 00 FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>audio/wave</code>
+      </td>
+      <td>
+       The string "<code title>RIFF</code>" followed by four bytes followed by
+       the string "<code title>WAVE</code>".
+      </td>
+     </tr>
+     <tr>
+      <td>
+       1A 45 DF A3
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>video/webm</code>
+      </td>
+      <td class=XXX>
+       The WebM signature. [TODO: Use more bytes?]
+      </td>
+     </tr>
+     <tr>
+      <td>
+       52 61 72 20 1A 07 00
+      </td>
+      <td>
+       FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/x-rar-compressed</code>
+      </td>
+      <td>
+       The RAR archive signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       50 4B 03 04
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/zip</code>
+      </td>
+      <td>
+       The ZIP archive signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       1F 8B 08
+      </td>
+      <td>
+       FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/x-gzip</code>
+      </td>
+      <td>
+       The GZIP archive signature.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+   <p class=XXX>
+    MP3 audio.
+
+   <p>
+    User agents may implicitly extend this table to support additional
+    <span title="valid media type">valid media types</span>.
+
+    However, user agents should not implicitly extend this table to include
+    additional <span title="byte pattern">byte patterns</span> for any
+    <span>actual media type</span> already present in this table, as this may
+    introduce privilege escalation vulnerabilities.
+
+    User agents must not introduce any privilege escalation vulnerabilities
+    when extending this table.
+
+  <li>
+   If the <span>resource header</span> <span>matches the signature for
+   MP4</span>, the <span>actual media type</span> is
+   "<code title>video/mp4</code>".
+
+   Abort these steps.
+
+  <li>
+   If the <span>resource header</span> contains no
+   <span title="binary data byte">binary data bytes</span>, the <span>actual
+   media type</span> is "<code title>text/plain</code>".
+
+   Abort these steps.
+
+  <li>
+   The <span>actual media type</span> is
+   "<code title>application/octet-stream</code>".
+
+   Abort these steps.
+ </ol>
+
+
+
+<h4>Pattern matching algorithm</h4>
+
+<p>
+ To determine whether a <span>byte sequence</span> matches a particular
+ <span>byte pattern</span>, use the following <dfn>pattern matching
+ algorithm</dfn>:
+
+ <ol>
+  <li>
+   Let <var>sequence</var> be the <span>byte sequence</span> to be matched,
+   and let <var>sequence</var>[<var>s</var>] be <span>byte</span> <var>s</var>
+   in <var>sequence</var> (where <var>sequence</var>[0] is the first
+   <span>byte</span> in <var>sequence</var>).
+
+  <li>
+   Let <var>pattern</var> be the <span>byte pattern</span> to be matched
+   against, and let <var>pattern</var>[<var>p</var>] be <span>byte</span>
+   <var>p</var> in <var>pattern</var> (where <var>pattern</var>[0] is the
+   first <span>byte</span> in <var>pattern</var>).
+
+  <li>
+   Let <var>mask</var> be the <span>pattern mask</span>, and let
+   <var>mask</var>[<var>m</var>] be <span>byte</span> <var>m</var> in
+   <var>mask</var> (where <var>mask</var>[0] is the first <span>byte</span> in
+   <var>mask</var>).
+
+  <li>
+   Let <var>length</var> be the number of <span title=byte>bytes</span> in
+   <var>pattern</var>.
+
+  <li>
+   If the number of <span title=byte>bytes</span> in <var>mask</var> is not
+   equal to <var>length</var>, return false.
+
+  <li>
+   If the number of <span title=byte>bytes</span> in <var>sequence</var> is
+   less than <var>length</var>, return false.
+
+  <li>
+   Initialize <var>s</var>, <var>p</var>, and <var>m</var> to 0.
+
+  <li>
+   Begin loop <var>L</var>:
+
+   <ol>
+    <li>
+     If <var>pattern</var>[<var>p</var>] is undefined, exit loop <var>L</var>.
+
+    <li>
+     Let <var>masked-data</var> be the result of applying the bitwise AND
+     operator to <var>sequence</var>[<var>s</var>] and
+     <var>mask</var>[<var>m</var>].
+
+    <li>
+     If <var>masked-data</var> is not equal to
+     <var>pattern</var>[<var>p</var>], return false.
+
+    <li class=XXX>
+     If <var>sequence</var>[<var>s</var>] is not a <span>byte to be
+     ignored</span>, increment <var>p</var> and <var>m</var> by 1.
+
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   Return true.
+ </ol>
+
 
 
 <h4>Signature for MP4</h4>
 
 <p>
- This section defines whether a sequence of <var>n</var> bytes
- <dfn id=matches-the-signature-for-mp4>match the signature for MP4</dfn>.
+ To determine whether a <span>byte sequence</span> <dfn>matches the signature
+ for MP4</dfn>, use the following steps:
 
-<ol>
- <li>
-  If <var>n</var> is less than 12, then return that the sequence does not
-  match the signature for MP4 and abort these steps.
+ <ol>
+  <li>
+   Let <var>sequence</var> be the <span>byte sequence</span> to be matched,
+   where <var>sequence</var>[0] is the first <span>byte</span> in
+   <var>sequence</var>.
 
- <li>
-  Let <var>box-size</var> be the value of the first four bytes, interpreted as
-  a 32 bit unsigned, big-endian integer.
+  <li>
+   Let <var>length</var> be the number of <span title=byte>bytes</span> in
+   <var>sequence</var>.
 
- <li>
-  If <var>n</var> is less than <var>box-size</var> or if <var>box-size</var>
-  is not evenly divisible by 4, then return that the sequence does not match
-  the signature for MP4 and abort these steps.
+  <li>
+   If <var>length</var> is less than 12, return false.
 
- <li>
-  If bytes 4 through 7 (inclusive, zero-based) of the sequence are not the
-  sequence 0x66 0x74 0x79 0x70 (the ASCII string "ftyp"), then return that the
-  sequence does not match the signature for MP4 and abort these steps.
+  <li>
+   Let <var>box-size</var> be the four <span title=byte>bytes</span> from
+   <var>sequence</var>[0] to <var>sequence</var>[3], interpreted as a 32-bit
+   unsigned big-endian integer.
 
- <li>
-  For each <var>i</var> from 2 to <code><var>box-size</var>/4 - 1</code>
-  (inclusive):
+  <li>
+   If <var>length</var> is less than <var>box-size</var> or if
+   <var>box-size</var> modulo 4 is not equal to 0, return false.
 
-  <ol>
-   <li>
-    If <var>i</var> is equal to 3, continue to the next <var>i</var>, if any.
+  <li>
+   If the four <span title=byte>bytes</span> from <var>sequence</var>[4] to
+   <var>sequence</var>[7] are not equal to 0x66 0x74 0x79 0x70
+   ("<code title>ftyp</code>"), return false.
 
-    (These bytes correspond to the minor version number.)
+  <li>
+   If the three <span title=byte>bytes</span> from <var>sequence</var>[8] to
+   <var>sequence</var>[10] are equal to 0x6D 0x70 0x34
+   ("<code title>mp4</code>"), return true.
 
-   <li>
-    If bytes <code>4*i</code> through <code>4*i + 2</code> (inclusive,
-    zero-based) of the sequence are the sequence 0x6D 0x70 0x34 (the ASCII
-    string "mp4"), then return that the sequence <strong>does</strong> match
-    the signature for MP4 and abort these steps.
-  </ol>
+  <li>
+   Let <var>bytes-read</var> be 16.
 
- <li>
-  Return that the sequence does not match the signature for MP4.
-</ol>
+   <p class=note>
+    This ignores the four <span title=byte>bytes</span> that correspond to the
+    version number of the "major brand".
+
+  <li>
+   While <var>bytes-read</var> is less than <var>box-size</var>, continuously
+   loop through these steps:
+
+   <ol>
+    <li>
+     If the three <span title=byte>bytes</span> from
+     <var>sequence</var>[<var>bytes-read</var>] to
+     <var>sequence</var>[<var>bytes-read</var> + 2] are equal to 0x6D 0x70
+     0x34 ("<code title>mp4</code>"), return true.
+
+    <li>
+     Increment <var>bytes-read</var> by 4.
+   </ol>
+
+  <li>
+   Return false.
+ </ol>
+
 
 
 <h3>Images</h3>
@@ -1280,6 +1563,7 @@
 </ol>
 
 
+
 <h3>Video</h3>
 
 <p>
@@ -1311,6 +1595,7 @@
 </ol>
 
 
+
 <h3>Fonts</h3>
 
 <p>
@@ -1322,6 +1607,7 @@
 <p>
  Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
  and abort these steps.
+
 
 
 <h3>Feed or HTML</h3>
