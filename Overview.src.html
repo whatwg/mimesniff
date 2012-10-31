@@ -203,6 +203,10 @@
  <span title=byte>bytes</span>: 0x20 (SP), 0x3E (<code title>&gt;</code>).
 
 <p>
+ A <dfn>byte sequence</dfn> is a <span>sequence</span> of
+ <span title=byte>bytes</span>.
+
+<p>
  The <dfn>media type</dfn> of a resource is a technical hint about the use and
  format of that resource.
 
@@ -229,6 +233,53 @@
  <span data-anolis-ref>HTTP</span>
 
 <p>
+ A <span>valid media type</span> is <dfn>supported by the user agent</dfn> if
+ the user agent has the capability to interpret a <span>resource</span> of
+ that <span>media type</span> and present it to the user.
+
+<p>
+ An <dfn>image type</dfn> is any <span>valid media type</span> where
+ <span data-anolis-spec=http>type</span> is equal to
+ "<code title>image</code>"<!-- or the <span>media type portion</span> is
+ equal to one of the following:
+
+ <ul>
+  <li>
+ </ul>-->.
+
+<p>
+ An <dfn>audio type</dfn> is any <span>valid media type</span> where
+ <span data-anolis-spec=http>type</span> is equal to
+ "<code title>audio</code>" or the <span>media type portion</span> is equal to
+ one of the following:
+
+ <ul>
+  <li>
+   <code title>application/ogg</code>
+ </ul>
+
+<p>
+ An <dfn>video type</dfn> is any <span>valid media type</span> where
+ <span data-anolis-spec=http>type</span> is equal to
+ "<code title>video</code>" or the <span>media type portion</span> is equal to
+ one of the following:
+
+ <ul>
+  <li>
+   <code title>application/ogg</code>
+ </ul>
+
+<p>
+ An <dfn>font type</dfn> is any <span>valid media type</span> where
+ <!--<span data-anolis-spec=http>type</span> is equal to
+ "<code title>font</code>" or--> the <span>media type portion</span> is equal
+ to one of the following:
+
+ <ul class=XXX>
+  <li>
+ </ul>
+
+<p>
  The <dfn>specified media type</dfn> of a resource is the <span>valid media
  type</span> of the resource as determined by the <span>specified media type
  detection algorithm</span>.
@@ -252,10 +303,6 @@
   <li>
    <code title>application/pdf</code>
  </ul>
-
-<p>
- A <dfn>byte sequence</dfn> is a <span>sequence</span> of
- <span title=byte>bytes</span>.
 
 <p>
  A <dfn>byte pattern</dfn> is a <span>byte sequence</span> used as a template
@@ -490,33 +537,33 @@
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-images</var> flag is set and the
-   <span>specified media type</span> is <span>an image type supported by the
-   user agent</span>, execute the <span>rules for sniffing images
-   specifically</span>.
+   <span>specified media type</span> is an <span>image type</span>
+   <span>supported by the user agent</span>, execute the <span>rules for
+   sniffing images specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-audio</var> flag is set and the
-   <span>specified media type</span> is <span>an audio type supported by the
-   user agent</span>, execute the <span>rules for sniffing audio
-   specifically</span>.
+   <span>specified media type</span> is an <span>audio type</span>
+   <span>supported by the user agent</span>, execute the <span>rules for
+   sniffing audio specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-video</var> flag is set and the
-   <span>specified media type</span> is <span>a video type supported by the
-   user agent</span>, execute the <span>rules for sniffing videos
-   specifically</span>.
+   <span>specified media type</span> is a <span>video type</span>
+   <span>supported by the user agent</span>, execute the <span>rules for
+   sniffing videos specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-fonts</var> flag is set and the
-   <span>specified media type</span> is <span>a font type supported by the
-   user agent</span>, execute the <span>rules for sniffing fonts
-   specifically</span>.
+   <span>specified media type</span> is a <span>font type</span>
+   <span>supported by the user agent</span>, execute the <span>rules for
+   sniffing fonts specifically</span>.
 
   <li>
    If the <var class=flag>sniff-feed-or-html</var> flag is set and the

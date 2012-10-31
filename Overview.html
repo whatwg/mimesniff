@@ -223,6 +223,10 @@
  <a href="#byte" title="byte">bytes</a>: 0x20 (SP), 0x3E (<code title="">&gt;</code>).
 
 <p>
+ A <dfn id="byte-sequence">byte sequence</dfn> is a <span>sequence</span> of
+ <a href="#byte" title="byte">bytes</a>.
+
+<p>
  The <dfn id="media-type">media type</dfn> of a resource is a technical hint about the use and
  format of that resource.
 
@@ -249,6 +253,53 @@
  <a href="#refsHTTP">[HTTP]</a>
 
 <p>
+ A <a href="#valid-media-type">valid media type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn> if
+ the user agent has the capability to interpret a <span>resource</span> of
+ that <a href="#media-type">media type</a> and present it to the user.
+
+<p>
+ An <dfn id="image-type">image type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
+ "<code title="">image</code>"<!-- or the <span>media type portion</span> is
+ equal to one of the following:
+
+ <ul>
+  <li>
+ </ul>-->.
+
+<p>
+ An <dfn id="audio-type">audio type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
+ "<code title="">audio</code>" or the <a href="#media-type-portion">media type portion</a> is equal to
+ one of the following:
+
+ <ul>
+  <li>
+   <code title="">application/ogg</code>
+ </ul>
+
+<p>
+ An <dfn id="video-type">video type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
+ "<code title="">video</code>" or the <a href="#media-type-portion">media type portion</a> is equal to
+ one of the following:
+
+ <ul>
+  <li>
+   <code title="">application/ogg</code>
+ </ul>
+
+<p>
+ An <dfn id="font-type">font type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ <!--<span data-anolis-spec=http>type</span> is equal to
+ "<code title>font</code>" or--> the <a href="#media-type-portion">media type portion</a> is equal
+ to one of the following:
+
+ <ul class="XXX">
+  <li>
+ </ul>
+
+<p>
  The <dfn id="specified-media-type">specified media type</dfn> of a resource is the <a href="#valid-media-type">valid media
  type</a> of the resource as determined by the <a href="#specified-media-type-detection-algorithm">specified media type
  detection algorithm</a>.
@@ -272,10 +323,6 @@
   <li>
    <code title="">application/pdf</code>
  </ul>
-
-<p>
- A <dfn id="byte-sequence">byte sequence</dfn> is a <span>sequence</span> of
- <a href="#byte" title="byte">bytes</a>.
 
 <p>
  A <dfn id="byte-pattern">byte pattern</dfn> is a <a href="#byte-sequence">byte sequence</a> used as a template
@@ -510,33 +557,33 @@
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-images</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is <span>an image type supported by the
-   user agent</span>, execute the <a href="#rules-for-sniffing-images-specifically">rules for sniffing images
-   specifically</a>.
+   <a href="#specified-media-type">specified media type</a> is an <a href="#image-type">image type</a>
+   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <a href="#rules-for-sniffing-images-specifically">rules for
+   sniffing images specifically</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-audio</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is <span>an audio type supported by the
-   user agent</span>, execute the <span>rules for sniffing audio
-   specifically</span>.
+   <a href="#specified-media-type">specified media type</a> is an <a href="#audio-type">audio type</a>
+   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <span>rules for
+   sniffing audio specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-video</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is <span>a video type supported by the
-   user agent</span>, execute the <a href="#rules-for-sniffing-video-specifically">rules for sniffing videos
-   specifically</a>.
+   <a href="#specified-media-type">specified media type</a> is a <a href="#video-type">video type</a>
+   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <a href="#rules-for-sniffing-video-specifically">rules for
+   sniffing videos specifically</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-fonts</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is <span>a font type supported by the
-   user agent</span>, execute the <a href="#rules-for-sniffing-fonts-specifically">rules for sniffing fonts
-   specifically</a>.
+   <a href="#specified-media-type">specified media type</a> is a <a href="#font-type">font type</a>
+   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <a href="#rules-for-sniffing-fonts-specifically">rules for
+   sniffing fonts specifically</a>.
 
   <li>
    If the <var class="flag">sniff-feed-or-html</var> flag is set and the
