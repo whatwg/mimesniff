@@ -12,7 +12,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-31-october-2012">Living Standard — Last Updated 31 October 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-1-november-2012">Living Standard — Last Updated 1 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -55,7 +55,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 31 October 2012, the editor has made this
+  In addition, as of 1 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -90,17 +90,18 @@
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
  <li><a href="#the-specified-media-type"><span class="secno">4 </span>The specified media type</a></li>
- <li><a href="#the-actual-media-type"><span class="secno">5 </span>The actual media type</a>
+ <li><a href="#reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</a></li>
+ <li><a href="#the-actual-media-type"><span class="secno">6 </span>The actual media type</a>
   <ol>
-   <li><a href="#text-or-binary-media-type"><span class="secno">5.1 </span>Text or binary media type</a></li>
-   <li><a href="#unknown-media-type"><span class="secno">5.2 </span>Unknown media type</a>
+   <li><a href="#text-or-binary-media-type"><span class="secno">6.1 </span>Text or binary media type</a></li>
+   <li><a href="#unknown-media-type"><span class="secno">6.2 </span>Unknown media type</a>
     <ol>
-     <li><a href="#pattern-matching-algorithm"><span class="secno">5.2.1 </span>Pattern matching algorithm</a></li>
-     <li><a href="#signature-for-mp4"><span class="secno">5.2.2 </span>Signature for MP4</a></ol></li>
-   <li><a href="#images"><span class="secno">5.3 </span>Images</a></li>
-   <li><a href="#video"><span class="secno">5.4 </span>Video</a></li>
-   <li><a href="#fonts"><span class="secno">5.5 </span>Fonts</a></li>
-   <li><a href="#feed-or-html"><span class="secno">5.6 </span>Feed or HTML</a></ol></li>
+     <li><a href="#pattern-matching-algorithm"><span class="secno">6.2.1 </span>Pattern matching algorithm</a></li>
+     <li><a href="#signature-for-mp4"><span class="secno">6.2.2 </span>Signature for MP4</a></ol></li>
+   <li><a href="#images"><span class="secno">6.3 </span>Images</a></li>
+   <li><a href="#video"><span class="secno">6.4 </span>Video</a></li>
+   <li><a href="#fonts"><span class="secno">6.5 </span>Fonts</a></li>
+   <li><a href="#feed-or-html"><span class="secno">6.6 </span>Feed or HTML</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -225,6 +226,9 @@
 <p>
  A <dfn id="byte-sequence">byte sequence</dfn> is a <span>sequence</span> of
  <a href="#byte" title="byte">bytes</a>.
+
+<p>
+ A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the beginning of a <span>resource</span>, as determined by <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
 
 <p>
  The <dfn id="media-type">media type</dfn> of a resource is a technical hint about the use and
@@ -401,7 +405,48 @@
 
 
 
-<h2 id="the-actual-media-type"><span class="secno">5 </span>The actual media type</h2>
+<h2 id="reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</h2>
+
+<p>
+ To <dfn id="read-the-resource-header">read the resource header</dfn>, perform the following steps:
+
+ <ol>
+  <li>
+   Read <a href="#byte" title="byte">bytes</a> of the resource into <var>buffer</var>
+   until one of the following conditions is met:
+
+   <ul>
+    <li>
+     the end of the resource is reached.
+
+    <li>
+     the length of <var>buffer</var> is greater than or equal to 512
+     <a href="#byte" title="byte">bytes</a>.
+
+    <li>
+     a reasonable amount of time has elapsed, as determined by the user
+     agent.
+   </ul>
+
+   <p class="note">
+    If the length of <var>buffer</var> is greater than or equal to 512
+    <a href="#byte" title="byte">bytes</a>, the <a href="#media-type-sniffing-algorithm">media type sniffing
+    algorithm</a> will be deterministic for the majority of cases.
+
+    However, certain factors (such as a slow connection) may prevent the
+    user agent from reading 512 <a href="#byte" title="byte">bytes</a> in a
+    reasonable amount of time.
+
+   <li>
+    The <a href="#resource-header">resource header</a> is <var>buffer</var>.
+ </ol>
+
+ <p class="note">
+  The <a href="#resource-header">resource header</a> need only be determined once per <span>resource</span>.
+
+
+
+<h2 id="the-actual-media-type"><span class="secno">6 </span>The actual media type</h2>
 
 <p>
  The following flags are used in the <a href="#media-type-sniffing-algorithm">media type sniffing
@@ -437,50 +482,6 @@
    <var class="flag">sniff-images</var>, <var class="flag">sniff-audio</var>,
    <var class="flag">sniff-video</var>, and <var class="flag">sniff-fonts</var>
    flags.
-
-  <li>
-   If the <var class="flag">sniff-unknown</var> flag is set or the
-   <var class="flag">sniff-text-or-binary</var> flag is set or the
-   <var class="flag">sniff-feed-or-html</var> flag is set or the
-   <var class="flag">sniff-images</var> flag is set or the
-   <var class="flag">sniff-audio</var> flag is set or the
-   <var class="flag">sniff-video</var> flag is set or the
-   <var class="flag">sniff-fonts</var> flag is set, <dfn id="read-the-resource-header">read the resource
-   header</dfn> by performing the following steps:
-
-   <ol>
-    <li>
-     Read <a href="#byte" title="byte">bytes</a> of the resource into <var>buffer</var>
-     until one of the following conditions is met:
-
-     <ul>
-      <li>
-       the end of the resource is reached.
-
-      <li>
-       the length of <var>buffer</var> is greater than or equal to 512
-       <a href="#byte" title="byte">bytes</a>.
-
-      <li>
-       a reasonable amount of time has elapsed, as determined by the user
-       agent.
-     </ul>
-
-     <p class="note">
-      If the length of <var>buffer</var> is greater than or equal to 512
-      <a href="#byte" title="byte">bytes</a>, the <a href="#media-type-sniffing-algorithm">media type sniffing
-      algorithm</a> will be deterministic for the majority of cases.
-
-      However, certain factors (such as a slow connection) may prevent the
-      user agent from reading 512 <a href="#byte" title="byte">bytes</a> in a
-      reasonable amount of time.
-
-     <li>
-      The <dfn id="resource-header">resource header</dfn> is <var>buffer</var>.
-   </ol>
-
-   <p class="note">
-    This step is always performed if any sniffing is allowed.
 
   <li>
    If the <var class="flag">sniff-unknown</var> flag is set and the
@@ -600,7 +601,7 @@
 
 
 
-<h3 id="text-or-binary-media-type"><span class="secno">5.1 </span>Text or binary media type</h3>
+<h3 id="text-or-binary-media-type"><span class="secno">6.1 </span>Text or binary media type</h3>
 
 <p>
  This section defines the <dfn id="rules-for-text-or-binary">rules for
@@ -646,7 +647,7 @@
 
 
 
-<h3 id="unknown-media-type"><span class="secno">5.2 </span>Unknown media type</h3>
+<h3 id="unknown-media-type"><span class="secno">6.2 </span>Unknown media type</h3>
 
 <p>
  The <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> use the
@@ -1420,8 +1421,8 @@
 
     However, user agents should not implicitly extend this table to include
     additional <a href="#byte-pattern" title="byte pattern">byte patterns</a> for any
-    <a href="#actual-media-type">actual media type</a> already present in this table, as this may
-    introduce privilege escalation vulnerabilities.
+    <a href="#actual-media-type">actual media type</a> already present in this table, as doing so
+    could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
     when extending this table.
@@ -1449,7 +1450,7 @@
 
 
 
-<h4 id="pattern-matching-algorithm"><span class="secno">5.2.1 </span>Pattern matching algorithm</h4>
+<h4 id="pattern-matching-algorithm"><span class="secno">6.2.1 </span>Pattern matching algorithm</h4>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
@@ -1520,7 +1521,7 @@
 
 
 
-<h4 id="signature-for-mp4"><span class="secno">5.2.2 </span>Signature for MP4</h4>
+<h4 id="signature-for-mp4"><span class="secno">6.2.2 </span>Signature for MP4</h4>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
@@ -1586,7 +1587,7 @@
 
 
 
-<h3 id="images"><span class="secno">5.3 </span>Images</h3>
+<h3 id="images"><span class="secno">6.3 </span>Images</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-images-specifically">rules
@@ -1632,7 +1633,7 @@
 
 
 
-<h3 id="video"><span class="secno">5.4 </span>Video</h3>
+<h3 id="video"><span class="secno">6.4 </span>Video</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-video-specifically">rules
@@ -1664,7 +1665,7 @@
 
 
 
-<h3 id="fonts"><span class="secno">5.5 </span>Fonts</h3>
+<h3 id="fonts"><span class="secno">6.5 </span>Fonts</h3>
 
 <p>
  This section defines the <dfn id="rules-for-sniffing-fonts-specifically">rules
@@ -1678,7 +1679,7 @@
 
 
 
-<h3 id="feed-or-html"><span class="secno">5.6 </span>Feed or HTML</h3>
+<h3 id="feed-or-html"><span class="secno">6.6 </span>Feed or HTML</h3>
 
 <ol>
  <li>

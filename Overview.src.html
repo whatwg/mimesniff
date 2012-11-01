@@ -207,6 +207,9 @@
  <span title=byte>bytes</span>.
 
 <p>
+ A <dfn>resource header</dfn> is the <span>byte sequence</span> at the beginning of a <span>resource</span>, as determined by <span title="read the resource header">reading the resource header</span>.
+
+<p>
  The <dfn>media type</dfn> of a resource is a technical hint about the use and
  format of that resource.
 
@@ -381,6 +384,47 @@
 
 
 
+<h2>Reading the resource header</h2>
+
+<p>
+ To <dfn>read the resource header</dfn>, perform the following steps:
+
+ <ol>
+  <li>
+   Read <span title=byte>bytes</span> of the resource into <var>buffer</var>
+   until one of the following conditions is met:
+
+   <ul>
+    <li>
+     the end of the resource is reached.
+
+    <li>
+     the length of <var>buffer</var> is greater than or equal to 512
+     <span title=byte>bytes</span>.
+
+    <li>
+     a reasonable amount of time has elapsed, as determined by the user
+     agent.
+   </ul>
+
+   <p class=note>
+    If the length of <var>buffer</var> is greater than or equal to 512
+    <span title=byte>bytes</span>, the <span>media type sniffing
+    algorithm</span> will be deterministic for the majority of cases.
+
+    However, certain factors (such as a slow connection) may prevent the
+    user agent from reading 512 <span title=byte>bytes</span> in a
+    reasonable amount of time.
+
+   <li>
+    The <span>resource header</span> is <var>buffer</var>.
+ </ol>
+
+ <p class=note>
+  The <span>resource header</span> need only be determined once per <span>resource</span>.
+
+
+
 <h2>The actual media type</h2>
 
 <p>
@@ -417,50 +461,6 @@
    <var class=flag>sniff-images</var>, <var class=flag>sniff-audio</var>,
    <var class=flag>sniff-video</var>, and <var class=flag>sniff-fonts</var>
    flags.
-
-  <li>
-   If the <var class=flag>sniff-unknown</var> flag is set or the
-   <var class=flag>sniff-text-or-binary</var> flag is set or the
-   <var class=flag>sniff-feed-or-html</var> flag is set or the
-   <var class=flag>sniff-images</var> flag is set or the
-   <var class=flag>sniff-audio</var> flag is set or the
-   <var class=flag>sniff-video</var> flag is set or the
-   <var class=flag>sniff-fonts</var> flag is set, <dfn>read the resource
-   header</dfn> by performing the following steps:
-
-   <ol>
-    <li>
-     Read <span title=byte>bytes</span> of the resource into <var>buffer</var>
-     until one of the following conditions is met:
-
-     <ul>
-      <li>
-       the end of the resource is reached.
-
-      <li>
-       the length of <var>buffer</var> is greater than or equal to 512
-       <span title=byte>bytes</span>.
-
-      <li>
-       a reasonable amount of time has elapsed, as determined by the user
-       agent.
-     </ul>
-
-     <p class=note>
-      If the length of <var>buffer</var> is greater than or equal to 512
-      <span title=byte>bytes</span>, the <span>media type sniffing
-      algorithm</span> will be deterministic for the majority of cases.
-
-      However, certain factors (such as a slow connection) may prevent the
-      user agent from reading 512 <span title=byte>bytes</span> in a
-      reasonable amount of time.
-
-     <li>
-      The <dfn>resource header</dfn> is <var>buffer</var>.
-   </ol>
-
-   <p class=note>
-    This step is always performed if any sniffing is allowed.
 
   <li>
    If the <var class=flag>sniff-unknown</var> flag is set and the
@@ -1400,8 +1400,8 @@
 
     However, user agents should not implicitly extend this table to include
     additional <span title="byte pattern">byte patterns</span> for any
-    <span>actual media type</span> already present in this table, as this may
-    introduce privilege escalation vulnerabilities.
+    <span>actual media type</span> already present in this table, as doing so
+    could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
     when extending this table.
