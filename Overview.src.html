@@ -401,16 +401,19 @@
 
  <ol>
   <li>
-   Read <span title=byte>bytes</span> of the resource into <var>buffer</var>
-   until one of the following conditions is met:
+   Let <var>buffer</var> be a <span>byte sequence</span>.
+
+  <li>
+   Read <span title=byte>bytes</span> of the <span>resource</span> into
+   <var>buffer</var> until one of the following conditions is met:
 
    <ul>
     <li>
-     the end of the resource is reached.
+     the end of the <span>resource</span> is reached.
 
     <li>
-     the length of <var>buffer</var> is greater than or equal to 512
-     <span title=byte>bytes</span>.
+     the number of <span title=byte>bytes</span> in <var>buffer</var> is
+     greater than or equal to 512.
 
     <li>
      a reasonable amount of time has elapsed, as determined by the user
@@ -418,8 +421,8 @@
    </ul>
 
    <p class=note>
-    If the length of <var>buffer</var> is greater than or equal to 512
-    <span title=byte>bytes</span>, the <span>media type sniffing
+    If the number of <span title=byte>bytes</span> in <var>buffer</var> is
+    greater than or equal to 512, the <span>media type sniffing
     algorithm</span> will be deterministic for the majority of cases.
 
     However, certain factors (such as a slow connection) may prevent the
