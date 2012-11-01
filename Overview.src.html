@@ -286,6 +286,14 @@
  </ul>
 
 <p>
+ An <dfn>XML type</dfn> is any <span>valid media type</span> where
+ <span data-anolis-spec=http>subtype</span> ends in "<code title>+xml</code>"
+ or the <span>media type portion</span> is equal to
+ "<code title>text/xml</code>" or "<code title>application/xml</code>".
+
+ <span data-anolis-ref class=informative>RFC3023</span>
+
+<p>
  The <dfn>supplied media type</dfn> of a resource is the <span>valid media
  type</span> of the resource as determined by the <span>supplied media type
  detection algorithm</span>.
@@ -448,11 +456,8 @@
 
  <ol>
   <li>
-   If the <span>supplied media type</span> is not null and the <span>media
-   type portion</span> of the <span>supplied media type</span> ends in
-   "<code title>+xml</code>" or is equal to "<code title>text/xml</code>" or
-   "<code title>application/xml</code>", the <span>sniffed media type</span>
-   is the <span>supplied media type</span>.
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
 
    Abort these steps.
 

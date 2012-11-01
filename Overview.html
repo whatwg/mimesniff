@@ -307,6 +307,14 @@
  </ul>
 
 <p>
+ An <dfn id="xml-type">XML type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+xml</code>"
+ or the <a href="#media-type-portion">media type portion</a> is equal to
+ "<code title="">text/xml</code>" or "<code title="">application/xml</code>".
+
+ <a class="informative" href="#refsRFC3023">[RFC3023]</a>
+
+<p>
  The <dfn id="supplied-media-type">supplied media type</dfn> of a resource is the <a href="#valid-media-type">valid media
  type</a> of the resource as determined by the <a href="#supplied-media-type-detection-algorithm">supplied media type
  detection algorithm</a>.
@@ -469,11 +477,8 @@
 
  <ol>
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is not null and the <a href="#media-type-portion">media
-   type portion</a> of the <a href="#supplied-media-type">supplied media type</a> ends in
-   "<code title="">+xml</code>" or is equal to "<code title="">text/xml</code>" or
-   "<code title="">application/xml</code>", the <a href="#sniffed-media-type">sniffed media type</a>
-   is the <a href="#supplied-media-type">supplied media type</a>.
+   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
 
    Abort these steps.
 
@@ -1902,6 +1907,9 @@
 
 <dt id="refsRFC2119">[RFC2119]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a></cite>, Scott Bradner. IETF.
+
+<dt id="refsRFC3023">[RFC3023]
+<dd>(Non-normative) <cite><a href="http://tools.ietf.org/html/rfc3023">XML Media Types</a></cite>, M. Murata, S. St. Laurent and D. Kohn. IETF.
 
 <dt id="refsSECCONTSNIFF">[SECCONTSNIFF]
 <dd><cite><a href="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves</a></cite>, Adam Barth, Juan Caballero and Dawn Song.
