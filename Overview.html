@@ -89,7 +89,7 @@
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#the-specified-media-type"><span class="secno">4 </span>The specified media type</a></li>
+ <li><a href="#the-supplied-media-type"><span class="secno">4 </span>The supplied media type</a></li>
  <li><a href="#reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</a></li>
  <li><a href="#the-sniffed-media-type"><span class="secno">6 </span>The sniffed media type</a>
   <ol>
@@ -307,8 +307,8 @@
  </ul>
 
 <p>
- The <dfn id="specified-media-type">specified media type</dfn> of a resource is the <a href="#valid-media-type">valid media
- type</a> of the resource as determined by the <a href="#specified-media-type-detection-algorithm">specified media type
+ The <dfn id="supplied-media-type">supplied media type</dfn> of a resource is the <a href="#valid-media-type">valid media
+ type</a> of the resource as determined by the <a href="#supplied-media-type-detection-algorithm">supplied media type
  detection algorithm</a>.
 
 <p>
@@ -348,24 +348,24 @@
 
 
 
-<h2 id="the-specified-media-type"><span class="secno">4 </span>The specified media type</h2>
+<h2 id="the-supplied-media-type"><span class="secno">4 </span>The supplied media type</h2>
 
 <p>
- The <a href="#specified-media-type">specified media type</a> of a resource is provided to the user
+ The <a href="#supplied-media-type">supplied media type</a> of a resource is provided to the user
  agent by an external source associated with that resource.
 
  The method of obtaining this information varies depending upon how the
  resource is retrieved.
 
 <p>
- The <a href="#specified-media-type-detection-algorithm">specified media type detection algorithm</a> makes use of the
+ The <a href="#supplied-media-type-detection-algorithm">supplied media type detection algorithm</a> makes use of the
  <dfn id="has-content-type-flag">has-content-type flag</dfn>, which must be unset by default and must
- only be set from within the <a href="#specified-media-type-detection-algorithm">specified media type detection
+ only be set from within the <a href="#supplied-media-type-detection-algorithm">supplied media type detection
  algorithm</a>.
 
 <p>
- To determine the <a href="#specified-media-type">specified media type</a> of a resource, user agents
- must use the following <dfn id="specified-media-type-detection-algorithm">specified media type detection algorithm</dfn>:
+ To determine the <a href="#supplied-media-type">supplied media type</a> of a resource, user agents
+ must use the following <dfn id="supplied-media-type-detection-algorithm">supplied media type detection algorithm</dfn>:
 
  <ol>
   <li>
@@ -381,7 +381,7 @@
    <a href="#refsHTTP">[HTTP]</a>
 
    <p class="note">
-    File extensions are not used to determine the <a href="#specified-media-type">specified media
+    File extensions are not used to determine the <a href="#supplied-media-type">supplied media
     type</a> of a resource retrieved via HTTP because they are unreliable
     and easily spoofed.
 
@@ -402,7 +402,7 @@
    <var>official-type</var> to null.
 
   <li>
-   The <a href="#specified-media-type">specified media type</a> is <var>official-type</var>.
+   The <a href="#supplied-media-type">supplied media type</a> is <var>official-type</var>.
  </ol>
 
 
@@ -469,11 +469,11 @@
 
  <ol>
   <li>
-   If the <a href="#specified-media-type">specified media type</a> is not null and the <a href="#media-type-portion">media
-   type portion</a> of the <a href="#specified-media-type">specified media type</a> ends in
+   If the <a href="#supplied-media-type">supplied media type</a> is not null and the <a href="#media-type-portion">media
+   type portion</a> of the <a href="#supplied-media-type">supplied media type</a> ends in
    "<code title="">+xml</code>" or is equal to "<code title="">text/xml</code>" or
    "<code title="">application/xml</code>", the <a href="#sniffed-media-type">sniffed media type</a>
-   is the <a href="#specified-media-type">specified media type</a>.
+   is the <a href="#supplied-media-type">supplied media type</a>.
 
    Abort these steps.
 
@@ -488,17 +488,17 @@
 
   <li>
    If the <var class="flag">sniff-unknown</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is null or if the
-   <var class="flag">sniff-unknown</var> flag is set and the <a href="#specified-media-type">specified
+   <a href="#supplied-media-type">supplied media type</a> is null or if the
+   <var class="flag">sniff-unknown</var> flag is set and the <a href="#supplied-media-type">supplied
    media type</a> is not null and the <a href="#media-type-portion">media type portion</a> of
-   the <a href="#specified-media-type">specified media type</a> is equal to
+   the <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
    execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a>.
 
   <li>
    If the <var class="flag">sniff-text-or-binary</var> flag is set and the
-   <a href="#has-content-type-flag">has-content-type flag</a> is set and the <a href="#specified-media-type">specified media
+   <a href="#has-content-type-flag">has-content-type flag</a> is set and the <a href="#supplied-media-type">supplied media
    type</a> is <strong>exactly</strong> equal to one of the values in the
    following table, execute the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource
    is text or binary</a>:
@@ -562,43 +562,43 @@
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-images</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is an <a href="#image-type">image type</a>
+   <a href="#supplied-media-type">supplied media type</a> is an <a href="#image-type">image type</a>
    <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <a href="#rules-for-sniffing-images-specifically">rules for
    sniffing images specifically</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-audio</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is an <a href="#audio-type">audio type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <span>rules for
-   sniffing audio specifically</span>.
+   If the <var class="flag">sniff-audio</var> flag is set and the <a href="#supplied-media-type">supplied
+   media type</a> is an <a href="#audio-type">audio type</a> <a href="#supported-by-the-user-agent">supported by the user
+   agent</a>, execute the <span>rules for sniffing audio
+   specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-video</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is a <a href="#video-type">video type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <a href="#rules-for-sniffing-video-specifically">rules for
-   sniffing videos specifically</a>.
+   If the <var class="flag">sniff-video</var> flag is set and the <a href="#supplied-media-type">supplied
+   media type</a> is a <a href="#video-type">video type</a> <a href="#supported-by-the-user-agent">supported by the user
+   agent</a>, execute the <a href="#rules-for-sniffing-video-specifically">rules for sniffing videos
+   specifically</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-fonts</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is a <a href="#font-type">font type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, execute the <a href="#rules-for-sniffing-fonts-specifically">rules for
-   sniffing fonts specifically</a>.
+   If the <var class="flag">sniff-fonts</var> flag is set and the <a href="#supplied-media-type">supplied
+   media type</a> is a <a href="#font-type">font type</a> <a href="#supported-by-the-user-agent">supported by the user
+   agent</a>, execute the <a href="#rules-for-sniffing-fonts-specifically">rules for sniffing fonts
+   specifically</a>.
 
   <li>
    If the <var class="flag">sniff-feed-or-html</var> flag is set and the
-   <a href="#specified-media-type">specified media type</a> is not null and the <a href="#media-type-portion">media type
-   portion</a> of the <a href="#specified-media-type">specified media type</a> is equal to
+   <a href="#supplied-media-type">supplied media type</a> is not null and the <a href="#media-type-portion">media type
+   portion</a> of the <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">text/html</code>", execute the <span>rules for distinguishing
    if a resource is a feed or HTML</span>.
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#specified-media-type">specified media
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
    type</a>.
  </ol>
 

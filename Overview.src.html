@@ -286,8 +286,8 @@
  </ul>
 
 <p>
- The <dfn>specified media type</dfn> of a resource is the <span>valid media
- type</span> of the resource as determined by the <span>specified media type
+ The <dfn>supplied media type</dfn> of a resource is the <span>valid media
+ type</span> of the resource as determined by the <span>supplied media type
  detection algorithm</span>.
 
 <p>
@@ -327,24 +327,24 @@
 
 
 
-<h2>The specified media type</h2>
+<h2>The supplied media type</h2>
 
 <p>
- The <span>specified media type</span> of a resource is provided to the user
+ The <span>supplied media type</span> of a resource is provided to the user
  agent by an external source associated with that resource.
 
  The method of obtaining this information varies depending upon how the
  resource is retrieved.
 
 <p>
- The <span>specified media type detection algorithm</span> makes use of the
+ The <span>supplied media type detection algorithm</span> makes use of the
  <dfn>has-content-type flag</dfn>, which must be unset by default and must
- only be set from within the <span>specified media type detection
+ only be set from within the <span>supplied media type detection
  algorithm</span>.
 
 <p>
- To determine the <span>specified media type</span> of a resource, user agents
- must use the following <dfn>specified media type detection algorithm</dfn>:
+ To determine the <span>supplied media type</span> of a resource, user agents
+ must use the following <dfn>supplied media type detection algorithm</dfn>:
 
  <ol>
   <li>
@@ -360,7 +360,7 @@
    <span data-anolis-ref=http>HTTP</span>
 
    <p class=note>
-    File extensions are not used to determine the <span>specified media
+    File extensions are not used to determine the <span>supplied media
     type</span> of a resource retrieved via HTTP because they are unreliable
     and easily spoofed.
 
@@ -381,7 +381,7 @@
    <var>official-type</var> to null.
 
   <li>
-   The <span>specified media type</span> is <var>official-type</var>.
+   The <span>supplied media type</span> is <var>official-type</var>.
  </ol>
 
 
@@ -448,11 +448,11 @@
 
  <ol>
   <li>
-   If the <span>specified media type</span> is not null and the <span>media
-   type portion</span> of the <span>specified media type</span> ends in
+   If the <span>supplied media type</span> is not null and the <span>media
+   type portion</span> of the <span>supplied media type</span> ends in
    "<code title>+xml</code>" or is equal to "<code title>text/xml</code>" or
    "<code title>application/xml</code>", the <span>sniffed media type</span>
-   is the <span>specified media type</span>.
+   is the <span>supplied media type</span>.
 
    Abort these steps.
 
@@ -467,17 +467,17 @@
 
   <li>
    If the <var class=flag>sniff-unknown</var> flag is set and the
-   <span>specified media type</span> is null or if the
-   <var class=flag>sniff-unknown</var> flag is set and the <span>specified
+   <span>supplied media type</span> is null or if the
+   <var class=flag>sniff-unknown</var> flag is set and the <span>supplied
    media type</span> is not null and the <span>media type portion</span> of
-   the <span>specified media type</span> is equal to
+   the <span>supplied media type</span> is equal to
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
    execute the <span>rules for identifying an unknown media type</span>.
 
   <li>
    If the <var class=flag>sniff-text-or-binary</var> flag is set and the
-   <span>has-content-type flag</span> is set and the <span>specified media
+   <span>has-content-type flag</span> is set and the <span>supplied media
    type</span> is <strong>exactly</strong> equal to one of the values in the
    following table, execute the <span>rules for distinguishing if a resource
    is text or binary</span>:
@@ -541,43 +541,43 @@
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class=flag>sniff-images</var> flag is set and the
-   <span>specified media type</span> is an <span>image type</span>
+   <span>supplied media type</span> is an <span>image type</span>
    <span>supported by the user agent</span>, execute the <span>rules for
    sniffing images specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class=flag>sniff-audio</var> flag is set and the
-   <span>specified media type</span> is an <span>audio type</span>
-   <span>supported by the user agent</span>, execute the <span>rules for
-   sniffing audio specifically</span>.
+   If the <var class=flag>sniff-audio</var> flag is set and the <span>supplied
+   media type</span> is an <span>audio type</span> <span>supported by the user
+   agent</span>, execute the <span>rules for sniffing audio
+   specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class=flag>sniff-video</var> flag is set and the
-   <span>specified media type</span> is a <span>video type</span>
-   <span>supported by the user agent</span>, execute the <span>rules for
-   sniffing videos specifically</span>.
+   If the <var class=flag>sniff-video</var> flag is set and the <span>supplied
+   media type</span> is a <span>video type</span> <span>supported by the user
+   agent</span>, execute the <span>rules for sniffing videos
+   specifically</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class=flag>sniff-fonts</var> flag is set and the
-   <span>specified media type</span> is a <span>font type</span>
-   <span>supported by the user agent</span>, execute the <span>rules for
-   sniffing fonts specifically</span>.
+   If the <var class=flag>sniff-fonts</var> flag is set and the <span>supplied
+   media type</span> is a <span>font type</span> <span>supported by the user
+   agent</span>, execute the <span>rules for sniffing fonts
+   specifically</span>.
 
   <li>
    If the <var class=flag>sniff-feed-or-html</var> flag is set and the
-   <span>specified media type</span> is not null and the <span>media type
-   portion</span> of the <span>specified media type</span> is equal to
+   <span>supplied media type</span> is not null and the <span>media type
+   portion</span> of the <span>supplied media type</span> is equal to
    "<code title>text/html</code>", execute the <span>rules for distinguishing
    if a resource is a feed or HTML</span>.
 
   <li>
-   The <span>sniffed media type</span> is the <span>specified media
+   The <span>sniffed media type</span> is the <span>supplied media
    type</span>.
  </ol>
 
