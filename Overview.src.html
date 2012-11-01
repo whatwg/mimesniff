@@ -207,7 +207,9 @@
  <span title=byte>bytes</span>.
 
 <p>
- A <dfn>resource header</dfn> is the <span>byte sequence</span> at the beginning of a <span>resource</span>, as determined by <span title="read the resource header">reading the resource header</span>.
+ A <dfn>resource header</dfn> is the <span>byte sequence</span> at the
+ beginning of a <span>resource</span>, as determined by
+ <span title="read the resource header">reading the resource header</span>.
 
 <p>
  The <dfn>media type</dfn> of a resource is a technical hint about the use and
@@ -289,7 +291,7 @@
  detection algorithm</span>.
 
 <p>
- The <dfn>actual media type</dfn> of a resource is the <span>valid media
+ The <dfn>sniffed media type</dfn> of a resource is the <span>valid media
  type</span> of the resource as determined by the <span>media type sniffing
  algorithm</span>.
 
@@ -421,11 +423,12 @@
  </ol>
 
  <p class=note>
-  The <span>resource header</span> need only be determined once per <span>resource</span>.
+  The <span>resource header</span> need only be determined once per
+  <span>resource</span>.
 
 
 
-<h2>The actual media type</h2>
+<h2>The sniffed media type</h2>
 
 <p>
  The following flags are used in the <span>media type sniffing
@@ -440,7 +443,7 @@
  <span>media type sniffing algorithm</span>.
 
 <p>
- To determine the <span>actual media type</span> of a resource, user agents
+ To determine the <span>sniffed media type</span> of a resource, user agents
  must use the following <dfn>media type sniffing algorithm</dfn>:
 
  <ol>
@@ -448,8 +451,8 @@
    If the <span>specified media type</span> is not null and the <span>media
    type portion</span> of the <span>specified media type</span> ends in
    "<code title>+xml</code>" or is equal to "<code title>text/xml</code>" or
-   "<code title>application/xml</code>", the <span>actual media type</span> is
-   the <span>specified media type</span>.
+   "<code title>application/xml</code>", the <span>sniffed media type</span>
+   is the <span>specified media type</span>.
 
    Abort these steps.
 
@@ -574,7 +577,7 @@
    if a resource is a feed or HTML</span>.
 
   <li>
-   The <span>actual media type</span> is the <span>specified media
+   The <span>sniffed media type</span> is the <span>specified media
    type</span>.
  </ol>
 
@@ -594,7 +597,7 @@
  <li>
   If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
   the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <span>actual media type</span> is
+  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed media type</span> is
   "<code title>text/plain</code>".
 
   Abort these steps.
@@ -602,13 +605,13 @@
  <li>
   If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
   the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <span>actual media type</span> is "<code title>text/plain</code>".
+  the <span>sniffed media type</span> is "<code title>text/plain</code>".
 
   Abort these steps.
 
  <li>
   If the <span>resource header</span> contains no
-  <span title="binary data byte">binary data bytes</span>, the <span>actual
+  <span title="binary data byte">binary data bytes</span>, the <span>sniffed
   media type</span> is "<code title>text/plain</code>".
 
   Abort these steps.
@@ -619,8 +622,8 @@
 
   <p class=warning>
    It is critical that the <span>rules for distinguishing if a resource is
-   text or binary</span> never determine the <span>actual media type</span> to
-   be a <span>scriptable media type</span>, as this could allow a privilege
+   text or binary</span> never determine the <span>sniffed media type</span>
+   to be a <span>scriptable media type</span>, as this could allow a privilege
    escalation attack.
 </ol>
 
@@ -636,7 +639,7 @@
  calling the <span>rules for identifying an unknown media type</span>.
 
 <p>
- To determine the <span>actual media type</span> of a <span>resource</span>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
  with an unknown <span>media type</span>, execute the following <dfn>rules for
  identifying an unknown media type</dfn>:
 
@@ -673,7 +676,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <span>actual media type</span>
+     If <var>pattern-matched</var> is true, the <span>sniffed media type</span>
      is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -692,7 +695,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Actual Media Type</span>
+       <span>Sniffed Media Type</span>
       </th>
       <th>
        Note
@@ -768,8 +771,8 @@
        <code title>text/html</code>
       </td>
       <td>
-       The case-insensitive string "<code title>&lt;SCRIPT</code>" followed by a
-       <span>tag-terminating byte</span>.
+       The case-insensitive string "<code title>&lt;SCRIPT</code>" followed by
+       a <span>tag-terminating byte</span>.
       </td>
      </tr>
      <tr>
@@ -1070,8 +1073,8 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <span>actual media type</span>
-     is the value in the fourth column of the current row.
+     If <var>pattern-matched</var> is true, the <span>sniffed media
+     type</span> is the value in the fourth column of the current row.
 
      Abort these steps.
    </ol>
@@ -1089,7 +1092,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Actual Media Type</span>
+       <span>Sniffed Media Type</span>
       </th>
       <th>
        Note
@@ -1400,7 +1403,7 @@
 
     However, user agents should not implicitly extend this table to include
     additional <span title="byte pattern">byte patterns</span> for any
-    <span>actual media type</span> already present in this table, as doing so
+    <span>sniffed media type</span> already present in this table, as doing so
     could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
@@ -1408,20 +1411,20 @@
 
   <li>
    If the <span>resource header</span> <span>matches the signature for
-   MP4</span>, the <span>actual media type</span> is
+   MP4</span>, the <span>sniffed media type</span> is
    "<code title>video/mp4</code>".
 
    Abort these steps.
 
   <li>
    If the <span>resource header</span> contains no
-   <span title="binary data byte">binary data bytes</span>, the <span>actual
+   <span title="binary data byte">binary data bytes</span>, the <span>sniffed
    media type</span> is "<code title>text/plain</code>".
 
    Abort these steps.
 
   <li>
-   The <span>actual media type</span> is
+   The <span>sniffed media type</span> is
    "<code title>application/octet-stream</code>".
 
    Abort these steps.

@@ -91,7 +91,7 @@
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
  <li><a href="#the-specified-media-type"><span class="secno">4 </span>The specified media type</a></li>
  <li><a href="#reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</a></li>
- <li><a href="#the-actual-media-type"><span class="secno">6 </span>The actual media type</a>
+ <li><a href="#the-sniffed-media-type"><span class="secno">6 </span>The sniffed media type</a>
   <ol>
    <li><a href="#text-or-binary-media-type"><span class="secno">6.1 </span>Text or binary media type</a></li>
    <li><a href="#unknown-media-type"><span class="secno">6.2 </span>Unknown media type</a>
@@ -228,7 +228,9 @@
  <a href="#byte" title="byte">bytes</a>.
 
 <p>
- A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the beginning of a <span>resource</span>, as determined by <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
+ A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the
+ beginning of a <span>resource</span>, as determined by
+ <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
 
 <p>
  The <dfn id="media-type">media type</dfn> of a resource is a technical hint about the use and
@@ -310,7 +312,7 @@
  detection algorithm</a>.
 
 <p>
- The <dfn id="actual-media-type">actual media type</dfn> of a resource is the <a href="#valid-media-type">valid media
+ The <dfn id="sniffed-media-type">sniffed media type</dfn> of a resource is the <a href="#valid-media-type">valid media
  type</a> of the resource as determined by the <a href="#media-type-sniffing-algorithm">media type sniffing
  algorithm</a>.
 
@@ -442,11 +444,12 @@
  </ol>
 
  <p class="note">
-  The <a href="#resource-header">resource header</a> need only be determined once per <span>resource</span>.
+  The <a href="#resource-header">resource header</a> need only be determined once per
+  <span>resource</span>.
 
 
 
-<h2 id="the-actual-media-type"><span class="secno">6 </span>The actual media type</h2>
+<h2 id="the-sniffed-media-type"><span class="secno">6 </span>The sniffed media type</h2>
 
 <p>
  The following flags are used in the <a href="#media-type-sniffing-algorithm">media type sniffing
@@ -461,7 +464,7 @@
  <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
 
 <p>
- To determine the <a href="#actual-media-type">actual media type</a> of a resource, user agents
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a resource, user agents
  must use the following <dfn id="media-type-sniffing-algorithm">media type sniffing algorithm</dfn>:
 
  <ol>
@@ -469,8 +472,8 @@
    If the <a href="#specified-media-type">specified media type</a> is not null and the <a href="#media-type-portion">media
    type portion</a> of the <a href="#specified-media-type">specified media type</a> ends in
    "<code title="">+xml</code>" or is equal to "<code title="">text/xml</code>" or
-   "<code title="">application/xml</code>", the <a href="#actual-media-type">actual media type</a> is
-   the <a href="#specified-media-type">specified media type</a>.
+   "<code title="">application/xml</code>", the <a href="#sniffed-media-type">sniffed media type</a>
+   is the <a href="#specified-media-type">specified media type</a>.
 
    Abort these steps.
 
@@ -595,7 +598,7 @@
    if a resource is a feed or HTML</span>.
 
   <li>
-   The <a href="#actual-media-type">actual media type</a> is the <a href="#specified-media-type">specified media
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#specified-media-type">specified media
    type</a>.
  </ol>
 
@@ -615,7 +618,7 @@
  <li>
   If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
   the <a href="#resource-header">resource header</a> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <a href="#actual-media-type">actual media type</a> is
+  0xFF 0xFE (UTF-16LE BOM), the <a href="#sniffed-media-type">sniffed media type</a> is
   "<code title="">text/plain</code>".
 
   Abort these steps.
@@ -623,13 +626,13 @@
  <li>
   If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
   the <a href="#resource-header">resource header</a> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <a href="#actual-media-type">actual media type</a> is "<code title="">text/plain</code>".
+  the <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/plain</code>".
 
   Abort these steps.
 
  <li>
   If the <a href="#resource-header">resource header</a> contains no
-  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#actual-media-type">actual
+  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-media-type">sniffed
   media type</a> is "<code title="">text/plain</code>".
 
   Abort these steps.
@@ -640,8 +643,8 @@
 
   <p class="warning">
    It is critical that the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is
-   text or binary</a> never determine the <a href="#actual-media-type">actual media type</a> to
-   be a <a href="#scriptable-media-type">scriptable media type</a>, as this could allow a privilege
+   text or binary</a> never determine the <a href="#sniffed-media-type">sniffed media type</a>
+   to be a <a href="#scriptable-media-type">scriptable media type</a>, as this could allow a privilege
    escalation attack.
 </ol>
 
@@ -657,7 +660,7 @@
  calling the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a>.
 
 <p>
- To determine the <a href="#actual-media-type">actual media type</a> of a <span>resource</span>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
  with an unknown <a href="#media-type">media type</a>, execute the following <dfn id="rules-for-identifying-an-unknown-media-type">rules for
  identifying an unknown media type</dfn>:
 
@@ -694,7 +697,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <a href="#actual-media-type">actual media type</a>
+     If <var>pattern-matched</var> is true, the <a href="#sniffed-media-type">sniffed media type</a>
      is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -713,7 +716,7 @@
        Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
       </th>
       <th>
-       <a href="#actual-media-type">Actual Media Type</a>
+       <a href="#sniffed-media-type">Sniffed Media Type</a>
       </th>
       <th>
        Note
@@ -789,8 +792,8 @@
        <code title="">text/html</code>
       </td>
       <td>
-       The case-insensitive string "<code title="">&lt;SCRIPT</code>" followed by a
-       <a href="#tag-terminating-byte">tag-terminating byte</a>.
+       The case-insensitive string "<code title="">&lt;SCRIPT</code>" followed by
+       a <a href="#tag-terminating-byte">tag-terminating byte</a>.
       </td>
      </tr>
      <tr>
@@ -1091,8 +1094,8 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <a href="#actual-media-type">actual media type</a>
-     is the value in the fourth column of the current row.
+     If <var>pattern-matched</var> is true, the <a href="#sniffed-media-type">sniffed media
+     type</a> is the value in the fourth column of the current row.
 
      Abort these steps.
    </ol>
@@ -1110,7 +1113,7 @@
        Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
       </th>
       <th>
-       <a href="#actual-media-type">Actual Media Type</a>
+       <a href="#sniffed-media-type">Sniffed Media Type</a>
       </th>
       <th>
        Note
@@ -1421,7 +1424,7 @@
 
     However, user agents should not implicitly extend this table to include
     additional <a href="#byte-pattern" title="byte pattern">byte patterns</a> for any
-    <a href="#actual-media-type">actual media type</a> already present in this table, as doing so
+    <a href="#sniffed-media-type">sniffed media type</a> already present in this table, as doing so
     could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
@@ -1429,20 +1432,20 @@
 
   <li>
    If the <a href="#resource-header">resource header</a> <a href="#matches-the-signature-for-mp4">matches the signature for
-   MP4</a>, the <a href="#actual-media-type">actual media type</a> is
+   MP4</a>, the <a href="#sniffed-media-type">sniffed media type</a> is
    "<code title="">video/mp4</code>".
 
    Abort these steps.
 
   <li>
    If the <a href="#resource-header">resource header</a> contains no
-   <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#actual-media-type">actual
+   <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-media-type">sniffed
    media type</a> is "<code title="">text/plain</code>".
 
    Abort these steps.
 
   <li>
-   The <a href="#actual-media-type">actual media type</a> is
+   The <a href="#sniffed-media-type">sniffed media type</a> is
    "<code title="">application/octet-stream</code>".
 
    Abort these steps.
