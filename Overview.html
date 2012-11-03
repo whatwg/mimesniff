@@ -12,7 +12,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-1-november-2012">Living Standard — Last Updated 1 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-3-november-2012">Living Standard — Last Updated 3 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -55,7 +55,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 1 November 2012, the editor has made this
+  In addition, as of 3 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -91,17 +91,23 @@
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
  <li><a href="#determining-the-supplied-media-type"><span class="secno">4 </span>Determining the supplied media type</a></li>
  <li><a href="#reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</a></li>
- <li><a href="#determining-the-sniffed-media-type"><span class="secno">6 </span>Determining the sniffed media type</a>
+ <li><a href="#matching-a-media-type-pattern"><span class="secno">6 </span>Matching a media type pattern</a>
   <ol>
-   <li><a href="#text-or-binary-media-type"><span class="secno">6.1 </span>Text or binary media type</a></li>
-   <li><a href="#unknown-media-type"><span class="secno">6.2 </span>Unknown media type</a>
+   <li><a href="#matching-an-image-type-pattern"><span class="secno">6.1 </span>Matching an image type pattern</a></li>
+   <li><a href="#matching-an-audio-type-pattern"><span class="secno">6.2 </span>Matching an audio type pattern</a></li>
+   <li><a href="#matching-a-video-type-pattern"><span class="secno">6.3 </span>Matching a video type pattern</a>
     <ol>
-     <li><a href="#pattern-matching-algorithm"><span class="secno">6.2.1 </span>Pattern matching algorithm</a></li>
-     <li><a href="#signature-for-mp4"><span class="secno">6.2.2 </span>Signature for MP4</a></ol></li>
-   <li><a href="#images"><span class="secno">6.3 </span>Images</a></li>
-   <li><a href="#video"><span class="secno">6.4 </span>Video</a></li>
-   <li><a href="#fonts"><span class="secno">6.5 </span>Fonts</a></li>
-   <li><a href="#feed-or-html"><span class="secno">6.6 </span>Feed or HTML</a></ol></li>
+     <li><a href="#signature-for-mp4"><span class="secno">6.3.1 </span>Signature for MP4</a></ol></li>
+   <li><a href="#matching-a-font-type-pattern"><span class="secno">6.4 </span>Matching a font type pattern</a></ol></li>
+ <li><a href="#determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</a>
+  <ol>
+   <li><a href="#text-or-binary-media-type"><span class="secno">7.1 </span>Text or binary media type</a></li>
+   <li><a href="#unknown-media-type"><span class="secno">7.2 </span>Unknown media type</a></li>
+   <li><a href="#sniffing-images-specifically"><span class="secno">7.3 </span>Sniffing images specifically</a></li>
+   <li><a href="#sniffing-audio-specifically"><span class="secno">7.4 </span>Sniffing audio specifically</a></li>
+   <li><a href="#sniffing-video-specifically"><span class="secno">7.5 </span>Sniffing video specifically</a></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">7.6 </span>Sniffing fonts specifically</a></li>
+   <li><a href="#feed-or-html"><span class="secno">7.7 </span>Feed or HTML</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -325,15 +331,12 @@
  algorithm</a>.
 
 <p>
- A <dfn id="scriptable-media-type">scriptable media type</dfn> is any of the following
- <a href="#valid-media-type" title="valid media type">valid media types</a>:
+ A <dfn id="scriptable-media-type">scriptable media type</dfn> is an <a href="#xml-type">XML type</a> or any of the
+ following <a href="#valid-media-type" title="valid media type">valid media types</a>:
 
  <ul>
   <li>
    <code title="">text/html</code>
-
-  <li>
-   <code title="">text/xml</code>
 
   <li>
    <code title="">application/pdf</code>
@@ -341,12 +344,12 @@
 
 <p>
  A <dfn id="byte-pattern">byte pattern</dfn> is a <a href="#byte-sequence">byte sequence</a> used as a template
- to be matched against in the <a href="#pattern-matching-algorithm-0">pattern matching algorithm</a>.
+ to be matched against in the <a href="#pattern-matching-algorithm">pattern matching algorithm</a>.
 
 <p>
  A <dfn id="pattern-mask">pattern mask</dfn> is a <a href="#byte-sequence">byte sequence</a> used to determine
  the significance of <a href="#byte" title="byte">bytes</a> being compared against a
- <a href="#byte-pattern">byte pattern</a> in the <a href="#pattern-matching-algorithm-0">pattern matching algorithm</a>.
+ <a href="#byte-pattern">byte pattern</a> in the <a href="#pattern-matching-algorithm">pattern matching algorithm</a>.
 
 <p class="note">
  In a <a href="#pattern-mask">pattern mask</a>, 0xFF indicates the <a href="#byte">byte</a> is
@@ -460,7 +463,613 @@
 
 
 
-<h2 id="determining-the-sniffed-media-type"><span class="secno">6 </span>Determining the sniffed media type</h2>
+<h2 id="matching-a-media-type-pattern"><span class="secno">6 </span>Matching a media type pattern</h2>
+
+<p>
+ To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
+ <a href="#byte-pattern">byte pattern</a>, use the following <dfn id="pattern-matching-algorithm">pattern matching
+ algorithm</dfn>:
+
+ <ol>
+  <li>
+   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
+   and let <var>sequence</var>[<var>s</var>] be <a href="#byte">byte</a> <var>s</var>
+   in <var>sequence</var> (where <var>sequence</var>[0] is the first
+   <a href="#byte">byte</a> in <var>sequence</var>).
+
+  <li>
+   Let <var>pattern</var> be the <a href="#byte-pattern">byte pattern</a> to be matched
+   against, and let <var>pattern</var>[<var>p</var>] be <a href="#byte">byte</a>
+   <var>p</var> in <var>pattern</var> (where <var>pattern</var>[0] is the
+   first <a href="#byte">byte</a> in <var>pattern</var>).
+
+  <li>
+   Let <var>mask</var> be the <a href="#pattern-mask">pattern mask</a>, and let
+   <var>mask</var>[<var>m</var>] be <a href="#byte">byte</a> <var>m</var> in
+   <var>mask</var> (where <var>mask</var>[0] is the first <a href="#byte">byte</a> in
+   <var>mask</var>).
+
+  <li>
+   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
+   <var>pattern</var>, which is equal to the number of
+   <a href="#byte" title="byte">bytes</a> in <var>mask</var>.
+
+  <li>
+   If the number of <a href="#byte" title="byte">bytes</a> in <var>sequence</var> is
+   less than <var>length</var>, return false.
+
+  <li>
+   Initialize <var>s</var>, <var>p</var>, and <var>m</var> to 0.
+
+  <li>
+   Begin loop <var>L</var>:
+
+   <ol>
+    <li>
+     If <var>pattern</var>[<var>p</var>] is undefined, exit loop <var>L</var>.
+
+    <li>
+     Let <var>masked-data</var> be the result of applying the bitwise AND
+     operator to <var>sequence</var>[<var>s</var>] and
+     <var>mask</var>[<var>m</var>].
+
+    <li>
+     If <var>masked-data</var> is not equal to
+     <var>pattern</var>[<var>p</var>], return false.
+
+    <li class="XXX">
+     If <var>sequence</var>[<var>s</var>] is not a <span>byte to be
+     ignored</span>, increment <var>p</var> and <var>m</var> by 1.
+
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   Return true.
+ </ol>
+
+
+
+<h3 id="matching-an-image-type-pattern"><span class="secno">6.1 </span>Matching an image type pattern</h3>
+
+<p>
+ To determine which <a href="#image-type">image type</a> <a href="#byte-pattern">byte pattern</a> a
+ <a href="#byte-sequence">byte sequence</a> matches, if any, use the following <dfn id="image-type-pattern-matching-algorithm">image type
+ pattern matching algorithm</dfn>:
+
+ <ol>
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <a href="#byte-sequence">byte sequence</a> to be matched be the <a href="#byte-sequence">byte
+       sequence</a> to be matched.
+
+      <li>
+       Let the <a href="#byte-pattern">byte pattern</a> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <a href="#pattern-mask">pattern mask</a> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <a href="#byte" title="byte">bytes</a> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, return the value in the fourth
+     column of the current row.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <a href="#byte-pattern">Byte Pattern</a>
+      </th>
+      <th>
+       <a href="#pattern-mask">Pattern Mask</a>
+      </th>
+      <th>
+       Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
+      </th>
+      <th>
+       <a href="#image-type">Image Type</a>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       47 49 46 38 37 61
+      </td>
+      <td>
+       FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/gif</code>
+      </td>
+      <td>
+       The string "<code title="">GIF87a</code>", a GIF signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       47 49 46 38 39 61
+      </td>
+      <td>
+       FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/gif</code>
+      </td>
+      <td>
+       The string "<code title="">GIF89a</code>", a GIF signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       89 50 4E 47 0D 0A 1A 0A
+      </td>
+      <td>
+       FF FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/png</code>
+      </td>
+      <td>
+       The PNG signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       FF D8 FF
+      </td>
+      <td>
+       FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/jpeg</code>
+      </td>
+      <td>
+       A JPEG SOI marker followed by a byte of another marker.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       42 4D
+      </td>
+      <td>
+       FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/bmp</code>
+      </td>
+      <td>
+       The string "<code title="">BM</code>", a BMP signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       52 49 46 46 00 00 00 00 57 45 42 50 56 50
+      </td>
+      <td>
+       FF FF FF FF 00 00 00 00 FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/webp</code>
+      </td>
+      <td>
+       The string "<code title="">RIFF</code>" followed by four bytes followed by
+       the string "<code title="">WEBPVP</code>".
+      </td>
+     </tr>
+     <tr>
+      <td>
+       00 00 01 00
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/vnd.microsoft.icon</code>
+      </td>
+      <td>
+       A Windows Icon signature.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+  <li>
+   Return undefined.
+ </ol>
+
+
+
+<h3 id="matching-an-audio-type-pattern"><span class="secno">6.2 </span>Matching an audio type pattern</h3>
+
+<p>
+ To determine which <a href="#audio-type">audio type</a> <a href="#byte-pattern">byte pattern</a> a
+ <a href="#byte-sequence">byte sequence</a> matches, if any, use the following <dfn id="audio-type-pattern-matching-algorithm">audio type
+ pattern matching algorithm</dfn>:
+
+ <ol>
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <a href="#byte-sequence">byte sequence</a> to be matched be the <a href="#byte-sequence">byte
+       sequence</a> to be matched.
+
+      <li>
+       Let the <a href="#byte-pattern">byte pattern</a> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <a href="#pattern-mask">pattern mask</a> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <a href="#byte" title="byte">bytes</a> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, return the value in the fourth
+     column of the current row.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <a href="#byte-pattern">Byte Pattern</a>
+      </th>
+      <th>
+       <a href="#pattern-mask">Pattern Mask</a>
+      </th>
+      <th>
+       Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
+      </th>
+      <th>
+       <a href="#audio-type">Audio Type</a>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       4F 67 67 53 00
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/ogg</code>
+      </td>
+      <td>
+       An Ogg audio or video signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       52 49 46 46 00 00 00 00 57 41 56 45
+      </td>
+      <td>
+       FF FF FF FF 00 00 00 00 FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">audio/wave</code>
+      </td>
+      <td>
+       The string "<code title="">RIFF</code>" followed by four bytes followed by
+       the string "<code title="">WAVE</code>".
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+   <p class="XXX">
+    MP3 audio.
+
+  <li>
+   Return undefined.
+ </ol>
+
+
+
+<h3 id="matching-a-video-type-pattern"><span class="secno">6.3 </span>Matching a video type pattern</h3>
+
+<p>
+ To determine which <a href="#video-type">video type</a> <a href="#byte-pattern">byte pattern</a> a
+ <a href="#byte-sequence">byte sequence</a> matches, if any, use the following <dfn id="video-type-pattern-matching-algorithm">video type
+ pattern matching algorithm</dfn>:
+
+ <ol>
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <a href="#byte-sequence">byte sequence</a> to be matched be the <a href="#byte-sequence">byte
+       sequence</a> to be matched.
+
+      <li>
+       Let the <a href="#byte-pattern">byte pattern</a> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <a href="#pattern-mask">pattern mask</a> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <a href="#byte" title="byte">bytes</a> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, return the value in the fourth
+     column of the current row.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <a href="#byte-pattern">Byte Pattern</a>
+      </th>
+      <th>
+       <a href="#pattern-mask">Pattern Mask</a>
+      </th>
+      <th>
+       Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
+      </th>
+      <th>
+       <a href="#video-type">Video Type</a>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       4F 67 67 53 00
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/ogg</code>
+      </td>
+      <td>
+       An Ogg audio or video signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       1A 45 DF A3
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">video/webm</code>
+      </td>
+      <td class="XXX">
+       The WebM signature. [TODO: Use more bytes?]
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+  <li>
+   If the <a href="#byte-sequence">byte sequence</a> to be matched <a href="#matches-the-signature-for-mp4">matches the signature
+   for MP4</a>, return "<code title="">video/mp4</code>".
+
+  <li>
+   Return undefined.
+ </ol>
+
+
+
+<h4 id="signature-for-mp4"><span class="secno">6.3.1 </span>Signature for MP4</h4>
+
+<p>
+ To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
+ for MP4</dfn>, use the following steps:
+
+ <ol>
+  <li>
+   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
+   where <var>sequence</var>[0] is the first <a href="#byte">byte</a> in
+   <var>sequence</var>.
+
+  <li>
+   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
+   <var>sequence</var>.
+
+  <li>
+   If <var>length</var> is less than 12, return false.
+
+  <li>
+   Let <var>box-size</var> be the four <a href="#byte" title="byte">bytes</a> from
+   <var>sequence</var>[0] to <var>sequence</var>[3], interpreted as a 32-bit
+   unsigned big-endian integer.
+
+  <li>
+   If <var>length</var> is less than <var>box-size</var> or if
+   <var>box-size</var> modulo 4 is not equal to 0, return false.
+
+  <li>
+   If the four <a href="#byte" title="byte">bytes</a> from <var>sequence</var>[4] to
+   <var>sequence</var>[7] are not equal to 0x66 0x74 0x79 0x70
+   ("<code title="">ftyp</code>"), return false.
+
+  <li>
+   If the three <a href="#byte" title="byte">bytes</a> from <var>sequence</var>[8] to
+   <var>sequence</var>[10] are equal to 0x6D 0x70 0x34
+   ("<code title="">mp4</code>"), return true.
+
+  <li>
+   Let <var>bytes-read</var> be 16.
+
+   <p class="note">
+    This ignores the four <a href="#byte" title="byte">bytes</a> that correspond to the
+    version number of the "major brand".
+
+  <li>
+   While <var>bytes-read</var> is less than <var>box-size</var>, continuously
+   loop through these steps:
+
+   <ol>
+    <li>
+     If the three <a href="#byte" title="byte">bytes</a> from
+     <var>sequence</var>[<var>bytes-read</var>] to
+     <var>sequence</var>[<var>bytes-read</var> + 2] are equal to 0x6D 0x70
+     0x34 ("<code title="">mp4</code>"), return true.
+
+    <li>
+     Increment <var>bytes-read</var> by 4.
+   </ol>
+
+  <li>
+   Return false.
+ </ol>
+
+
+
+<h3 id="matching-a-font-type-pattern"><span class="secno">6.4 </span>Matching a font type pattern</h3>
+
+<p>
+ To determine which <a href="#font-type">font type</a> <a href="#byte-pattern">byte pattern</a> a
+ <a href="#byte-sequence">byte sequence</a> matches, if any, use the following <dfn id="font-type-pattern-matching-algorithm">font type
+ pattern matching algorithm</dfn>:
+
+ <ol>
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <a href="#byte-sequence">byte sequence</a> to be matched be the <a href="#byte-sequence">byte
+       sequence</a> to be matched.
+
+      <li>
+       Let the <a href="#byte-pattern">byte pattern</a> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <a href="#pattern-mask">pattern mask</a> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <a href="#byte" title="byte">bytes</a> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, return the value in the fourth
+     column of the current row.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <a href="#byte-pattern">Byte Pattern</a>
+      </th>
+      <th>
+       <a href="#pattern-mask">Pattern Mask</a>
+      </th>
+      <th>
+       Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
+      </th>
+      <th>
+       <a href="#font-type">Font Type</a>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody class="XXX">
+    </tbody>
+   </table>
+
+  <li>
+   Return undefined.
+ </ol>
+
+
+
+<h2 id="determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</h2>
 
 <p>
  The following flags are used in the <a href="#media-type-sniffing-algorithm">media type sniffing
@@ -579,15 +1188,15 @@
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-audio</var> flag is set and the <a href="#supplied-media-type">supplied
    media type</a> is an <a href="#audio-type">audio type</a> <a href="#supported-by-the-user-agent">supported by the user
-   agent</a>, execute the <span>rules for sniffing audio
-   specifically</span>.
+   agent</a>, execute the <a href="#rules-for-sniffing-audio-specifically">rules for sniffing audio
+   specifically</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <var class="flag">sniff-video</var> flag is set and the <a href="#supplied-media-type">supplied
    media type</a> is a <a href="#video-type">video type</a> <a href="#supported-by-the-user-agent">supported by the user
-   agent</a>, execute the <a href="#rules-for-sniffing-video-specifically">rules for sniffing videos
+   agent</a>, execute the <a href="#rules-for-sniffing-video-specifically">rules for sniffing video
    specifically</a>.
 
   <li>
@@ -612,7 +1221,7 @@
 
 
 
-<h3 id="text-or-binary-media-type"><span class="secno">6.1 </span>Text or binary media type</h3>
+<h3 id="text-or-binary-media-type"><span class="secno">7.1 </span>Text or binary media type</h3>
 
 <p>
  This section defines the <dfn id="rules-for-text-or-binary">rules for
@@ -658,7 +1267,7 @@
 
 
 
-<h3 id="unknown-media-type"><span class="secno">6.2 </span>Unknown media type</h3>
+<h3 id="unknown-media-type"><span class="secno">7.2 </span>Unknown media type</h3>
 
 <p>
  The <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> use the
@@ -684,7 +1293,7 @@
    <ol>
     <li>
      Let <var>pattern-matched</var> be the result of executing the
-     <a href="#pattern-matching-algorithm-0">pattern matching algorithm</a> with the following parameters:
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
 
      <ul>
       <li>
@@ -1081,7 +1690,7 @@
    <ol>
     <li>
      Let <var>pattern-matched</var> be the result of executing the
-     <a href="#pattern-matching-algorithm-0">pattern matching algorithm</a> with the following parameters:
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
 
      <ul>
       <li>
@@ -1461,233 +2070,135 @@
 
 
 
-<h4 id="pattern-matching-algorithm"><span class="secno">6.2.1 </span>Pattern matching algorithm</h4>
+<h3 id="sniffing-images-specifically"><span class="secno">7.3 </span>Sniffing images specifically</h3>
 
 <p>
- To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
- <a href="#byte-pattern">byte pattern</a>, use the following <dfn id="pattern-matching-algorithm-0">pattern matching
- algorithm</dfn>:
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ with an <a href="#image-type">image type</a>, execute the following <dfn id="rules-for-sniffing-images-specifically">rules for
+ sniffing images specifically</dfn>:
 
  <ol>
   <li>
-   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
-   and let <var>sequence</var>[<var>s</var>] be <a href="#byte">byte</a> <var>s</var>
-   in <var>sequence</var> (where <var>sequence</var>[0] is the first
-   <a href="#byte">byte</a> in <var>sequence</var>).
+   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+
+   Abort these steps.
 
   <li>
-   Let <var>pattern</var> be the <a href="#byte-pattern">byte pattern</a> to be matched
-   against, and let <var>pattern</var>[<var>p</var>] be <a href="#byte">byte</a>
-   <var>p</var> in <var>pattern</var> (where <var>pattern</var>[0] is the
-   first <a href="#byte">byte</a> in <var>pattern</var>).
+   Let <var>image-type-matched</var> be the result of executing the
+   <a href="#image-type-pattern-matching-algorithm">image type pattern matching algorithm</a> with the <a href="#resource-header">resource
+   header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   Let <var>mask</var> be the <a href="#pattern-mask">pattern mask</a>, and let
-   <var>mask</var>[<var>m</var>] be <a href="#byte">byte</a> <var>m</var> in
-   <var>mask</var> (where <var>mask</var>[0] is the first <a href="#byte">byte</a> in
-   <var>mask</var>).
+   If <var>image-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   type</a> is <var>image-type-matched</var>.
+
+   Abort these steps.
 
   <li>
-   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
-   <var>pattern</var>, which is equal to the number of
-   <a href="#byte" title="byte">bytes</a> in <var>mask</var>.
-
-  <li>
-   If the number of <a href="#byte" title="byte">bytes</a> in <var>sequence</var> is
-   less than <var>length</var>, return false.
-
-  <li>
-   Initialize <var>s</var>, <var>p</var>, and <var>m</var> to 0.
-
-  <li>
-   Begin loop <var>L</var>:
-
-   <ol>
-    <li>
-     If <var>pattern</var>[<var>p</var>] is undefined, exit loop <var>L</var>.
-
-    <li>
-     Let <var>masked-data</var> be the result of applying the bitwise AND
-     operator to <var>sequence</var>[<var>s</var>] and
-     <var>mask</var>[<var>m</var>].
-
-    <li>
-     If <var>masked-data</var> is not equal to
-     <var>pattern</var>[<var>p</var>], return false.
-
-    <li class="XXX">
-     If <var>sequence</var>[<var>s</var>] is not a <span>byte to be
-     ignored</span>, increment <var>p</var> and <var>m</var> by 1.
-
-    <li>
-     Increment <var>s</var> by 1.
-   </ol>
-
-  <li>
-   Return true.
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   type</a>.
  </ol>
 
 
 
-<h4 id="signature-for-mp4"><span class="secno">6.2.2 </span>Signature for MP4</h4>
+<h3 id="sniffing-audio-specifically"><span class="secno">7.4 </span>Sniffing audio specifically</h3>
 
 <p>
- To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
- for MP4</dfn>, use the following steps:
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ with an <a href="#audio-type">audio type</a>, execute the following <dfn id="rules-for-sniffing-audio-specifically">rules for
+ sniffing audio specifically</dfn>:
 
  <ol>
   <li>
-   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
-   where <var>sequence</var>[0] is the first <a href="#byte">byte</a> in
-   <var>sequence</var>.
+   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+
+   Abort these steps.
 
   <li>
-   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
-   <var>sequence</var>.
+   Let <var>audio-type-matched</var> be the result of executing the
+   <a href="#audio-type-pattern-matching-algorithm">audio type pattern matching algorithm</a> with the <a href="#resource-header">resource
+   header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>length</var> is less than 12, return false.
+   If <var>audio-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   type</a> is <var>audio-type-matched</var>.
+
+   Abort these steps.
 
   <li>
-   Let <var>box-size</var> be the four <a href="#byte" title="byte">bytes</a> from
-   <var>sequence</var>[0] to <var>sequence</var>[3], interpreted as a 32-bit
-   unsigned big-endian integer.
-
-  <li>
-   If <var>length</var> is less than <var>box-size</var> or if
-   <var>box-size</var> modulo 4 is not equal to 0, return false.
-
-  <li>
-   If the four <a href="#byte" title="byte">bytes</a> from <var>sequence</var>[4] to
-   <var>sequence</var>[7] are not equal to 0x66 0x74 0x79 0x70
-   ("<code title="">ftyp</code>"), return false.
-
-  <li>
-   If the three <a href="#byte" title="byte">bytes</a> from <var>sequence</var>[8] to
-   <var>sequence</var>[10] are equal to 0x6D 0x70 0x34
-   ("<code title="">mp4</code>"), return true.
-
-  <li>
-   Let <var>bytes-read</var> be 16.
-
-   <p class="note">
-    This ignores the four <a href="#byte" title="byte">bytes</a> that correspond to the
-    version number of the "major brand".
-
-  <li>
-   While <var>bytes-read</var> is less than <var>box-size</var>, continuously
-   loop through these steps:
-
-   <ol>
-    <li>
-     If the three <a href="#byte" title="byte">bytes</a> from
-     <var>sequence</var>[<var>bytes-read</var>] to
-     <var>sequence</var>[<var>bytes-read</var> + 2] are equal to 0x6D 0x70
-     0x34 ("<code title="">mp4</code>"), return true.
-
-    <li>
-     Increment <var>bytes-read</var> by 4.
-   </ol>
-
-  <li>
-   Return false.
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   type</a>.
  </ol>
 
 
 
-<h3 id="images"><span class="secno">6.3 </span>Images</h3>
+<h3 id="sniffing-video-specifically"><span class="secno">7.5 </span>Sniffing video specifically</h3>
 
 <p>
- This section defines the <dfn id="rules-for-sniffing-images-specifically">rules
- for sniffing images specifically</dfn>.
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ with a <a href="#video-type">video type</a>, execute the following <dfn id="rules-for-sniffing-video-specifically">rules for sniffing
+ video specifically</dfn>:
 
-<ol>
- <li>
-  If the <var>official-type</var> is "image/svg+xml", then let the
-  <var>sniffed-type</var> be the <var>official-type</var> (an XML type) and
-  abort these steps.
+ <ol>
+  <li>
+   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
 
- <li>
-  <!-- XXX the <a> needs to be a <span> linking to a <dfn> -->
-  If the first bytes match one of the signatures in
-  <a href="#unknown-type">unknown type</a> for one of the following media
-  types, then let the <var>sniffed-type</var> be the corresponding media type
-  and abort these steps:
+   Abort these steps.
 
-  <ul>
-   <li>
-    image/gif
+  <li>
+   Let <var>video-type-matched</var> be the result of executing the
+   <a href="#video-type-pattern-matching-algorithm">video type pattern matching algorithm</a> with the <a href="#resource-header">resource
+   header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
-   <li>
-    image/png
+  <li>
+   If <var>video-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   type</a> is <var>video-type-matched</var>.
 
-   <li>
-    image/jpeg
+   Abort these steps.
 
-   <li>
-    image/bmp
-
-   <li>
-    image/vnd.microsoft.icon
-
-   <li>
-    image/webp
-  </ul>
-
- <li>
-  Otherwise, let the <var>sniffed-type</var> be the official-type and abort
-  these steps.
-</ol>
+  <li>
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   type</a>.
+ </ol>
 
 
 
-<h3 id="video"><span class="secno">6.4 </span>Video</h3>
+<h3 id="sniffing-fonts-specifically"><span class="secno">7.6 </span>Sniffing fonts specifically</h3>
 
 <p>
- This section defines the <dfn id="rules-for-sniffing-video-specifically">rules
- for sniffing videos specifically</dfn>.
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ with a <a href="#font-type">font type</a>, execute the following <dfn id="rules-for-sniffing-fonts-specifically">rules for sniffing
+ fonts specifically</dfn>:
 
-<ol>
- <li>
-  <!-- XXX the <a> needs to be a <span> linking to a <dfn> -->
-  If the first bytes match one of the signatures in
-  <a href="#unknown-type">unknown type</a> for one of the following media
-  types, then let the <var>sniffed-type</var> be the corresponding media type
-  and abort these steps:
+ <ol>
+  <li>
+   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
 
-  <ul>
-   <li>
-    video/mp4
+   Abort these steps.
 
-   <li>
-    video/webm
+  <li>
+   Let <var>font-type-matched</var> be the result of executing the <a href="#font-type-pattern-matching-algorithm">font
+   type pattern matching algorithm</a> with the <a href="#resource-header">resource
+   header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
-   <li>
-    application/ogg
-  </ul>
+  <li>
+   If <var>font-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   type</a> is <var>font-type-matched</var>.
 
- <li>
-  Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
-  and abort these steps.
-</ol>
+   Abort these steps.
 
-
-
-<h3 id="fonts"><span class="secno">6.5 </span>Fonts</h3>
-
-<p>
- This section defines the <dfn id="rules-for-sniffing-fonts-specifically">rules
- for sniffing fonts specifically</dfn>.
-
-<p class="XXX">TODO</p>
-
-<p>
- Otherwise, let the <var>sniffed-type</var> be the <var>official-type</var>
- and abort these steps.
+  <li>
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   type</a>.
+ </ol>
 
 
 
-<h3 id="feed-or-html"><span class="secno">6.6 </span>Feed or HTML</h3>
+<h3 id="feed-or-html"><span class="secno">7.7 </span>Feed or HTML</h3>
 
 <ol>
  <li>
