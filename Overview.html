@@ -102,14 +102,14 @@
    <li><a href="#matching-an-archive-type-pattern"><span class="secno">6.5 </span>Matching an archive type pattern</a></ol></li>
  <li><a href="#determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</a>
   <ol>
-   <li><a href="#text-or-binary-media-type"><span class="secno">7.1 </span>Text or binary media type</a></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">7.1 </span>Sniffing a mislabeled binary resource</a></li>
    <li><a href="#identifying-an-unknown-media-type"><span class="secno">7.2 </span>Identifying an unknown media type</a></li>
    <li><a href="#sniffing-images-specifically"><span class="secno">7.3 </span>Sniffing images specifically</a></li>
    <li><a href="#sniffing-audio-specifically"><span class="secno">7.4 </span>Sniffing audio specifically</a></li>
    <li><a href="#sniffing-video-specifically"><span class="secno">7.5 </span>Sniffing video specifically</a></li>
    <li><a href="#sniffing-fonts-specifically"><span class="secno">7.6 </span>Sniffing fonts specifically</a></li>
    <li><a href="#sniffing-archives-specifically"><span class="secno">7.7 </span>Sniffing archives specifically</a></li>
-   <li><a href="#feed-or-html"><span class="secno">7.8 </span>Feed or HTML</a></ol></li>
+   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">7.8 </span>Sniffing a mislabeled feed</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -1263,8 +1263,8 @@
    If the <var class="flag">sniff-feed-or-html</var> flag is set and the
    <a href="#supplied-media-type">supplied media type</a> is not null and the <a href="#media-type-portion">media type
    portion</a> of the <a href="#supplied-media-type">supplied media type</a> is equal to
-   "<code title="">text/html</code>", execute the <span>rules for distinguishing
-   if a resource is a feed or HTML</span> and abort these steps.
+   "<code title="">text/html</code>", execute the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for distinguishing
+   if a resource is a feed or HTML</a> and abort these steps.
 
   <li>
    If the <var class="flag">sniff-text-or-binary</var> flag is set and the
@@ -1400,10 +1400,11 @@
 
 
 
-<h3 id="text-or-binary-media-type"><span class="secno">7.1 </span>Text or binary media type</h3>
+<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">7.1 </span>Sniffing a mislabeled binary resource</h3>
 
 <p>
- This section defines the <dfn id="rules-for-text-or-binary">rules for
+ To determine whether a binary <span>resource</span> has been mislabeled as
+ plain text, execute the <dfn id="rules-for-text-or-binary">rules for
  distinguishing if a resource is text or binary</dfn>:
 
 <ol>
@@ -2215,207 +2216,272 @@
 
 
 
-<h3 id="feed-or-html"><span class="secno">7.8 </span>Feed or HTML</h3>
-
-<ol>
- <li>
-  The user agent MAY wait for 512 or more bytes to arrive for the same reason
-  as in the "text or binary" section above.
-
- <li>
-  Let <var>s</var> be the stream of bytes, and let <var>s</var>[<var>i</var>]
-  represent the byte in <var>s</var> with position <var>i</var>, treating
-  <var>s</var> as zero-indexed (so the first byte is at <var>i</var>=0).
-
- <li>
-  If at any point this algorithm requires the user agent to determine the
-  value of a byte in <var>s</var> which has not yet arrived, or which is past
-  the first 512 bytes, or which is beyond the end of the byte stream, the
-  algorithm stops and the <var>sniffed-type</var> is "text/html".
-
-  <p class="note">
-   User agents are allowed, by the first step of this algorithm, to wait until
-   the first 512 bytes have arrived.
-
- <li>
-  Initialize <var>pos</var> to 0.
-
- <li>
-  If <var>s</var>[0] equals 0xEF, <var>s</var>[1] equals 0xBB, and
-  <var>s</var>[2] equals 0xBF, then set <var>pos</var> to 3.
-
-  (This skips over a leading UTF-8 BOM, if any.)
-
- <li>
-  <var>LOOP</var>:
-  Examine <var>s</var>[<var>pos</var>].
-
-  <dl class="switch">
-   <dt>If it equals 0x09 (ASCII tab), 0x20 (ASCII space), 0x0A (ASCII LF), or 0x0D (ASCII CR):
-   <dd>
-    Increase <var>pos</var> by 1 and repeat this step.
-
-   <dt>If it equals 0x3C (ASCII "&lt;"):
-   <dd>
-    Increase <var>pos</var> by 1 and go to the next step.
-
-   <dt>If it is anything else:
-   <dd>
-    Let the <var>sniffed-type</var> be "text/html" and abort these steps.
-  </dl>
-
- <li>
-  If the bytes with positions <var>pos</var> to <var>pos</var>+2 in
-  <var>s</var> are exactly equal to 0x21, 0x2D, 0x2D respectively (ASCII for
-  "!--"), then:
-
-  <ol>
-   <li>
-    Increase <var>pos</var> by 3.
-
-   <li>
-    If the bytes with positions <var>pos</var> to <var>pos</var>+2 in
-    <var>s</var> are exactly equal to 0x2D, 0x2D, 0x3E respectively (ASCII for
-    "--&gt;"), then increase <var>pos</var> by 3 and jump back to the previous
-    step (the step labeled <var>LOOP</var>) in the overall algorithm in this
-    section.
-
-   <li>
-    Otherwise, increase <var>pos</var> by 1.
-
-   <li>
-    Return to step 2 in these substeps.
-  </ol>
-
- <li>
-  If <var>s</var>[<var>pos</var>] equals 0x21 (ASCII "!"):
-
-  <ol>
-   <li>
-    Increase <var>pos</var> by 1.
-
-   <li>
-    If <var>s</var>[<var>pos</var>] equals 0x3E, then increase <var>pos</var>
-    by 1 and jump back to the step labeled <var>LOOP</var> in the overall
-    algorithm in this section.
-
-   <li>
-    Otherwise, return to step 1 in these substeps.
-  </ol>
-
- <li>
-  If <var>s</var>[<var>pos</var>] equals 0x3F (ASCII "?"):
-
-  <ol>
-   <li>
-    Increase <var>pos</var> by 1.
-
-   <li>
-    If <var>s</var>[<var>pos</var>] and <var>s</var>[<var>pos</var>+1] equal
-    0x3F and 0x3E respectively, then increase <var>pos</var> by 1 and jump
-    back to the step labeled <var>LOOP</var> in the overall algorithm in this
-    section.
-
-   <li>
-    Otherwise, return to step 1 in these substeps.
-  </ol>
-
- <li>
-  Otherwise, if the bytes in <var>s</var> starting at <var>pos</var> match any
-  of the sequences of bytes in the first column of the following table, then
-  the user agent MUST follow the steps given in the corresponding cell in the
-  second column of the same row.
-
-  <table>
-   <thead>
-    <tr>
-     <th>Bytes in Hexadecimal</th>
-     <th>Requirement</th>
-     <th>Comment</th>
-    </tr>
-   <tbody>
-    <tr>
-     <td>72 73 73</td>
-     <td>Let the <var>sniffed-type</var> be "application/rss+xml" and abort these steps.</td>
-     <td>rss</td>
-    </tr>
-    <tr>
-     <td>66 65 65 64</td>
-     <td>Let the <var>sniffed-type</var> be "application/atom+xml" and abort these steps.</td>
-     <td>feed</td>
-    </tr>
-    <tr>
-     <td>72 64 66 3A 52 44 46</td>
-     <td>Continue to the next step in this algorithm.</td>
-     <td>rdf:RDF</td>
-    </tr>
-  </table>
-
-  <p>
-   If none of the byte sequences above match the bytes in <var>s</var>
-   starting at <var>pos</var>, then let the <var>sniffed-type</var> be
-   "text/html" and abort these steps.
-
- <li>
-  Initialize <var>RDF-flag</var> to 0.
-
- <li>
-  Initialize <var>RSS-flag</var> to 0.
-
- <li>
-  If the bytes with positions <var>pos</var> to <var>pos</var>+23 in
-  <var>s</var> are exactly equal to 0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F,
-  0x70, 0x75, 0x72, 0x6C, 0x2E, 0x6F, 0x72, 0x67, 0x2F, 0x72, 0x73, 0x73,
-  0x2F, 0x31, 0x2E, 0x30, 0x2F respectively (ASCII for
-  "http://purl.org/rss/1.0/"), then:
-
-  <ol>
-   <li>
-    Increase <var>pos</var> by 23.
-
-   <li>
-    Set <var>RSS-flag</var> to 1.
-  </ol>
-
- <li>
-  If the bytes with positions <var>pos</var> to <var>pos</var>+42 in
-  <var>s</var> are exactly equal to 0x68, 0x74, 0x74, 0x70, 0x3A, 0x2F, 0x2F,
-  0x77, 0x77, 0x77, 0x2E, 0x77, 0x33, 0x2E, 0x6F, 0x72, 0x67, 0x2F, 0x31,
-  0x39, 0x39, 0x39, 0x2F, 0x30, 0x32, 0x2F, 0x32, 0x32, 0x2D, 0x72, 0x64,
-  0x66, 0x2D, 0x73, 0x79, 0x6E, 0x74, 0x61, 0x78, 0x2D, 0x6E, 0x73, 0x23
-  respectively (ASCII for "http://www.w3.org/1999/02/22-rdf-syntax-ns#"),
-  then:
-
-  <ol>
-   <li>
-    Increase pos by 42.
-
-   <li>
-    Set <var>RDF-flag</var> to 1.
-  </ol>
-
- <li>
-  Increase <var>pos</var> by 1.
-
- <li>
-  If both the <var>RDF-flag</var> and the <var>RSS-flag</var> are 1, then let
-  the <var>sniffed-type</var> be "application/rss+xml" and abort these steps.
-
- <li>
-  If <var>pos</var> points beyond the end of the byte stream <var>s</var>,
-  then continue to step 19 of this algorithm.
-
- <li>
-  Jump back to step 13 of this algorithm.
-
- <li>
-  Let the <var>sniffed-type</var> be "text/html" and abort these steps.
-</ol>
+<h3 id="sniffing-a-mislabeled-feed"><span class="secno">7.8 </span>Sniffing a mislabeled feed</h3>
 
 <p>
- For efficiency reasons, implementations might wish to implement this
- algorithm and the algorithm for detecting the character encoding of HTML
- documents in parallel.
+ To determine whether a feed has been mislabeled as HTML, execute the
+ <dfn id="rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for distinguishing if a resource is a feed or HTML</dfn>:
+
+ <ol>
+  <li>
+   Let <var>sequence</var> be the <a href="#resource-header">resource header</a>, where
+   <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in
+   <var>sequence</var> and <var>sequence</var>[0] is the first
+   <a href="#byte">byte</a> in <var>sequence</var>.
+
+  <li>
+   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
+   <var>sequence</var>.
+
+  <li>
+   Initialize <var>s</var> to 0.
+
+  <li>
+   If <var>length</var> is greater than or equal to 3 and the three
+   <a href="#byte" title="byte">bytes</a> from <var>sequence</var>[0] to
+   <var>sequence</var>[2] are equal to 0xEF 0xBB 0xBF (UTF-8 BOM), increment
+   <var>s</var> by 3.
+
+  <li>
+   While <var>s</var> is less than <var>length</var>, continuously loop
+   through these steps:
+
+   <ol>
+    <li>
+     Enter loop <var>L</var>:
+
+     <ol>
+      <li>
+       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
+       media type</a> is "<code title="">text/html</code>".
+
+       Abort these steps.
+
+      <li>
+       If <var>sequence</var>[<var>s</var>] is equal to 0x3C
+       ("<code title="">&lt;</code>"), increment <var>s</var> by 1 and exit loop
+       <var>L</var>.
+
+      <li>
+       If <var>sequence</var>[<var>s</var>] is not a <a href="#whitespace-byte">whitespace
+       byte</a>, the <a href="#sniffed-media-type">sniffed media type</a> is
+       "<code title="">text/html</code>".
+
+       Abort these steps.
+
+      <li>
+       Increment <var>s</var> by 1.
+     </ol>
+
+    <li>
+     Enter loop <var>L</var>:
+
+     <ol>
+      <li>
+       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
+       media type</a> is "<code title="">text/html</code>".
+
+       Abort these steps.
+
+      <li>
+       If <var>length</var> is greater than or equal to <var>s</var> + 3 and
+       the three <a href="#byte" title="byte">bytes</a> from
+       <var>sequence</var>[<var>s</var>] to
+       <var>sequence</var>[<var>s</var> + 2] are equal to 0x21 0x2D 0x2D
+       ("<code title="">!--</code>"), increment <var>s</var> by 3 and enter loop
+       <var>M</var>:
+
+       <ol>
+        <li>
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
+         media type</a> is "<code title="">text/html</code>".
+
+         Abort these steps.
+
+        <li>
+         If <var>length</var> is greater than or equal to <var>s</var> + 3 and
+         the three <a href="#byte" title="byte">bytes</a> from
+         <var>sequence</var>[<var>s</var>] to
+         <var>sequence</var>[<var>s</var> + 2] are equal to 0x2D 0x2D 0x3E
+         ("<code title="">--&gt;</code>"), increment <var>s</var> by 3 and exit
+         loops <var>M</var> and <var>L</var>.
+
+        <li>
+         Increment <var>s</var> by 1.
+       </ol>
+
+      <li>
+       If <var>length</var> is greater than or equal to <var>s</var> + 1 and
+       <var>sequence</var>[<var>s</var>] is equal to 0x21
+       ("<code title="">!</code>"), increment <var>s</var> by 1 and enter loop
+       <var>M</var>:
+
+       <ol>
+        <li>
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
+         media type</a> is "<code title="">text/html</code>".
+
+         Abort these steps.
+
+        <li>
+         If <var>length</var> is greater than or equal to <var>s</var> + 1 and
+         <var>sequence</var>[<var>s</var>] is equal to 0x3E
+         ("<code title="">&gt;</code>"), increment <var>s</var> by 1 and exit loops
+         <var>M</var> and <var>L</var>.
+
+        <li>
+         Increment <var>s</var> by 1.
+       </ol>
+
+      <li>
+       If <var>length</var> is greater than or equal to <var>s</var> + 1 and
+       <var>sequence</var>[<var>s</var>] is equal to 0x3F
+       ("<code title="">?</code>"), increment <var>s</var> by 1 and enter loop
+       <var>M</var>:
+
+       <ol>
+        <li>
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
+         media type</a> is "<code title="">text/html</code>".
+
+         Abort these steps.
+
+        <li>
+         If <var>length</var> is greater than or equal to <var>s</var> + 2 and
+         the two <a href="#byte" title="byte">bytes</a> from
+         <var>sequence</var>[<var>s</var>] to
+         <var>sequence</var>[<var>s</var> + 1] are equal to 0x3F 0x3E
+         ("<code title="">?&gt;</code>"), increment <var>s</var> by 2 and exit loops
+         <var>M</var> and <var>L</var>.
+
+        <li>
+         Increment <var>s</var> by 1.
+       </ol>
+
+      <li>
+       If <var>length</var> is greater than or equal to <var>s</var> + 3 and
+       the three <a href="#byte" title="byte">bytes</a> from
+       <var>sequence</var>[<var>s</var>] to
+       <var>sequence</var>[<var>s</var> + 2] are equal to 0x72 0x73 0x73
+       ("<code title="">rss</code>"), the <a href="#sniffed-media-type">sniffed media type</a> is
+       "<code title="">application/rss+xml</code>".
+
+       Abort these steps.
+
+      <li>
+       If <var>length</var> is greater than or equal to <var>s</var> + 4 and
+       the four <a href="#byte" title="byte">bytes</a> from
+       <var>sequence</var>[<var>s</var>] to
+       <var>sequence</var>[<var>s</var> + 3] are equal to 0x66 0x65 0x65 0x64
+       ("<code title="">feed</code>"), the <a href="#sniffed-media-type">sniffed media type</a> is
+       "<code title="">application/atom+xml</code>".
+
+       Abort these steps.
+
+      <li>
+       If <var>length</var> is greater than or equal to <var>s</var> + 7 and
+       the seven <a href="#byte" title="byte">bytes</a> from
+       <var>sequence</var>[<var>s</var>] to
+       <var>sequence</var>[<var>s</var> + 6] are equal to 0x72 0x64 0x66 0x3A
+       0x52 0x44 0x46 ("<code title="">rdf:RDF</code>"), increment <var>s</var>
+       by 7 and enter loop <var>M</var>:
+
+       <ol>
+        <li>
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
+         media type</a> is "<code title="">text/html</code>".
+
+         Abort these steps.
+
+        <li>
+         If <var>length</var> is greater than or equal to <var>s</var> + 24
+         and the twenty-four <a href="#byte" title="byte">bytes</a> from
+         <var>sequence</var>[<var>s</var>] to
+         <var>sequence</var>[<var>s</var> + 23] are equal to 0x68 0x74 0x74
+         0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F 0x72
+         0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
+         ("<code title="">http://purl.org/rss/1.0/</code>"), increment
+         <var>s</var> by 24 and enter loop <var>N</var>:
+
+         <ol>
+          <li>
+           If <var>sequence</var>[<var>s</var>] is undefined, the
+           <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+
+           Abort these steps.
+
+          <li>
+           If <var>length</var> is greater than or equal to <var>s</var> + 43
+           and the forty-three <a href="#byte" title="byte">bytes</a> from
+           <var>sequence</var>[<var>s</var>] to
+           <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
+           0x70 0x3A 0x2F 0x2F 0x77 0x77 0x77 0x2E 0x77 0x33 0x2E 0x6F 0x72
+           0x67 0x2F 0x31 0x39 0x39 0x39 0x2F 0x30 0x32 0x2F 0x32 0x32 0x2D
+           0x72 0x64 0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73
+           0x23
+           ("<code title="">http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
+           the <a href="#sniffed-media-type">sniffed media type</a> is
+           "<code title="">application/rss+xml</code>".
+
+           Abort these steps.
+
+          <li>
+           Increment <var>s</var> by 1.
+         </ol>
+
+        <li>
+         If <var>length</var> is greater than or equal to <var>s</var> + 24
+         and the twenty-four <a href="#byte" title="byte">bytes</a> from
+         <var>sequence</var>[<var>s</var>] to
+         <var>sequence</var>[<var>s</var> + 23] are equal to 0x68 0x74 0x74
+         0x70 0x3A 0x2F 0x2F 0x77 0x77 0x77 0x2E 0x77 0x33 0x2E 0x6F 0x72 0x67
+         0x2F 0x31 0x39 0x39 0x39 0x2F 0x30 0x32 0x2F 0x32 0x32 0x2D 0x72 0x64
+         0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73 0x23
+         ("<code title="">http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
+         increment <var>s</var> by 24 and enter loop <var>N</var>:
+
+         <ol>
+          <li>
+           If <var>sequence</var>[<var>s</var>] is undefined, the
+           <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+
+           Abort these steps.
+
+          <li>
+           If <var>length</var> is greater than or equal to <var>s</var> + 43
+           and the forty-three <a href="#byte" title="byte">bytes</a> from
+           <var>sequence</var>[<var>s</var>] to
+           <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
+           0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F
+           0x72 0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
+           ("<code title="">http://purl.org/rss/1.0/</code>"), the <a href="#sniffed-media-type">sniffed
+           media type</a> is "<code title="">application/rss+xml</code>".
+
+           Abort these steps.
+
+          <li>
+           Increment <var>s</var> by 1.
+         </ol>
+
+        <li>
+         Increment <var>s</var> by 1.
+       </ol>
+
+      <li>
+       The <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+
+       Abort these steps.
+     </ol>
+   </ol>
+
+  <li>
+   The <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+ </ol>
+
+<p class="note">
+ It might be more efficient for a User Agent to implement the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for
+ distinguishing if a resource is a feed or HTML</a> in parallel with its
+ algorithm for detecting the character encoding of an HTML document.
 
 
 
