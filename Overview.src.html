@@ -1371,53 +1371,6 @@
 
 
 
-<h3>Sniffing a mislabeled binary resource</h3>
-
-<p>
- To determine whether a binary <span>resource</span> has been mislabeled as
- plain text, execute the <dfn id=rules-for-text-or-binary>rules for
- distinguishing if a resource is text or binary</dfn>:
-
-<ol>
- <li>
-  Let <var>length</var> be the number of <span title=byte>bytes</span> in the
-  <span>resource header</span>.
-
- <li>
-  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
-  the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed media type</span> is
-  "<code title>text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
-  the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <span>sniffed media type</span> is "<code title>text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  If the <span>resource header</span> contains no
-  <span title="binary data byte">binary data bytes</span>, the <span>sniffed
-  media type</span> is "<code title>text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  Execute the <span>rules for identifying an unknown media type</span> with
-  the <var>sniff-scriptable</var> flag unset.
-
-  <p class=warning>
-   It is critical that the <span>rules for distinguishing if a resource is
-   text or binary</span> never determine the <span>sniffed media type</span>
-   to be a <span>scriptable media type</span>, as this could allow a privilege
-   escalation attack.
-</ol>
-
-
-
 <h3>Identifying an unknown media type</h3>
 
 <p>
@@ -2026,167 +1979,6 @@
 
 
 
-<h3>Sniffing images specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with an <span>image type</span>, execute the following <dfn>rules for
- sniffing images specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>image-type-matched</var> be the result of executing the
-   <span>image type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
-
-  <li>
-   If <var>image-type-matched</var> is not undefined, the <span>sniffed media
-   type</span> is <var>image-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
-<h3>Sniffing audio specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with an <span>audio type</span>, execute the following <dfn>rules for
- sniffing audio specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>audio-type-matched</var> be the result of executing the
-   <span>audio type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
-
-  <li>
-   If <var>audio-type-matched</var> is not undefined, the <span>sniffed media
-   type</span> is <var>audio-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
-<h3>Sniffing video specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with a <span>video type</span>, execute the following <dfn>rules for sniffing
- video specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>video-type-matched</var> be the result of executing the
-   <span>video type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
-
-  <li>
-   If <var>video-type-matched</var> is not undefined, the <span>sniffed media
-   type</span> is <var>video-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
-<h3>Sniffing fonts specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with a <span>font type</span>, execute the following <dfn>rules for sniffing
- fonts specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>font-type-matched</var> be the result of executing the <span>font
-   type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
-
-  <li>
-   If <var>font-type-matched</var> is not undefined, the <span>sniffed media
-   type</span> is <var>font-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
-<h3>Sniffing archives specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with an <span>archive type</span>, execute the following <dfn>rules for
- sniffing archives specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>archive-type-matched</var> be the result of executing the
-   <span>archive type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
-
-  <li>
-   If <var>archive-type-matched</var> is not undefined, the <span>sniffed
-   media type</span> is <var>archive-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
 <h3>Sniffing a mislabeled feed</h3>
 
 <p>
@@ -2453,6 +2245,214 @@
  It might be more efficient for a User Agent to implement the <span>rules for
  distinguishing if a resource is a feed or HTML</span> in parallel with its
  algorithm for detecting the character encoding of an HTML document.
+
+
+
+<h3>Sniffing a mislabeled binary resource</h3>
+
+<p>
+ To determine whether a binary <span>resource</span> has been mislabeled as
+ plain text, execute the <dfn id=rules-for-text-or-binary>rules for
+ distinguishing if a resource is text or binary</dfn>:
+
+<ol>
+ <li>
+  Let <var>length</var> be the number of <span title=byte>bytes</span> in the
+  <span>resource header</span>.
+
+ <li>
+  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
+  the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
+  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed media type</span> is
+  "<code title>text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
+  the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
+  the <span>sniffed media type</span> is "<code title>text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  If the <span>resource header</span> contains no
+  <span title="binary data byte">binary data bytes</span>, the <span>sniffed
+  media type</span> is "<code title>text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  Execute the <span>rules for identifying an unknown media type</span> with
+  the <var>sniff-scriptable</var> flag unset.
+
+  <p class=warning>
+   It is critical that the <span>rules for distinguishing if a resource is
+   text or binary</span> never determine the <span>sniffed media type</span>
+   to be a <span>scriptable media type</span>, as this could allow a privilege
+   escalation attack.
+</ol>
+
+
+
+<h3>Sniffing images specifically</h3>
+
+<p>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
+ with an <span>image type</span>, execute the following <dfn>rules for
+ sniffing images specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>image-type-matched</var> be the result of executing the
+   <span>image type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If <var>image-type-matched</var> is not undefined, the <span>sniffed media
+   type</span> is <var>image-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the <span>supplied media
+   type</span>.
+ </ol>
+
+
+
+<h3>Sniffing audio specifically</h3>
+
+<p>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
+ with an <span>audio type</span>, execute the following <dfn>rules for
+ sniffing audio specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>audio-type-matched</var> be the result of executing the
+   <span>audio type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If <var>audio-type-matched</var> is not undefined, the <span>sniffed media
+   type</span> is <var>audio-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the <span>supplied media
+   type</span>.
+ </ol>
+
+
+
+<h3>Sniffing video specifically</h3>
+
+<p>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
+ with a <span>video type</span>, execute the following <dfn>rules for sniffing
+ video specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>video-type-matched</var> be the result of executing the
+   <span>video type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If <var>video-type-matched</var> is not undefined, the <span>sniffed media
+   type</span> is <var>video-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the <span>supplied media
+   type</span>.
+ </ol>
+
+
+
+<h3>Sniffing fonts specifically</h3>
+
+<p>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
+ with a <span>font type</span>, execute the following <dfn>rules for sniffing
+ fonts specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>font-type-matched</var> be the result of executing the <span>font
+   type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If <var>font-type-matched</var> is not undefined, the <span>sniffed media
+   type</span> is <var>font-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the <span>supplied media
+   type</span>.
+ </ol>
+
+
+
+<h3>Sniffing archives specifically</h3>
+
+<p>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
+ with an <span>archive type</span>, execute the following <dfn>rules for
+ sniffing archives specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>archive-type-matched</var> be the result of executing the
+   <span>archive type pattern matching algorithm</span> with the
+   <span>resource header</span> as the <span>byte sequence</span> to be
+   matched.
+
+  <li>
+   If <var>archive-type-matched</var> is not undefined, the <span>sniffed
+   media type</span> is <var>archive-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the <span>supplied media
+   type</span>.
+ </ol>
 
 
 
