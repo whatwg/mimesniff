@@ -1251,7 +1251,7 @@
 
 
 
-<h3>Unknown media type</h3>
+<h3>Identifying an unknown media type</h3>
 
 <p>
  The <span>rules for identifying an unknown media type</span> use the
@@ -1266,10 +1266,6 @@
  identifying an unknown media type</dfn>:
 
  <ol>
-  <li>
-   Let <var>length</var> be the number of <span title=byte>bytes</span> in the
-   <span>resource header</span>.
-
   <li>
    If the <var>sniff-scriptable</var> flag is set, execute the following steps
    for each row in the following table:
@@ -1668,6 +1664,9 @@
     </tbody>
    </table>
 
+   <p class=XXX>
+    What about feeds?
+
   <li>
    Execute the following steps for each row in the following table:
 
@@ -1792,178 +1791,6 @@
      </tr>
      <tr>
       <td>
-       47 49 46 38 37 61
-      </td>
-      <td>
-       FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/gif</code>
-      </td>
-      <td>
-       The string "<code title>GIF87a</code>", a GIF signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       47 49 46 38 39 61
-      </td>
-      <td>
-       FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/gif</code>
-      </td>
-      <td>
-       The string "<code title>GIF89a</code>", a GIF signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       89 50 4E 47 0D 0A 1A 0A
-      </td>
-      <td>
-       FF FF FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/png</code>
-      </td>
-      <td>
-       The PNG signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       FF D8 FF
-      </td>
-      <td>
-       FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/jpeg</code>
-      </td>
-      <td>
-       A JPEG SOI marker followed by a byte of another marker.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       42 4D
-      </td>
-      <td>
-       FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/bmp</code>
-      </td>
-      <td>
-       The string "<code title>BM</code>", a BMP signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       52 49 46 46 00 00 00 00 57 45 42 50 56 50
-      </td>
-      <td>
-       FF FF FF FF 00 00 00 00 FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/webp</code>
-      </td>
-      <td>
-       The string "<code title>RIFF</code>" followed by four bytes followed by
-       the string "<code title>WEBPVP</code>".
-      </td>
-     </tr>
-     <tr>
-      <td>
-       00 00 01 00
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>image/vnd.microsoft.icon</code>
-      </td>
-      <td>
-       A Windows Icon signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       4F 67 67 53 00
-      </td>
-      <td>
-       FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>application/ogg</code>
-      </td>
-      <td>
-       An Ogg audio or video signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       52 49 46 46 00 00 00 00 57 41 56 45
-      </td>
-      <td>
-       FF FF FF FF 00 00 00 00 FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>audio/wave</code>
-      </td>
-      <td>
-       The string "<code title>RIFF</code>" followed by four bytes followed by
-       the string "<code title>WAVE</code>".
-      </td>
-     </tr>
-     <tr>
-      <td>
-       1A 45 DF A3
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>video/webm</code>
-      </td>
-      <td class=XXX>
-       The WebM signature. [TODO: Use more bytes?]
-      </td>
-     </tr>
-     <tr>
-      <td>
        52 61 72 20 1A 07 00
       </td>
       <td>
@@ -2016,9 +1843,6 @@
     </tbody>
    </table>
 
-   <p class=XXX>
-    MP3 audio.
-
    <p>
     User agents may implicitly extend this table to support additional
     <span title="valid media type">valid media types</span>.
@@ -2032,11 +1856,45 @@
     when extending this table.
 
   <li>
-   If the <span>resource header</span> <span>matches the signature for
-   MP4</span>, the <span>sniffed media type</span> is
-   "<code title>video/mp4</code>".
+   The <span>sniffed media type</span> is the result of executing the
+   <span>image type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
 
-   Abort these steps.
+  <li>
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the result of executing the
+   <span>audio type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the result of executing the
+   <span>video type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the result of executing the
+   <span>font type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
+
+  <li>
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the result of executing the
+   <span>archive type pattern matching algorithm</span> with the
+   <span>resource header</span> as the <span>byte sequence</span> to be
+   matched.
+
+  <li>
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
 
   <li>
    If the <span>resource header</span> contains no
@@ -2048,8 +1906,6 @@
   <li>
    The <span>sniffed media type</span> is
    "<code title>application/octet-stream</code>".
-
-   Abort these steps.
  </ol>
 
 
