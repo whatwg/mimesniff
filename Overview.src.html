@@ -277,12 +277,44 @@
 
 <p>
  A <dfn>font type</dfn> is any <span>valid media type</span> where
- <!--<span data-anolis-spec=http>type</span> is equal to
- "<code title>font</code>" or--> the <span>media type portion</span> is equal
- to one of the following:
+ <span data-anolis-spec=http>type</span> is equal to "<code title>font</code>"
+ or the <span>media type portion</span> is equal to one of the following:
 
  <ul class=XXX>
   <li>
+   <code title>application/font-ttf</code>
+
+  <li>
+   <code title>application/font-cff</code>
+
+  <li>
+   <code title>application/font-off</code>
+
+  <li>
+   <code title>application/font-sfnt</code>
+
+  <li>
+   <code title>application/vnd.ms-opentype</code>
+
+  <li>
+   <code title>application/font-woff</code>
+ </ul>
+
+<p>
+ An <dfn>archive type</dfn> is any <span>valid media type</span> where
+ <span data-anolis-spec=http>type</span> is equal to
+ "<code title>archive</code>" or the <span>media type portion</span> is equal
+ to one of the following:
+
+ <ul>
+  <li>
+   <code title>application/x-rar-compressed</code>
+
+  <li>
+   <code title>application/zip</code>
+
+  <li>
+   <code title>application/x-gzip</code>
  </ul>
 
 <p>
@@ -1042,6 +1074,126 @@
 
 
 
+<h3>Matching an archive type pattern</h3>
+
+<p>
+ To determine which <span>archive type</span> <span>byte pattern</span> a
+ <span>byte sequence</span> matches, if any, use the following <dfn>archive
+ type pattern matching algorithm</dfn>:
+
+ <ol>
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <span>pattern matching algorithm</span> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <span>byte sequence</span> to be matched be the <span>byte
+       sequence</span> to be matched.
+
+      <li>
+       Let the <span>byte pattern</span> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <span>pattern mask</span> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <span title=byte>bytes</span> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, return the value in the fourth
+     column of the current row.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <span>Byte Pattern</span>
+      </th>
+      <th>
+       <span>Pattern Mask</span>
+      </th>
+      <th>
+       Leading <span title=byte>Bytes</span> to Be Ignored
+      </th>
+      <th>
+       <span>Archive Type</span>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       52 61 72 20 1A 07 00
+      </td>
+      <td>
+       FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/x-rar-compressed</code>
+      </td>
+      <td>
+       The RAR archive signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       50 4B 03 04
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/zip</code>
+      </td>
+      <td>
+       The ZIP archive signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       1F 8B 08
+      </td>
+      <td>
+       FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/x-gzip</code>
+      </td>
+      <td>
+       The GZIP archive signature.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+  <li>
+   Return undefined.
+ </ol>
+
+
+
 <h2>Determining the sniffed media type</h2>
 
 <p>
@@ -1051,7 +1203,8 @@
  <var class=flag>sniff-feed-or-html</var>,
  <var class=flag>sniff-text-or-binary</var>,
  <var class=flag>sniff-images</var>, <var class=flag>sniff-audio</var>,
- <var class=flag>sniff-video</var>, <var class=flag>sniff-fonts</var>.
+ <var class=flag>sniff-video</var>, <var class=flag>sniff-fonts</var>,
+ <var class=flag>sniff-archives</var>.
 
  User agents may explicitly set one or more of these flags when calling the
  <span>media type sniffing algorithm</span>.
@@ -1194,6 +1347,19 @@
    executing the <span>font type pattern matching algorithm</span> with the
    <span>resource header</span> as the <span>byte sequence</span> to be
    matched.
+
+  <li>
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
+
+  <li>
+   <!-- XXX: Why are we checking to see if the archive type is supported by
+             the user agent if we're just going to sniff it again anyway? -->
+   If the <var class=flag>sniff-archives</var> flag is set and the
+   <span>supplied media type</span> is an <span>archive type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>archive type pattern
+   matching algorithm</span> with the <span>resource header</span> as the
+   <span>byte sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -1789,57 +1955,6 @@
        UTF-8 BOM
       </td>
      </tr>
-     <tr>
-      <td>
-       52 61 72 20 1A 07 00
-      </td>
-      <td>
-       FF FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>application/x-rar-compressed</code>
-      </td>
-      <td>
-       The RAR archive signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       50 4B 03 04
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>application/zip</code>
-      </td>
-      <td>
-       The ZIP archive signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       1F 8B 08
-      </td>
-      <td>
-       FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>application/x-gzip</code>
-      </td>
-      <td>
-       The GZIP archive signature.
-      </td>
-     </tr>
     </tbody>
    </table>
 
@@ -2028,6 +2143,39 @@
   <li>
    If <var>font-type-matched</var> is not undefined, the <span>sniffed media
    type</span> is <var>font-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <span>sniffed media type</span> is the <span>supplied media
+   type</span>.
+ </ol>
+
+
+
+<h3>Sniffing archives specifically</h3>
+
+<p>
+ To determine the <span>sniffed media type</span> of a <span>resource</span>
+ with an <span>archive type</span>, execute the following <dfn>rules for
+ sniffing archives specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <span>supplied media type</span> is an <span>XML type</span>, the
+   <span>sniffed media type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>archive-type-matched</var> be the result of executing the
+   <span>archive type pattern matching algorithm</span> with the
+   <span>resource header</span> as the <span>byte sequence</span> to be
+   matched.
+
+  <li>
+   If <var>archive-type-matched</var> is not undefined, the <span>sniffed
+   media type</span> is <var>archive-type-matched</var>.
 
    Abort these steps.
 

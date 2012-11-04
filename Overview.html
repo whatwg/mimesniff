@@ -98,7 +98,8 @@
    <li><a href="#matching-a-video-type-pattern"><span class="secno">6.3 </span>Matching a video type pattern</a>
     <ol>
      <li><a href="#signature-for-mp4"><span class="secno">6.3.1 </span>Signature for MP4</a></ol></li>
-   <li><a href="#matching-a-font-type-pattern"><span class="secno">6.4 </span>Matching a font type pattern</a></ol></li>
+   <li><a href="#matching-a-font-type-pattern"><span class="secno">6.4 </span>Matching a font type pattern</a></li>
+   <li><a href="#matching-an-archive-type-pattern"><span class="secno">6.5 </span>Matching an archive type pattern</a></ol></li>
  <li><a href="#determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</a>
   <ol>
    <li><a href="#text-or-binary-media-type"><span class="secno">7.1 </span>Text or binary media type</a></li>
@@ -107,7 +108,8 @@
    <li><a href="#sniffing-audio-specifically"><span class="secno">7.4 </span>Sniffing audio specifically</a></li>
    <li><a href="#sniffing-video-specifically"><span class="secno">7.5 </span>Sniffing video specifically</a></li>
    <li><a href="#sniffing-fonts-specifically"><span class="secno">7.6 </span>Sniffing fonts specifically</a></li>
-   <li><a href="#feed-or-html"><span class="secno">7.7 </span>Feed or HTML</a></ol></li>
+   <li><a href="#sniffing-archives-specifically"><span class="secno">7.7 </span>Sniffing archives specifically</a></li>
+   <li><a href="#feed-or-html"><span class="secno">7.8 </span>Feed or HTML</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -304,12 +306,44 @@
 
 <p>
  A <dfn id="font-type">font type</dfn> is any <a href="#valid-media-type">valid media type</a> where
- <!--<span data-anolis-spec=http>type</span> is equal to
- "<code title>font</code>" or--> the <a href="#media-type-portion">media type portion</a> is equal
- to one of the following:
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to "<code title="">font</code>"
+ or the <a href="#media-type-portion">media type portion</a> is equal to one of the following:
 
  <ul class="XXX">
   <li>
+   <code title="">application/font-ttf</code>
+
+  <li>
+   <code title="">application/font-cff</code>
+
+  <li>
+   <code title="">application/font-off</code>
+
+  <li>
+   <code title="">application/font-sfnt</code>
+
+  <li>
+   <code title="">application/vnd.ms-opentype</code>
+
+  <li>
+   <code title="">application/font-woff</code>
+ </ul>
+
+<p>
+ An <dfn id="archive-type">archive type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
+ "<code title="">archive</code>" or the <a href="#media-type-portion">media type portion</a> is equal
+ to one of the following:
+
+ <ul>
+  <li>
+   <code title="">application/x-rar-compressed</code>
+
+  <li>
+   <code title="">application/zip</code>
+
+  <li>
+   <code title="">application/x-gzip</code>
  </ul>
 
 <p>
@@ -1069,6 +1103,126 @@
 
 
 
+<h3 id="matching-an-archive-type-pattern"><span class="secno">6.5 </span>Matching an archive type pattern</h3>
+
+<p>
+ To determine which <a href="#archive-type">archive type</a> <a href="#byte-pattern">byte pattern</a> a
+ <a href="#byte-sequence">byte sequence</a> matches, if any, use the following <dfn id="archive-type-pattern-matching-algorithm">archive
+ type pattern matching algorithm</dfn>:
+
+ <ol>
+  <li>
+   Execute the following steps for each row in the following table:
+
+   <ol>
+    <li>
+     Let <var>pattern-matched</var> be the result of executing the
+     <a href="#pattern-matching-algorithm">pattern matching algorithm</a> with the following parameters:
+
+     <ul>
+      <li>
+       Let the <a href="#byte-sequence">byte sequence</a> to be matched be the <a href="#byte-sequence">byte
+       sequence</a> to be matched.
+
+      <li>
+       Let the <a href="#byte-pattern">byte pattern</a> to be matched against be the value in
+       the first column of the current row.
+
+      <li>
+       Let the <a href="#pattern-mask">pattern mask</a> be the value in the second column of
+       the current row.
+
+      <li>
+       Let the leading <a href="#byte" title="byte">bytes</a> to be ignored be the
+       value in the third column of the current row.
+     </ul>
+
+    <li>
+     If <var>pattern-matched</var> is true, return the value in the fourth
+     column of the current row.
+   </ol>
+
+   <table>
+    <thead>
+     <tr>
+      <th>
+       <a href="#byte-pattern">Byte Pattern</a>
+      </th>
+      <th>
+       <a href="#pattern-mask">Pattern Mask</a>
+      </th>
+      <th>
+       Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
+      </th>
+      <th>
+       <a href="#archive-type">Archive Type</a>
+      </th>
+      <th>
+       Note
+      </th>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+      <td>
+       52 61 72 20 1A 07 00
+      </td>
+      <td>
+       FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/x-rar-compressed</code>
+      </td>
+      <td>
+       The RAR archive signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       50 4B 03 04
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/zip</code>
+      </td>
+      <td>
+       The ZIP archive signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       1F 8B 08
+      </td>
+      <td>
+       FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/x-gzip</code>
+      </td>
+      <td>
+       The GZIP archive signature.
+      </td>
+     </tr>
+    </tbody>
+   </table>
+
+  <li>
+   Return undefined.
+ </ol>
+
+
+
 <h2 id="determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</h2>
 
 <p>
@@ -1078,7 +1232,8 @@
  <var class="flag">sniff-feed-or-html</var>,
  <var class="flag">sniff-text-or-binary</var>,
  <var class="flag">sniff-images</var>, <var class="flag">sniff-audio</var>,
- <var class="flag">sniff-video</var>, <var class="flag">sniff-fonts</var>.
+ <var class="flag">sniff-video</var>, <var class="flag">sniff-fonts</var>,
+ <var class="flag">sniff-archives</var>.
 
  User agents may explicitly set one or more of these flags when calling the
  <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
@@ -1221,6 +1376,19 @@
    executing the <a href="#font-type-pattern-matching-algorithm">font type pattern matching algorithm</a> with the
    <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
    matched.
+
+  <li>
+   If the <a href="#sniffed-media-type">sniffed media type</a> is not undefined, abort these steps.
+
+  <li>
+   <!-- XXX: Why are we checking to see if the archive type is supported by
+             the user agent if we're just going to sniff it again anyway? -->
+   If the <var class="flag">sniff-archives</var> flag is set and the
+   <a href="#supplied-media-type">supplied media type</a> is an <a href="#archive-type">archive type</a>
+   <a href="#supported-by-the-user-agent">supported by the user agent</a>, the <a href="#sniffed-media-type">sniffed media
+   type</a> is the result of executing the <a href="#archive-type-pattern-matching-algorithm">archive type pattern
+   matching algorithm</a> with the <a href="#resource-header">resource header</a> as the
+   <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
    If the <a href="#sniffed-media-type">sniffed media type</a> is not undefined, abort these steps.
@@ -1816,57 +1984,6 @@
        UTF-8 BOM
       </td>
      </tr>
-     <tr>
-      <td>
-       52 61 72 20 1A 07 00
-      </td>
-      <td>
-       FF FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">application/x-rar-compressed</code>
-      </td>
-      <td>
-       The RAR archive signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       50 4B 03 04
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">application/zip</code>
-      </td>
-      <td>
-       The ZIP archive signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       1F 8B 08
-      </td>
-      <td>
-       FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">application/x-gzip</code>
-      </td>
-      <td>
-       The GZIP archive signature.
-      </td>
-     </tr>
     </tbody>
    </table>
 
@@ -1916,7 +2033,7 @@
 
   <li>
    The <a href="#sniffed-media-type">sniffed media type</a> is the result of executing the
-   <span>archive type pattern matching algorithm</span> with the
+   <a href="#archive-type-pattern-matching-algorithm">archive type pattern matching algorithm</a> with the
    <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
    matched.
 
@@ -2065,7 +2182,40 @@
 
 
 
-<h3 id="feed-or-html"><span class="secno">7.7 </span>Feed or HTML</h3>
+<h3 id="sniffing-archives-specifically"><span class="secno">7.7 </span>Sniffing archives specifically</h3>
+
+<p>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ with an <a href="#archive-type">archive type</a>, execute the following <dfn id="rules-for-sniffing-archives-specifically">rules for
+ sniffing archives specifically</dfn>:
+
+ <ol>
+  <li>
+   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>archive-type-matched</var> be the result of executing the
+   <a href="#archive-type-pattern-matching-algorithm">archive type pattern matching algorithm</a> with the
+   <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
+   matched.
+
+  <li>
+   If <var>archive-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed
+   media type</a> is <var>archive-type-matched</var>.
+
+   Abort these steps.
+
+  <li>
+   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   type</a>.
+ </ol>
+
+
+
+<h3 id="feed-or-html"><span class="secno">7.8 </span>Feed or HTML</h3>
 
 <ol>
  <li>
