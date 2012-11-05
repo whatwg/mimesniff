@@ -200,7 +200,7 @@
 
 <p>
  A <dfn>tag-terminating byte</dfn> (0xTT) is any of the following
- <span title=byte>bytes</span>: 0x20 (SP), 0x3E (<code title>&gt;</code>).
+ <span title=byte>bytes</span>: 0x20 (SP), 0x3E ("<code title>&gt;</code>").
 
 <p>
  A <dfn>byte sequence</dfn> is a <span>sequence</span> of
@@ -385,12 +385,12 @@
 
  <ol>
   <li>
-   Let <var>official-type</var> be null.
+   Let <var>supplied-type</var> be null.
 
   <li>
    If the resource is retrieved via HTTP and one or more
    <code>Content-Type</code> headers are associated with the resource, set
-   <var>official-type</var> to the value associated with the last such
+   <var>supplied-type</var> to the value associated with the last such
    <code>Content-Type</code> header and set the <span>has-content-type
    flag</span>.
 
@@ -403,22 +403,24 @@
 
   <li>
    If the resource is retrieved directly from the file system, set
-   <var>official-type</var> to the <span>media type</span> provided by the
+   <var>supplied-type</var> to the <span>media type</span> provided by the
    file system.
 
   <li>
    If the resource is retrieved via another protocol (such as FTP), set
-   <var>official-type</var> to the <span>media type</span> as determined by
+   <var>supplied-type</var> to the <span>media type</span> as determined by
    that protocol, if any.
 
    <span data-anolis-ref class=informative>FTP</span>
 
   <li>
-   If <var>official-type</var> is not a <span>valid media type</span>, set
-   <var>official-type</var> to null.
+   If <var>supplied-type</var> is not a <span>valid media type</span>, the
+   <span>supplied media type</span> is undefined.
+
+   Abort these steps.
 
   <li>
-   The <span>supplied media type</span> is <var>official-type</var>.
+   The <span>supplied media type</span> is <var>supplied-type</var>.
  </ol>
 
 
@@ -478,21 +480,21 @@
  <ol>
   <li>
    Let <var>sequence</var> be the <span>byte sequence</span> to be matched,
-   and let <var>sequence</var>[<var>s</var>] be <span>byte</span> <var>s</var>
-   in <var>sequence</var> (where <var>sequence</var>[0] is the first
-   <span>byte</span> in <var>sequence</var>).
+   where <var>sequence</var>[<var>s</var>] is <span>byte</span> <var>s</var>
+   in <var>sequence</var> and <var>sequence</var>[0] is the first
+   <span>byte</span> in <var>sequence</var>.
 
   <li>
    Let <var>pattern</var> be the <span>byte pattern</span> to be matched
-   against, and let <var>pattern</var>[<var>p</var>] be <span>byte</span>
-   <var>p</var> in <var>pattern</var> (where <var>pattern</var>[0] is the
-   first <span>byte</span> in <var>pattern</var>).
+   against, where <var>pattern</var>[<var>p</var>] is <span>byte</span>
+   <var>p</var> in <var>pattern</var> and <var>pattern</var>[0] is the first
+   <span>byte</span> in <var>pattern</var>.
 
   <li>
-   Let <var>mask</var> be the <span>pattern mask</span>, and let
-   <var>mask</var>[<var>m</var>] be <span>byte</span> <var>m</var> in
-   <var>mask</var> (where <var>mask</var>[0] is the first <span>byte</span> in
-   <var>mask</var>).
+   Let <var>mask</var> be the <span>pattern mask</span>, where
+   <var>mask</var>[<var>m</var>] is <span>byte</span> <var>m</var> in
+   <var>mask</var> and <var>mask</var>[0] is the first <span>byte</span> in
+   <var>mask</var>.
 
   <li>
    Let <var>length</var> be the number of <span title=byte>bytes</span> in
@@ -948,8 +950,9 @@
  <ol>
   <li>
    Let <var>sequence</var> be the <span>byte sequence</span> to be matched,
-   where <var>sequence</var>[0] is the first <span>byte</span> in
-   <var>sequence</var>.
+   where <var>sequence</var>[<var>s</var>] is <span>byte</span> <var>s</var>
+   in <var>sequence</var> and <var>sequence</var>[0] is the first
+   <span>byte</span> in <var>sequence</var>.
 
   <li>
    Let <var>length</var> be the number of <span title=byte>bytes</span> in
@@ -1221,10 +1224,10 @@
    Abort these steps.
 
   <li>
-   If the <span>supplied media type</span> is null or if the
+   If the <span>supplied media type</span> is undefined or if the
    <var class=flag>sniff-unknown</var> flag is set and the <span>supplied
-   media type</span> is not null and the <span>media type portion</span> of
-   the <span>supplied media type</span> is equal to
+   media type</span> is not undefined and the <span>media type portion</span>
+   of the <span>supplied media type</span> is equal to
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
    execute the <span>rules for identifying an unknown media type</span> and
@@ -1232,7 +1235,7 @@
 
   <li>
    If the <var class=flag>sniff-feed-or-html</var> flag is set and the
-   <span>supplied media type</span> is not null and the <span>media type
+   <span>supplied media type</span> is not undefined and the <span>media type
    portion</span> of the <span>supplied media type</span> is equal to
    "<code title>text/html</code>", execute the <span>rules for distinguishing
    if a resource is a feed or HTML</span> and abort these steps.

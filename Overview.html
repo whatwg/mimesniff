@@ -12,7 +12,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-4-november-2012">Living Standard — Last Updated 4 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-5-november-2012">Living Standard — Last Updated 5 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -55,7 +55,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 4 November 2012, the editor has made this
+  In addition, as of 5 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -229,7 +229,7 @@
 
 <p>
  A <dfn id="tag-terminating-byte">tag-terminating byte</dfn> (0xTT) is any of the following
- <a href="#byte" title="byte">bytes</a>: 0x20 (SP), 0x3E (<code title="">&gt;</code>).
+ <a href="#byte" title="byte">bytes</a>: 0x20 (SP), 0x3E ("<code title="">&gt;</code>").
 
 <p>
  A <dfn id="byte-sequence">byte sequence</dfn> is a <span>sequence</span> of
@@ -414,12 +414,12 @@
 
  <ol>
   <li>
-   Let <var>official-type</var> be null.
+   Let <var>supplied-type</var> be null.
 
   <li>
    If the resource is retrieved via HTTP and one or more
    <code>Content-Type</code> headers are associated with the resource, set
-   <var>official-type</var> to the value associated with the last such
+   <var>supplied-type</var> to the value associated with the last such
    <code>Content-Type</code> header and set the <a href="#has-content-type-flag">has-content-type
    flag</a>.
 
@@ -432,22 +432,24 @@
 
   <li>
    If the resource is retrieved directly from the file system, set
-   <var>official-type</var> to the <a href="#media-type">media type</a> provided by the
+   <var>supplied-type</var> to the <a href="#media-type">media type</a> provided by the
    file system.
 
   <li>
    If the resource is retrieved via another protocol (such as FTP), set
-   <var>official-type</var> to the <a href="#media-type">media type</a> as determined by
+   <var>supplied-type</var> to the <a href="#media-type">media type</a> as determined by
    that protocol, if any.
 
    <a class="informative" href="#refsFTP">[FTP]</a>
 
   <li>
-   If <var>official-type</var> is not a <a href="#valid-media-type">valid media type</a>, set
-   <var>official-type</var> to null.
+   If <var>supplied-type</var> is not a <a href="#valid-media-type">valid media type</a>, the
+   <a href="#supplied-media-type">supplied media type</a> is undefined.
+
+   Abort these steps.
 
   <li>
-   The <a href="#supplied-media-type">supplied media type</a> is <var>official-type</var>.
+   The <a href="#supplied-media-type">supplied media type</a> is <var>supplied-type</var>.
  </ol>
 
 
@@ -507,21 +509,21 @@
  <ol>
   <li>
    Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
-   and let <var>sequence</var>[<var>s</var>] be <a href="#byte">byte</a> <var>s</var>
-   in <var>sequence</var> (where <var>sequence</var>[0] is the first
-   <a href="#byte">byte</a> in <var>sequence</var>).
+   where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var>
+   in <var>sequence</var> and <var>sequence</var>[0] is the first
+   <a href="#byte">byte</a> in <var>sequence</var>.
 
   <li>
    Let <var>pattern</var> be the <a href="#byte-pattern">byte pattern</a> to be matched
-   against, and let <var>pattern</var>[<var>p</var>] be <a href="#byte">byte</a>
-   <var>p</var> in <var>pattern</var> (where <var>pattern</var>[0] is the
-   first <a href="#byte">byte</a> in <var>pattern</var>).
+   against, where <var>pattern</var>[<var>p</var>] is <a href="#byte">byte</a>
+   <var>p</var> in <var>pattern</var> and <var>pattern</var>[0] is the first
+   <a href="#byte">byte</a> in <var>pattern</var>.
 
   <li>
-   Let <var>mask</var> be the <a href="#pattern-mask">pattern mask</a>, and let
-   <var>mask</var>[<var>m</var>] be <a href="#byte">byte</a> <var>m</var> in
-   <var>mask</var> (where <var>mask</var>[0] is the first <a href="#byte">byte</a> in
-   <var>mask</var>).
+   Let <var>mask</var> be the <a href="#pattern-mask">pattern mask</a>, where
+   <var>mask</var>[<var>m</var>] is <a href="#byte">byte</a> <var>m</var> in
+   <var>mask</var> and <var>mask</var>[0] is the first <a href="#byte">byte</a> in
+   <var>mask</var>.
 
   <li>
    Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
@@ -977,8 +979,9 @@
  <ol>
   <li>
    Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
-   where <var>sequence</var>[0] is the first <a href="#byte">byte</a> in
-   <var>sequence</var>.
+   where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var>
+   in <var>sequence</var> and <var>sequence</var>[0] is the first
+   <a href="#byte">byte</a> in <var>sequence</var>.
 
   <li>
    Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
@@ -1250,10 +1253,10 @@
    Abort these steps.
 
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is null or if the
+   If the <a href="#supplied-media-type">supplied media type</a> is undefined or if the
    <var class="flag">sniff-unknown</var> flag is set and the <a href="#supplied-media-type">supplied
-   media type</a> is not null and the <a href="#media-type-portion">media type portion</a> of
-   the <a href="#supplied-media-type">supplied media type</a> is equal to
+   media type</a> is not undefined and the <a href="#media-type-portion">media type portion</a>
+   of the <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
    execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> and
@@ -1261,7 +1264,7 @@
 
   <li>
    If the <var class="flag">sniff-feed-or-html</var> flag is set and the
-   <a href="#supplied-media-type">supplied media type</a> is not null and the <a href="#media-type-portion">media type
+   <a href="#supplied-media-type">supplied media type</a> is not undefined and the <a href="#media-type-portion">media type
    portion</a> of the <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">text/html</code>", execute the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for distinguishing
    if a resource is a feed or HTML</a> and abort these steps.
