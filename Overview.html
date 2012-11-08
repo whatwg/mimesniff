@@ -12,7 +12,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://www.whatwg.org/images/logo" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-5-november-2012">Living Standard — Last Updated 5 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-8-november-2012">Living Standard — Last Updated 8 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -55,7 +55,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 5 November 2012, the editor has made this
+  In addition, as of 8 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -1259,8 +1259,8 @@
    of the <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
-   execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> and
-   abort these steps.
+   execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> with
+   the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
 
   <li>
    If the <var class="flag">sniff-feed-or-html</var> flag is set and the
@@ -1406,11 +1406,13 @@
 <h3 id="identifying-an-unknown-media-type"><span class="secno">7.1 </span>Identifying an unknown media type</h3>
 
 <p>
- The <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> use the
- <var>sniff-scriptable</var> flag, which must be unset by default.
+ The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-media-type">rules for
+ identifying an unknown media type</a> to determine whether to sniff for
+ <a href="#scriptable-media-type" title="scriptable media type">scriptable media types</a>.
 
- User agents may explicitly set the <var>sniff-scriptable</var> flag when
- calling the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a>.
+ If the setting of the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> is not specified
+ when calling the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a>,
+ the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> must default to unset.
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
@@ -1419,8 +1421,8 @@
 
  <ol>
   <li>
-   If the <var>sniff-scriptable</var> flag is set, execute the following steps
-   for each row in the following table:
+   If the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> is set, execute the following
+   steps for each row in the following table:
 
    <ol>
     <li>
@@ -2317,7 +2319,7 @@
 
  <li>
   Execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> with
-  the <var>sniff-scriptable</var> flag unset.
+  the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> unset.
 
   <p class="warning">
    It is critical that the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is

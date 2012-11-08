@@ -1230,8 +1230,8 @@
    of the <span>supplied media type</span> is equal to
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
-   execute the <span>rules for identifying an unknown media type</span> and
-   abort these steps.
+   execute the <span>rules for identifying an unknown media type</span> with
+   the <span>sniff-scriptable flag</span> set and abort these steps.
 
   <li>
    If the <var class=flag>sniff-feed-or-html</var> flag is set and the
@@ -1377,11 +1377,13 @@
 <h3>Identifying an unknown media type</h3>
 
 <p>
- The <span>rules for identifying an unknown media type</span> use the
- <var>sniff-scriptable</var> flag, which must be unset by default.
+ The <dfn>sniff-scriptable flag</dfn> is used by the <span>rules for
+ identifying an unknown media type</span> to determine whether to sniff for
+ <span title="scriptable media type">scriptable media types</span>.
 
- User agents may explicitly set the <var>sniff-scriptable</var> flag when
- calling the <span>rules for identifying an unknown media type</span>.
+ If the setting of the <span>sniff-scriptable flag</span> is not specified
+ when calling the <span>rules for identifying an unknown media type</span>,
+ the <span>sniff-scriptable flag</span> must default to unset.
 
 <p>
  To determine the <span>sniffed media type</span> of a <span>resource</span>
@@ -1390,8 +1392,8 @@
 
  <ol>
   <li>
-   If the <var>sniff-scriptable</var> flag is set, execute the following steps
-   for each row in the following table:
+   If the <span>sniff-scriptable flag</span> is set, execute the following
+   steps for each row in the following table:
 
    <ol>
     <li>
@@ -2288,7 +2290,7 @@
 
  <li>
   Execute the <span>rules for identifying an unknown media type</span> with
-  the <var>sniff-scriptable</var> flag unset.
+  the <span>sniff-scriptable flag</span> unset.
 
   <p class=warning>
    It is critical that the <span>rules for distinguishing if a resource is
