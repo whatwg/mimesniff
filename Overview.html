@@ -207,6 +207,10 @@
 <h2 id="terminology"><span class="secno">3 </span>Terminology</h2>
 
 <p>
+ A <dfn id="configurable-flag">configurable flag</dfn> represents a preference of the user agent or
+ the user.
+
+<p>
  A <dfn id="byte">byte</dfn> is a <a data-anolis-spec="encoding" href="#byte">byte</a> as defined
  in the Encoding Standard.
 
@@ -1229,17 +1233,78 @@
 <h2 id="determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</h2>
 
 <p>
- The following flags are used in the <a href="#media-type-sniffing-algorithm">media type sniffing
- algorithm</a> and must be unset by default:
- <var class="flag">sniff-unknown</var>,
- <var class="flag">sniff-feed-or-html</var>,
- <var class="flag">sniff-text-or-binary</var>,
- <var class="flag">sniff-images</var>, <var class="flag">sniff-audio</var>,
- <var class="flag">sniff-video</var>, <var class="flag">sniff-fonts</var>,
- <var class="flag">sniff-archives</var>.
+ The <dfn id="sniff-unknown-flag">sniff-unknown flag</dfn> is a <a href="#configurable-flag">configurable flag</a> used by
+ the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether to treat
+ certain values of the <a href="#supplied-media-type">supplied media type</a> as if the
+ <a href="#supplied-media-type">supplied media type</a> was undefined.
 
- User agents may explicitly set one or more of these flags when calling the
- <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
+ If the setting of the <a href="#sniff-unknown-flag">sniff-unknown flag</a> is not specified when
+ calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the
+ <a href="#sniff-unknown-flag">sniff-unknown flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-feed-or-html-flag">sniff-feed-or-html flag</dfn> is a <a href="#configurable-flag">configurable flag</a>
+ used by the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether
+ to check for feeds mislabeled as HTML.
+
+ If the setting of the <a href="#sniff-feed-or-html-flag">sniff-feed-or-html flag</a> is not specified
+ when calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the
+ <a href="#sniff-feed-or-html-flag">sniff-feed-or-html flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-text-or-binary-flag">sniff-text-or-binary flag</dfn> is a <a href="#configurable-flag">configurable flag</a>
+ used by the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether
+ to check for binary <span title="resource">resources</span> mislabeled as plain
+ text.
+
+ If the setting of the <a href="#sniff-text-or-binary-flag">sniff-text-or-binary flag</a> is not specified
+ when calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the
+ <a href="#sniff-text-or-binary-flag">sniff-text-or-binary flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-images-flag">sniff-images flag</dfn> is a <a href="#configurable-flag">configurable flag</a> used by
+ the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether to check
+ for images labeled with the wrong <a href="#image-type">image type</a>.
+
+ If the setting of the <a href="#sniff-images-flag">sniff-images flag</a> is not specified when
+ calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the
+ <a href="#sniff-images-flag">sniff-images flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-audio-flag">sniff-audio flag</dfn> is a <a href="#configurable-flag">configurable flag</a> used by
+ the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether to check
+ for audio labeled with the wrong <a href="#audio-type">audio type</a>.
+
+ If the setting of the <a href="#sniff-audio-flag">sniff-audio flag</a> is not specified when
+ calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the <a href="#sniff-audio-flag">sniff-audio
+ flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-video-flag">sniff-video flag</dfn> is a <a href="#configurable-flag">configurable flag</a> used by
+ the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether to check
+ for video labeled with the wrong <a href="#video-type">video type</a>.
+
+ If the setting of the <a href="#sniff-video-flag">sniff-video flag</a> is not specified when
+ calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the <a href="#sniff-video-flag">sniff-video
+ flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-fonts-flag">sniff-fonts flag</dfn> is a <a href="#configurable-flag">configurable flag</a> used by
+ the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether to check
+ for fonts labeled with the wrong <a href="#font-type">font type</a>.
+
+ If the setting of the <a href="#sniff-fonts-flag">sniff-fonts flag</a> is not specified when
+ calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the <a href="#sniff-fonts-flag">sniff-fonts
+ flag</a> must default to unset.
+
+<p>
+ The <dfn id="sniff-archives-flag">sniff-archives flag</dfn> is a <a href="#configurable-flag">configurable flag</a> used
+ by the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> to determine whether to
+ check for archives labeled with the wrong <a href="#archive-type">archive type</a>.
+
+ If the setting of the <a href="#sniff-archives-flag">sniff-archives flag</a> is not specified when
+ calling the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>, the
+ <a href="#sniff-archives-flag">sniff-archives flag</a> must default to unset.
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a resource, user agents
@@ -1254,23 +1319,23 @@
 
   <li>
    If the <a href="#supplied-media-type">supplied media type</a> is undefined or if the
-   <var class="flag">sniff-unknown</var> flag is set and the <a href="#supplied-media-type">supplied
-   media type</a> is not undefined and the <a href="#media-type-portion">media type portion</a>
-   of the <a href="#supplied-media-type">supplied media type</a> is equal to
+   <a href="#sniff-unknown-flag">sniff-unknown flag</a> is set and the <a href="#supplied-media-type">supplied media
+   type</a> is not undefined and the <a href="#media-type-portion">media type portion</a> of the
+   <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
    execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> with
    the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
 
   <li>
-   If the <var class="flag">sniff-feed-or-html</var> flag is set and the
-   <a href="#supplied-media-type">supplied media type</a> is not undefined and the <a href="#media-type-portion">media type
-   portion</a> of the <a href="#supplied-media-type">supplied media type</a> is equal to
+   If the <a href="#sniff-feed-or-html-flag">sniff-feed-or-html flag</a> is set and the <a href="#supplied-media-type">supplied
+   media type</a> is not undefined and the <a href="#media-type-portion">media type portion</a>
+   of the <a href="#supplied-media-type">supplied media type</a> is equal to
    "<code title="">text/html</code>", execute the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for distinguishing
    if a resource is a feed or HTML</a> and abort these steps.
 
   <li>
-   If the <var class="flag">sniff-text-or-binary</var> flag is set and the
+   If the <a href="#sniff-text-or-binary-flag">sniff-text-or-binary flag</a> is set and the
    <a href="#has-content-type-flag">has-content-type flag</a> is set and the <a href="#supplied-media-type">supplied media
    type</a> is <strong>exactly</strong> equal to one of the values in the
    following table, execute the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource
@@ -1334,12 +1399,12 @@
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-images</var> flag is set and the
-   <a href="#supplied-media-type">supplied media type</a> is an <a href="#image-type">image type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, the <a href="#sniffed-media-type">sniffed media
-   type</a> is the result of executing the <a href="#image-type-pattern-matching-algorithm">image type pattern
-   matching algorithm</a> with the <a href="#resource-header">resource header</a> as the
-   <a href="#byte-sequence">byte sequence</a> to be matched.
+   If the <a href="#sniff-images-flag">sniff-images flag</a> is set and the <a href="#supplied-media-type">supplied media
+   type</a> is an <a href="#image-type">image type</a> <a href="#supported-by-the-user-agent">supported by the user
+   agent</a>, the <a href="#sniffed-media-type">sniffed media type</a> is the result of
+   executing the <a href="#image-type-pattern-matching-algorithm">image type pattern matching algorithm</a> with the
+   <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
+   matched.
 
   <li>
    If the <a href="#sniffed-media-type">sniffed media type</a> is not undefined, abort these steps.
@@ -1347,8 +1412,8 @@
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-audio</var> flag is set and the <a href="#supplied-media-type">supplied
-   media type</a> is an <a href="#audio-type">audio type</a> <a href="#supported-by-the-user-agent">supported by the user
+   If the <a href="#sniff-audio-flag">sniff-audio flag</a> is set and the <a href="#supplied-media-type">supplied media
+   type</a> is an <a href="#audio-type">audio type</a> <a href="#supported-by-the-user-agent">supported by the user
    agent</a>, the <a href="#sniffed-media-type">sniffed media type</a> is the result of
    executing the <a href="#audio-type-pattern-matching-algorithm">audio type pattern matching algorithm</a> with the
    <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
@@ -1360,8 +1425,8 @@
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-video</var> flag is set and the <a href="#supplied-media-type">supplied
-   media type</a> is a <a href="#video-type">video type</a> <a href="#supported-by-the-user-agent">supported by the user
+   If the <a href="#sniff-video-flag">sniff-video flag</a> is set and the <a href="#supplied-media-type">supplied media
+   type</a> is a <a href="#video-type">video type</a> <a href="#supported-by-the-user-agent">supported by the user
    agent</a>, the <a href="#sniffed-media-type">sniffed media type</a> is the result of
    executing the <a href="#video-type-pattern-matching-algorithm">video type pattern matching algorithm</a> with the
    <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
@@ -1373,8 +1438,8 @@
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-fonts</var> flag is set and the <a href="#supplied-media-type">supplied
-   media type</a> is a <a href="#font-type">font type</a> <a href="#supported-by-the-user-agent">supported by the user
+   If the <a href="#sniff-fonts-flag">sniff-fonts flag</a> is set and the <a href="#supplied-media-type">supplied media
+   type</a> is a <a href="#font-type">font type</a> <a href="#supported-by-the-user-agent">supported by the user
    agent</a>, the <a href="#sniffed-media-type">sniffed media type</a> is the result of
    executing the <a href="#font-type-pattern-matching-algorithm">font type pattern matching algorithm</a> with the
    <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
@@ -1386,12 +1451,12 @@
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by
              the user agent if we're just going to sniff it again anyway? -->
-   If the <var class="flag">sniff-archives</var> flag is set and the
-   <a href="#supplied-media-type">supplied media type</a> is an <a href="#archive-type">archive type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, the <a href="#sniffed-media-type">sniffed media
-   type</a> is the result of executing the <a href="#archive-type-pattern-matching-algorithm">archive type pattern
-   matching algorithm</a> with the <a href="#resource-header">resource header</a> as the
-   <a href="#byte-sequence">byte sequence</a> to be matched.
+   If the <a href="#sniff-archives-flag">sniff-archives flag</a> is set and the <a href="#supplied-media-type">supplied media
+   type</a> is an <a href="#archive-type">archive type</a> <a href="#supported-by-the-user-agent">supported by the user
+   agent</a>, the <a href="#sniffed-media-type">sniffed media type</a> is the result of
+   executing the <a href="#archive-type-pattern-matching-algorithm">archive type pattern matching algorithm</a> with the
+   <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
+   matched.
 
   <li>
    If the <a href="#sniffed-media-type">sniffed media type</a> is not undefined, abort these steps.
