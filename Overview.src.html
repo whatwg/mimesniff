@@ -2495,39 +2495,6 @@
 
 
 
-<h3>Sniffing archives specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with an <span>archive type</span>, execute the following <dfn>rules for
- sniffing archives specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>archive-type-matched</var> be the result of executing the
-   <span>archive type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
-
-  <li>
-   If <var>archive-type-matched</var> is not undefined, the <span>sniffed
-   media type</span> is <var>archive-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
 <h2 class=no-num>References</h2>
 
 <div id=anolis-references></div>

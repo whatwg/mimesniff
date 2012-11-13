@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-12-november-2012">Living Standard — Last Updated 12 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-13-november-2012">Living Standard — Last Updated 13 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 12 November 2012, the editor has made this
+  In addition, as of 13 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -109,8 +109,7 @@
    <li><a href="#sniffing-images-specifically"><span class="secno">7.4 </span>Sniffing images specifically</a></li>
    <li><a href="#sniffing-audio-specifically"><span class="secno">7.5 </span>Sniffing audio specifically</a></li>
    <li><a href="#sniffing-video-specifically"><span class="secno">7.6 </span>Sniffing video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">7.7 </span>Sniffing fonts specifically</a></li>
-   <li><a href="#sniffing-archives-specifically"><span class="secno">7.8 </span>Sniffing archives specifically</a></ol></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">7.7 </span>Sniffing fonts specifically</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -2514,39 +2513,6 @@
   <li>
    If <var>font-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
    type</a> is <var>font-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
-   type</a>.
- </ol>
-
-
-
-<h3 id="sniffing-archives-specifically"><span class="secno">7.8 </span>Sniffing archives specifically</h3>
-
-<p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
- with an <a href="#archive-type">archive type</a>, execute the following <dfn id="rules-for-sniffing-archives-specifically">rules for
- sniffing archives specifically</dfn>:
-
- <ol>
-  <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>archive-type-matched</var> be the result of executing the
-   <a href="#archive-type-pattern-matching-algorithm">archive type pattern matching algorithm</a> with the
-   <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte sequence</a> to be
-   matched.
-
-  <li>
-   If <var>archive-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed
-   media type</a> is <var>archive-type-matched</var>.
 
    Abort these steps.
 
