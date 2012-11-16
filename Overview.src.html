@@ -213,8 +213,8 @@
  <span title="read the resource header">reading the resource header</span>.
 
 <p>
- The <dfn>media type</dfn> of a resource is a technical hint about the use and
- format of that resource.
+ The <dfn>media type</dfn> of a <span>resource</span> is a technical hint
+ about the use and format of that <span>resource</span>.
 
  <span data-anolis-ref class=informative>MIMETYPE</span>
 
@@ -385,43 +385,45 @@
 <h2>Determining the supplied media type of a resource</h2>
 
 <p>
- The <span>supplied media type</span> of a resource is provided to the user
- agent by an external source associated with that resource.
+ The <span>supplied media type</span> of a <span>resource</span> is provided
+ to the user agent by an external source associated with that
+ <span>resource</span>.
 
  The method of obtaining this information varies depending upon how the
- resource is retrieved.
+ <span>resource</span> is retrieved.
 
 <p>
- To determine the <span>supplied media type</span> of a resource, user agents
- must use the following <dfn>supplied media type detection algorithm</dfn>:
+ To determine the <span>supplied media type</span> of a <span>resource</span>,
+ user agents must use the following <dfn>supplied media type detection
+ algorithm</dfn>:
 
  <ol>
   <li>
    Let <var>supplied-type</var> be null.
 
   <li>
-   If the resource is retrieved via HTTP and one or more
-   <code>Content-Type</code> headers are associated with the resource, set
-   <var>supplied-type</var> to the value associated with the last such
-   <code>Content-Type</code> header and set the <span>has-content-type
-   flag</span>.
+   If the <span>resource</span> is retrieved via HTTP and one or more
+   <code>Content-Type</code> headers are associated with the
+   <span>resource</span>, set <var>supplied-type</var> to the value associated
+   with the last such <code>Content-Type</code> header and set the
+   <span>has-content-type flag</span>.
 
    <span data-anolis-ref=http>HTTP</span>
 
    <p class=note>
     File extensions are not used to determine the <span>supplied media
-    type</span> of a resource retrieved via HTTP because they are unreliable
-    and easily spoofed.
+    type</span> of a <span>resource</span> retrieved via HTTP because they are
+    unreliable and easily spoofed.
 
   <li>
-   If the resource is retrieved directly from the file system, set
-   <var>supplied-type</var> to the <span>media type</span> provided by the
+   If the <span>resource</span> is retrieved directly from the file system,
+   set <var>supplied-type</var> to the <span>media type</span> provided by the
    file system.
 
   <li>
-   If the resource is retrieved via another protocol (such as FTP), set
-   <var>supplied-type</var> to the <span>media type</span> as determined by
-   that protocol, if any.
+   If the <span>resource</span> is retrieved via another protocol (such as
+   FTP), set <var>supplied-type</var> to the <span>media type</span> as
+   determined by that protocol, if any.
 
    <span data-anolis-ref class=informative>FTP</span>
 
@@ -1305,8 +1307,8 @@
 <h2>Determining the sniffed media type of a resource</h2>
 
 <p>
- To determine the <span>sniffed media type</span> of a resource, user agents
- must use the following <dfn>media type sniffing algorithm</dfn>:
+ To determine the <span>sniffed media type</span> of a <span>resource</span>,
+ user agents must use the following <dfn>media type sniffing algorithm</dfn>:
 
  <ol>
   <li>

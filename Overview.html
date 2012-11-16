@@ -242,8 +242,8 @@
  <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
 
 <p>
- The <dfn id="media-type">media type</dfn> of a resource is a technical hint about the use and
- format of that resource.
+ The <dfn id="media-type">media type</dfn> of a <a href="#resource">resource</a> is a technical hint
+ about the use and format of that <a href="#resource">resource</a>.
 
  <a class="informative" href="#refsMIMETYPE">[MIMETYPE]</a>
 
@@ -414,43 +414,45 @@
 <h2 id="determining-the-supplied-media-type-of-a-resource"><span class="secno">5 </span>Determining the supplied media type of a resource</h2>
 
 <p>
- The <a href="#supplied-media-type">supplied media type</a> of a resource is provided to the user
- agent by an external source associated with that resource.
+ The <a href="#supplied-media-type">supplied media type</a> of a <a href="#resource">resource</a> is provided
+ to the user agent by an external source associated with that
+ <a href="#resource">resource</a>.
 
  The method of obtaining this information varies depending upon how the
- resource is retrieved.
+ <a href="#resource">resource</a> is retrieved.
 
 <p>
- To determine the <a href="#supplied-media-type">supplied media type</a> of a resource, user agents
- must use the following <dfn id="supplied-media-type-detection-algorithm">supplied media type detection algorithm</dfn>:
+ To determine the <a href="#supplied-media-type">supplied media type</a> of a <a href="#resource">resource</a>,
+ user agents must use the following <dfn id="supplied-media-type-detection-algorithm">supplied media type detection
+ algorithm</dfn>:
 
  <ol>
   <li>
    Let <var>supplied-type</var> be null.
 
   <li>
-   If the resource is retrieved via HTTP and one or more
-   <code>Content-Type</code> headers are associated with the resource, set
-   <var>supplied-type</var> to the value associated with the last such
-   <code>Content-Type</code> header and set the <a href="#has-content-type-flag">has-content-type
-   flag</a>.
+   If the <a href="#resource">resource</a> is retrieved via HTTP and one or more
+   <code>Content-Type</code> headers are associated with the
+   <a href="#resource">resource</a>, set <var>supplied-type</var> to the value associated
+   with the last such <code>Content-Type</code> header and set the
+   <a href="#has-content-type-flag">has-content-type flag</a>.
 
    <a href="#refsHTTP">[HTTP]</a>
 
    <p class="note">
     File extensions are not used to determine the <a href="#supplied-media-type">supplied media
-    type</a> of a resource retrieved via HTTP because they are unreliable
-    and easily spoofed.
+    type</a> of a <a href="#resource">resource</a> retrieved via HTTP because they are
+    unreliable and easily spoofed.
 
   <li>
-   If the resource is retrieved directly from the file system, set
-   <var>supplied-type</var> to the <a href="#media-type">media type</a> provided by the
+   If the <a href="#resource">resource</a> is retrieved directly from the file system,
+   set <var>supplied-type</var> to the <a href="#media-type">media type</a> provided by the
    file system.
 
   <li>
-   If the resource is retrieved via another protocol (such as FTP), set
-   <var>supplied-type</var> to the <a href="#media-type">media type</a> as determined by
-   that protocol, if any.
+   If the <a href="#resource">resource</a> is retrieved via another protocol (such as
+   FTP), set <var>supplied-type</var> to the <a href="#media-type">media type</a> as
+   determined by that protocol, if any.
 
    <a class="informative" href="#refsFTP">[FTP]</a>
 
@@ -1334,8 +1336,8 @@
 <h2 id="determining-the-sniffed-media-type-of-a-resource"><span class="secno">8 </span>Determining the sniffed media type of a resource</h2>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a resource, user agents
- must use the following <dfn id="media-type-sniffing-algorithm">media type sniffing algorithm</dfn>:
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>,
+ user agents must use the following <dfn id="media-type-sniffing-algorithm">media type sniffing algorithm</dfn>:
 
  <ol>
   <li>
