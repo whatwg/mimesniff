@@ -179,10 +179,6 @@
 <h2>Terminology</h2>
 
 <p>
- A <dfn>configurable flag</dfn> represents a preference of the user agent or
- the user.
-
-<p>
  A <dfn>byte</dfn> is a <span data-anolis-spec=encoding>byte</span> as defined
  in the Encoding Standard.
 
@@ -1298,80 +1294,6 @@
 <h2>Determining the sniffed media type</h2>
 
 <p>
- The <dfn>sniff-unknown flag</dfn> is a <span>configurable flag</span> used by
- the <span>media type sniffing algorithm</span> to determine whether to treat
- certain values of the <span>supplied media type</span> as if the
- <span>supplied media type</span> was undefined.
-
- If the setting of the <span>sniff-unknown flag</span> is not specified when
- calling the <span>media type sniffing algorithm</span>, the
- <span>sniff-unknown flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-feed-or-html flag</dfn> is a <span>configurable flag</span>
- used by the <span>media type sniffing algorithm</span> to determine whether
- to check for feeds mislabeled as HTML.
-
- If the setting of the <span>sniff-feed-or-html flag</span> is not specified
- when calling the <span>media type sniffing algorithm</span>, the
- <span>sniff-feed-or-html flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-text-or-binary flag</dfn> is a <span>configurable flag</span>
- used by the <span>media type sniffing algorithm</span> to determine whether
- to check for binary <span title=resource>resources</span> mislabeled as plain
- text.
-
- If the setting of the <span>sniff-text-or-binary flag</span> is not specified
- when calling the <span>media type sniffing algorithm</span>, the
- <span>sniff-text-or-binary flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-images flag</dfn> is a <span>configurable flag</span> used by
- the <span>media type sniffing algorithm</span> to determine whether to check
- for images labeled with the wrong <span>image type</span>.
-
- If the setting of the <span>sniff-images flag</span> is not specified when
- calling the <span>media type sniffing algorithm</span>, the
- <span>sniff-images flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-audio flag</dfn> is a <span>configurable flag</span> used by
- the <span>media type sniffing algorithm</span> to determine whether to check
- for audio labeled with the wrong <span>audio type</span>.
-
- If the setting of the <span>sniff-audio flag</span> is not specified when
- calling the <span>media type sniffing algorithm</span>, the <span>sniff-audio
- flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-video flag</dfn> is a <span>configurable flag</span> used by
- the <span>media type sniffing algorithm</span> to determine whether to check
- for video labeled with the wrong <span>video type</span>.
-
- If the setting of the <span>sniff-video flag</span> is not specified when
- calling the <span>media type sniffing algorithm</span>, the <span>sniff-video
- flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-fonts flag</dfn> is a <span>configurable flag</span> used by
- the <span>media type sniffing algorithm</span> to determine whether to check
- for fonts labeled with the wrong <span>font type</span>.
-
- If the setting of the <span>sniff-fonts flag</span> is not specified when
- calling the <span>media type sniffing algorithm</span>, the <span>sniff-fonts
- flag</span> must default to unset.
-
-<p>
- The <dfn>sniff-archives flag</dfn> is a <span>configurable flag</span> used
- by the <span>media type sniffing algorithm</span> to determine whether to
- check for archives labeled with the wrong <span>archive type</span>.
-
- If the setting of the <span>sniff-archives flag</span> is not specified when
- calling the <span>media type sniffing algorithm</span>, the
- <span>sniff-archives flag</span> must default to unset.
-
-<p>
  To determine the <span>sniffed media type</span> of a resource, user agents
  must use the following <dfn>media type sniffing algorithm</dfn>:
 
@@ -1384,27 +1306,25 @@
 
   <li>
    If the <span>supplied media type</span> is undefined or if the
-   <span>sniff-unknown flag</span> is set and the <span>supplied media
-   type</span> is not undefined and the <span>media type portion</span> of the
-   <span>supplied media type</span> is equal to
+   <span>supplied media type</span> is not undefined and the <span>media type
+   portion</span> of the <span>supplied media type</span> is equal to
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
    execute the <span>rules for identifying an unknown media type</span> with
    the <span>sniff-scriptable flag</span> set and abort these steps.
 
   <li>
-   If the <span>sniff-feed-or-html flag</span> is set and the <span>supplied
-   media type</span> is not undefined and the <span>media type portion</span>
-   of the <span>supplied media type</span> is equal to
-   "<code title>text/html</code>", execute the <span>rules for distinguishing
-   if a resource is a feed or HTML</span> and abort these steps.
+   If the <span>supplied media type</span> is not undefined and the
+   <span>media type portion</span> of the <span>supplied media type</span> is
+   equal to "<code title>text/html</code>", execute the <span>rules for
+   distinguishing if a resource is a feed or HTML</span> and abort these
+   steps.
 
   <li>
-   If the <span>sniff-text-or-binary flag</span> is set and the
-   <span>has-content-type flag</span> is set and the <span>supplied media
-   type</span> is <strong>exactly</strong> equal to one of the values in the
-   following table, execute the <span>rules for distinguishing if a resource
-   is text or binary</span> and abort these steps:
+   If the <span>has-content-type flag</span> is set and the <span>supplied
+   media type</span> is <strong>exactly</strong> equal to one of the values in
+   the following table, execute the <span>rules for distinguishing if a
+   resource is text or binary</span> and abort these steps:
 
    <table>
     <thead>
@@ -1464,12 +1384,11 @@
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <span>sniff-images flag</span> is set and the <span>supplied media
-   type</span> is an <span>image type</span> <span>supported by the user
-   agent</span>, the <span>sniffed media type</span> is the result of
-   executing the <span>image type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
+   If the <span>supplied media type</span> is an <span>image type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>image type pattern
+   matching algorithm</span> with the <span>resource header</span> as the
+   <span>byte sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -1477,12 +1396,11 @@
   <li>
    <!-- XXX: Why are we checking to see if the audio type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <span>sniff-audio flag</span> is set and the <span>supplied media
-   type</span> is an <span>audio type</span> <span>supported by the user
-   agent</span>, the <span>sniffed media type</span> is the result of
-   executing the <span>audio type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
+   If the <span>supplied media type</span> is an <span>audio type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>audio type pattern
+   matching algorithm</span> with the <span>resource header</span> as the
+   <span>byte sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -1490,12 +1408,11 @@
   <li>
    <!-- XXX: Why are we checking to see if the video type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <span>sniff-video flag</span> is set and the <span>supplied media
-   type</span> is a <span>video type</span> <span>supported by the user
-   agent</span>, the <span>sniffed media type</span> is the result of
-   executing the <span>video type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
+   If the <span>supplied media type</span> is a <span>video type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>video type pattern
+   matching algorithm</span> with the <span>resource header</span> as the
+   <span>byte sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -1503,12 +1420,11 @@
   <li>
    <!-- XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <span>sniff-fonts flag</span> is set and the <span>supplied media
-   type</span> is a <span>font type</span> <span>supported by the user
-   agent</span>, the <span>sniffed media type</span> is the result of
-   executing the <span>font type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
+   If the <span>supplied media type</span> is a <span>font type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>font type pattern matching
+   algorithm</span> with the <span>resource header</span> as the <span>byte
+   sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -1516,12 +1432,11 @@
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by
              the user agent if we're just going to sniff it again anyway? -->
-   If the <span>sniff-archives flag</span> is set and the <span>supplied media
-   type</span> is an <span>archive type</span> <span>supported by the user
-   agent</span>, the <span>sniffed media type</span> is the result of
-   executing the <span>archive type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
+   If the <span>supplied media type</span> is an <span>archive type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>archive type pattern
+   matching algorithm</span> with the <span>resource header</span> as the
+   <span>byte sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
