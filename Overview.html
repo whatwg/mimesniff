@@ -90,26 +90,27 @@
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#determining-the-supplied-media-type"><span class="secno">4 </span>Determining the supplied media type</a></li>
- <li><a href="#reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</a></li>
- <li><a href="#matching-a-media-type-pattern"><span class="secno">6 </span>Matching a media type pattern</a>
+ <li><a href="#handling-a-resource"><span class="secno">4 </span>Handling a resource</a></li>
+ <li><a href="#determining-the-supplied-media-type-of-a-resource"><span class="secno">5 </span>Determining the supplied media type of a resource</a></li>
+ <li><a href="#reading-the-resource-header"><span class="secno">6 </span>Reading the resource header</a></li>
+ <li><a href="#matching-a-media-type-pattern"><span class="secno">7 </span>Matching a media type pattern</a>
   <ol>
-   <li><a href="#matching-an-image-type-pattern"><span class="secno">6.1 </span>Matching an image type pattern</a></li>
-   <li><a href="#matching-an-audio-type-pattern"><span class="secno">6.2 </span>Matching an audio type pattern</a></li>
-   <li><a href="#matching-a-video-type-pattern"><span class="secno">6.3 </span>Matching a video type pattern</a>
+   <li><a href="#matching-an-image-type-pattern"><span class="secno">7.1 </span>Matching an image type pattern</a></li>
+   <li><a href="#matching-an-audio-type-pattern"><span class="secno">7.2 </span>Matching an audio type pattern</a></li>
+   <li><a href="#matching-a-video-type-pattern"><span class="secno">7.3 </span>Matching a video type pattern</a>
     <ol>
-     <li><a href="#signature-for-mp4"><span class="secno">6.3.1 </span>Signature for MP4</a></ol></li>
-   <li><a href="#matching-a-font-type-pattern"><span class="secno">6.4 </span>Matching a font type pattern</a></li>
-   <li><a href="#matching-an-archive-type-pattern"><span class="secno">6.5 </span>Matching an archive type pattern</a></ol></li>
- <li><a href="#determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</a>
+     <li><a href="#signature-for-mp4"><span class="secno">7.3.1 </span>Signature for MP4</a></ol></li>
+   <li><a href="#matching-a-font-type-pattern"><span class="secno">7.4 </span>Matching a font type pattern</a></li>
+   <li><a href="#matching-an-archive-type-pattern"><span class="secno">7.5 </span>Matching an archive type pattern</a></ol></li>
+ <li><a href="#determining-the-sniffed-media-type-of-a-resource"><span class="secno">8 </span>Determining the sniffed media type of a resource</a>
   <ol>
-   <li><a href="#identifying-an-unknown-media-type"><span class="secno">7.1 </span>Identifying an unknown media type</a></li>
-   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">7.2 </span>Sniffing a mislabeled feed</a></li>
-   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">7.3 </span>Sniffing a mislabeled binary resource</a></li>
-   <li><a href="#sniffing-images-specifically"><span class="secno">7.4 </span>Sniffing images specifically</a></li>
-   <li><a href="#sniffing-audio-specifically"><span class="secno">7.5 </span>Sniffing audio specifically</a></li>
-   <li><a href="#sniffing-video-specifically"><span class="secno">7.6 </span>Sniffing video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">7.7 </span>Sniffing fonts specifically</a></ol></li>
+   <li><a href="#identifying-a-resource-with-an-unknown-media-type"><span class="secno">8.1 </span>Identifying a resource with an unknown media type</a></li>
+   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">8.2 </span>Sniffing a mislabeled feed</a></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">8.3 </span>Sniffing a mislabeled binary resource</a></li>
+   <li><a href="#sniffing-images-specifically"><span class="secno">8.4 </span>Sniffing images specifically</a></li>
+   <li><a href="#sniffing-audio-specifically"><span class="secno">8.5 </span>Sniffing audio specifically</a></li>
+   <li><a href="#sniffing-video-specifically"><span class="secno">8.6 </span>Sniffing video specifically</a></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">8.7 </span>Sniffing fonts specifically</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -237,7 +238,7 @@
 
 <p>
  A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the
- beginning of a <span>resource</span>, as determined by
+ beginning of a <a href="#resource">resource</a>, as determined by
  <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
 
 <p>
@@ -269,7 +270,7 @@
 
 <p>
  A <a href="#valid-media-type">valid media type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn> if
- the user agent has the capability to interpret a <span>resource</span> of
+ the user agent has the capability to interpret a <a href="#resource">resource</a> of
  that <a href="#media-type">media type</a> and present it to the user.
 
 <p>
@@ -355,16 +356,6 @@
  <a class="informative" href="#refsRFC3023">[RFC3023]</a>
 
 <p>
- The <dfn id="supplied-media-type">supplied media type</dfn> of a resource is the <a href="#valid-media-type">valid media
- type</a> of the resource as determined by the <a href="#supplied-media-type-detection-algorithm">supplied media type
- detection algorithm</a>.
-
-<p>
- The <dfn id="sniffed-media-type">sniffed media type</dfn> of a resource is the <a href="#valid-media-type">valid media
- type</a> of the resource as determined by the <a href="#media-type-sniffing-algorithm">media type sniffing
- algorithm</a>.
-
-<p>
  A <dfn id="scriptable-media-type">scriptable media type</dfn> is an <a href="#xml-type">XML type</a> or any of the
  following <a href="#valid-media-type" title="valid media type">valid media types</a>:
 
@@ -393,7 +384,34 @@
 
 
 
-<h2 id="determining-the-supplied-media-type"><span class="secno">4 </span>Determining the supplied media type</h2>
+<h2 id="handling-a-resource"><span class="secno">4 </span>Handling a resource</h2>
+
+<p class="XXX">
+ A <dfn id="resource">resource</dfn> is ….
+
+<p>
+ Every <a href="#resource">resource</a> has the following metadata associated with it:
+
+ <ul>
+  <li>
+   A <dfn id="supplied-media-type">supplied media type</dfn>, the <a href="#valid-media-type">valid media type</a>
+   determined by the <a href="#supplied-media-type-detection-algorithm">supplied media type detection algorithm</a>.
+
+  <li>
+   A <dfn id="sniffed-media-type">sniffed media type</dfn>, the <a href="#valid-media-type">valid media type</a>
+   determined by the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
+
+  <li>
+   A <dfn id="has-content-type-flag">has-content-type flag</dfn>, which defaults to unset.
+
+  <li>
+   A <dfn id="no-sniff-flag">no-sniff flag</dfn>, which defaults to set if the user agent does
+   not wish to perform sniffing and unset otherwise.
+ </ul>
+
+
+
+<h2 id="determining-the-supplied-media-type-of-a-resource"><span class="secno">5 </span>Determining the supplied media type of a resource</h2>
 
 <p>
  The <a href="#supplied-media-type">supplied media type</a> of a resource is provided to the user
@@ -401,12 +419,6 @@
 
  The method of obtaining this information varies depending upon how the
  resource is retrieved.
-
-<p>
- The <a href="#supplied-media-type-detection-algorithm">supplied media type detection algorithm</a> makes use of the
- <dfn id="has-content-type-flag">has-content-type flag</dfn>, which must be unset by default and must
- only be set from within the <a href="#supplied-media-type-detection-algorithm">supplied media type detection
- algorithm</a>.
 
 <p>
  To determine the <a href="#supplied-media-type">supplied media type</a> of a resource, user agents
@@ -454,7 +466,7 @@
 
 
 
-<h2 id="reading-the-resource-header"><span class="secno">5 </span>Reading the resource header</h2>
+<h2 id="reading-the-resource-header"><span class="secno">6 </span>Reading the resource header</h2>
 
 <p>
  To <dfn id="read-the-resource-header">read the resource header</dfn>, perform the following steps:
@@ -464,12 +476,12 @@
    Let <var>buffer</var> be a <a href="#byte-sequence">byte sequence</a>.
 
   <li>
-   Read <a href="#byte" title="byte">bytes</a> of the <span>resource</span> into
+   Read <a href="#byte" title="byte">bytes</a> of the <a href="#resource">resource</a> into
    <var>buffer</var> until one of the following conditions is met:
 
    <ul>
     <li>
-     the end of the <span>resource</span> is reached.
+     the end of the <a href="#resource">resource</a> is reached.
 
     <li>
      the number of <a href="#byte" title="byte">bytes</a> in <var>buffer</var> is
@@ -495,11 +507,11 @@
 
  <p class="note">
   The <a href="#resource-header">resource header</a> need only be determined once per
-  <span>resource</span>.
+  <a href="#resource">resource</a>.
 
 
 
-<h2 id="matching-a-media-type-pattern"><span class="secno">6 </span>Matching a media type pattern</h2>
+<h2 id="matching-a-media-type-pattern"><span class="secno">7 </span>Matching a media type pattern</h2>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
@@ -567,7 +579,7 @@
 
 
 
-<h3 id="matching-an-image-type-pattern"><span class="secno">6.1 </span>Matching an image type pattern</h3>
+<h3 id="matching-an-image-type-pattern"><span class="secno">7.1 </span>Matching an image type pattern</h3>
 
 <p>
  To determine which <a href="#image-type">image type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -766,7 +778,7 @@
 
 
 
-<h3 id="matching-an-audio-type-pattern"><span class="secno">6.2 </span>Matching an audio type pattern</h3>
+<h3 id="matching-an-audio-type-pattern"><span class="secno">7.2 </span>Matching an audio type pattern</h3>
 
 <p>
  To determine which <a href="#audio-type">audio type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -876,7 +888,7 @@
 
 
 
-<h3 id="matching-a-video-type-pattern"><span class="secno">6.3 </span>Matching a video type pattern</h3>
+<h3 id="matching-a-video-type-pattern"><span class="secno">7.3 </span>Matching a video type pattern</h3>
 
 <p>
  To determine which <a href="#video-type">video type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -988,7 +1000,7 @@
 
 
 
-<h4 id="signature-for-mp4"><span class="secno">6.3.1 </span>Signature for MP4</h4>
+<h4 id="signature-for-mp4"><span class="secno">7.3.1 </span>Signature for MP4</h4>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
@@ -1055,7 +1067,7 @@
 
 
 
-<h3 id="matching-a-font-type-pattern"><span class="secno">6.4 </span>Matching a font type pattern</h3>
+<h3 id="matching-a-font-type-pattern"><span class="secno">7.4 </span>Matching a font type pattern</h3>
 
 <p>
  To determine which <a href="#font-type">font type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1195,7 +1207,7 @@
 
 
 
-<h3 id="matching-an-archive-type-pattern"><span class="secno">6.5 </span>Matching an archive type pattern</h3>
+<h3 id="matching-an-archive-type-pattern"><span class="secno">7.5 </span>Matching an archive type pattern</h3>
 
 <p>
  To determine which <a href="#archive-type">archive type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1319,7 +1331,7 @@
 
 
 
-<h2 id="determining-the-sniffed-media-type"><span class="secno">7 </span>Determining the sniffed media type</h2>
+<h2 id="determining-the-sniffed-media-type-of-a-resource"><span class="secno">8 </span>Determining the sniffed media type of a resource</h2>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a resource, user agents
@@ -1340,6 +1352,12 @@
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
    execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> with
    the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
+
+  <li>
+   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-media-type">sniffed media
+   type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+
+   Abort these steps.
 
   <li>
    If the <a href="#supplied-media-type">supplied media type</a> is not undefined and the
@@ -1476,7 +1494,7 @@
 
 
 
-<h3 id="identifying-an-unknown-media-type"><span class="secno">7.1 </span>Identifying an unknown media type</h3>
+<h3 id="identifying-a-resource-with-an-unknown-media-type"><span class="secno">8.1 </span>Identifying a resource with an unknown media type</h3>
 
 <p>
  The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-media-type">rules for
@@ -1488,7 +1506,7 @@
  the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> must default to unset.
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
  with an unknown <a href="#media-type">media type</a>, execute the following <dfn id="rules-for-identifying-an-unknown-media-type">rules for
  identifying an unknown media type</dfn>:
 
@@ -2086,7 +2104,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-feed"><span class="secno">7.2 </span>Sniffing a mislabeled feed</h3>
+<h3 id="sniffing-a-mislabeled-feed"><span class="secno">8.2 </span>Sniffing a mislabeled feed</h3>
 
 <p>
  To determine whether a feed has been mislabeled as HTML, execute the
@@ -2356,10 +2374,10 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">7.3 </span>Sniffing a mislabeled binary resource</h3>
+<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">8.3 </span>Sniffing a mislabeled binary resource</h3>
 
 <p>
- To determine whether a binary <span>resource</span> has been mislabeled as
+ To determine whether a binary <a href="#resource">resource</a> has been mislabeled as
  plain text, execute the following <dfn id="rules-for-text-or-binary">rules for
  distinguishing if a resource is text or binary</dfn>:
 
@@ -2403,10 +2421,10 @@
 
 
 
-<h3 id="sniffing-images-specifically"><span class="secno">7.4 </span>Sniffing images specifically</h3>
+<h3 id="sniffing-images-specifically"><span class="secno">8.4 </span>Sniffing images specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
  with an <a href="#image-type">image type</a>, execute the following <dfn id="rules-for-sniffing-images-specifically">rules for
  sniffing images specifically</dfn>:
 
@@ -2435,10 +2453,10 @@
 
 
 
-<h3 id="sniffing-audio-specifically"><span class="secno">7.5 </span>Sniffing audio specifically</h3>
+<h3 id="sniffing-audio-specifically"><span class="secno">8.5 </span>Sniffing audio specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
  with an <a href="#audio-type">audio type</a>, execute the following <dfn id="rules-for-sniffing-audio-specifically">rules for
  sniffing audio specifically</dfn>:
 
@@ -2467,10 +2485,10 @@
 
 
 
-<h3 id="sniffing-video-specifically"><span class="secno">7.6 </span>Sniffing video specifically</h3>
+<h3 id="sniffing-video-specifically"><span class="secno">8.6 </span>Sniffing video specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
  with a <a href="#video-type">video type</a>, execute the following <dfn id="rules-for-sniffing-video-specifically">rules for sniffing
  video specifically</dfn>:
 
@@ -2499,10 +2517,10 @@
 
 
 
-<h3 id="sniffing-fonts-specifically"><span class="secno">7.7 </span>Sniffing fonts specifically</h3>
+<h3 id="sniffing-fonts-specifically"><span class="secno">8.7 </span>Sniffing fonts specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <span>resource</span>
+ To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
  with a <a href="#font-type">font type</a>, execute the following <dfn id="rules-for-sniffing-fonts-specifically">rules for sniffing
  fonts specifically</dfn>:
 

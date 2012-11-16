@@ -327,16 +327,6 @@
  <span data-anolis-ref class=informative>RFC3023</span>
 
 <p>
- The <dfn>supplied media type</dfn> of a resource is the <span>valid media
- type</span> of the resource as determined by the <span>supplied media type
- detection algorithm</span>.
-
-<p>
- The <dfn>sniffed media type</dfn> of a resource is the <span>valid media
- type</span> of the resource as determined by the <span>media type sniffing
- algorithm</span>.
-
-<p>
  A <dfn>scriptable media type</dfn> is an <span>XML type</span> or any of the
  following <span title="valid media type">valid media types</span>:
 
@@ -365,7 +355,34 @@
 
 
 
-<h2>Determining the supplied media type</h2>
+<h2>Handling a resource</h2>
+
+<p class=XXX>
+ A <dfn>resource</dfn> is &hellip;.
+
+<p>
+ Every <span>resource</span> has the following metadata associated with it:
+
+ <ul>
+  <li>
+   A <dfn>supplied media type</dfn>, the <span>valid media type</span>
+   determined by the <span>supplied media type detection algorithm</span>.
+
+  <li>
+   A <dfn>sniffed media type</dfn>, the <span>valid media type</span>
+   determined by the <span>media type sniffing algorithm</span>.
+
+  <li>
+   A <dfn>has-content-type flag</dfn>, which defaults to unset.
+
+  <li>
+   A <dfn>no-sniff flag</dfn>, which defaults to set if the user agent does
+   not wish to perform sniffing and unset otherwise.
+ </ul>
+
+
+
+<h2>Determining the supplied media type of a resource</h2>
 
 <p>
  The <span>supplied media type</span> of a resource is provided to the user
@@ -373,12 +390,6 @@
 
  The method of obtaining this information varies depending upon how the
  resource is retrieved.
-
-<p>
- The <span>supplied media type detection algorithm</span> makes use of the
- <dfn>has-content-type flag</dfn>, which must be unset by default and must
- only be set from within the <span>supplied media type detection
- algorithm</span>.
 
 <p>
  To determine the <span>supplied media type</span> of a resource, user agents
@@ -1291,7 +1302,7 @@
 
 
 
-<h2>Determining the sniffed media type</h2>
+<h2>Determining the sniffed media type of a resource</h2>
 
 <p>
  To determine the <span>sniffed media type</span> of a resource, user agents
@@ -1312,6 +1323,12 @@
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
    execute the <span>rules for identifying an unknown media type</span> with
    the <span>sniff-scriptable flag</span> set and abort these steps.
+
+  <li>
+   If the <span>no-sniff flag</span> is set, the <span>sniffed media
+   type</span> is the <span>supplied media type</span>.
+
+   Abort these steps.
 
   <li>
    If the <span>supplied media type</span> is not undefined and the
@@ -1448,7 +1465,7 @@
 
 
 
-<h3>Identifying an unknown media type</h3>
+<h3>Identifying a resource with an unknown media type</h3>
 
 <p>
  The <dfn>sniff-scriptable flag</dfn> is used by the <span>rules for
