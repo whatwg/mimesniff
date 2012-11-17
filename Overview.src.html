@@ -527,6 +527,21 @@
 
    <ol>
     <li>
+     If <var>sequence</var>[<var>s</var>] is undefined, return false.
+
+    <li>
+     If <var>sequence</var>[<var>s</var>] is not one of the leading
+     <span title=byte>bytes</span> to be ignored, exit loop <var>L</var>.
+
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   Begin loop <var>L</var>:
+
+   <ol>
+    <li>
      If <var>pattern</var>[<var>p</var>] is undefined, exit loop <var>L</var>.
 
     <li>
@@ -538,12 +553,8 @@
      If <var>masked-data</var> is not equal to
      <var>pattern</var>[<var>p</var>], return false.
 
-    <li class=XXX>
-     If <var>sequence</var>[<var>s</var>] is not a <span>byte to be
-     ignored</span>, increment <var>p</var> and <var>m</var> by 1.
-
     <li>
-     Increment <var>s</var> by 1.
+     Increment <var>s</var>, <var>p</var>, and <var>m</var> by 1.
    </ol>
 
   <li>

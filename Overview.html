@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-16-november-2012">Living Standard — Last Updated 16 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-17-november-2012">Living Standard — Last Updated 17 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 16 November 2012, the editor has made this
+  In addition, as of 17 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -556,6 +556,21 @@
 
    <ol>
     <li>
+     If <var>sequence</var>[<var>s</var>] is undefined, return false.
+
+    <li>
+     If <var>sequence</var>[<var>s</var>] is not one of the leading
+     <a href="#byte" title="byte">bytes</a> to be ignored, exit loop <var>L</var>.
+
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   Begin loop <var>L</var>:
+
+   <ol>
+    <li>
      If <var>pattern</var>[<var>p</var>] is undefined, exit loop <var>L</var>.
 
     <li>
@@ -567,12 +582,8 @@
      If <var>masked-data</var> is not equal to
      <var>pattern</var>[<var>p</var>], return false.
 
-    <li class="XXX">
-     If <var>sequence</var>[<var>s</var>] is not a <span>byte to be
-     ignored</span>, increment <var>p</var> and <var>m</var> by 1.
-
     <li>
-     Increment <var>s</var> by 1.
+     Increment <var>s</var>, <var>p</var>, and <var>m</var> by 1.
    </ol>
 
   <li>
