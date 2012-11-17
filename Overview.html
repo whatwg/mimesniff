@@ -406,7 +406,16 @@
 
   <li>
    A <dfn id="no-sniff-flag">no-sniff flag</dfn>, which defaults to set if the user agent does
-   not wish to perform sniffing and unset otherwise.
+   not wish to perform sniffing on the <a href="#resource">resource</a> and unset
+   otherwise.
+
+   <p class="note">
+    The user agent can choose to use outside information, such as previous
+    experience with a site, to determine whether to opt out of sniffing for a
+    particular <a href="#resource">resource</a>. The user agent can also choose to opt
+    out of sniffing for all <a href="#resource" title="resource">resources</a>. However,
+    opting out of sniffing does not exempt the user agent from using the
+    <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
  </ul>
 
 
@@ -2381,9 +2390,9 @@
  </ol>
 
 <p class="note">
- It might be more efficient for a User Agent to implement the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for
- distinguishing if a resource is a feed or HTML</a> in parallel with its
- algorithm for detecting the character encoding of an HTML document.
+ It might be more efficient for the user agent to implement the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules
+ for distinguishing if a resource is a feed or HTML</a> in parallel with
+ its algorithm for detecting the character encoding of an HTML document.
 
 
 
