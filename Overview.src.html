@@ -299,6 +299,9 @@
 
   <li>
    <code title>application/font-woff</code>
+
+  <li>
+   <code title>vnd.ms-fontobject</code>
  </ul>
 
 <p>
@@ -1189,6 +1192,27 @@
       <td>
        The string "<code title>wOFF</code>", the Web Open Font Format
        signature.
+      </td>
+     </tr>
+     <!-- http://www.w3.org/Submission/EOT/ -->
+     <tr>
+      <td>
+       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       00 00 00 00 00 00 00 00 00 00 4C 50
+      </td>
+      <td>
+       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       00 00 00 00 00 00 00 00 00 00 FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>application/vnd.ms-fontobject</code>
+      </td>
+      <td>
+       34 <span title=byte>bytes</span> followed by the string
+       "<code title>LP</code>", the Embedded OpenType signature.
       </td>
      </tr>
     </tbody>

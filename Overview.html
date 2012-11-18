@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-17-november-2012">Living Standard — Last Updated 17 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-18-november-2012">Living Standard — Last Updated 18 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 17 November 2012, the editor has made this
+  In addition, as of 18 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -328,6 +328,9 @@
 
   <li>
    <code title="">application/font-woff</code>
+
+  <li>
+   <code title="">vnd.ms-fontobject</code>
  </ul>
 
 <p>
@@ -1218,6 +1221,27 @@
       <td>
        The string "<code title="">wOFF</code>", the Web Open Font Format
        signature.
+      </td>
+     </tr>
+     <!-- http://www.w3.org/Submission/EOT/ -->
+     <tr>
+      <td>
+       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       00 00 00 00 00 00 00 00 00 00 4C 50
+      </td>
+      <td>
+       00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+       00 00 00 00 00 00 00 00 00 00 FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/vnd.ms-fontobject</code>
+      </td>
+      <td>
+       34 <a href="#byte" title="byte">bytes</a> followed by the string
+       "<code title="">LP</code>", the Embedded OpenType signature.
       </td>
      </tr>
     </tbody>
