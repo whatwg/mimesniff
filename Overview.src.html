@@ -305,6 +305,16 @@
  </ul>
 
 <p>
+ A <dfn>ZIP-based type</dfn> is any <span>valid media type</span> where the
+ <span data-anolis-spec=http>subtype</span> ends in "<code title>+zip</code>"
+ or the <span>media type portion</span> is equal to one of the following:
+
+ <ul class=XXX>
+  <li>
+   <code title>application/zip</code>
+ </ul>
+
+<p>
  An <dfn>archive type</dfn> is any <span>valid media type</span> where
  <!--<span data-anolis-spec=http>type</span> is equal to
  "<code title>archive</code>" or--> the <span>media type portion</span> is equal
@@ -322,7 +332,7 @@
  </ul>
 
 <p>
- An <dfn>XML type</dfn> is any <span>valid media type</span> where
+ An <dfn>XML type</dfn> is any <span>valid media type</span> where the
  <span data-anolis-spec=http>subtype</span> ends in "<code title>+xml</code>"
  or the <span>media type portion</span> is equal to
  "<code title>text/xml</code>" or "<code title>application/xml</code>".
@@ -330,8 +340,9 @@
  <span data-anolis-ref class=informative>RFC3023</span>
 
 <p>
- A <dfn>scriptable media type</dfn> is an <span>XML type</span> or any of the
- following <span title="valid media type">valid media types</span>:
+ A <dfn>scriptable media type</dfn> is an <span>XML type</span> or any
+ <span>valid media type</span> where the <span>media type portion</span> is
+ equal to one of the following:
 
  <ul>
   <li>

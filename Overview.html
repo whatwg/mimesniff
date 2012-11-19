@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-18-november-2012">Living Standard — Last Updated 18 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-19-november-2012">Living Standard — Last Updated 19 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 18 November 2012, the editor has made this
+  In addition, as of 19 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -334,6 +334,16 @@
  </ul>
 
 <p>
+ A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#valid-media-type">valid media type</a> where the
+ <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+zip</code>"
+ or the <a href="#media-type-portion">media type portion</a> is equal to one of the following:
+
+ <ul class="XXX">
+  <li>
+   <code title="">application/zip</code>
+ </ul>
+
+<p>
  An <dfn id="archive-type">archive type</dfn> is any <a href="#valid-media-type">valid media type</a> where
  <!--<span data-anolis-spec=http>type</span> is equal to
  "<code title>archive</code>" or--> the <a href="#media-type-portion">media type portion</a> is equal
@@ -351,7 +361,7 @@
  </ul>
 
 <p>
- An <dfn id="xml-type">XML type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ An <dfn id="xml-type">XML type</dfn> is any <a href="#valid-media-type">valid media type</a> where the
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+xml</code>"
  or the <a href="#media-type-portion">media type portion</a> is equal to
  "<code title="">text/xml</code>" or "<code title="">application/xml</code>".
@@ -359,8 +369,9 @@
  <a class="informative" href="#refsRFC3023">[RFC3023]</a>
 
 <p>
- A <dfn id="scriptable-media-type">scriptable media type</dfn> is an <a href="#xml-type">XML type</a> or any of the
- following <a href="#valid-media-type" title="valid media type">valid media types</a>:
+ A <dfn id="scriptable-media-type">scriptable media type</dfn> is an <a href="#xml-type">XML type</a> or any
+ <a href="#valid-media-type">valid media type</a> where the <a href="#media-type-portion">media type portion</a> is
+ equal to one of the following:
 
  <ul>
   <li>
