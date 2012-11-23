@@ -1133,8 +1133,9 @@
       </th>
      </tr>
     </thead>
-    <tbody class=XXX>
-     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+    <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+    <tbody>
+     <!-- http://www.microsoft.com/typography/otspec/otff.htm -->
      <tr>
       <td>
        74 74 63 66
@@ -1153,6 +1154,7 @@
        signature.
       </td>
      </tr>
+     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
      <tr>
       <td>
        4F 54 54 4F
@@ -1170,6 +1172,7 @@
        The string "<code title>OTTO</code>", the OpenType signature.
       </td>
      </tr>
+     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
      <tr>
       <td>
        00 01 00 00
@@ -1184,7 +1187,8 @@
        (TrueType)
       </td>
       <td>
-       The TrueType signature.
+       4 <span title=byte>bytes</span> representing the version number 1.0, a
+       TrueType signature.
       </td>
      </tr>
      <tr>
@@ -1491,9 +1495,10 @@
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
 
+  <!-- Major browsers do not implement font sniffing in the regular browsing context.
   <li>
-   <!-- XXX: Why are we checking to see if the font type is supported by the
-             user agent if we're just going to sniff it again anyway? -->
+   <! - - XXX: Why are we checking to see if the font type is supported by the
+             user agent if we're just going to sniff it again anyway? - - >
    If the <span>supplied media type</span> is a <span>font type</span>
    <span>supported by the user agent</span>, the <span>sniffed media
    type</span> is the result of executing the <span>font type pattern matching
@@ -1502,6 +1507,7 @@
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
+  -->
 
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by

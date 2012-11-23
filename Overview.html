@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-19-november-2012">Living Standard — Last Updated 19 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-23-november-2012">Living Standard — Last Updated 23 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 19 November 2012, the editor has made this
+  In addition, as of 23 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -1162,8 +1162,9 @@
       </th>
      </tr>
     </thead>
-    <tbody class="XXX">
-     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+    <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+    <tbody>
+     <!-- http://www.microsoft.com/typography/otspec/otff.htm -->
      <tr>
       <td>
        74 74 63 66
@@ -1182,6 +1183,7 @@
        signature.
       </td>
      </tr>
+     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
      <tr>
       <td>
        4F 54 54 4F
@@ -1199,6 +1201,7 @@
        The string "<code title="">OTTO</code>", the OpenType signature.
       </td>
      </tr>
+     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
      <tr>
       <td>
        00 01 00 00
@@ -1213,7 +1216,8 @@
        (TrueType)
       </td>
       <td>
-       The TrueType signature.
+       4 <a href="#byte" title="byte">bytes</a> representing the version number 1.0, a
+       TrueType signature.
       </td>
      </tr>
      <tr>
@@ -1520,17 +1524,19 @@
   <li>
    If the <a href="#sniffed-media-type">sniffed media type</a> is not undefined, abort these steps.
 
+  <!-- Major browsers do not implement font sniffing in the regular browsing context.
   <li>
-   <!-- XXX: Why are we checking to see if the font type is supported by the
-             user agent if we're just going to sniff it again anyway? -->
-   If the <a href="#supplied-media-type">supplied media type</a> is a <a href="#font-type">font type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, the <a href="#sniffed-media-type">sniffed media
-   type</a> is the result of executing the <a href="#font-type-pattern-matching-algorithm">font type pattern matching
-   algorithm</a> with the <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte
-   sequence</a> to be matched.
+   <! - - XXX: Why are we checking to see if the font type is supported by the
+             user agent if we're just going to sniff it again anyway? - - >
+   If the <span>supplied media type</span> is a <span>font type</span>
+   <span>supported by the user agent</span>, the <span>sniffed media
+   type</span> is the result of executing the <span>font type pattern matching
+   algorithm</span> with the <span>resource header</span> as the <span>byte
+   sequence</span> to be matched.
 
   <li>
-   If the <a href="#sniffed-media-type">sniffed media type</a> is not undefined, abort these steps.
+   If the <span>sniffed media type</span> is not undefined, abort these steps.
+  -->
 
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by
