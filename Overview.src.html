@@ -255,21 +255,10 @@
  </ul>-->.
 
 <p>
- An <dfn>audio type</dfn> is any <span>valid media type</span> where
+ An <dfn>audio or video type</dfn> is any <span>valid media type</span> where
  <span data-anolis-spec=http>type</span> is equal to
- "<code title>audio</code>" or the <span>media type portion</span> is equal to
- one of the following:
-
- <ul>
-  <li>
-   <code title>application/ogg</code>
- </ul>
-
-<p>
- A <dfn>video type</dfn> is any <span>valid media type</span> where
- <span data-anolis-spec=http>type</span> is equal to
- "<code title>video</code>" or the <span>media type portion</span> is equal to
- one of the following:
+ "<code title>audio</code>" or "<code title>video</code>" or where the
+ <span>media type portion</span> is equal to one of the following:
 
  <ul>
   <li>
@@ -785,12 +774,12 @@
 
 
 
-<h3>Matching an audio type pattern</h3>
+<h3>Matching an audio or video type pattern</h3>
 
 <p>
- To determine which <span>audio type</span> <span>byte pattern</span> a
- <span>byte sequence</span> matches, if any, use the following <dfn>audio type
- pattern matching algorithm</dfn>:
+ To determine which <span>audio or video type</span> <span>byte pattern</span>
+ a <span>byte sequence</span> matches, if any, use the following <dfn>audio or
+ video type pattern matching algorithm</dfn>:
 
  <ol>
   <li>
@@ -837,7 +826,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Audio Type</span>
+       <span>Audio or Video Type</span>
       </th>
       <th>
        Note
@@ -859,8 +848,8 @@
        <code title>application/ogg</code>
       </td>
       <td>
-       The string "<code title>OggS</code>" followed by NUL, the Ogg audio or
-       video signature.
+       The string "<code title>OggS</code>" followed by NUL, the Ogg container
+       signature.
       </td>
      </tr>
      <!-- http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html -->
@@ -901,96 +890,6 @@
        The string "<code title>ID3</code>", the ID3v2-tagged MP3 signature.
       </td>
      </tr>
-    </tbody>
-   </table>
-
-   <p class=XXX>
-    MP3 audio without ID3 tags.
-
-  <li>
-   Return undefined.
- </ol>
-
-
-
-<h3>Matching a video type pattern</h3>
-
-<p>
- To determine which <span>video type</span> <span>byte pattern</span> a
- <span>byte sequence</span> matches, if any, use the following <dfn>video type
- pattern matching algorithm</dfn>:
-
- <ol>
-  <li>
-   Execute the following steps for each row in the following table:
-
-   <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <span>pattern matching algorithm</span> with the following parameters:
-
-     <ul>
-      <li>
-       Let the <span>byte sequence</span> to be matched be the <span>byte
-       sequence</span> to be matched.
-
-      <li>
-       Let the <span>byte pattern</span> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <span>pattern mask</span> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <span title=byte>bytes</span> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, return the value in the fourth
-     column of the current row.
-   </ol>
-
-   <table>
-    <thead>
-     <tr>
-      <th>
-       <span>Byte Pattern</span>
-      </th>
-      <th>
-       <span>Pattern Mask</span>
-      </th>
-      <th>
-       Leading <span title=byte>Bytes</span> to Be Ignored
-      </th>
-      <th>
-       <span>Video Type</span>
-      </th>
-      <th>
-       Note
-      </th>
-     </tr>
-    </thead>
-    <tbody>
-     <tr>
-      <td>
-       4F 67 67 53 00
-      </td>
-      <td>
-       FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>application/ogg</code>
-      </td>
-      <td>
-       The string "<code title>OggS</code>" followed by NUL, the Ogg audio or
-       video signature.
-      </td>
-     </tr>
      <!-- http://ebml.sourceforge.net/specs/ -->
      <!-- http://www.matroska.org/technical/specs/index.html -->
      <!-- http://www.webmproject.org/code/specs/container/ -->
@@ -1014,6 +913,9 @@
      </tr>
     </tbody>
    </table>
+
+   <p class=XXX>
+    MP3 audio without ID3 tags.
 
   <li>
    If the <span>byte sequence</span> to be matched <span>matches the signature
@@ -1493,25 +1395,14 @@
    If the <span>sniffed media type</span> is not undefined, abort these steps.
 
   <li>
-   <!-- XXX: Why are we checking to see if the audio type is supported by the
-             user agent if we're just going to sniff it again anyway? -->
-   If the <span>supplied media type</span> is an <span>audio type</span>
-   <span>supported by the user agent</span>, the <span>sniffed media
-   type</span> is the result of executing the <span>audio type pattern
-   matching algorithm</span> with the <span>resource header</span> as the
-   <span>byte sequence</span> to be matched.
-
-  <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
-
-  <li>
-   <!-- XXX: Why are we checking to see if the video type is supported by the
-             user agent if we're just going to sniff it again anyway? -->
-   If the <span>supplied media type</span> is a <span>video type</span>
-   <span>supported by the user agent</span>, the <span>sniffed media
-   type</span> is the result of executing the <span>video type pattern
-   matching algorithm</span> with the <span>resource header</span> as the
-   <span>byte sequence</span> to be matched.
+   <!-- XXX: Why are we checking to see if the audio or video type is
+             supported by the user agent if we're just going to sniff it again
+             anyway? -->
+   If the <span>supplied media type</span> is an <span>audio or video
+   type</span> <span>supported by the user agent</span>, the <span>sniffed
+   media type</span> is the result of executing the <span>audio or video type
+   pattern matching algorithm</span> with the <span>resource header</span> as
+   the <span>byte sequence</span> to be matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -2114,16 +2005,9 @@
 
   <li>
    The <span>sniffed media type</span> is the result of executing the
-   <span>audio type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
-
-  <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the result of executing the
-   <span>video type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
+   <span>audio or video type pattern matching algorithm</span> with the
+   <span>resource header</span> as the <span>byte sequence</span> to be
+   matched.
 
   <li>
    If the <span>sniffed media type</span> is not undefined, abort these steps.
@@ -2510,12 +2394,12 @@
 
 
 
-<h3>Sniffing audio specifically</h3>
+<h3>Sniffing audio and video specifically</h3>
 
 <p>
  To determine the <span>sniffed media type</span> of a <span>resource</span>
- with an <span>audio type</span>, execute the following <dfn>rules for
- sniffing audio specifically</dfn>:
+ with an <span>audio or video type</span>, execute the following <dfn>rules
+ for sniffing audio and video specifically</dfn>:
 
  <ol>
   <li>
@@ -2525,45 +2409,14 @@
    Abort these steps.
 
   <li>
-   Let <var>audio-type-matched</var> be the result of executing the
-   <span>audio type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
+   Let <var>audio-or-video-type-matched</var> be the result of executing the
+   <span>audio or video type pattern matching algorithm</span> with the
+   <span>resource header</span> as the <span>byte sequence</span> to be
+   matched.
 
   <li>
-   If <var>audio-type-matched</var> is not undefined, the <span>sniffed media
-   type</span> is <var>audio-type-matched</var>.
-
-   Abort these steps.
-
-  <li>
-   The <span>sniffed media type</span> is the <span>supplied media
-   type</span>.
- </ol>
-
-
-
-<h3>Sniffing video specifically</h3>
-
-<p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with a <span>video type</span>, execute the following <dfn>rules for sniffing
- video specifically</dfn>:
-
- <ol>
-  <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
-
-   Abort these steps.
-
-  <li>
-   Let <var>video-type-matched</var> be the result of executing the
-   <span>video type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
-
-  <li>
-   If <var>video-type-matched</var> is not undefined, the <span>sniffed media
-   type</span> is <var>video-type-matched</var>.
+   If <var>audio-or-video-type-matched</var> is not undefined, the
+   <span>sniffed media type</span> is <var>audio-or-video-type-matched</var>.
 
    Abort these steps.
 
