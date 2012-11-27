@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-23-november-2012">Living Standard — Last Updated 23 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-27-november-2012">Living Standard — Last Updated 27 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 23 November 2012, the editor has made this
+  In addition, as of 27 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -1485,8 +1485,11 @@
    <p class="note">
     The <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> detects these exact
     <a href="#byte">byte</a> sequences because some older installations of Apache
-    contain a bug that causes them to supply one of these Content-Type headers
-    when serving files with unrecognized file extensions.
+    contain
+    <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
+    bug</a> that causes them to supply one of these Content-Type headers when
+    serving files with unrecognized <a href="#media-type" title="media type">media
+    types</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the

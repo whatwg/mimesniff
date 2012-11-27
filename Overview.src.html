@@ -1456,8 +1456,11 @@
    <p class=note>
     The <span>media type sniffing algorithm</span> detects these exact
     <span>byte</span> sequences because some older installations of Apache
-    contain a bug that causes them to supply one of these Content-Type headers
-    when serving files with unrecognized file extensions.
+    contain
+    <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
+    bug</a> that causes them to supply one of these Content-Type headers when
+    serving files with unrecognized <span title="media type">media
+    types</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
