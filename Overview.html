@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-27-november-2012">Living Standard — Last Updated 27 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-29-november-2012">Living Standard — Last Updated 29 November 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 27 November 2012, the editor has made this
+  In addition, as of 29 November 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -105,10 +105,12 @@
   <ol>
    <li><a href="#identifying-a-resource-with-an-unknown-media-type"><span class="secno">8.1 </span>Identifying a resource with an unknown media type</a></li>
    <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">8.2 </span>Sniffing a mislabeled feed</a></li>
-   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">8.3 </span>Sniffing a mislabeled binary resource</a></li>
-   <li><a href="#sniffing-images-specifically"><span class="secno">8.4 </span>Sniffing images specifically</a></li>
-   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">8.5 </span>Sniffing audio and video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">8.6 </span>Sniffing fonts specifically</a></ol></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">8.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
+ <li><a href="#context-specific-sniffing"><span class="secno">9 </span>Context-specific sniffing</a>
+  <ol>
+   <li><a href="#sniffing-images-specifically"><span class="secno">9.1 </span>Sniffing images specifically</a></li>
+   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">9.2 </span>Sniffing audio and video specifically</a></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">9.3 </span>Sniffing fonts specifically</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -2389,7 +2391,22 @@
 
 
 
-<h3 id="sniffing-images-specifically"><span class="secno">8.4 </span>Sniffing images specifically</h3>
+<h2 id="context-specific-sniffing"><span class="secno">9 </span>Context-specific sniffing</h2>
+
+<p class="XXX">
+ A <dfn id="context">context</dfn> is ….
+
+<p>
+ In certain <a href="#context" title="context">contexts</a>, it is only useful to identify <a href="#resource" title="resource">resources</a> that belong to a certain subset of <a href="#media-type" title="media type">media types</a>.
+
+ In such <a href="#context" title="context">contexts</a>, it is appropriate to use a <a href="#context-specific-sniffing-algorithm">context-specific sniffing algorithm</a> in place of the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> in order to determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>.
+
+<p>
+ A <dfn id="context-specific-sniffing-algorithm">context-specific sniffing algorithm</dfn> determines the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a> only if the <a href="#resource">resource</a> is a <a href="#media-type">media type</a> relevant to a particular <a href="#context">context</a>.
+
+
+
+<h3 id="sniffing-images-specifically"><span class="secno">9.1 </span>Sniffing images specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
@@ -2421,7 +2438,7 @@
 
 
 
-<h3 id="sniffing-audio-and-video-specifically"><span class="secno">8.5 </span>Sniffing audio and video specifically</h3>
+<h3 id="sniffing-audio-and-video-specifically"><span class="secno">9.2 </span>Sniffing audio and video specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
@@ -2454,7 +2471,7 @@
 
 
 
-<h3 id="sniffing-fonts-specifically"><span class="secno">8.6 </span>Sniffing fonts specifically</h3>
+<h3 id="sniffing-fonts-specifically"><span class="secno">9.3 </span>Sniffing fonts specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
