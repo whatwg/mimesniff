@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-29-november-2012">Living Standard — Last Updated 29 November 2012</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-6-december-2012">Living Standard — Last Updated 6 December 2012</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 29 November 2012, the editor has made this
+  In addition, as of 6 December 2012, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -90,27 +90,28 @@
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#handling-a-resource"><span class="secno">4 </span>Handling a resource</a></li>
- <li><a href="#determining-the-supplied-media-type-of-a-resource"><span class="secno">5 </span>Determining the supplied media type of a resource</a></li>
- <li><a href="#reading-the-resource-header"><span class="secno">6 </span>Reading the resource header</a></li>
- <li><a href="#matching-a-media-type-pattern"><span class="secno">7 </span>Matching a media type pattern</a>
+ <li><a href="#parsing-a-mime-type"><span class="secno">4 </span>Parsing a MIME type</a></li>
+ <li><a href="#handling-a-resource"><span class="secno">5 </span>Handling a resource</a></li>
+ <li><a href="#determining-the-supplied-media-type-of-a-resource"><span class="secno">6 </span>Determining the supplied media type of a resource</a></li>
+ <li><a href="#reading-the-resource-header"><span class="secno">7 </span>Reading the resource header</a></li>
+ <li><a href="#matching-a-media-type-pattern"><span class="secno">8 </span>Matching a media type pattern</a>
   <ol>
-   <li><a href="#matching-an-image-type-pattern"><span class="secno">7.1 </span>Matching an image type pattern</a></li>
-   <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">7.2 </span>Matching an audio or video type pattern</a>
+   <li><a href="#matching-an-image-type-pattern"><span class="secno">8.1 </span>Matching an image type pattern</a></li>
+   <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">8.2 </span>Matching an audio or video type pattern</a>
     <ol>
-     <li><a href="#signature-for-mp4"><span class="secno">7.2.1 </span>Signature for MP4</a></ol></li>
-   <li><a href="#matching-a-font-type-pattern"><span class="secno">7.3 </span>Matching a font type pattern</a></li>
-   <li><a href="#matching-an-archive-type-pattern"><span class="secno">7.4 </span>Matching an archive type pattern</a></ol></li>
- <li><a href="#determining-the-sniffed-media-type-of-a-resource"><span class="secno">8 </span>Determining the sniffed media type of a resource</a>
+     <li><a href="#signature-for-mp4"><span class="secno">8.2.1 </span>Signature for MP4</a></ol></li>
+   <li><a href="#matching-a-font-type-pattern"><span class="secno">8.3 </span>Matching a font type pattern</a></li>
+   <li><a href="#matching-an-archive-type-pattern"><span class="secno">8.4 </span>Matching an archive type pattern</a></ol></li>
+ <li><a href="#determining-the-sniffed-media-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed media type of a resource</a>
   <ol>
-   <li><a href="#identifying-a-resource-with-an-unknown-media-type"><span class="secno">8.1 </span>Identifying a resource with an unknown media type</a></li>
-   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">8.2 </span>Sniffing a mislabeled feed</a></li>
-   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">8.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
- <li><a href="#context-specific-sniffing"><span class="secno">9 </span>Context-specific sniffing</a>
+   <li><a href="#identifying-a-resource-with-an-unknown-media-type"><span class="secno">9.1 </span>Identifying a resource with an unknown media type</a></li>
+   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">9.2 </span>Sniffing a mislabeled feed</a></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">9.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
+ <li><a href="#context-specific-sniffing"><span class="secno">10 </span>Context-specific sniffing</a>
   <ol>
-   <li><a href="#sniffing-images-specifically"><span class="secno">9.1 </span>Sniffing images specifically</a></li>
-   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">9.2 </span>Sniffing audio and video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">9.3 </span>Sniffing fonts specifically</a></ol></li>
+   <li><a href="#sniffing-images-specifically"><span class="secno">10.1 </span>Sniffing images specifically</a></li>
+   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">10.2 </span>Sniffing audio and video specifically</a></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">10.3 </span>Sniffing fonts specifically</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -387,7 +388,276 @@
 
 
 
-<h2 id="handling-a-resource"><span class="secno">4 </span>Handling a resource</h2>
+<h2 id="parsing-a-mime-type"><span class="secno">4 </span>Parsing a MIME type</h2>
+
+<p>
+ To <dfn id="parse-a-mime-type">parse a MIME type</dfn>, execute the following steps:
+
+ <ol class="XXX">
+  <li>
+   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> of the <a href="#media-type">media type</a>, where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <a href="#byte">byte</a> in <var>sequence</var>.
+
+  <li>
+   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in <var>sequence</var>.
+
+  <li>
+   If <var>length</var> is less than 1, return undefined.
+
+  <li>
+   Initialize <var>s</var> to 0.
+
+  <li>
+   Initialize <var>type</var> and <var>subtype</var> to the empty string ("<code title=""></code>").
+
+  <li>
+   Initialize <var>parameters</var> to the empty dictionary ({}).
+
+  <li>
+   While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+   <ol>
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace character</span> and is not equal to U+002F ("<code title="">/</code>"), execute the following steps:
+
+   <ol>
+    <li>
+     If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
+
+    <li>
+     Append <var>sequence</var>[<var>s</var>] to <var>type</var>.
+
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+   <ol>
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   If <var>sequence</var>[<var>s</var>] is not equal to U+002F ("<code title="">/</code>"), return undefined.
+
+  <li>
+   Increment <var>s</var> by 1.
+
+  <li>
+   While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+   <ol>
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+  <li>
+   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace character</span> and is not equal to U+003B ("<code title="">;</code>"), execute the following steps:
+
+   <ol>
+    <li>
+     If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+
+     <ol>
+      <li>
+       If <var>subtype</var> is equal to the empty string ("<code title=""></code>"), return undefined.
+
+      <li>
+       Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+     </ol>
+
+    <li>
+     Append <var>sequence</var>[<var>s</var>] to <var>subtype</var>.
+
+    <li>
+     Increment <var>s</var> by 1.
+   </ol>
+
+   <li>
+    Enter loop <var>L</var>:
+
+    <ol>
+     <li>
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+      <ol>
+       <li>
+        Increment <var>s</var> by 1.
+      </ol>
+
+     <li>
+      If <var>sequence</var>[<var>s</var>] is undefined, return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+
+     <li>
+      If <var>sequence</var>[<var>s</var>] is not equal to U+003B ("<code title="">;</code>"), return undefined.
+
+     <li>
+      Increment <var>s</var> by 1.
+
+     <li>
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+      <ol>
+       <li>
+        Increment <var>s</var> by 1.
+      </ol>
+
+     <li>
+      Let <var>name</var> be the empty string ("<code title=""></code>").
+
+     <li>
+      While <var>sequence</var>[<var>s</var>] is not a <span>whitespace character</span> and is not equal to U+003D ("<code title="">=</code>"), execute the following steps:
+
+      <ol>
+       <li>
+        If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+
+        <ol>
+         <li>
+          If <var>name</var> is not equal to the empty string ("<code title=""></code>"), initialize <var>parameters</var>[<var>name</var>] to null.
+
+         <li>
+          Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+        </ol>
+
+       <li>
+        Append <var>sequence</var>[<var>s</var>] to <var>name</var>.
+
+       <li>
+        Increment <var>s</var> by 1.
+      </ol>
+
+     <li>
+      Initialize <var>parameters</var>[<var>name</var>] to null.
+
+     <li>
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+      <ol>
+       <li>
+        Increment <var>s</var> by 1.
+      </ol>
+
+     <li>
+      If <var>sequence</var>[<var>s</var>] is not equal to U+003D ("<code title="">=</code>"), execute the following steps:
+
+      <ol>
+       <li>
+        If <var>sequence</var>[<var>s</var>] is undefined, return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+
+       <li>
+        Return undefined.
+      </ol>
+
+     <li>
+      Increment <var>s</var> by 1.
+
+     <li>
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+
+      <ol>
+       <li>
+        Increment <var>s</var> by 1.
+      </ol>
+
+     <li>
+      Let <var>value</var> be the empty string ("<code title=""></code>").
+
+     <li>
+      If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+
+      <ol>
+       <li>
+        Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+       <li>
+        Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+      </ol>
+
+     <li>
+      If <var>sequence</var>[<var>s</var>] is equal to U+0022 ("<code title="">"</code>"), execute the following steps:
+
+      <ol>
+       <li>
+        Increment <var>s</var> by 1.
+
+       <li>
+        If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+
+        <ol>
+         <li>
+          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+         <li>
+          Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+        </ol>
+
+       <li>
+        Enter loop <var>M</var>:
+
+        <ol>
+         <li>
+          If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+
+          <ol>
+           <li>
+            Set <var>parameters</var>[<var>name</var>] to the empty string ("<code title=""></code>").
+
+           <li>
+            Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+          </ol>
+
+         <li>
+          If <var>sequence</var>[<var>s</var>] is equal to U+0022 ("<code title="">"</code>"), execute the following steps:
+
+          <ol>
+           <li>
+            Increment <var>s</var> by 1.
+
+           <li>
+            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+           <li>
+            Exit loop <var>M</var>.
+          </ol>
+
+         <li>
+          If <var>sequence</var>[<var>s</var>] is equal to U+005C ("<code title="">\</code>") and <var>sequence</var>[<var>s</var> + 1] is not undefined, increment <var>s</var> by 1.
+
+         <li>
+          Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
+
+         <li>
+          Increment <var>s</var> by 1.
+        </ol>
+      </ol>
+
+      Otherwise, execute the following steps:
+
+      <ol>
+       <li>
+        Begin loop <var>M</var>:
+
+        <ol class="XXX">
+         <li>
+          If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+
+          <ol class="XXX">
+           <li>
+          </ol>
+        </ol>
+      </ol>
+    </ol>
+ </ol>
+
+
+
+<h2 id="handling-a-resource"><span class="secno">5 </span>Handling a resource</h2>
 
 <p class="XXX">
  A <dfn id="resource">resource</dfn> is ….
@@ -423,7 +693,7 @@
 
 
 
-<h2 id="determining-the-supplied-media-type-of-a-resource"><span class="secno">5 </span>Determining the supplied media type of a resource</h2>
+<h2 id="determining-the-supplied-media-type-of-a-resource"><span class="secno">6 </span>Determining the supplied media type of a resource</h2>
 
 <p>
  The <a href="#supplied-media-type">supplied media type</a> of a <a href="#resource">resource</a> is provided
@@ -480,7 +750,7 @@
 
 
 
-<h2 id="reading-the-resource-header"><span class="secno">6 </span>Reading the resource header</h2>
+<h2 id="reading-the-resource-header"><span class="secno">7 </span>Reading the resource header</h2>
 
 <p>
  To <dfn id="read-the-resource-header">read the resource header</dfn>, perform the following steps:
@@ -525,7 +795,7 @@
 
 
 
-<h2 id="matching-a-media-type-pattern"><span class="secno">7 </span>Matching a media type pattern</h2>
+<h2 id="matching-a-media-type-pattern"><span class="secno">8 </span>Matching a media type pattern</h2>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
@@ -604,7 +874,7 @@
 
 
 
-<h3 id="matching-an-image-type-pattern"><span class="secno">7.1 </span>Matching an image type pattern</h3>
+<h3 id="matching-an-image-type-pattern"><span class="secno">8.1 </span>Matching an image type pattern</h3>
 
 <p>
  To determine which <a href="#image-type">image type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -803,7 +1073,7 @@
 
 
 
-<h3 id="matching-an-audio-or-video-type-pattern"><span class="secno">7.2 </span>Matching an audio or video type pattern</h3>
+<h3 id="matching-an-audio-or-video-type-pattern"><span class="secno">8.2 </span>Matching an audio or video type pattern</h3>
 
 <p>
  To determine which <a href="#audio-or-video-type">audio or video type</a> <a href="#byte-pattern">byte pattern</a>
@@ -956,7 +1226,7 @@
 
 
 
-<h4 id="signature-for-mp4"><span class="secno">7.2.1 </span>Signature for MP4</h4>
+<h4 id="signature-for-mp4"><span class="secno">8.2.1 </span>Signature for MP4</h4>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
@@ -1023,7 +1293,7 @@
 
 
 
-<h3 id="matching-a-font-type-pattern"><span class="secno">7.3 </span>Matching a font type pattern</h3>
+<h3 id="matching-a-font-type-pattern"><span class="secno">8.3 </span>Matching a font type pattern</h3>
 
 <p>
  To determine which <a href="#font-type">font type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1188,7 +1458,7 @@
 
 
 
-<h3 id="matching-an-archive-type-pattern"><span class="secno">7.4 </span>Matching an archive type pattern</h3>
+<h3 id="matching-an-archive-type-pattern"><span class="secno">8.4 </span>Matching an archive type pattern</h3>
 
 <p>
  To determine which <a href="#archive-type">archive type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1312,7 +1582,7 @@
 
 
 
-<h2 id="determining-the-sniffed-media-type-of-a-resource"><span class="secno">8 </span>Determining the sniffed media type of a resource</h2>
+<h2 id="determining-the-sniffed-media-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed media type of a resource</h2>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>,
@@ -1469,7 +1739,7 @@
 
 
 
-<h3 id="identifying-a-resource-with-an-unknown-media-type"><span class="secno">8.1 </span>Identifying a resource with an unknown media type</h3>
+<h3 id="identifying-a-resource-with-an-unknown-media-type"><span class="secno">9.1 </span>Identifying a resource with an unknown media type</h3>
 
 <p>
  The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-media-type">rules for
@@ -2074,7 +2344,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-feed"><span class="secno">8.2 </span>Sniffing a mislabeled feed</h3>
+<h3 id="sniffing-a-mislabeled-feed"><span class="secno">9.2 </span>Sniffing a mislabeled feed</h3>
 
 <p>
  To determine whether a feed has been mislabeled as HTML, execute the
@@ -2344,7 +2614,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">8.3 </span>Sniffing a mislabeled binary resource</h3>
+<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">9.3 </span>Sniffing a mislabeled binary resource</h3>
 
 <p>
  To determine whether a binary <a href="#resource">resource</a> has been mislabeled as
@@ -2391,7 +2661,7 @@
 
 
 
-<h2 id="context-specific-sniffing"><span class="secno">9 </span>Context-specific sniffing</h2>
+<h2 id="context-specific-sniffing"><span class="secno">10 </span>Context-specific sniffing</h2>
 
 <p class="XXX">
  A <dfn id="context">context</dfn> is ….
@@ -2406,7 +2676,7 @@
 
 
 
-<h3 id="sniffing-images-specifically"><span class="secno">9.1 </span>Sniffing images specifically</h3>
+<h3 id="sniffing-images-specifically"><span class="secno">10.1 </span>Sniffing images specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
@@ -2438,7 +2708,7 @@
 
 
 
-<h3 id="sniffing-audio-and-video-specifically"><span class="secno">9.2 </span>Sniffing audio and video specifically</h3>
+<h3 id="sniffing-audio-and-video-specifically"><span class="secno">10.2 </span>Sniffing audio and video specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
@@ -2471,7 +2741,7 @@
 
 
 
-<h3 id="sniffing-fonts-specifically"><span class="secno">9.3 </span>Sniffing fonts specifically</h3>
+<h3 id="sniffing-fonts-specifically"><span class="secno">10.3 </span>Sniffing fonts specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
