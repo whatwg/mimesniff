@@ -1655,52 +1655,64 @@
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
    If the <span>supplied media type</span> is an <span>image type</span>
-   <span>supported by the user agent</span>, the <span>sniffed media
-   type</span> is the result of executing the <span>image type pattern
-   matching algorithm</span> with the <span>resource header</span> as the
-   <span>byte sequence</span> to be matched.
+   <span>supported by the user agent</span>, let <var>matched-type</var> be
+   the result of executing the <span>image type pattern matching
+   algorithm</span> with the <span>resource header</span> as the <span>byte
+   sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
 
   <li>
    <!-- XXX: Why are we checking to see if the audio or video type is
              supported by the user agent if we're just going to sniff it again
              anyway? -->
    If the <span>supplied media type</span> is an <span>audio or video
-   type</span> <span>supported by the user agent</span>, the <span>sniffed
-   media type</span> is the result of executing the <span>audio or video type
-   pattern matching algorithm</span> with the <span>resource header</span> as
-   the <span>byte sequence</span> to be matched.
+   type</span> <span>supported by the user agent</span>, let
+   <var>matched-type</var> be the result of executing the <span>audio or video
+   type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
 
   <!-- Major browsers do not implement font sniffing in the regular browsing context.
   <li>
    <! - - XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? - - >
    If the <span>supplied media type</span> is a <span>font type</span>
-   <span>supported by the user agent</span>, the <span>sniffed media
-   type</span> is the result of executing the <span>font type pattern matching
+   <span>supported by the user agent</span>, let <var>matched-type</var> be
+   the result of executing the <span>font type pattern matching
    algorithm</span> with the <span>resource header</span> as the <span>byte
    sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
   -->
 
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by
              the user agent if we're just going to sniff it again anyway? -->
    If the <span>supplied media type</span> is an <span>archive type</span>
-   <span>supported by the user agent</span>, the <span>sniffed media
-   type</span> is the result of executing the <span>archive type pattern
-   matching algorithm</span> with the <span>resource header</span> as the
-   <span>byte sequence</span> to be matched.
+   <span>supported by the user agent</span>, let <var>matched-type</var> be
+   the result of executing the <span>archive type pattern matching
+   algorithm</span> with the <span>resource header</span> as the <span>byte
+   sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
 
   <li>
    The <span>sniffed media type</span> is the <span>supplied media
@@ -2265,40 +2277,50 @@
     when extending this table.
 
   <li>
-   The <span>sniffed media type</span> is the result of executing the
-   <span>image type pattern matching algorithm</span> with the <span>resource
+   Let <var>matched-type</var> be the result of executing the <span>image type
+   pattern matching algorithm</span> with the <span>resource header</span> as
+   the <span>byte sequence</span> to be matched.
+
+  <li>
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
+
+  <li>
+   Let <var>matched-type</var> be the result of executing the <span>audio or
+   video type pattern matching algorithm</span> with the <span>resource
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
 
-  <li>
-   The <span>sniffed media type</span> is the result of executing the
-   <span>audio or video type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
-
-  <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   Abort these steps.
 
   <!-- Major browsers do not implement font sniffing in the regular browsing context.
   <li>
-   The <span>sniffed media type</span> is the result of executing the
-   <span>font type pattern matching algorithm</span> with the <span>resource
-   header</span> as the <span>byte sequence</span> to be matched.
+   Let <var>matched-type</var> be the result of executing the <span>font type
+   pattern matching algorithm</span> with the <span>resource header</span> as
+   the <span>byte sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
   -->
 
   <li>
-   The <span>sniffed media type</span> is the result of executing the
-   <span>archive type pattern matching algorithm</span> with the
-   <span>resource header</span> as the <span>byte sequence</span> to be
-   matched.
+   Let <var>matched-type</var> be the result of executing the <span>archive
+   type pattern matching algorithm</span> with the <span>resource
+   header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If the <span>sniffed media type</span> is not undefined, abort these steps.
+   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   type</span> is <var>matched-type</var>.
+
+   Abort these steps.
 
   <li>
    If the <span>resource header</span> contains no
