@@ -934,6 +934,41 @@
      </tr>
     </thead>
     <tbody>
+     <!-- http://www.iana.org/assignments/media-types/image/vnd.microsoft.icon -->
+     <tr>
+      <td>
+       00 00 01 00
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/vnd.microsoft.icon</code>
+      </td>
+      <td>
+       A Windows Icon signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       42 4D
+      </td>
+      <td>
+       FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/bmp</code>
+      </td>
+      <td>
+       The string "<code title="">BM</code>", a BMP signature.
+      </td>
+     </tr>
      <!-- http://www.w3.org/Graphics/GIF/spec-gif87.txt -->
      <tr>
       <td>
@@ -968,6 +1003,26 @@
       </td>
       <td>
        The string "<code title="">GIF89a</code>", a GIF signature.
+      </td>
+     </tr>
+     <!-- https://developers.google.com/speed/webp/docs/riff_container#webp-file-header -->
+     <tr>
+      <td>
+       52 49 46 46 00 00 00 00 57 45 42 50 56 50
+      </td>
+      <td>
+       FF FF FF FF 00 00 00 00 FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">image/webp</code>
+      </td>
+      <td>
+       The string "<code title="">RIFF</code>" followed by four
+       <a href="#byte" title="byte">bytes</a> followed by the string
+       "<code title="">WEBPVP</code>".
       </td>
      </tr>
      <!-- http://www.w3.org/TR/PNG/#5PNG-file-signature -->
@@ -1007,61 +1062,6 @@
       <td>
        The JPEG Start of Image marker followed by the indicator
        <a href="#byte">byte</a> of another marker.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       42 4D
-      </td>
-      <td>
-       FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">image/bmp</code>
-      </td>
-      <td>
-       The string "<code title="">BM</code>", a BMP signature.
-      </td>
-     </tr>
-     <!-- https://developers.google.com/speed/webp/docs/riff_container#webp-file-header -->
-     <tr>
-      <td>
-       52 49 46 46 00 00 00 00 57 45 42 50 56 50
-      </td>
-      <td>
-       FF FF FF FF 00 00 00 00 FF FF FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">image/webp</code>
-      </td>
-      <td>
-       The string "<code title="">RIFF</code>" followed by four
-       <a href="#byte" title="byte">bytes</a> followed by the string
-       "<code title="">WEBPVP</code>".
-      </td>
-     </tr>
-     <!-- http://www.iana.org/assignments/media-types/image/vnd.microsoft.icon -->
-     <tr>
-      <td>
-       00 00 01 00
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">image/vnd.microsoft.icon</code>
-      </td>
-      <td>
-       A Windows Icon signature.
       </td>
      </tr>
     </tbody>
@@ -1133,42 +1133,25 @@
      </tr>
     </thead>
     <tbody>
+     <!-- http://ebml.sourceforge.net/specs/ -->
+     <!-- http://www.matroska.org/technical/specs/index.html -->
+     <!-- http://www.webmproject.org/code/specs/container/ -->
      <tr>
-      <td>
-       4F 67 67 53 00
+      <td class="XXX">
+       <!-- This only indicates that the file is EBML-based. -->
+       1A 45 DF A3
       </td>
       <td>
-       FF FF FF FF FF
+       FF FF FF FF
       </td>
       <td>
        None.
       </td>
       <td>
-       <code title="">application/ogg</code>
+       <code title="">video/webm</code>
       </td>
-      <td>
-       The string "<code title="">OggS</code>" followed by NUL, the Ogg container
-       signature.
-      </td>
-     </tr>
-     <!-- http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html -->
-     <tr>
-      <td>
-       52 49 46 46 00 00 00 00 57 41 56 45
-      </td>
-      <td>
-       FF FF FF FF 00 00 00 00 FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">audio/wave</code>
-      </td>
-      <td>
-       The string "<code title="">RIFF</code>" followed by four
-       <a href="#byte" title="byte">bytes</a> followed by the string
-       "<code title="">WAVE</code>".
+      <td class="XXX">
+       The WebM signature. [TODO: Use more bytes?]
       </td>
      </tr>
      <!-- http://id3.org/id3v2.4.0-structure -->
@@ -1187,6 +1170,24 @@
       </td>
       <td>
        The string "<code title="">ID3</code>", the ID3v2-tagged MP3 signature.
+      </td>
+     </tr>
+     <tr>
+      <td>
+       4F 67 67 53 00
+      </td>
+      <td>
+       FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/ogg</code>
+      </td>
+      <td>
+       The string "<code title="">OggS</code>" followed by NUL, the Ogg container
+       signature.
       </td>
      </tr>
      <!-- http://www.jmcgowan.com/avitech.html#Format -->
@@ -1210,25 +1211,24 @@
        "<code title="">AVI </code>".
       </td>
      </tr>
-     <!-- http://ebml.sourceforge.net/specs/ -->
-     <!-- http://www.matroska.org/technical/specs/index.html -->
-     <!-- http://www.webmproject.org/code/specs/container/ -->
+     <!-- http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html -->
      <tr>
-      <td class="XXX">
-       <!-- This only indicates that the file is EBML-based. -->
-       1A 45 DF A3
+      <td>
+       52 49 46 46 00 00 00 00 57 41 56 45
       </td>
       <td>
-       FF FF FF FF
+       FF FF FF FF 00 00 00 00 FF FF FF FF
       </td>
       <td>
        None.
       </td>
       <td>
-       <code title="">video/webm</code>
+       <code title="">audio/wave</code>
       </td>
-      <td class="XXX">
-       The WebM signature. [TODO: Use more bytes?]
+      <td>
+       The string "<code title="">RIFF</code>" followed by four
+       <a href="#byte" title="byte">bytes</a> followed by the string
+       "<code title="">WAVE</code>".
       </td>
      </tr>
     </tbody>
@@ -1373,82 +1373,7 @@
       </th>
      </tr>
     </thead>
-    <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
     <tbody>
-     <!-- http://www.microsoft.com/typography/otspec/otff.htm -->
-     <tr>
-      <td>
-       74 74 63 66
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td class="XXX">
-       (TrueType Collection)
-      </td>
-      <td>
-       The string "<code title="">ttcf</code>", the TrueType Collection
-       signature.
-      </td>
-     </tr>
-     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
-     <tr>
-      <td>
-       4F 54 54 4F
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td class="XXX">
-       (OpenType)
-      </td>
-      <td>
-       The string "<code title="">OTTO</code>", the OpenType signature.
-      </td>
-     </tr>
-     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
-     <tr>
-      <td>
-       00 01 00 00
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td class="XXX">
-       (TrueType)
-      </td>
-      <td>
-       4 <a href="#byte" title="byte">bytes</a> representing the version number 1.0, a
-       TrueType signature.
-      </td>
-     </tr>
-     <tr>
-      <td>
-       77 4F 46 46
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title="">application/font-woff</code>
-      </td>
-      <td>
-       The string "<code title="">wOFF</code>", the Web Open Font Format
-       signature.
-      </td>
-     </tr>
      <!-- http://www.w3.org/Submission/EOT/ -->
      <tr>
       <td>
@@ -1468,6 +1393,84 @@
       <td>
        34 <a href="#byte" title="byte">bytes</a> followed by the string
        "<code title="">LP</code>", the Embedded OpenType signature.
+      </td>
+     </tr>
+     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
+     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <tr>
+      <td>
+       00 01 00 00
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td class="XXX">
+       (TrueType)
+      </td>
+      <td>
+       4 <a href="#byte" title="byte">bytes</a> representing the version number 1.0, a
+       TrueType signature.
+      </td>
+     </tr>
+     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
+     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <tr>
+      <td>
+       4F 54 54 4F
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td class="XXX">
+       (OpenType)
+      </td>
+      <td>
+       The string "<code title="">OTTO</code>", the OpenType signature.
+      </td>
+     </tr>
+     <!-- http://www.microsoft.com/typography/otspec/otff.htm -->
+     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <tr>
+      <td>
+       74 74 63 66
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td class="XXX">
+       (TrueType Collection)
+      </td>
+      <td>
+       The string "<code title="">ttcf</code>", the TrueType Collection
+       signature.
+      </td>
+     </tr>
+     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <tr>
+      <td>
+       77 4F 46 46
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">application/font-woff</code>
+      </td>
+      <td>
+       The string "<code title="">wOFF</code>", the Web Open Font Format
+       signature.
       </td>
      </tr>
     </tbody>
@@ -1539,22 +1542,23 @@
      </tr>
     </thead>
     <tbody>
+     <!-- http://tools.ietf.org/html/rfc1952 -->
      <tr>
       <td>
-       52 61 72 20 1A 07 00
+       <!-- 0x1F 0x8B = gzip format, 0x08 = deflate compression -->
+       1F 8B 08
       </td>
       <td>
-       FF FF FF FF FF FF FF
+       FF FF FF
       </td>
       <td>
        None.
       </td>
       <td>
-       <code title="">application/x-rar-compressed</code>
+       <code title="">application/x-gzip</code>
       </td>
       <td>
-       The string "<code title="">Rar </code>" followed by SUB BEL NUL, the RAR
-       archive signature.
+       The GZIP archive signature.
       </td>
      </tr>
      <tr>
@@ -1575,23 +1579,22 @@
        signature.
       </td>
      </tr>
-     <!-- http://tools.ietf.org/html/rfc1952 -->
      <tr>
       <td>
-       <!-- 0x1F 0x8B = gzip format, 0x08 = deflate compression -->
-       1F 8B 08
+       52 61 72 20 1A 07 00
       </td>
       <td>
-       FF FF FF
+       FF FF FF FF FF FF FF
       </td>
       <td>
        None.
       </td>
       <td>
-       <code title="">application/x-gzip</code>
+       <code title="">application/x-rar-compressed</code>
       </td>
       <td>
-       The GZIP archive signature.
+       The string "<code title="">Rar </code>" followed by SUB BEL NUL, the RAR
+       archive signature.
       </td>
      </tr>
     </tbody>
