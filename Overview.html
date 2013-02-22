@@ -1154,6 +1154,26 @@
        The WebM signature. [TODO: Use more bytes?]
       </td>
      </tr>
+     <!-- http://multimedia.cx/mirror/AudioIFF1_2_1.htm -->
+     <tr>
+      <td>
+       46 4F 52 4D 00 00 00 00 41 49 46 46
+      </td>
+      <td>
+       FF FF FF FF 00 00 00 00 FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">audio/aiff</code>
+      </td>
+      <td>
+       The string "<code title="">FORM</code>" followed by four
+       <a href="#byte" title="byte">bytes</a> followed by the string
+       "<code title="">AIFF</code>", the AIFF signature.
+      </td>
+     </tr>
      <!-- http://id3.org/id3v2.4.0-structure -->
      <tr>
       <td>
@@ -1190,6 +1210,26 @@
        signature.
       </td>
      </tr>
+     <!-- http://localhostr.com/file/LJUEw0K/midiformat.pdf -->
+     <tr>
+      <td>
+       4D 54 68 64 00 00 00 06
+      </td>
+      <td>
+       FF FF FF FF FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title="">audio/midi</code>
+      </td>
+      <td>
+       The string "<code title="">MThd</code>" followed by four
+       <a href="#byte" title="byte">bytes</a> representing the number 6 in 32 bits
+       (big-endian), the MIDI signature.
+      </td>
+     </tr>
      <!-- http://www.jmcgowan.com/avitech.html#Format -->
      <!-- http://www.the-labs.com/Video/odmlff2-avidef.pdf -->
      <tr>
@@ -1208,7 +1248,7 @@
       <td>
        The string "<code title="">RIFF</code>" followed by four
        <a href="#byte" title="byte">bytes</a> followed by the string
-       "<code title="">AVI </code>".
+       "<code title="">AVI </code>", the AVI signature.
       </td>
      </tr>
      <!-- http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/WAVE/WAVE.html -->
@@ -1228,7 +1268,7 @@
       <td>
        The string "<code title="">RIFF</code>" followed by four
        <a href="#byte" title="byte">bytes</a> followed by the string
-       "<code title="">WAVE</code>".
+       "<code title="">WAVE</code>", the WAVE signature.
       </td>
      </tr>
     </tbody>
