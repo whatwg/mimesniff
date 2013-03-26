@@ -75,9 +75,9 @@
 
  In order to be compatible with these servers, user agents consider the
  content of HTTP responses as well as the <code>Content-Type</code> header
- fields when determining the effective media type of the response.
+ fields when determining the effective MIME type of the response.
 
- This document describes an algorithm for determining the effective media type
+ This document describes an algorithm for determining the effective MIME type
  of HTTP responses that balances security and compatibility considerations.
 
 
@@ -91,7 +91,7 @@
 <h2>Introduction</h2>
 
 <p>
- The HTTP <code>Content-Type</code> header field indicates the media type of
+ The HTTP <code>Content-Type</code> header field indicates the MIME type of
  an HTTP response.
 
  However, many HTTP servers supply a <code>Content-Type</code> that does not
@@ -99,10 +99,10 @@
 
  Historically, web browsers have tolerated these servers by examining the
  content of HTTP responses in addition to the <code>Content-Type</code> header
- field to determine the effective media type of the response.
+ field to determine the effective MIME type of the response.
 
 <p>
- Without a clear specification of how to "sniff" the media type, each user
+ Without a clear specification of how to "sniff" the MIME type, each user
  agent has been forced to reverse-engineer the algorithms of other user agents
  in order to maintain interoperability.
 
@@ -110,13 +110,13 @@
  divergent behaviors among user agents.
 
  In some cases, these divergent behaviors have had security implications, as a
- user agent could interpret an HTTP response as a different media type than
+ user agent could interpret an HTTP response as a different MIME type than
  the server intended.
 
 <p>
  These security issues are most severe when an "honest" server allows
  potentially malicious users to upload their own files and then serves the
- contents of those files with a low-privilege media type.
+ contents of those files with a low-privilege MIME type.
 
  For example, if a server believes that the client will treat a contributed
  file as an image (and thus treat it as benign), but a user agent believes the
@@ -124,11 +124,11 @@
  therein), an attacker might be able to steal the user's authentication
  credentials and mount other cross-site scripting attacks.
 
- (Malicious servers, of course, can specify an arbitrary media type in the
+ (Malicious servers, of course, can specify an arbitrary MIME type in the
  <code>Content-Type</code> header field.)
 
- In the absence of media type sniffing, this user-generated content would not
- be interpreted as a high-privilege media type.
+ In the absence of MIME type sniffing, this user-generated content would not
+ be interpreted as a high-privilege MIME type.
 
 <p>
  This document describes a content sniffing algorithm that carefully balances
@@ -213,19 +213,19 @@
  <span title="read the resource header">reading the resource header</span>.
 
 <p>
- The <dfn>media type</dfn> of a <span>resource</span> is a technical hint
+ The <dfn>MIME type</dfn> of a <span>resource</span> is a technical hint
  about the use and format of that <span>resource</span>.
 
  <span data-anolis-ref class=informative>MIMETYPE</span>
 
 <p>
- A <dfn>valid media type</dfn> is a
+ A <dfn>valid MIME type</dfn> is a
  <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its
  successor, and is made up in part by a
  <span data-anolis-spec=http>type</span> and a
  <span data-anolis-spec=http>subtype</span>.
 
- The <dfn>media type portion</dfn> of a <span>valid media type</span> is the
+ The <dfn>MIME type portion</dfn> of a <span>valid MIME type</span> is the
  string represented by concatenating <span data-anolis-spec=http>type</span>,
  the string "<code title>/</code>", and
  <span data-anolis-spec=http>subtype</span>.
@@ -233,21 +233,21 @@
  <span data-anolis-ref>HTTP</span>
 
 <p class=note>
- The <span>media type portion</span> of a <span>valid media type</span>
+ The <span>MIME type portion</span> of a <span>valid MIME type</span>
  excludes all <span title=parameter data-anolis-spec=http>parameters</span>
  and is case-insensitive.
 
  <span data-anolis-ref>HTTP</span>
 
 <p>
- A <span>valid media type</span> is <dfn>supported by the user agent</dfn> if
+ A <span>valid MIME type</span> is <dfn>supported by the user agent</dfn> if
  the user agent has the capability to interpret a <span>resource</span> of
- that <span>media type</span> and present it to the user.
+ that <span>MIME type</span> and present it to the user.
 
 <p>
- An <dfn>image type</dfn> is any <span>valid media type</span> where
+ An <dfn>image type</dfn> is any <span>valid MIME type</span> where
  <span data-anolis-spec=http>type</span> is equal to
- "<code title>image</code>"<!-- or the <span>media type portion</span> is
+ "<code title>image</code>"<!-- or the <span>MIME type portion</span> is
  equal to one of the following:
 
  <ul>
@@ -255,10 +255,10 @@
  </ul>-->.
 
 <p>
- An <dfn>audio or video type</dfn> is any <span>valid media type</span> where
+ An <dfn>audio or video type</dfn> is any <span>valid MIME type</span> where
  <span data-anolis-spec=http>type</span> is equal to
  "<code title>audio</code>" or "<code title>video</code>" or where the
- <span>media type portion</span> is equal to one of the following:
+ <span>MIME type portion</span> is equal to one of the following:
 
  <ul>
   <li>
@@ -266,9 +266,9 @@
  </ul>
 
 <p>
- A <dfn>font type</dfn> is any <span>valid media type</span> where
+ A <dfn>font type</dfn> is any <span>valid MIME type</span> where
  <!--<span data-anolis-spec=http>type</span> is equal to "<code title>font</code>"
- or--> the <span>media type portion</span> is equal to one of the following:
+ or--> the <span>MIME type portion</span> is equal to one of the following:
 
  <ul class=XXX>
   <li>
@@ -294,9 +294,9 @@
  </ul>
 
 <p>
- A <dfn>ZIP-based type</dfn> is any <span>valid media type</span> where the
+ A <dfn>ZIP-based type</dfn> is any <span>valid MIME type</span> where the
  <span data-anolis-spec=http>subtype</span> ends in "<code title>+zip</code>"
- or the <span>media type portion</span> is equal to one of the following:
+ or the <span>MIME type portion</span> is equal to one of the following:
 
  <ul class=XXX>
   <li>
@@ -304,9 +304,9 @@
  </ul>
 
 <p>
- An <dfn>archive type</dfn> is any <span>valid media type</span> where
+ An <dfn>archive type</dfn> is any <span>valid MIME type</span> where
  <!--<span data-anolis-spec=http>type</span> is equal to
- "<code title>archive</code>" or--> the <span>media type portion</span> is equal
+ "<code title>archive</code>" or--> the <span>MIME type portion</span> is equal
  to one of the following:
 
  <ul>
@@ -321,16 +321,16 @@
  </ul>
 
 <p>
- An <dfn>XML type</dfn> is any <span>valid media type</span> where the
+ An <dfn>XML type</dfn> is any <span>valid MIME type</span> where the
  <span data-anolis-spec=http>subtype</span> ends in "<code title>+xml</code>"
- or the <span>media type portion</span> is equal to
+ or the <span>MIME type portion</span> is equal to
  "<code title>text/xml</code>" or "<code title>application/xml</code>".
 
  <span data-anolis-ref class=informative>RFC3023</span>
 
 <p>
- A <dfn>scriptable media type</dfn> is an <span>XML type</span> or any
- <span>valid media type</span> where the <span>media type portion</span> is
+ A <dfn>scriptable MIME type</dfn> is an <span>XML type</span> or any
+ <span>valid MIME type</span> where the <span>MIME type portion</span> is
  equal to one of the following:
 
  <ul>
@@ -365,7 +365,7 @@
 
  <ol class=XXX>
   <li>
-   Let <var>sequence</var> be the <span>byte sequence</span> of the <span>media type</span>, where <var>sequence</var>[<var>s</var>] is <span>byte</span> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <span>byte</span> in <var>sequence</var>.
+   Let <var>sequence</var> be the <span>byte sequence</span> of the <span>MIME type</span>, where <var>sequence</var>[<var>s</var>] is <span>byte</span> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <span>byte</span> in <var>sequence</var>.
 
   <li>
    Let <var>length</var> be the number of <span title=byte>bytes</span> in <var>sequence</var>.
@@ -637,12 +637,12 @@
 
  <ul>
   <li>
-   A <dfn>supplied media type</dfn>, the <span>valid media type</span>
-   determined by the <span>supplied media type detection algorithm</span>.
+   A <dfn>supplied MIME type</dfn>, the <span>valid MIME type</span>
+   determined by the <span>supplied MIME type detection algorithm</span>.
 
   <li>
-   A <dfn>sniffed media type</dfn>, the <span>valid media type</span>
-   determined by the <span>media type sniffing algorithm</span>.
+   A <dfn>sniffed MIME type</dfn>, the <span>valid MIME type</span>
+   determined by the <span>MIME type sniffing algorithm</span>.
 
   <li>
    A <dfn>has-content-type flag</dfn>, which defaults to unset.
@@ -658,15 +658,15 @@
     particular <span>resource</span>. The user agent can also choose to opt
     out of sniffing for all <span title=resource>resources</span>. However,
     opting out of sniffing does not exempt the user agent from using the
-    <span>media type sniffing algorithm</span>.
+    <span>MIME type sniffing algorithm</span>.
  </ul>
 
 
 
-<h2>Determining the supplied media type of a resource</h2>
+<h2>Determining the supplied MIME type of a resource</h2>
 
 <p>
- The <span>supplied media type</span> of a <span>resource</span> is provided
+ The <span>supplied MIME type</span> of a <span>resource</span> is provided
  to the user agent by an external source associated with that
  <span>resource</span>.
 
@@ -674,8 +674,8 @@
  <span>resource</span> is retrieved.
 
 <p>
- To determine the <span>supplied media type</span> of a <span>resource</span>,
- user agents must use the following <dfn>supplied media type detection
+ To determine the <span>supplied MIME type</span> of a <span>resource</span>,
+ user agents must use the following <dfn>supplied MIME type detection
  algorithm</dfn>:
 
  <ol>
@@ -692,30 +692,30 @@
    <span data-anolis-ref=http>HTTP</span>
 
    <p class=note>
-    File extensions are not used to determine the <span>supplied media
+    File extensions are not used to determine the <span>supplied MIME
     type</span> of a <span>resource</span> retrieved via HTTP because they are
     unreliable and easily spoofed.
 
   <li>
    If the <span>resource</span> is retrieved directly from the file system,
-   set <var>supplied-type</var> to the <span>media type</span> provided by the
+   set <var>supplied-type</var> to the <span>MIME type</span> provided by the
    file system.
 
   <li>
    If the <span>resource</span> is retrieved via another protocol (such as
-   FTP), set <var>supplied-type</var> to the <span>media type</span> as
+   FTP), set <var>supplied-type</var> to the <span>MIME type</span> as
    determined by that protocol, if any.
 
    <span data-anolis-ref class=informative>FTP</span>
 
   <li>
-   If <var>supplied-type</var> is not a <span>valid media type</span>, the
-   <span>supplied media type</span> is undefined.
+   If <var>supplied-type</var> is not a <span>valid MIME type</span>, the
+   <span>supplied MIME type</span> is undefined.
 
    Abort these steps.
 
   <li>
-   The <span>supplied media type</span> is <var>supplied-type</var>.
+   The <span>supplied MIME type</span> is <var>supplied-type</var>.
  </ol>
 
 
@@ -748,7 +748,7 @@
 
    <p class=note>
     If the number of <span title=byte>bytes</span> in <var>buffer</var> is
-    greater than or equal to 512, the <span>media type sniffing
+    greater than or equal to 512, the <span>MIME type sniffing
     algorithm</span> will be deterministic for the majority of cases.
 
     However, certain factors (such as a slow connection) may prevent the
@@ -765,7 +765,7 @@
 
 
 
-<h2>Matching a media type pattern</h2>
+<h2>Matching a MIME type pattern</h2>
 
 <p>
  To determine whether a <span>byte sequence</span> matches a particular
@@ -1634,44 +1634,44 @@
 
 
 
-<h2>Determining the sniffed media type of a resource</h2>
+<h2>Determining the sniffed MIME type of a resource</h2>
 
 <p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>,
- user agents must use the following <dfn>media type sniffing algorithm</dfn>:
+ To determine the <span>sniffed MIME type</span> of a <span>resource</span>,
+ user agents must use the following <dfn>MIME type sniffing algorithm</dfn>:
 
  <ol>
   <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
+   If the <span>supplied MIME type</span> is an <span>XML type</span>, the
+   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
   <li>
-   If the <span>supplied media type</span> is undefined or if the
-   <span>supplied media type</span> is not undefined and the <span>media type
-   portion</span> of the <span>supplied media type</span> is equal to
+   If the <span>supplied MIME type</span> is undefined or if the
+   <span>supplied MIME type</span> is not undefined and the <span>MIME type
+   portion</span> of the <span>supplied MIME type</span> is equal to
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
-   execute the <span>rules for identifying an unknown media type</span> with
+   execute the <span>rules for identifying an unknown MIME type</span> with
    the <span>sniff-scriptable flag</span> set and abort these steps.
 
   <li>
-   If the <span>no-sniff flag</span> is set, the <span>sniffed media
-   type</span> is the <span>supplied media type</span>.
+   If the <span>no-sniff flag</span> is set, the <span>sniffed MIME
+   type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
   <li>
-   If the <span>supplied media type</span> is not undefined and the
-   <span>media type portion</span> of the <span>supplied media type</span> is
+   If the <span>supplied MIME type</span> is not undefined and the
+   <span>MIME type portion</span> of the <span>supplied MIME type</span> is
    equal to "<code title>text/html</code>", execute the <span>rules for
    distinguishing if a resource is a feed or HTML</span> and abort these
    steps.
 
   <li>
    If the <span>has-content-type flag</span> is set and the <span>supplied
-   media type</span> is <strong>exactly</strong> equal to one of the values in
+   MIME type</span> is <strong>exactly</strong> equal to one of the values in
    the following table, execute the <span>rules for distinguishing if a
    resource is text or binary</span> and abort these steps:
 
@@ -1725,25 +1725,25 @@
    </table>
 
    <p class=note>
-    The <span>media type sniffing algorithm</span> detects these exact
+    The <span>MIME type sniffing algorithm</span> detects these exact
     <span>byte</span> sequences because some older installations of Apache
     contain
     <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
     bug</a> that causes them to supply one of these Content-Type headers when
-    serving files with unrecognized <span title="media type">media
+    serving files with unrecognized <span title="MIME type">MIME
     types</span>.
 
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <span>supplied media type</span> is an <span>image type</span>
+   If the <span>supplied MIME type</span> is an <span>image type</span>
    <span>supported by the user agent</span>, let <var>matched-type</var> be
    the result of executing the <span>image type pattern matching
    algorithm</span> with the <span>resource header</span> as the <span>byte
    sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1752,14 +1752,14 @@
    <!-- XXX: Why are we checking to see if the audio or video type is
              supported by the user agent if we're just going to sniff it again
              anyway? -->
-   If the <span>supplied media type</span> is an <span>audio or video
+   If the <span>supplied MIME type</span> is an <span>audio or video
    type</span> <span>supported by the user agent</span>, let
    <var>matched-type</var> be the result of executing the <span>audio or video
    type pattern matching algorithm</span> with the <span>resource
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1768,14 +1768,14 @@
   <li>
    <! - - XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? - - >
-   If the <span>supplied media type</span> is a <span>font type</span>
+   If the <span>supplied MIME type</span> is a <span>font type</span>
    <span>supported by the user agent</span>, let <var>matched-type</var> be
    the result of executing the <span>font type pattern matching
    algorithm</span> with the <span>resource header</span> as the <span>byte
    sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1784,40 +1784,40 @@
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by
              the user agent if we're just going to sniff it again anyway? -->
-   If the <span>supplied media type</span> is an <span>archive type</span>
+   If the <span>supplied MIME type</span> is an <span>archive type</span>
    <span>supported by the user agent</span>, let <var>matched-type</var> be
    the result of executing the <span>archive type pattern matching
    algorithm</span> with the <span>resource header</span> as the <span>byte
    sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed media type</span> is the <span>supplied media
+   The <span>sniffed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
 
 
-<h3>Identifying a resource with an unknown media type</h3>
+<h3>Identifying a resource with an unknown MIME type</h3>
 
 <p>
  The <dfn>sniff-scriptable flag</dfn> is used by the <span>rules for
- identifying an unknown media type</span> to determine whether to sniff for
- <span title="scriptable media type">scriptable media types</span>.
+ identifying an unknown MIME type</span> to determine whether to sniff for
+ <span title="scriptable MIME type">scriptable MIME types</span>.
 
  If the setting of the <span>sniff-scriptable flag</span> is not specified
- when calling the <span>rules for identifying an unknown media type</span>,
+ when calling the <span>rules for identifying an unknown MIME type</span>,
  the <span>sniff-scriptable flag</span> must default to unset.
 
 <p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
- with an unknown <span>media type</span>, execute the following <dfn>rules for
- identifying an unknown media type</dfn>:
+ To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ with an unknown <span>MIME type</span>, execute the following <dfn>rules for
+ identifying an unknown MIME type</dfn>:
 
  <ol>
   <li>
@@ -1848,7 +1848,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <span>sniffed media type</span>
+     If <var>pattern-matched</var> is true, the <span>sniffed MIME type</span>
      is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -1867,7 +1867,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Sniffed Media Type</span>
+       <span>Sniffed MIME Type</span>
       </th>
       <th>
        Note
@@ -2248,7 +2248,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <span>sniffed media
+     If <var>pattern-matched</var> is true, the <span>sniffed MIME
      type</span> is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -2267,7 +2267,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Sniffed Media Type</span>
+       <span>Sniffed MIME Type</span>
       </th>
       <th>
        Note
@@ -2348,11 +2348,11 @@
 
    <p>
     User agents may implicitly extend this table to support additional
-    <span title="valid media type">valid media types</span>.
+    <span title="valid MIME type">valid MIME types</span>.
 
     However, user agents should not implicitly extend this table to include
     additional <span title="byte pattern">byte patterns</span> for any
-    <span>sniffed media type</span> already present in this table, as doing so
+    <span>sniffed MIME type</span> already present in this table, as doing so
     could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
@@ -2364,7 +2364,7 @@
    the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2375,7 +2375,7 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2387,7 +2387,7 @@
    the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2399,7 +2399,7 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2407,12 +2407,12 @@
   <li>
    If the <span>resource header</span> contains no
    <span title="binary data byte">binary data bytes</span>, the <span>sniffed
-   media type</span> is "<code title>text/plain</code>".
+   MIME type</span> is "<code title>text/plain</code>".
 
    Abort these steps.
 
   <li>
-   The <span>sniffed media type</span> is
+   The <span>sniffed MIME type</span> is
    "<code title>application/octet-stream</code>".
  </ol>
 
@@ -2456,7 +2456,7 @@
      <ol>
       <li>
        If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
-       media type</span> is "<code title>text/html</code>".
+       MIME type</span> is "<code title>text/html</code>".
 
        Abort these steps.
 
@@ -2467,7 +2467,7 @@
 
       <li>
        If <var>sequence</var>[<var>s</var>] is not a <span>whitespace
-       byte</span>, the <span>sniffed media type</span> is
+       byte</span>, the <span>sniffed MIME type</span> is
        "<code title>text/html</code>".
 
        Abort these steps.
@@ -2482,7 +2482,7 @@
      <ol>
       <li>
        If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
-       media type</span> is "<code title>text/html</code>".
+       MIME type</span> is "<code title>text/html</code>".
 
        Abort these steps.
 
@@ -2497,7 +2497,7 @@
        <ol>
         <li>
          If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
-         media type</span> is "<code title>text/html</code>".
+         MIME type</span> is "<code title>text/html</code>".
 
          Abort these steps.
 
@@ -2522,7 +2522,7 @@
        <ol>
         <li>
          If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
-         media type</span> is "<code title>text/html</code>".
+         MIME type</span> is "<code title>text/html</code>".
 
          Abort these steps.
 
@@ -2545,7 +2545,7 @@
        <ol>
         <li>
          If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
-         media type</span> is "<code title>text/html</code>".
+         MIME type</span> is "<code title>text/html</code>".
 
          Abort these steps.
 
@@ -2566,7 +2566,7 @@
        the three <span title=byte>bytes</span> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 2] are equal to 0x72 0x73 0x73
-       ("<code title>rss</code>"), the <span>sniffed media type</span> is
+       ("<code title>rss</code>"), the <span>sniffed MIME type</span> is
        "<code title>application/rss+xml</code>".
 
        Abort these steps.
@@ -2576,7 +2576,7 @@
        the four <span title=byte>bytes</span> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 3] are equal to 0x66 0x65 0x65 0x64
-       ("<code title>feed</code>"), the <span>sniffed media type</span> is
+       ("<code title>feed</code>"), the <span>sniffed MIME type</span> is
        "<code title>application/atom+xml</code>".
 
        Abort these steps.
@@ -2592,7 +2592,7 @@
        <ol>
         <li>
          If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
-         media type</span> is "<code title>text/html</code>".
+         MIME type</span> is "<code title>text/html</code>".
 
          Abort these steps.
 
@@ -2609,7 +2609,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <span>sniffed media type</span> is "<code title>text/html</code>".
+           <span>sniffed MIME type</span> is "<code title>text/html</code>".
 
            Abort these steps.
 
@@ -2623,7 +2623,7 @@
            0x72 0x64 0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73
            0x23
            ("<code title>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
-           the <span>sniffed media type</span> is
+           the <span>sniffed MIME type</span> is
            "<code title>application/rss+xml</code>".
 
            Abort these steps.
@@ -2646,7 +2646,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <span>sniffed media type</span> is "<code title>text/html</code>".
+           <span>sniffed MIME type</span> is "<code title>text/html</code>".
 
            Abort these steps.
 
@@ -2658,7 +2658,7 @@
            0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F
            0x72 0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
            ("<code title>http://purl.org/rss/1.0/</code>"), the <span>sniffed
-           media type</span> is "<code title>application/rss+xml</code>".
+           MIME type</span> is "<code title>application/rss+xml</code>".
 
            Abort these steps.
 
@@ -2671,14 +2671,14 @@
        </ol>
 
       <li>
-       The <span>sniffed media type</span> is "<code title>text/html</code>".
+       The <span>sniffed MIME type</span> is "<code title>text/html</code>".
 
        Abort these steps.
      </ol>
    </ol>
 
   <li>
-   The <span>sniffed media type</span> is "<code title>text/html</code>".
+   The <span>sniffed MIME type</span> is "<code title>text/html</code>".
  </ol>
 
 <p class=note>
@@ -2703,7 +2703,7 @@
  <li>
   If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
   the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed media type</span> is
+  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed MIME type</span> is
   "<code title>text/plain</code>".
 
   Abort these steps.
@@ -2711,25 +2711,25 @@
  <li>
   If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
   the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <span>sniffed media type</span> is "<code title>text/plain</code>".
+  the <span>sniffed MIME type</span> is "<code title>text/plain</code>".
 
   Abort these steps.
 
  <li>
   If the <span>resource header</span> contains no
   <span title="binary data byte">binary data bytes</span>, the <span>sniffed
-  media type</span> is "<code title>text/plain</code>".
+  MIME type</span> is "<code title>text/plain</code>".
 
   Abort these steps.
 
  <li>
-  Execute the <span>rules for identifying an unknown media type</span> with
+  Execute the <span>rules for identifying an unknown MIME type</span> with
   the <span>sniff-scriptable flag</span> unset.
 
   <p class=warning>
    It is critical that the <span>rules for distinguishing if a resource is
-   text or binary</span> never determine the <span>sniffed media type</span>
-   to be a <span>scriptable media type</span>, as this could allow a privilege
+   text or binary</span> never determine the <span>sniffed MIME type</span>
+   to be a <span>scriptable MIME type</span>, as this could allow a privilege
    escalation attack.
 </ol>
 
@@ -2741,26 +2741,26 @@
  A <dfn>context</dfn> is &hellip;.
 
 <p>
- In certain <span title=context>contexts</span>, it is only useful to identify <span title=resource>resources</span> that belong to a certain subset of <span title="media type">media types</span>.
+ In certain <span title=context>contexts</span>, it is only useful to identify <span title=resource>resources</span> that belong to a certain subset of <span title="MIME type">MIME types</span>.
 
- In such <span title=context>contexts</span>, it is appropriate to use a <span>context-specific sniffing algorithm</span> in place of the <span>media type sniffing algorithm</span> in order to determine the <span>sniffed media type</span> of a <span>resource</span>.
+ In such <span title=context>contexts</span>, it is appropriate to use a <span>context-specific sniffing algorithm</span> in place of the <span>MIME type sniffing algorithm</span> in order to determine the <span>sniffed MIME type</span> of a <span>resource</span>.
 
 <p>
- A <dfn>context-specific sniffing algorithm</dfn> determines the <span>sniffed media type</span> of a <span>resource</span> only if the <span>resource</span> is a <span>media type</span> relevant to a particular <span>context</span>.
+ A <dfn>context-specific sniffing algorithm</dfn> determines the <span>sniffed MIME type</span> of a <span>resource</span> only if the <span>resource</span> is a <span>MIME type</span> relevant to a particular <span>context</span>.
 
 
 
 <h3>Sniffing images specifically</h3>
 
 <p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
+ To determine the <span>sniffed MIME type</span> of a <span>resource</span>
  with an <span>image type</span>, execute the following <dfn>rules for
  sniffing images specifically</dfn>:
 
  <ol>
   <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
+   If the <span>supplied MIME type</span> is an <span>XML type</span>, the
+   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -2770,13 +2770,13 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>image-type-matched</var> is not undefined, the <span>sniffed media
+   If <var>image-type-matched</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>image-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed media type</span> is the <span>supplied media
+   The <span>sniffed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
@@ -2785,14 +2785,14 @@
 <h3>Sniffing audio and video specifically</h3>
 
 <p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
+ To determine the <span>sniffed MIME type</span> of a <span>resource</span>
  with an <span>audio or video type</span>, execute the following <dfn>rules
  for sniffing audio and video specifically</dfn>:
 
  <ol>
   <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
+   If the <span>supplied MIME type</span> is an <span>XML type</span>, the
+   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -2804,12 +2804,12 @@
 
   <li>
    If <var>audio-or-video-type-matched</var> is not undefined, the
-   <span>sniffed media type</span> is <var>audio-or-video-type-matched</var>.
+   <span>sniffed MIME type</span> is <var>audio-or-video-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed media type</span> is the <span>supplied media
+   The <span>sniffed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
@@ -2818,14 +2818,14 @@
 <h3>Sniffing fonts specifically</h3>
 
 <p>
- To determine the <span>sniffed media type</span> of a <span>resource</span>
+ To determine the <span>sniffed MIME type</span> of a <span>resource</span>
  with a <span>font type</span>, execute the following <dfn>rules for sniffing
  fonts specifically</dfn>:
 
  <ol>
   <li>
-   If the <span>supplied media type</span> is an <span>XML type</span>, the
-   <span>sniffed media type</span> is the <span>supplied media type</span>.
+   If the <span>supplied MIME type</span> is an <span>XML type</span>, the
+   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -2835,13 +2835,13 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>font-type-matched</var> is not undefined, the <span>sniffed media
+   If <var>font-type-matched</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>font-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed media type</span> is the <span>supplied media
+   The <span>sniffed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 

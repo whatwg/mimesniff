@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-22-february-2013">Living Standard — Last Updated 22 February 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-26-march-2013">Living Standard — Last Updated 26 March 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 22 February 2013, the editor has made this
+  In addition, as of 26 March 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -74,9 +74,9 @@
 
  In order to be compatible with these servers, user agents consider the
  content of HTTP responses as well as the <code>Content-Type</code> header
- fields when determining the effective media type of the response.
+ fields when determining the effective MIME type of the response.
 
- This document describes an algorithm for determining the effective media type
+ This document describes an algorithm for determining the effective MIME type
  of HTTP responses that balances security and compatibility considerations.
 
 
@@ -92,9 +92,9 @@
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
  <li><a href="#parsing-a-mime-type"><span class="secno">4 </span>Parsing a MIME type</a></li>
  <li><a href="#handling-a-resource"><span class="secno">5 </span>Handling a resource</a></li>
- <li><a href="#determining-the-supplied-media-type-of-a-resource"><span class="secno">6 </span>Determining the supplied media type of a resource</a></li>
+ <li><a href="#determining-the-supplied-mime-type-of-a-resource"><span class="secno">6 </span>Determining the supplied MIME type of a resource</a></li>
  <li><a href="#reading-the-resource-header"><span class="secno">7 </span>Reading the resource header</a></li>
- <li><a href="#matching-a-media-type-pattern"><span class="secno">8 </span>Matching a media type pattern</a>
+ <li><a href="#matching-a-mime-type-pattern"><span class="secno">8 </span>Matching a MIME type pattern</a>
   <ol>
    <li><a href="#matching-an-image-type-pattern"><span class="secno">8.1 </span>Matching an image type pattern</a></li>
    <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">8.2 </span>Matching an audio or video type pattern</a>
@@ -102,9 +102,9 @@
      <li><a href="#signature-for-mp4"><span class="secno">8.2.1 </span>Signature for MP4</a></ol></li>
    <li><a href="#matching-a-font-type-pattern"><span class="secno">8.3 </span>Matching a font type pattern</a></li>
    <li><a href="#matching-an-archive-type-pattern"><span class="secno">8.4 </span>Matching an archive type pattern</a></ol></li>
- <li><a href="#determining-the-sniffed-media-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed media type of a resource</a>
+ <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed MIME type of a resource</a>
   <ol>
-   <li><a href="#identifying-a-resource-with-an-unknown-media-type"><span class="secno">9.1 </span>Identifying a resource with an unknown media type</a></li>
+   <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">9.1 </span>Identifying a resource with an unknown MIME type</a></li>
    <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">9.2 </span>Sniffing a mislabeled feed</a></li>
    <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">9.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
  <li><a href="#context-specific-sniffing"><span class="secno">10 </span>Context-specific sniffing</a>
@@ -121,7 +121,7 @@
 <h2 id="introduction"><span class="secno">1 </span>Introduction</h2>
 
 <p>
- The HTTP <code>Content-Type</code> header field indicates the media type of
+ The HTTP <code>Content-Type</code> header field indicates the MIME type of
  an HTTP response.
 
  However, many HTTP servers supply a <code>Content-Type</code> that does not
@@ -129,10 +129,10 @@
 
  Historically, web browsers have tolerated these servers by examining the
  content of HTTP responses in addition to the <code>Content-Type</code> header
- field to determine the effective media type of the response.
+ field to determine the effective MIME type of the response.
 
 <p>
- Without a clear specification of how to "sniff" the media type, each user
+ Without a clear specification of how to "sniff" the MIME type, each user
  agent has been forced to reverse-engineer the algorithms of other user agents
  in order to maintain interoperability.
 
@@ -140,13 +140,13 @@
  divergent behaviors among user agents.
 
  In some cases, these divergent behaviors have had security implications, as a
- user agent could interpret an HTTP response as a different media type than
+ user agent could interpret an HTTP response as a different MIME type than
  the server intended.
 
 <p>
  These security issues are most severe when an "honest" server allows
  potentially malicious users to upload their own files and then serves the
- contents of those files with a low-privilege media type.
+ contents of those files with a low-privilege MIME type.
 
  For example, if a server believes that the client will treat a contributed
  file as an image (and thus treat it as benign), but a user agent believes the
@@ -154,11 +154,11 @@
  therein), an attacker might be able to steal the user's authentication
  credentials and mount other cross-site scripting attacks.
 
- (Malicious servers, of course, can specify an arbitrary media type in the
+ (Malicious servers, of course, can specify an arbitrary MIME type in the
  <code>Content-Type</code> header field.)
 
- In the absence of media type sniffing, this user-generated content would not
- be interpreted as a high-privilege media type.
+ In the absence of MIME type sniffing, this user-generated content would not
+ be interpreted as a high-privilege MIME type.
 
 <p>
  This document describes a content sniffing algorithm that carefully balances
@@ -243,19 +243,19 @@
  <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
 
 <p>
- The <dfn id="media-type">media type</dfn> of a <a href="#resource">resource</a> is a technical hint
+ The <dfn id="mime-type">MIME type</dfn> of a <a href="#resource">resource</a> is a technical hint
  about the use and format of that <a href="#resource">resource</a>.
 
  <a class="informative" href="#refsMIMETYPE">[MIMETYPE]</a>
 
 <p>
- A <dfn id="valid-media-type">valid media type</dfn> is a
+ A <dfn id="valid-mime-type">valid MIME type</dfn> is a
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its
  successor, and is made up in part by a
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>.
 
- The <dfn id="media-type-portion">media type portion</dfn> of a <a href="#valid-media-type">valid media type</a> is the
+ The <dfn id="mime-type-portion">MIME type portion</dfn> of a <a href="#valid-mime-type">valid MIME type</a> is the
  string represented by concatenating <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a>,
  the string "<code title="">/</code>", and
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>.
@@ -263,21 +263,21 @@
  <a href="#refsHTTP">[HTTP]</a>
 
 <p class="note">
- The <a href="#media-type-portion">media type portion</a> of a <a href="#valid-media-type">valid media type</a>
+ The <a href="#mime-type-portion">MIME type portion</a> of a <a href="#valid-mime-type">valid MIME type</a>
  excludes all <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7" title="parameter">parameters</a>
  and is case-insensitive.
 
  <a href="#refsHTTP">[HTTP]</a>
 
 <p>
- A <a href="#valid-media-type">valid media type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn> if
+ A <a href="#valid-mime-type">valid MIME type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn> if
  the user agent has the capability to interpret a <a href="#resource">resource</a> of
- that <a href="#media-type">media type</a> and present it to the user.
+ that <a href="#mime-type">MIME type</a> and present it to the user.
 
 <p>
- An <dfn id="image-type">image type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ An <dfn id="image-type">image type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
- "<code title="">image</code>"<!-- or the <span>media type portion</span> is
+ "<code title="">image</code>"<!-- or the <span>MIME type portion</span> is
  equal to one of the following:
 
  <ul>
@@ -285,10 +285,10 @@
  </ul>-->.
 
 <p>
- An <dfn id="audio-or-video-type">audio or video type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ An <dfn id="audio-or-video-type">audio or video type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
  "<code title="">audio</code>" or "<code title="">video</code>" or where the
- <a href="#media-type-portion">media type portion</a> is equal to one of the following:
+ <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
 
  <ul>
   <li>
@@ -296,9 +296,9 @@
  </ul>
 
 <p>
- A <dfn id="font-type">font type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ A <dfn id="font-type">font type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
  <!--<span data-anolis-spec=http>type</span> is equal to "<code title>font</code>"
- or--> the <a href="#media-type-portion">media type portion</a> is equal to one of the following:
+ or--> the <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
 
  <ul class="XXX">
   <li>
@@ -324,9 +324,9 @@
  </ul>
 
 <p>
- A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#valid-media-type">valid media type</a> where the
+ A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where the
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+zip</code>"
- or the <a href="#media-type-portion">media type portion</a> is equal to one of the following:
+ or the <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
 
  <ul class="XXX">
   <li>
@@ -334,9 +334,9 @@
  </ul>
 
 <p>
- An <dfn id="archive-type">archive type</dfn> is any <a href="#valid-media-type">valid media type</a> where
+ An <dfn id="archive-type">archive type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
  <!--<span data-anolis-spec=http>type</span> is equal to
- "<code title>archive</code>" or--> the <a href="#media-type-portion">media type portion</a> is equal
+ "<code title>archive</code>" or--> the <a href="#mime-type-portion">MIME type portion</a> is equal
  to one of the following:
 
  <ul>
@@ -351,16 +351,16 @@
  </ul>
 
 <p>
- An <dfn id="xml-type">XML type</dfn> is any <a href="#valid-media-type">valid media type</a> where the
+ An <dfn id="xml-type">XML type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where the
  <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+xml</code>"
- or the <a href="#media-type-portion">media type portion</a> is equal to
+ or the <a href="#mime-type-portion">MIME type portion</a> is equal to
  "<code title="">text/xml</code>" or "<code title="">application/xml</code>".
 
  <a class="informative" href="#refsRFC3023">[RFC3023]</a>
 
 <p>
- A <dfn id="scriptable-media-type">scriptable media type</dfn> is an <a href="#xml-type">XML type</a> or any
- <a href="#valid-media-type">valid media type</a> where the <a href="#media-type-portion">media type portion</a> is
+ A <dfn id="scriptable-mime-type">scriptable MIME type</dfn> is an <a href="#xml-type">XML type</a> or any
+ <a href="#valid-mime-type">valid MIME type</a> where the <a href="#mime-type-portion">MIME type portion</a> is
  equal to one of the following:
 
  <ul>
@@ -395,7 +395,7 @@
 
  <ol class="XXX">
   <li>
-   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> of the <a href="#media-type">media type</a>, where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <a href="#byte">byte</a> in <var>sequence</var>.
+   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> of the <a href="#mime-type">MIME type</a>, where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <a href="#byte">byte</a> in <var>sequence</var>.
 
   <li>
    Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in <var>sequence</var>.
@@ -667,12 +667,12 @@
 
  <ul>
   <li>
-   A <dfn id="supplied-media-type">supplied media type</dfn>, the <a href="#valid-media-type">valid media type</a>
-   determined by the <a href="#supplied-media-type-detection-algorithm">supplied media type detection algorithm</a>.
+   A <dfn id="supplied-mime-type">supplied MIME type</dfn>, the <a href="#valid-mime-type">valid MIME type</a>
+   determined by the <a href="#supplied-mime-type-detection-algorithm">supplied MIME type detection algorithm</a>.
 
   <li>
-   A <dfn id="sniffed-media-type">sniffed media type</dfn>, the <a href="#valid-media-type">valid media type</a>
-   determined by the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
+   A <dfn id="sniffed-mime-type">sniffed MIME type</dfn>, the <a href="#valid-mime-type">valid MIME type</a>
+   determined by the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
 
   <li>
    A <dfn id="has-content-type-flag">has-content-type flag</dfn>, which defaults to unset.
@@ -688,15 +688,15 @@
     particular <a href="#resource">resource</a>. The user agent can also choose to opt
     out of sniffing for all <a href="#resource" title="resource">resources</a>. However,
     opting out of sniffing does not exempt the user agent from using the
-    <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a>.
+    <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
  </ul>
 
 
 
-<h2 id="determining-the-supplied-media-type-of-a-resource"><span class="secno">6 </span>Determining the supplied media type of a resource</h2>
+<h2 id="determining-the-supplied-mime-type-of-a-resource"><span class="secno">6 </span>Determining the supplied MIME type of a resource</h2>
 
 <p>
- The <a href="#supplied-media-type">supplied media type</a> of a <a href="#resource">resource</a> is provided
+ The <a href="#supplied-mime-type">supplied MIME type</a> of a <a href="#resource">resource</a> is provided
  to the user agent by an external source associated with that
  <a href="#resource">resource</a>.
 
@@ -704,8 +704,8 @@
  <a href="#resource">resource</a> is retrieved.
 
 <p>
- To determine the <a href="#supplied-media-type">supplied media type</a> of a <a href="#resource">resource</a>,
- user agents must use the following <dfn id="supplied-media-type-detection-algorithm">supplied media type detection
+ To determine the <a href="#supplied-mime-type">supplied MIME type</a> of a <a href="#resource">resource</a>,
+ user agents must use the following <dfn id="supplied-mime-type-detection-algorithm">supplied MIME type detection
  algorithm</dfn>:
 
  <ol>
@@ -722,30 +722,30 @@
    <a href="#refsHTTP">[HTTP]</a>
 
    <p class="note">
-    File extensions are not used to determine the <a href="#supplied-media-type">supplied media
+    File extensions are not used to determine the <a href="#supplied-mime-type">supplied MIME
     type</a> of a <a href="#resource">resource</a> retrieved via HTTP because they are
     unreliable and easily spoofed.
 
   <li>
    If the <a href="#resource">resource</a> is retrieved directly from the file system,
-   set <var>supplied-type</var> to the <a href="#media-type">media type</a> provided by the
+   set <var>supplied-type</var> to the <a href="#mime-type">MIME type</a> provided by the
    file system.
 
   <li>
    If the <a href="#resource">resource</a> is retrieved via another protocol (such as
-   FTP), set <var>supplied-type</var> to the <a href="#media-type">media type</a> as
+   FTP), set <var>supplied-type</var> to the <a href="#mime-type">MIME type</a> as
    determined by that protocol, if any.
 
    <a class="informative" href="#refsFTP">[FTP]</a>
 
   <li>
-   If <var>supplied-type</var> is not a <a href="#valid-media-type">valid media type</a>, the
-   <a href="#supplied-media-type">supplied media type</a> is undefined.
+   If <var>supplied-type</var> is not a <a href="#valid-mime-type">valid MIME type</a>, the
+   <a href="#supplied-mime-type">supplied MIME type</a> is undefined.
 
    Abort these steps.
 
   <li>
-   The <a href="#supplied-media-type">supplied media type</a> is <var>supplied-type</var>.
+   The <a href="#supplied-mime-type">supplied MIME type</a> is <var>supplied-type</var>.
  </ol>
 
 
@@ -778,7 +778,7 @@
 
    <p class="note">
     If the number of <a href="#byte" title="byte">bytes</a> in <var>buffer</var> is
-    greater than or equal to 512, the <a href="#media-type-sniffing-algorithm">media type sniffing
+    greater than or equal to 512, the <a href="#mime-type-sniffing-algorithm">MIME type sniffing
     algorithm</a> will be deterministic for the majority of cases.
 
     However, certain factors (such as a slow connection) may prevent the
@@ -795,7 +795,7 @@
 
 
 
-<h2 id="matching-a-media-type-pattern"><span class="secno">8 </span>Matching a media type pattern</h2>
+<h2 id="matching-a-mime-type-pattern"><span class="secno">8 </span>Matching a MIME type pattern</h2>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
@@ -1664,44 +1664,44 @@
 
 
 
-<h2 id="determining-the-sniffed-media-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed media type of a resource</h2>
+<h2 id="determining-the-sniffed-mime-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed MIME type of a resource</h2>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>,
- user agents must use the following <dfn id="media-type-sniffing-algorithm">media type sniffing algorithm</dfn>:
+ To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>,
+ user agents must use the following <dfn id="mime-type-sniffing-algorithm">MIME type sniffing algorithm</dfn>:
 
  <ol>
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is undefined or if the
-   <a href="#supplied-media-type">supplied media type</a> is not undefined and the <a href="#media-type-portion">media type
-   portion</a> of the <a href="#supplied-media-type">supplied media type</a> is equal to
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is undefined or if the
+   <a href="#supplied-mime-type">supplied MIME type</a> is not undefined and the <a href="#mime-type-portion">MIME type
+   portion</a> of the <a href="#supplied-mime-type">supplied MIME type</a> is equal to
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
-   execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> with
+   execute the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a> with
    the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
 
   <li>
-   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-media-type">sniffed media
-   type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
+   type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is not undefined and the
-   <a href="#media-type-portion">media type portion</a> of the <a href="#supplied-media-type">supplied media type</a> is
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is not undefined and the
+   <a href="#mime-type-portion">MIME type portion</a> of the <a href="#supplied-mime-type">supplied MIME type</a> is
    equal to "<code title="">text/html</code>", execute the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for
    distinguishing if a resource is a feed or HTML</a> and abort these
    steps.
 
   <li>
-   If the <a href="#has-content-type-flag">has-content-type flag</a> is set and the <a href="#supplied-media-type">supplied
-   media type</a> is <strong>exactly</strong> equal to one of the values in
+   If the <a href="#has-content-type-flag">has-content-type flag</a> is set and the <a href="#supplied-mime-type">supplied
+   MIME type</a> is <strong>exactly</strong> equal to one of the values in
    the following table, execute the <a href="#rules-for-text-or-binary">rules for distinguishing if a
    resource is text or binary</a> and abort these steps:
 
@@ -1755,25 +1755,25 @@
    </table>
 
    <p class="note">
-    The <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> detects these exact
+    The <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a> detects these exact
     <a href="#byte">byte</a> sequences because some older installations of Apache
     contain
     <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
     bug</a> that causes them to supply one of these Content-Type headers when
-    serving files with unrecognized <a href="#media-type" title="media type">media
+    serving files with unrecognized <a href="#mime-type" title="MIME type">MIME
     types</a>.
 
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
              user agent if we're just going to sniff it again anyway? -->
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#image-type">image type</a>
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#image-type">image type</a>
    <a href="#supported-by-the-user-agent">supported by the user agent</a>, let <var>matched-type</var> be
    the result of executing the <a href="#image-type-pattern-matching-algorithm">image type pattern matching
    algorithm</a> with the <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte
    sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1782,14 +1782,14 @@
    <!-- XXX: Why are we checking to see if the audio or video type is
              supported by the user agent if we're just going to sniff it again
              anyway? -->
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#audio-or-video-type">audio or video
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#audio-or-video-type">audio or video
    type</a> <a href="#supported-by-the-user-agent">supported by the user agent</a>, let
    <var>matched-type</var> be the result of executing the <a href="#audio-or-video-type-pattern-matching-algorithm">audio or video
    type pattern matching algorithm</a> with the <a href="#resource-header">resource
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1798,14 +1798,14 @@
   <li>
    <! - - XXX: Why are we checking to see if the font type is supported by the
              user agent if we're just going to sniff it again anyway? - - >
-   If the <span>supplied media type</span> is a <span>font type</span>
+   If the <span>supplied MIME type</span> is a <span>font type</span>
    <span>supported by the user agent</span>, let <var>matched-type</var> be
    the result of executing the <span>font type pattern matching
    algorithm</span> with the <span>resource header</span> as the <span>byte
    sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1814,40 +1814,40 @@
   <li>
    <!-- XXX: Why are we checking to see if the archive type is supported by
              the user agent if we're just going to sniff it again anyway? -->
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#archive-type">archive type</a>
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#archive-type">archive type</a>
    <a href="#supported-by-the-user-agent">supported by the user agent</a>, let <var>matched-type</var> be
    the result of executing the <a href="#archive-type-pattern-matching-algorithm">archive type pattern matching
    algorithm</a> with the <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte
    sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
 
 
-<h3 id="identifying-a-resource-with-an-unknown-media-type"><span class="secno">9.1 </span>Identifying a resource with an unknown media type</h3>
+<h3 id="identifying-a-resource-with-an-unknown-mime-type"><span class="secno">9.1 </span>Identifying a resource with an unknown MIME type</h3>
 
 <p>
- The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-media-type">rules for
- identifying an unknown media type</a> to determine whether to sniff for
- <a href="#scriptable-media-type" title="scriptable media type">scriptable media types</a>.
+ The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-mime-type">rules for
+ identifying an unknown MIME type</a> to determine whether to sniff for
+ <a href="#scriptable-mime-type" title="scriptable MIME type">scriptable MIME types</a>.
 
  If the setting of the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> is not specified
- when calling the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a>,
+ when calling the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a>,
  the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> must default to unset.
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
- with an unknown <a href="#media-type">media type</a>, execute the following <dfn id="rules-for-identifying-an-unknown-media-type">rules for
- identifying an unknown media type</dfn>:
+ To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ with an unknown <a href="#mime-type">MIME type</a>, execute the following <dfn id="rules-for-identifying-an-unknown-mime-type">rules for
+ identifying an unknown MIME type</dfn>:
 
  <ol>
   <li>
@@ -1878,7 +1878,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <a href="#sniffed-media-type">sniffed media type</a>
+     If <var>pattern-matched</var> is true, the <a href="#sniffed-mime-type">sniffed MIME type</a>
      is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -1897,7 +1897,7 @@
        Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
       </th>
       <th>
-       <a href="#sniffed-media-type">Sniffed Media Type</a>
+       <a href="#sniffed-mime-type">Sniffed MIME Type</a>
       </th>
       <th>
        Note
@@ -2278,7 +2278,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <a href="#sniffed-media-type">sniffed media
+     If <var>pattern-matched</var> is true, the <a href="#sniffed-mime-type">sniffed MIME
      type</a> is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -2297,7 +2297,7 @@
        Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
       </th>
       <th>
-       <a href="#sniffed-media-type">Sniffed Media Type</a>
+       <a href="#sniffed-mime-type">Sniffed MIME Type</a>
       </th>
       <th>
        Note
@@ -2378,11 +2378,11 @@
 
    <p>
     User agents may implicitly extend this table to support additional
-    <a href="#valid-media-type" title="valid media type">valid media types</a>.
+    <a href="#valid-mime-type" title="valid MIME type">valid MIME types</a>.
 
     However, user agents should not implicitly extend this table to include
     additional <a href="#byte-pattern" title="byte pattern">byte patterns</a> for any
-    <a href="#sniffed-media-type">sniffed media type</a> already present in this table, as doing so
+    <a href="#sniffed-mime-type">sniffed MIME type</a> already present in this table, as doing so
     could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
@@ -2394,7 +2394,7 @@
    the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2405,7 +2405,7 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2417,7 +2417,7 @@
    the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed media
+   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2429,20 +2429,20 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
    If the <a href="#resource-header">resource header</a> contains no
-   <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-media-type">sniffed
-   media type</a> is "<code title="">text/plain</code>".
+   <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-mime-type">sniffed
+   MIME type</a> is "<code title="">text/plain</code>".
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is
+   The <a href="#sniffed-mime-type">sniffed MIME type</a> is
    "<code title="">application/octet-stream</code>".
  </ol>
 
@@ -2485,8 +2485,8 @@
 
      <ol>
       <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
-       media type</a> is "<code title="">text/html</code>".
+       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+       MIME type</a> is "<code title="">text/html</code>".
 
        Abort these steps.
 
@@ -2497,7 +2497,7 @@
 
       <li>
        If <var>sequence</var>[<var>s</var>] is not a <a href="#whitespace-byte">whitespace
-       byte</a>, the <a href="#sniffed-media-type">sniffed media type</a> is
+       byte</a>, the <a href="#sniffed-mime-type">sniffed MIME type</a> is
        "<code title="">text/html</code>".
 
        Abort these steps.
@@ -2511,8 +2511,8 @@
 
      <ol>
       <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
-       media type</a> is "<code title="">text/html</code>".
+       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+       MIME type</a> is "<code title="">text/html</code>".
 
        Abort these steps.
 
@@ -2526,8 +2526,8 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
-         media type</a> is "<code title="">text/html</code>".
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         MIME type</a> is "<code title="">text/html</code>".
 
          Abort these steps.
 
@@ -2551,8 +2551,8 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
-         media type</a> is "<code title="">text/html</code>".
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         MIME type</a> is "<code title="">text/html</code>".
 
          Abort these steps.
 
@@ -2574,8 +2574,8 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
-         media type</a> is "<code title="">text/html</code>".
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         MIME type</a> is "<code title="">text/html</code>".
 
          Abort these steps.
 
@@ -2596,7 +2596,7 @@
        the three <a href="#byte" title="byte">bytes</a> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 2] are equal to 0x72 0x73 0x73
-       ("<code title="">rss</code>"), the <a href="#sniffed-media-type">sniffed media type</a> is
+       ("<code title="">rss</code>"), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
        "<code title="">application/rss+xml</code>".
 
        Abort these steps.
@@ -2606,7 +2606,7 @@
        the four <a href="#byte" title="byte">bytes</a> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 3] are equal to 0x66 0x65 0x65 0x64
-       ("<code title="">feed</code>"), the <a href="#sniffed-media-type">sniffed media type</a> is
+       ("<code title="">feed</code>"), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
        "<code title="">application/atom+xml</code>".
 
        Abort these steps.
@@ -2621,8 +2621,8 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-media-type">sniffed
-         media type</a> is "<code title="">text/html</code>".
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         MIME type</a> is "<code title="">text/html</code>".
 
          Abort these steps.
 
@@ -2639,7 +2639,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+           <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/html</code>".
 
            Abort these steps.
 
@@ -2653,7 +2653,7 @@
            0x72 0x64 0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73
            0x23
            ("<code title="">http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
-           the <a href="#sniffed-media-type">sniffed media type</a> is
+           the <a href="#sniffed-mime-type">sniffed MIME type</a> is
            "<code title="">application/rss+xml</code>".
 
            Abort these steps.
@@ -2676,7 +2676,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+           <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/html</code>".
 
            Abort these steps.
 
@@ -2687,8 +2687,8 @@
            <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
            0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F
            0x72 0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
-           ("<code title="">http://purl.org/rss/1.0/</code>"), the <a href="#sniffed-media-type">sniffed
-           media type</a> is "<code title="">application/rss+xml</code>".
+           ("<code title="">http://purl.org/rss/1.0/</code>"), the <a href="#sniffed-mime-type">sniffed
+           MIME type</a> is "<code title="">application/rss+xml</code>".
 
            Abort these steps.
 
@@ -2701,14 +2701,14 @@
        </ol>
 
       <li>
-       The <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+       The <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/html</code>".
 
        Abort these steps.
      </ol>
    </ol>
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/html</code>".
+   The <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/html</code>".
  </ol>
 
 <p class="note">
@@ -2733,7 +2733,7 @@
  <li>
   If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
   the <a href="#resource-header">resource header</a> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <a href="#sniffed-media-type">sniffed media type</a> is
+  0xFF 0xFE (UTF-16LE BOM), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
   "<code title="">text/plain</code>".
 
   Abort these steps.
@@ -2741,25 +2741,25 @@
  <li>
   If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
   the <a href="#resource-header">resource header</a> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <a href="#sniffed-media-type">sniffed media type</a> is "<code title="">text/plain</code>".
+  the <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/plain</code>".
 
   Abort these steps.
 
  <li>
   If the <a href="#resource-header">resource header</a> contains no
-  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-media-type">sniffed
-  media type</a> is "<code title="">text/plain</code>".
+  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-mime-type">sniffed
+  MIME type</a> is "<code title="">text/plain</code>".
 
   Abort these steps.
 
  <li>
-  Execute the <a href="#rules-for-identifying-an-unknown-media-type">rules for identifying an unknown media type</a> with
+  Execute the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a> with
   the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> unset.
 
   <p class="warning">
    It is critical that the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is
-   text or binary</a> never determine the <a href="#sniffed-media-type">sniffed media type</a>
-   to be a <a href="#scriptable-media-type">scriptable media type</a>, as this could allow a privilege
+   text or binary</a> never determine the <a href="#sniffed-mime-type">sniffed MIME type</a>
+   to be a <a href="#scriptable-mime-type">scriptable MIME type</a>, as this could allow a privilege
    escalation attack.
 </ol>
 
@@ -2771,26 +2771,26 @@
  A <dfn id="context">context</dfn> is ….
 
 <p>
- In certain <a href="#context" title="context">contexts</a>, it is only useful to identify <a href="#resource" title="resource">resources</a> that belong to a certain subset of <a href="#media-type" title="media type">media types</a>.
+ In certain <a href="#context" title="context">contexts</a>, it is only useful to identify <a href="#resource" title="resource">resources</a> that belong to a certain subset of <a href="#mime-type" title="MIME type">MIME types</a>.
 
- In such <a href="#context" title="context">contexts</a>, it is appropriate to use a <a href="#context-specific-sniffing-algorithm">context-specific sniffing algorithm</a> in place of the <a href="#media-type-sniffing-algorithm">media type sniffing algorithm</a> in order to determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>.
+ In such <a href="#context" title="context">contexts</a>, it is appropriate to use a <a href="#context-specific-sniffing-algorithm">context-specific sniffing algorithm</a> in place of the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a> in order to determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>.
 
 <p>
- A <dfn id="context-specific-sniffing-algorithm">context-specific sniffing algorithm</dfn> determines the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a> only if the <a href="#resource">resource</a> is a <a href="#media-type">media type</a> relevant to a particular <a href="#context">context</a>.
+ A <dfn id="context-specific-sniffing-algorithm">context-specific sniffing algorithm</dfn> determines the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a> only if the <a href="#resource">resource</a> is a <a href="#mime-type">MIME type</a> relevant to a particular <a href="#context">context</a>.
 
 
 
 <h3 id="sniffing-images-specifically"><span class="secno">10.1 </span>Sniffing images specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
  with an <a href="#image-type">image type</a>, execute the following <dfn id="rules-for-sniffing-images-specifically">rules for
  sniffing images specifically</dfn>:
 
  <ol>
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -2800,13 +2800,13 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>image-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>image-type-matched</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>image-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
@@ -2815,14 +2815,14 @@
 <h3 id="sniffing-audio-and-video-specifically"><span class="secno">10.2 </span>Sniffing audio and video specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
  with an <a href="#audio-or-video-type">audio or video type</a>, execute the following <dfn id="rules-for-sniffing-audio-and-video-specifically">rules
  for sniffing audio and video specifically</dfn>:
 
  <ol>
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -2834,12 +2834,12 @@
 
   <li>
    If <var>audio-or-video-type-matched</var> is not undefined, the
-   <a href="#sniffed-media-type">sniffed media type</a> is <var>audio-or-video-type-matched</var>.
+   <a href="#sniffed-mime-type">sniffed MIME type</a> is <var>audio-or-video-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
@@ -2848,14 +2848,14 @@
 <h3 id="sniffing-fonts-specifically"><span class="secno">10.3 </span>Sniffing fonts specifically</h3>
 
 <p>
- To determine the <a href="#sniffed-media-type">sniffed media type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
  with a <a href="#font-type">font type</a>, execute the following <dfn id="rules-for-sniffing-fonts-specifically">rules for sniffing
  fonts specifically</dfn>:
 
  <ol>
   <li>
-   If the <a href="#supplied-media-type">supplied media type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media type</a>.
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -2865,13 +2865,13 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>font-type-matched</var> is not undefined, the <a href="#sniffed-media-type">sniffed media
+   If <var>font-type-matched</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
    type</a> is <var>font-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-media-type">sniffed media type</a> is the <a href="#supplied-media-type">supplied media
+   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
