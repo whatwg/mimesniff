@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-26-march-2013">Living Standard — Last Updated 26 March 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-8-may-2013">Living Standard — Last Updated 8 May 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 26 March 2013, the editor has made this
+  In addition, as of 8 May 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -1672,8 +1672,8 @@
 
  <ol>
   <li>
-   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
+   type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -1687,8 +1687,8 @@
    the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
 
   <li>
-   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
-   type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
+   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
