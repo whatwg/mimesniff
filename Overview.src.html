@@ -1642,18 +1642,18 @@
 
  <ol>
   <li>
-   If the <span>no-sniff flag</span> is set, the <span>sniffed MIME
-   type</span> is the <span>supplied MIME type</span>.
-
-   Abort these steps.
-
-  <li>
    If the <span>supplied MIME type</span> is undefined or if the <span>MIME
    type portion</span> of the <span>supplied MIME type</span> is equal to
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
    execute the <span>rules for identifying an unknown MIME type</span> with
    the <span>sniff-scriptable flag</span> set and abort these steps.
+
+  <li>
+   If the <span>no-sniff flag</span> is set, the <span>sniffed MIME
+   type</span> is the <span>supplied MIME type</span>.
+
+   Abort these steps.
 
   <li>
    If the <span>supplied MIME type</span> is an <span>XML type</span>, the

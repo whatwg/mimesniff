@@ -1672,18 +1672,18 @@
 
  <ol>
   <li>
-   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
-   type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
-
-   Abort these steps.
-
-  <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is undefined or if the <a href="#mime-type-portion">MIME
    type portion</a> of the <a href="#supplied-mime-type">supplied MIME type</a> is equal to
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
    execute the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a> with
    the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
+
+  <li>
+   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
+   type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+
+   Abort these steps.
 
   <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
