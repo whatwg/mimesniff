@@ -659,11 +659,22 @@
    Let <var>supplied-type</var> be null.
 
   <li>
-   If the <span>resource</span> is retrieved via HTTP and one or more
-   <code>Content-Type</code> headers are associated with the
-   <span>resource</span>, set <var>supplied-type</var> to the value associated
-   with the last such <code>Content-Type</code> header and set the
-   <span>has-content-type flag</span>.
+   If the <span>resource</span> is retrieved via HTTP, execute the following
+   steps:
+
+   <ol>
+    <li>
+     If one or more <code>Content-Type</code> headers are associated with the
+     <span>resource</span>, set <var>supplied-type</var> to the value
+     associated with the last such <code>Content-Type</code> header and set
+     the <span>has-content-type flag</span>.
+
+    <li>
+     If one or more <code>X-Content-Type-Options</code> headers are associated
+     with the <span>resource</span> and any such
+     <code>X-Content-Type-Options</code> header has a value equal to
+     "<code title>nosniff</code>", set the <span>no-sniff flag</span>.
+   </ol>
 
    <span data-anolis-ref=http>HTTP</span>
 
@@ -1643,7 +1654,8 @@
    "<code title>unknown/unknown</code>",
    "<code title>application/unknown</code>", or "<code title>*/*</code>",
    execute the <span>rules for identifying an unknown MIME type</span> with
-   the <span>sniff-scriptable flag</span> set and abort these steps.
+   the <span>sniff-scriptable flag</span> equal to the inverse of the
+   <span>no-sniff flag</span> and abort these steps.
 
   <li>
    If the <span>no-sniff flag</span> is set, the <span>sniffed MIME

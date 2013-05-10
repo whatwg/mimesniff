@@ -691,11 +691,22 @@
    Let <var>supplied-type</var> be null.
 
   <li>
-   If the <a href="#resource">resource</a> is retrieved via HTTP and one or more
-   <code>Content-Type</code> headers are associated with the
-   <a href="#resource">resource</a>, set <var>supplied-type</var> to the value associated
-   with the last such <code>Content-Type</code> header and set the
-   <a href="#has-content-type-flag">has-content-type flag</a>.
+   If the <a href="#resource">resource</a> is retrieved via HTTP, execute the following
+   steps:
+
+   <ol>
+    <li>
+     If one or more <code>Content-Type</code> headers are associated with the
+     <a href="#resource">resource</a>, set <var>supplied-type</var> to the value
+     associated with the last such <code>Content-Type</code> header and set
+     the <a href="#has-content-type-flag">has-content-type flag</a>.
+
+    <li>
+     If one or more <code>X-Content-Type-Options</code> headers are associated
+     with the <a href="#resource">resource</a> and any such
+     <code>X-Content-Type-Options</code> header has a value equal to
+     "<code title="">nosniff</code>", set the <a href="#no-sniff-flag">no-sniff flag</a>.
+   </ol>
 
    <a href="#refsHTTP">[HTTP]</a>
 
@@ -1675,7 +1686,8 @@
    "<code title="">unknown/unknown</code>",
    "<code title="">application/unknown</code>", or "<code title="">*/*</code>",
    execute the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a> with
-   the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> set and abort these steps.
+   the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> equal to the inverse of the
+   <a href="#no-sniff-flag">no-sniff flag</a> and abort these steps.
 
   <li>
    If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
