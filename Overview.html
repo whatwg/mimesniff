@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-8-may-2013">Living Standard — Last Updated 8 May 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-10-may-2013">Living Standard — Last Updated 10 May 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 8 May 2013, the editor has made this
+  In addition, as of 10 May 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -66,52 +66,39 @@
 
 
 
-<h2 class="no-num no-toc" id="abstract">Abstract</h2>
-
-<p>
- Many web servers supply incorrect <code>Content-Type</code> header fields
- with their HTTP responses.
-
- In order to be compatible with these servers, user agents consider the
- content of HTTP responses as well as the <code>Content-Type</code> header
- fields when determining the effective MIME type of the response.
-
- This document describes an algorithm for determining the effective MIME type
- of HTTP responses that balances security and compatibility considerations.
-
-
-
-<h2 class="no-num" id="table-of-contents">Table of contents</h2>
+<h2 class="no-num no-toc" id="table-of-contents">Table of contents</h2>
 
 
 <!--begin-toc-->
 <ol class="toc">
- <li><a class="no-num" href="#table-of-contents">Table of contents</a></li>
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
- <li><a href="#conventions"><span class="secno">2 </span>Conventions</a></li>
+ <li><a href="#conformance-requirements"><span class="secno">2 </span>Conformance requirements</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#parsing-a-mime-type"><span class="secno">4 </span>Parsing a MIME type</a></li>
- <li><a href="#handling-a-resource"><span class="secno">5 </span>Handling a resource</a></li>
- <li><a href="#determining-the-supplied-mime-type-of-a-resource"><span class="secno">6 </span>Determining the supplied MIME type of a resource</a></li>
- <li><a href="#reading-the-resource-header"><span class="secno">7 </span>Reading the resource header</a></li>
- <li><a href="#matching-a-mime-type-pattern"><span class="secno">8 </span>Matching a MIME type pattern</a>
+ <li><a href="#the-basics-of-a-mime-type"><span class="secno">4 </span>The basics of a MIME type</a>
   <ol>
-   <li><a href="#matching-an-image-type-pattern"><span class="secno">8.1 </span>Matching an image type pattern</a></li>
-   <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">8.2 </span>Matching an audio or video type pattern</a>
+   <li><a href="#mime-type-categories"><span class="secno">4.1 </span>MIME type categories</a></ol></li>
+ <li><a href="#parsing-a-mime-type"><span class="secno">5 </span>Parsing a MIME type</a></li>
+ <li><a href="#handling-a-resource"><span class="secno">6 </span>Handling a resource</a></li>
+ <li><a href="#determining-the-supplied-mime-type-of-a-resource"><span class="secno">7 </span>Determining the supplied MIME type of a resource</a></li>
+ <li><a href="#reading-the-resource-header"><span class="secno">8 </span>Reading the resource header</a></li>
+ <li><a href="#matching-a-mime-type-pattern"><span class="secno">9 </span>Matching a MIME type pattern</a>
+  <ol>
+   <li><a href="#matching-an-image-type-pattern"><span class="secno">9.1 </span>Matching an image type pattern</a></li>
+   <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">9.2 </span>Matching an audio or video type pattern</a>
     <ol>
-     <li><a href="#signature-for-mp4"><span class="secno">8.2.1 </span>Signature for MP4</a></ol></li>
-   <li><a href="#matching-a-font-type-pattern"><span class="secno">8.3 </span>Matching a font type pattern</a></li>
-   <li><a href="#matching-an-archive-type-pattern"><span class="secno">8.4 </span>Matching an archive type pattern</a></ol></li>
- <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed MIME type of a resource</a>
+     <li><a href="#signature-for-mp4"><span class="secno">9.2.1 </span>Signature for MP4</a></ol></li>
+   <li><a href="#matching-a-font-type-pattern"><span class="secno">9.3 </span>Matching a font type pattern</a></li>
+   <li><a href="#matching-an-archive-type-pattern"><span class="secno">9.4 </span>Matching an archive type pattern</a></ol></li>
+ <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">10 </span>Determining the sniffed MIME type of a resource</a>
   <ol>
-   <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">9.1 </span>Identifying a resource with an unknown MIME type</a></li>
-   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">9.2 </span>Sniffing a mislabeled feed</a></li>
-   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">9.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
- <li><a href="#context-specific-sniffing"><span class="secno">10 </span>Context-specific sniffing</a>
+   <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">10.1 </span>Identifying a resource with an unknown MIME type</a></li>
+   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">10.2 </span>Sniffing a mislabeled feed</a></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">10.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
+ <li><a href="#context-specific-sniffing"><span class="secno">11 </span>Context-specific sniffing</a>
   <ol>
-   <li><a href="#sniffing-images-specifically"><span class="secno">10.1 </span>Sniffing images specifically</a></li>
-   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">10.2 </span>Sniffing audio and video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">10.3 </span>Sniffing fonts specifically</a></ol></li>
+   <li><a href="#sniffing-images-specifically"><span class="secno">11.1 </span>Sniffing images specifically</a></li>
+   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">11.2 </span>Sniffing audio and video specifically</a></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">11.3 </span>Sniffing fonts specifically</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -182,20 +169,23 @@
 
 
 
-<h2 id="conventions"><span class="secno">2 </span>Conventions</h2>
+<h2 id="conformance-requirements"><span class="secno">2 </span>Conformance requirements</h2>
 
 <p>
- The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+ The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
  "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
  document are to be interpreted as described in RFC 2119.
+
+ For readability, these keywords will generally not appear in all uppercase
+ letters.
 
  <a href="#refsRFC2119">[RFC2119]</a>
 
 <p>
  Requirements phrased in the imperative as part of algorithms (such as "strip
  any leading space characters" or "return false and abort these steps") are to
- be interpreted with the meaning of the key word ("MUST", "SHOULD", "MAY",
- etc.) used in introducing the algorithm.
+ be interpreted with the meaning of the keyword used in introducing the
+ algorithm.
 
 <p>
  Conformance requirements phrased as algorithms or specific steps can be
@@ -237,10 +227,9 @@
  A <dfn id="byte-sequence">byte sequence</dfn> is a <span>sequence</span> of
  <a href="#byte" title="byte">bytes</a>.
 
-<p>
- A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the
- beginning of a <a href="#resource">resource</a>, as determined by
- <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
+
+
+<h2 id="the-basics-of-a-mime-type"><span class="secno">4 </span>The basics of a MIME type</h2>
 
 <p>
  The <dfn id="mime-type">MIME type</dfn> of a <a href="#resource">resource</a> is a technical hint
@@ -273,6 +262,10 @@
  A <a href="#valid-mime-type">valid MIME type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn> if
  the user agent has the capability to interpret a <a href="#resource">resource</a> of
  that <a href="#mime-type">MIME type</a> and present it to the user.
+
+
+
+<h3 id="mime-type-categories"><span class="secno">4.1 </span>MIME type categories</h3>
 
 <p>
  An <dfn id="image-type">image type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
@@ -371,24 +364,9 @@
    <code title="">application/pdf</code>
  </ul>
 
-<p>
- A <dfn id="byte-pattern">byte pattern</dfn> is a <a href="#byte-sequence">byte sequence</a> used as a template
- to be matched against in the <a href="#pattern-matching-algorithm">pattern matching algorithm</a>.
-
-<p>
- A <dfn id="pattern-mask">pattern mask</dfn> is a <a href="#byte-sequence">byte sequence</a> used to determine
- the significance of <a href="#byte" title="byte">bytes</a> being compared against a
- <a href="#byte-pattern">byte pattern</a> in the <a href="#pattern-matching-algorithm">pattern matching algorithm</a>.
-
-<p class="note">
- In a <a href="#pattern-mask">pattern mask</a>, 0xFF indicates the <a href="#byte">byte</a> is
- strictly significant, 0xDF indicates that the <a href="#byte">byte</a> is
- significant in an ASCII case-insensitive way, and 0x00 indicates that the
- <a href="#byte">byte</a> is not significant.
 
 
-
-<h2 id="parsing-a-mime-type"><span class="secno">4 </span>Parsing a MIME type</h2>
+<h2 id="parsing-a-mime-type"><span class="secno">5 </span>Parsing a MIME type</h2>
 
 <p>
  To <dfn id="parse-a-mime-type">parse a MIME type</dfn>, execute the following steps:
@@ -657,7 +635,7 @@
 
 
 
-<h2 id="handling-a-resource"><span class="secno">5 </span>Handling a resource</h2>
+<h2 id="handling-a-resource"><span class="secno">6 </span>Handling a resource</h2>
 
 <p class="XXX">
  A <dfn id="resource">resource</dfn> is ….
@@ -693,7 +671,7 @@
 
 
 
-<h2 id="determining-the-supplied-mime-type-of-a-resource"><span class="secno">6 </span>Determining the supplied MIME type of a resource</h2>
+<h2 id="determining-the-supplied-mime-type-of-a-resource"><span class="secno">7 </span>Determining the supplied MIME type of a resource</h2>
 
 <p>
  The <a href="#supplied-mime-type">supplied MIME type</a> of a <a href="#resource">resource</a> is provided
@@ -750,7 +728,12 @@
 
 
 
-<h2 id="reading-the-resource-header"><span class="secno">7 </span>Reading the resource header</h2>
+<h2 id="reading-the-resource-header"><span class="secno">8 </span>Reading the resource header</h2>
+
+<p>
+ A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the
+ beginning of a <a href="#resource">resource</a>, as determined by
+ <a href="#read-the-resource-header" title="read the resource header">reading the resource header</a>.
 
 <p>
  To <dfn id="read-the-resource-header">read the resource header</dfn>, perform the following steps:
@@ -795,7 +778,22 @@
 
 
 
-<h2 id="matching-a-mime-type-pattern"><span class="secno">8 </span>Matching a MIME type pattern</h2>
+<h2 id="matching-a-mime-type-pattern"><span class="secno">9 </span>Matching a MIME type pattern</h2>
+
+<p>
+ A <dfn id="byte-pattern">byte pattern</dfn> is a <a href="#byte-sequence">byte sequence</a> used as a template
+ to be matched against in the <a href="#pattern-matching-algorithm">pattern matching algorithm</a>.
+
+<p>
+ A <dfn id="pattern-mask">pattern mask</dfn> is a <a href="#byte-sequence">byte sequence</a> used to determine
+ the significance of <a href="#byte" title="byte">bytes</a> being compared against a
+ <a href="#byte-pattern">byte pattern</a> in the <a href="#pattern-matching-algorithm">pattern matching algorithm</a>.
+
+<p class="note">
+ In a <a href="#pattern-mask">pattern mask</a>, 0xFF indicates the <a href="#byte">byte</a> is
+ strictly significant, 0xDF indicates that the <a href="#byte">byte</a> is
+ significant in an ASCII case-insensitive way, and 0x00 indicates that the
+ <a href="#byte">byte</a> is not significant.
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> matches a particular
@@ -874,7 +872,7 @@
 
 
 
-<h3 id="matching-an-image-type-pattern"><span class="secno">8.1 </span>Matching an image type pattern</h3>
+<h3 id="matching-an-image-type-pattern"><span class="secno">9.1 </span>Matching an image type pattern</h3>
 
 <p>
  To determine which <a href="#image-type">image type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1073,7 +1071,7 @@
 
 
 
-<h3 id="matching-an-audio-or-video-type-pattern"><span class="secno">8.2 </span>Matching an audio or video type pattern</h3>
+<h3 id="matching-an-audio-or-video-type-pattern"><span class="secno">9.2 </span>Matching an audio or video type pattern</h3>
 
 <p>
  To determine which <a href="#audio-or-video-type">audio or video type</a> <a href="#byte-pattern">byte pattern</a>
@@ -1305,7 +1303,7 @@
 
 
 
-<h4 id="signature-for-mp4"><span class="secno">8.2.1 </span>Signature for MP4</h4>
+<h4 id="signature-for-mp4"><span class="secno">9.2.1 </span>Signature for MP4</h4>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
@@ -1372,7 +1370,7 @@
 
 
 
-<h3 id="matching-a-font-type-pattern"><span class="secno">8.3 </span>Matching a font type pattern</h3>
+<h3 id="matching-a-font-type-pattern"><span class="secno">9.3 </span>Matching a font type pattern</h3>
 
 <p>
  To determine which <a href="#font-type">font type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1540,7 +1538,7 @@
 
 
 
-<h3 id="matching-an-archive-type-pattern"><span class="secno">8.4 </span>Matching an archive type pattern</h3>
+<h3 id="matching-an-archive-type-pattern"><span class="secno">9.4 </span>Matching an archive type pattern</h3>
 
 <p>
  To determine which <a href="#archive-type">archive type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1664,7 +1662,7 @@
 
 
 
-<h2 id="determining-the-sniffed-mime-type-of-a-resource"><span class="secno">9 </span>Determining the sniffed MIME type of a resource</h2>
+<h2 id="determining-the-sniffed-mime-type-of-a-resource"><span class="secno">10 </span>Determining the sniffed MIME type of a resource</h2>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>,
@@ -1831,7 +1829,7 @@
 
 
 
-<h3 id="identifying-a-resource-with-an-unknown-mime-type"><span class="secno">9.1 </span>Identifying a resource with an unknown MIME type</h3>
+<h3 id="identifying-a-resource-with-an-unknown-mime-type"><span class="secno">10.1 </span>Identifying a resource with an unknown MIME type</h3>
 
 <p>
  The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-mime-type">rules for
@@ -2446,7 +2444,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-feed"><span class="secno">9.2 </span>Sniffing a mislabeled feed</h3>
+<h3 id="sniffing-a-mislabeled-feed"><span class="secno">10.2 </span>Sniffing a mislabeled feed</h3>
 
 <p>
  To determine whether a feed has been mislabeled as HTML, execute the
@@ -2716,7 +2714,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">9.3 </span>Sniffing a mislabeled binary resource</h3>
+<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">10.3 </span>Sniffing a mislabeled binary resource</h3>
 
 <p>
  To determine whether a binary <a href="#resource">resource</a> has been mislabeled as
@@ -2763,7 +2761,7 @@
 
 
 
-<h2 id="context-specific-sniffing"><span class="secno">10 </span>Context-specific sniffing</h2>
+<h2 id="context-specific-sniffing"><span class="secno">11 </span>Context-specific sniffing</h2>
 
 <p class="XXX">
  A <dfn id="context">context</dfn> is ….
@@ -2778,7 +2776,7 @@
 
 
 
-<h3 id="sniffing-images-specifically"><span class="secno">10.1 </span>Sniffing images specifically</h3>
+<h3 id="sniffing-images-specifically"><span class="secno">11.1 </span>Sniffing images specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2810,7 +2808,7 @@
 
 
 
-<h3 id="sniffing-audio-and-video-specifically"><span class="secno">10.2 </span>Sniffing audio and video specifically</h3>
+<h3 id="sniffing-audio-and-video-specifically"><span class="secno">11.2 </span>Sniffing audio and video specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2843,7 +2841,7 @@
 
 
 
-<h3 id="sniffing-fonts-specifically"><span class="secno">10.3 </span>Sniffing fonts specifically</h3>
+<h3 id="sniffing-fonts-specifically"><span class="secno">11.3 </span>Sniffing fonts specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>

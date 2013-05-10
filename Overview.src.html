@@ -67,22 +67,7 @@
 
 
 
-<h2 class="no-num no-toc">Abstract</h2>
-
-<p>
- Many web servers supply incorrect <code>Content-Type</code> header fields
- with their HTTP responses.
-
- In order to be compatible with these servers, user agents consider the
- content of HTTP responses as well as the <code>Content-Type</code> header
- fields when determining the effective MIME type of the response.
-
- This document describes an algorithm for determining the effective MIME type
- of HTTP responses that balances security and compatibility considerations.
-
-
-
-<h2 class=no-num>Table of contents</h2>
+<h2 class="no-num no-toc">Table of contents</h2>
 
 <!--toc-->
 
@@ -152,20 +137,23 @@
 
 
 
-<h2>Conventions</h2>
+<h2>Conformance requirements</h2>
 
 <p>
- The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+ The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
  "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
  document are to be interpreted as described in RFC 2119.
+
+ For readability, these keywords will generally not appear in all uppercase
+ letters.
 
  <span data-anolis-ref>RFC2119</span>
 
 <p>
  Requirements phrased in the imperative as part of algorithms (such as "strip
  any leading space characters" or "return false and abort these steps") are to
- be interpreted with the meaning of the key word ("MUST", "SHOULD", "MAY",
- etc.) used in introducing the algorithm.
+ be interpreted with the meaning of the keyword used in introducing the
+ algorithm.
 
 <p>
  Conformance requirements phrased as algorithms or specific steps can be
@@ -207,10 +195,9 @@
  A <dfn>byte sequence</dfn> is a <span>sequence</span> of
  <span title=byte>bytes</span>.
 
-<p>
- A <dfn>resource header</dfn> is the <span>byte sequence</span> at the
- beginning of a <span>resource</span>, as determined by
- <span title="read the resource header">reading the resource header</span>.
+
+
+<h2>The basics of a MIME type</h2>
 
 <p>
  The <dfn>MIME type</dfn> of a <span>resource</span> is a technical hint
@@ -243,6 +230,10 @@
  A <span>valid MIME type</span> is <dfn>supported by the user agent</dfn> if
  the user agent has the capability to interpret a <span>resource</span> of
  that <span>MIME type</span> and present it to the user.
+
+
+
+<h3>MIME type categories</h3>
 
 <p>
  An <dfn>image type</dfn> is any <span>valid MIME type</span> where
@@ -340,21 +331,6 @@
   <li>
    <code title>application/pdf</code>
  </ul>
-
-<p>
- A <dfn>byte pattern</dfn> is a <span>byte sequence</span> used as a template
- to be matched against in the <span>pattern matching algorithm</span>.
-
-<p>
- A <dfn>pattern mask</dfn> is a <span>byte sequence</span> used to determine
- the significance of <span title=byte>bytes</span> being compared against a
- <span>byte pattern</span> in the <span>pattern matching algorithm</span>.
-
-<p class=note>
- In a <span>pattern mask</span>, 0xFF indicates the <span>byte</span> is
- strictly significant, 0xDF indicates that the <span>byte</span> is
- significant in an ASCII case-insensitive way, and 0x00 indicates that the
- <span>byte</span> is not significant.
 
 
 
@@ -723,6 +699,11 @@
 <h2>Reading the resource header</h2>
 
 <p>
+ A <dfn>resource header</dfn> is the <span>byte sequence</span> at the
+ beginning of a <span>resource</span>, as determined by
+ <span title="read the resource header">reading the resource header</span>.
+
+<p>
  To <dfn>read the resource header</dfn>, perform the following steps:
 
  <ol>
@@ -766,6 +747,21 @@
 
 
 <h2>Matching a MIME type pattern</h2>
+
+<p>
+ A <dfn>byte pattern</dfn> is a <span>byte sequence</span> used as a template
+ to be matched against in the <span>pattern matching algorithm</span>.
+
+<p>
+ A <dfn>pattern mask</dfn> is a <span>byte sequence</span> used to determine
+ the significance of <span title=byte>bytes</span> being compared against a
+ <span>byte pattern</span> in the <span>pattern matching algorithm</span>.
+
+<p class=note>
+ In a <span>pattern mask</span>, 0xFF indicates the <span>byte</span> is
+ strictly significant, 0xDF indicates that the <span>byte</span> is
+ significant in an ASCII case-insensitive way, and 0x00 indicates that the
+ <span>byte</span> is not significant.
 
 <p>
  To determine whether a <span>byte sequence</span> matches a particular
