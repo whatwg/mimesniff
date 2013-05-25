@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-10-may-2013">Living Standard — Last Updated 10 May 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-25-may-2013">Living Standard — Last Updated 25 May 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 10 May 2013, the editor has made this
+  In addition, as of 25 May 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -371,7 +371,7 @@
 <p>
  To <dfn id="parse-a-mime-type">parse a MIME type</dfn>, execute the following steps:
 
- <ol class="XXX">
+ <ol>
   <li>
    Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> of the <a href="#mime-type">MIME type</a>, where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <a href="#byte">byte</a> in <var>sequence</var>.
 
@@ -412,7 +412,7 @@
      Increment <var>s</var> by 1.
    </ol>
 
-  <li>
+  <li class="XXX">
    While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
 
    <ol>
@@ -426,7 +426,7 @@
   <li>
    Increment <var>s</var> by 1.
 
-  <li>
+  <li class="XXX">
    While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
 
    <ol>
@@ -460,7 +460,7 @@
     Enter loop <var>L</var>:
 
     <ol>
-     <li>
+     <li class="XXX">
       While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
 
       <ol>
@@ -513,7 +513,7 @@
      <li>
       Initialize <var>parameters</var>[<var>name</var>] to null.
 
-     <li>
+     <li class="XXX">
       While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
 
       <ol>
@@ -535,7 +535,7 @@
      <li>
       Increment <var>s</var> by 1.
 
-     <li>
+     <li class="XXX">
       While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
 
       <ol>
@@ -630,6 +630,8 @@
           </ol>
         </ol>
       </ol>
+
+     <li class="XXX">
     </ol>
  </ol>
 
