@@ -612,7 +612,7 @@
    determined by the <span>MIME type sniffing algorithm</span>.
 
   <li>
-   A <dfn>has-content-type flag</dfn>, which defaults to unset.
+   A <dfn>check-for-apache-bug flag</dfn>, which defaults to unset.
 
   <li>
    A <dfn>no-sniff flag</dfn>, which defaults to set if the user agent does
@@ -658,7 +658,7 @@
      If one or more <code>Content-Type</code> headers are associated with the
      <span>resource</span>, set <var>supplied-type</var> to the value
      associated with the last such <code>Content-Type</code> header and set
-     the <span>has-content-type flag</span>.
+     the <span>check-for-apache-bug flag</span>.
 
     <li>
      If one or more <code>X-Content-Type-Options</code> headers are associated
@@ -1667,7 +1667,7 @@
    abort these steps.
 
   <li>
-   If the <span>has-content-type flag</span> is set and the <span>supplied
+   If the <span>check-for-apache-bug flag</span> is set and the <span>supplied
    MIME type</span> is <strong>exactly</strong> equal to one of the values in
    the following table, execute the <span>rules for distinguishing if a
    resource is text or binary</span> and abort these steps:
