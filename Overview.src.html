@@ -76,18 +76,18 @@
 <h2>Introduction</h2>
 
 <p>
- The HTTP <code>Content-Type</code> header field indicates the MIME type of
- an HTTP response.
+ The HTTP <code>Content-Type</code> header field is intended to indicate the
+ MIME type of an HTTP response.
 
- However, many HTTP servers supply a <code>Content-Type</code> that does not
- match the actual contents of the response.
+ However, many HTTP servers supply a <code>Content-Type</code> header field
+ value that does not match the actual contents of the response.
 
  Historically, web browsers have tolerated these servers by examining the
  content of HTTP responses in addition to the <code>Content-Type</code> header
- field to determine the effective MIME type of the response.
+ field in order to determine the effective MIME type of the response.
 
 <p>
- Without a clear specification of how to "sniff" the MIME type, each user
+ Without a clear specification for how to "sniff" the MIME type, each user
  agent has been forced to reverse-engineer the algorithms of other user agents
  in order to maintain interoperability.
 
@@ -112,9 +112,6 @@
  (Malicious servers, of course, can specify an arbitrary MIME type in the
  <code>Content-Type</code> header field.)
 
- In the absence of MIME type sniffing, this user-generated content would not
- be interpreted as a high-privilege MIME type.
-
 <p>
  This document describes a content sniffing algorithm that carefully balances
  the compatibility needs of user agent with the security constraints imposed
@@ -126,14 +123,6 @@
  metrics collected from implementations deployed to a sizable number of users.
 
  <span data-anolis-ref class=informative>SECCONTSNIFF</span>
-
-<p>
- Whenever possible, user agents should not employ a content sniffing
- algorithm.
-
- However, if a user agent does employ a content sniffing algorithm, the user
- agent should use the algorithm in this document; using a different content
- sniffing algorithm could have unexpected security implications.
 
 
 
