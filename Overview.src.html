@@ -700,9 +700,22 @@
    <ol>
     <li>
      If one or more <code>Content-Type</code> headers are associated with the
-     <span>resource</span>, set <var>supplied-type</var> to the value
-     associated with the last such <code>Content-Type</code> header and set
-     the <span>check-for-apache-bug flag</span>.
+     <span>resource</span>, execute the following steps:
+
+     <ol>
+      <li>
+       Set <var>supplied-type</var> to the value associated with the last
+       <code>Content-Type</code> header associated with the
+       <span>resource</span>.
+
+       <p class=note>
+        File extensions are not used to determine the <span>supplied MIME
+        type</span> of a <span>resource</span> retrieved via HTTP because they are
+        unreliable and easily spoofed.
+
+      <li>
+       Set the <span>check-for-apache-bug flag</span>.
+     </ol>
 
     <li>
      If one or more <code>X-Content-Type-Options</code> headers are associated
@@ -712,11 +725,6 @@
    </ol>
 
    <span data-anolis-ref=http>HTTP</span>
-
-   <p class=note>
-    File extensions are not used to determine the <span>supplied MIME
-    type</span> of a <span>resource</span> retrieved via HTTP because they are
-    unreliable and easily spoofed.
 
   <li>
    If the <span>resource</span> is retrieved directly from the file system,

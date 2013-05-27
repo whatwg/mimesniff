@@ -732,9 +732,22 @@
    <ol>
     <li>
      If one or more <code>Content-Type</code> headers are associated with the
-     <a href="#resource">resource</a>, set <var>supplied-type</var> to the value
-     associated with the last such <code>Content-Type</code> header and set
-     the <a href="#check-for-apache-bug-flag">check-for-apache-bug flag</a>.
+     <a href="#resource">resource</a>, execute the following steps:
+
+     <ol>
+      <li>
+       Set <var>supplied-type</var> to the value associated with the last
+       <code>Content-Type</code> header associated with the
+       <a href="#resource">resource</a>.
+
+       <p class="note">
+        File extensions are not used to determine the <a href="#supplied-mime-type">supplied MIME
+        type</a> of a <a href="#resource">resource</a> retrieved via HTTP because they are
+        unreliable and easily spoofed.
+
+      <li>
+       Set the <a href="#check-for-apache-bug-flag">check-for-apache-bug flag</a>.
+     </ol>
 
     <li>
      If one or more <code>X-Content-Type-Options</code> headers are associated
@@ -744,11 +757,6 @@
    </ol>
 
    <a href="#refsHTTP">[HTTP]</a>
-
-   <p class="note">
-    File extensions are not used to determine the <a href="#supplied-mime-type">supplied MIME
-    type</a> of a <a href="#resource">resource</a> retrieved via HTTP because they are
-    unreliable and easily spoofed.
 
   <li>
    If the <a href="#resource">resource</a> is retrieved directly from the file system,
