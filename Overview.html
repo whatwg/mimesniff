@@ -510,8 +510,16 @@
         <ol>
          <li>
           If <var>name</var> is not equal to the empty string
-          ("<code title=""></code>"), set <var>parameters</var>[<var>name</var>]
-          to null.
+          ("<code title=""></code>"), execute the following steps:
+
+          <ol>
+           <li>
+            If <var>parameters</var>[<var>name</var>] is not undefined, return
+            undefined.
+
+           <li>
+            Set <var>parameters</var>[<var>name</var>] to null.
+          </ol>
 
          <li>
           Return <var>type</var>, <var>subtype</var>, and
@@ -524,6 +532,10 @@
        <li>
         Increment <var>s</var> by 1.
       </ol>
+
+     <li>
+      If <var>parameters</var>[<var>name</var>] is not undefined, return
+      undefined.
 
      <li>
       Initialize <var>parameters</var>[<var>name</var>] to null.
