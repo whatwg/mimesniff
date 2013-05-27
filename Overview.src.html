@@ -362,11 +362,17 @@
    </ol>
 
   <li>
+   Initialize <var>t</var> to 0.
+
+  <li>
    While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
    character</span> and is not equal to U+002F
    ("<code title>&#x002F;</code>"), continuously execute the following steps:
 
    <ol>
+    <li>
+     If <var>t</var> is greater than 127, return undefined.
+
     <li>
      If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
 
@@ -374,7 +380,7 @@
      Append <var>sequence</var>[<var>s</var>] to <var>type</var>.
 
     <li>
-     Increment <var>s</var> by 1.
+     Increment <var>s</var> and <var>t</var> by 1.
    </ol>
 
   <li>
@@ -385,11 +391,17 @@
    Increment <var>s</var> by 1.
 
   <li>
+   Initialize <var>u</var> to 0.
+
+  <li>
    While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
    character</span> and is not equal to U+003B
    ("<code title>&#x003B;</code>"), continuously execute the following steps:
 
    <ol>
+    <li>
+     If <var>u</var> is greater than 127, return undefined.
+
     <li>
      If <var>sequence</var>[<var>s</var>] is undefined, execute the following
      steps:
@@ -407,7 +419,7 @@
      Append <var>sequence</var>[<var>s</var>] to <var>subtype</var>.
 
     <li>
-     Increment <var>s</var> by 1.
+     Increment <var>s</var> and <var>u</var> by 1.
    </ol>
 
    <li>
@@ -447,12 +459,18 @@
       </ol>
 
      <li>
+      Initialize <var>p</var> to 0.
+
+     <li>
       While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
       character</span> and is not equal to U+003D
       ("<code title>&#x003D;</code>"), continuously execute the following
       steps:
 
       <ol>
+       <li>
+        If <var>p</var> is greater than 127, return undefined.
+
        <li>
         If <var>sequence</var>[<var>s</var>] is undefined, execute the
         following steps:
@@ -480,7 +498,7 @@
         Append <var>sequence</var>[<var>s</var>] to <var>name</var>.
 
        <li>
-        Increment <var>s</var> by 1.
+        Increment <var>s</var> and <var>p</var> by 1.
       </ol>
 
      <li>
