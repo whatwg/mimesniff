@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-26-may-2013">Living Standard — Last Updated 26 May 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-27-may-2013">Living Standard — Last Updated 27 May 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 26 May 2013, the editor has made this
+  In addition, as of 27 May 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -362,10 +362,14 @@
 
  <ol>
   <li>
-   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> of the <a href="#mime-type">MIME type</a>, where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first <a href="#byte">byte</a> in <var>sequence</var>.
+   Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> of the <a href="#mime-type">MIME
+   type</a>, where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a>
+   <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first
+   <a href="#byte">byte</a> in <var>sequence</var>.
 
   <li>
-   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in <var>sequence</var>.
+   Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
+   <var>sequence</var>.
 
   <li>
    If <var>length</var> is less than 1, return undefined.
@@ -374,13 +378,15 @@
    Initialize <var>s</var> to 0.
 
   <li>
-   Initialize <var>type</var> and <var>subtype</var> to the empty string ("<code title=""></code>").
+   Initialize <var>type</var> and <var>subtype</var> to the empty string
+   ("<code title=""></code>").
 
   <li>
    Initialize <var>parameters</var> to the empty dictionary ({}).
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+   character</span>, continuously execute the following steps:
 
    <ol>
     <li>
@@ -388,7 +394,9 @@
    </ol>
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace character</span> and is not equal to U+002F ("<code title="">/</code>"), execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
+   character</span> and is not equal to U+002F
+   ("<code title="">/</code>"), continuously execute the following steps:
 
    <ol>
     <li>
@@ -402,7 +410,8 @@
    </ol>
 
   <li class="XXX">
-   While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+   character</span>, continuously execute the following steps:
 
    <ol>
     <li>
@@ -410,13 +419,15 @@
    </ol>
 
   <li>
-   If <var>sequence</var>[<var>s</var>] is not equal to U+002F ("<code title="">/</code>"), return undefined.
+   If <var>sequence</var>[<var>s</var>] is not equal to U+002F
+   ("<code title="">/</code>"), return undefined.
 
   <li>
    Increment <var>s</var> by 1.
 
   <li class="XXX">
-   While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+   character</span>, continuously execute the following steps:
 
    <ol>
     <li>
@@ -424,15 +435,19 @@
    </ol>
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace character</span> and is not equal to U+003B ("<code title="">;</code>"), execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
+   character</span> and is not equal to U+003B
+   ("<code title="">;</code>"), continuously execute the following steps:
 
    <ol>
     <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+     If <var>sequence</var>[<var>s</var>] is undefined, execute the following
+     steps:
 
      <ol>
       <li>
-       If <var>subtype</var> is equal to the empty string ("<code title=""></code>"), return undefined.
+       If <var>subtype</var> is equal to the empty string
+       ("<code title=""></code>"), return undefined.
 
       <li>
        Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
@@ -450,7 +465,8 @@
 
     <ol>
      <li class="XXX">
-      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+      character</span>, continuously execute the following steps:
 
       <ol>
        <li>
@@ -458,16 +474,22 @@
       </ol>
 
      <li>
-      If <var>sequence</var>[<var>s</var>] is undefined, return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+      If <var>sequence</var>[<var>s</var>] is undefined, return
+      <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
      <li>
-      If <var>sequence</var>[<var>s</var>] is not equal to U+003B ("<code title="">;</code>"), return undefined.
+      If <var>sequence</var>[<var>s</var>] is not equal to U+003B
+      ("<code title="">;</code>"), return undefined.
 
      <li>
       Increment <var>s</var> by 1.
 
      <li>
-      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+      Initialize <var>name</var> to the empty string ("<code title=""></code>").
+
+     <li>
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+      character</span>, continuously execute the following steps:
 
       <ol>
        <li>
@@ -475,21 +497,25 @@
       </ol>
 
      <li>
-      Let <var>name</var> be the empty string ("<code title=""></code>").
-
-     <li>
-      While <var>sequence</var>[<var>s</var>] is not a <span>whitespace character</span> and is not equal to U+003D ("<code title="">=</code>"), execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
+      character</span> and is not equal to U+003D
+      ("<code title="">=</code>"), continuously execute the following
+      steps:
 
       <ol>
        <li>
-        If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+        If <var>sequence</var>[<var>s</var>] is undefined, execute the
+        following steps:
 
         <ol>
          <li>
-          If <var>name</var> is not equal to the empty string ("<code title=""></code>"), initialize <var>parameters</var>[<var>name</var>] to null.
+          If <var>name</var> is not equal to the empty string
+          ("<code title=""></code>"), set <var>parameters</var>[<var>name</var>]
+          to null.
 
          <li>
-          Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+          Return <var>type</var>, <var>subtype</var>, and
+          <var>parameters</var>.
         </ol>
 
        <li>
@@ -503,7 +529,8 @@
       Initialize <var>parameters</var>[<var>name</var>] to null.
 
      <li class="XXX">
-      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+      character</span>, continuously execute the following steps:
 
       <ol>
        <li>
@@ -511,11 +538,13 @@
       </ol>
 
      <li>
-      If <var>sequence</var>[<var>s</var>] is not equal to U+003D ("<code title="">=</code>"), execute the following steps:
+      If <var>sequence</var>[<var>s</var>] is not equal to U+003D
+      ("<code title="">=</code>"), execute the following steps:
 
       <ol>
        <li>
-        If <var>sequence</var>[<var>s</var>] is undefined, return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+        If <var>sequence</var>[<var>s</var>] is undefined, return
+        <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
        <li>
         Return undefined.
@@ -524,8 +553,12 @@
      <li>
       Increment <var>s</var> by 1.
 
+     <li>
+      Initialize <var>value</var> to the empty string ("<code title=""></code>").
+
      <li class="XXX">
-      While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+      character</span>, continuously execute the following steps:
 
       <ol>
        <li>
@@ -533,10 +566,8 @@
       </ol>
 
      <li>
-      Let <var>value</var> be the empty string ("<code title=""></code>").
-
-     <li>
-      If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+      If <var>sequence</var>[<var>s</var>] is undefined, execute the following
+      steps:
 
       <ol>
        <li>
@@ -547,40 +578,26 @@
       </ol>
 
      <li>
-      If <var>sequence</var>[<var>s</var>] is equal to U+0022 ("<code title="">"</code>"), execute the following steps:
+      If <var>sequence</var>[<var>s</var>] is equal to U+0022
+      ("<code title="">"</code>"), execute the following steps:
 
       <ol>
        <li>
         Increment <var>s</var> by 1.
 
        <li>
-        If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
-
-        <ol>
-         <li>
-          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-         <li>
-          Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-        </ol>
+        If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
 
        <li>
         Enter loop <var>M</var>:
 
         <ol>
          <li>
-          If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
-
-          <ol>
-           <li>
-            Set <var>parameters</var>[<var>name</var>] to the empty string ("<code title=""></code>").
-
-           <li>
-            Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-          </ol>
+          If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
 
          <li>
-          If <var>sequence</var>[<var>s</var>] is equal to U+0022 ("<code title="">"</code>"), execute the following steps:
+          If <var>sequence</var>[<var>s</var>] is equal to U+0022
+          ("<code title="">"</code>"), execute the following steps:
 
           <ol>
            <li>
@@ -594,7 +611,10 @@
           </ol>
 
          <li>
-          If <var>sequence</var>[<var>s</var>] is equal to U+005C ("<code title="">\</code>") and <var>sequence</var>[<var>s</var> + 1] is not undefined, increment <var>s</var> by 1.
+          If <var>sequence</var>[<var>s</var>] is equal to U+005C
+          ("<code title="">\</code>") and
+          <var>sequence</var>[<var>s</var> + 1] is not undefined, increment
+          <var>s</var> by 1.
 
          <li>
           Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
@@ -604,23 +624,41 @@
         </ol>
       </ol>
 
-      Otherwise, execute the following steps:
+      Otherwise, enter loop <var>M</var>:
 
       <ol>
        <li>
-        Begin loop <var>M</var>:
+        If <var>sequence</var>[<var>s</var>] is undefined, execute the
+        following steps:
 
-        <ol class="XXX">
+        <ol>
          <li>
-          If <var>sequence</var>[<var>s</var>] is undefined, execute the following steps:
+          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
-          <ol class="XXX">
-           <li>
-          </ol>
+         <li>
+          Return <var>type</var>, <var>subtype</var>, and
+          <var>parameters</var>.
         </ol>
-      </ol>
 
-     <li class="XXX">
+       <li>
+        If <var>sequence</var>[<var>s</var>] is a <span>whitespace
+        character</span> or is equal to U+003B ("<code>;</code>"),
+        execute the following steps:
+
+        <ol>
+         <li>
+          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+         <li>
+          Exit loop <var>M</var>.
+        </ol>
+
+       <li>
+        Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
+
+       <li>
+        Increment <var>s</var> by 1.
+      </ol>
     </ol>
  </ol>
 
