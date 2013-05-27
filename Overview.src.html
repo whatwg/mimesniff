@@ -184,6 +184,14 @@
  A <dfn>byte sequence</dfn> is a <span>sequence</span> of
  <span title=byte>bytes</span>.
 
+<p>
+ <dfn title="converted to ASCII lowercase">Converting a string to ASCII
+ lowercase</dfn> is accomplished by
+ <span data-anolis-spec=html title="converted to ASCII lowercase">converting a
+ string to ASCII lowercase</span> as defined in the HTML Standard.
+
+ <span data-anolis-ref>HTML</span>
+
 
 
 <h2>The basics of a MIME type</h2>
@@ -377,7 +385,8 @@
      If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
 
     <li>
-     Append <var>sequence</var>[<var>s</var>] to <var>type</var>.
+     Append <var>sequence</var>[<var>s</var>], <span>converted to ASCII
+     lowercase</span>, to <var>type</var>.
 
     <li>
      Increment <var>s</var> and <var>t</var> by 1.
@@ -416,7 +425,8 @@
      </ol>
 
     <li>
-     Append <var>sequence</var>[<var>s</var>] to <var>subtype</var>.
+     Append <var>sequence</var>[<var>s</var>], <span>converted to ASCII
+     lowercase</span>, to <var>subtype</var>.
 
     <li>
      Increment <var>s</var> and <var>u</var> by 1.
@@ -495,7 +505,8 @@
         </ol>
 
        <li>
-        Append <var>sequence</var>[<var>s</var>] to <var>name</var>.
+        Append <var>sequence</var>[<var>s</var>], <span>converted to ASCII
+        lowercase</span>, to <var>name</var>.
 
        <li>
         Increment <var>s</var> and <var>p</var> by 1.

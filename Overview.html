@@ -216,6 +216,14 @@
  A <dfn id="byte-sequence">byte sequence</dfn> is a <span>sequence</span> of
  <a href="#byte" title="byte">bytes</a>.
 
+<p>
+ <dfn id="converted-to-ascii-lowercase" title="converted to ASCII lowercase">Converting a string to ASCII
+ lowercase</dfn> is accomplished by
+ <a data-anolis-spec="html" href="#converted-to-ascii-lowercase" title="converted to ASCII lowercase">converting a
+ string to ASCII lowercase</a> as defined in the HTML Standard.
+
+ <a href="#refsHTML">[HTML]</a>
+
 
 
 <h2 id="the-basics-of-a-mime-type"><span class="secno">4 </span>The basics of a MIME type</h2>
@@ -409,7 +417,8 @@
      If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
 
     <li>
-     Append <var>sequence</var>[<var>s</var>] to <var>type</var>.
+     Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
+     lowercase</a>, to <var>type</var>.
 
     <li>
      Increment <var>s</var> and <var>t</var> by 1.
@@ -448,7 +457,8 @@
      </ol>
 
     <li>
-     Append <var>sequence</var>[<var>s</var>] to <var>subtype</var>.
+     Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
+     lowercase</a>, to <var>subtype</var>.
 
     <li>
      Increment <var>s</var> and <var>u</var> by 1.
@@ -527,7 +537,8 @@
         </ol>
 
        <li>
-        Append <var>sequence</var>[<var>s</var>] to <var>name</var>.
+        Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
+        lowercase</a>, to <var>name</var>.
 
        <li>
         Increment <var>s</var> and <var>p</var> by 1.
@@ -2922,6 +2933,9 @@
 
 <dt id="refsFTP">[FTP]
 <dd>(Non-normative) <cite><a href="http://tools.ietf.org/html/rfc959">File Transfer Protocol</a></cite>, J. Postel and J. Reynolds. IETF.
+
+<dt id="refsHTML">[HTML]
+<dd><cite><a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/">HTML</a></cite>, Ian Hickson. WHATWG.
 
 <dt id="refsHTTP">[HTTP]
 <dd><cite><a href="http://tools.ietf.org/html/rfc2616">Hypertext Transfer Protocol -- HTTP/1.1</a></cite>, Roy Fielding, James Gettys, Jeffrey Mogul et al.. IETF.
