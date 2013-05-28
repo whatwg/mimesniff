@@ -603,40 +603,55 @@
         </ol>
       </ol>
 
-      Otherwise, enter loop <var>M</var>:
+      Otherwise, execute the following steps:
 
       <ol>
        <li>
-        If <var>sequence</var>[<var>s</var>] is undefined, execute the
-        following steps:
+        Enter loop <var>M</var>:
 
         <ol>
          <li>
-          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+          If <var>sequence</var>[<var>s</var>] is undefined, execute the
+          following steps:
+
+          <ol>
+           <li>
+            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+           <li>
+            Return <var>type</var>, <var>subtype</var>, and
+            <var>parameters</var>.
+          </ol>
 
          <li>
-          Return <var>type</var>, <var>subtype</var>, and
-          <var>parameters</var>.
+          If <var>sequence</var>[<var>s</var>] is a <span>whitespace
+          character</span> or is equal to U+003B ("<code>&#x003B;</code>"),
+          execute the following steps:
+
+          <ol>
+           <li>
+            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+           <li>
+            Exit loop <var>M</var>.
+          </ol>
+
+         <li>
+          Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
+
+         <li>
+          Increment <var>s</var> by 1.
         </ol>
 
        <li>
-        If <var>sequence</var>[<var>s</var>] is a <span>whitespace
-        character</span> or is equal to U+003B ("<code>&#x003B;</code>"),
-        execute the following steps:
+        While <var>sequence</var>[<var>s</var>] is not equal to U+003B
+        ("<code title="">&#x003B;</code>"), continuously execute the following
+        steps:
 
         <ol>
          <li>
-          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-         <li>
-          Exit loop <var>M</var>.
+          Increment <var>s</var> by 1.
         </ol>
-
-       <li>
-        Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
-
-       <li>
-        Increment <var>s</var> by 1.
       </ol>
     </ol>
  </ol>
