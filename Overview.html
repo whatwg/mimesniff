@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-28-may-2013">Living Standard — Last Updated 28 May 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-29-may-2013">Living Standard — Last Updated 29 May 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 28 May 2013, the editor has made this
+  In addition, as of 29 May 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -469,24 +469,25 @@
 
     <ol>
      <li>
-      While <var>sequence</var>[<var>s</var>] is a <span>whitespace
-      character</span>, continuously execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is not equal to U+003B
+      ("<code title="">;</code>"), continuously execute the following
+      steps:
 
       <ol>
+       <li>
+        If <var>sequence</var>[<var>s</var>] is undefined, return
+        <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+
        <li>
         Increment <var>s</var> by 1.
       </ol>
 
      <li>
+      Increment <var>s</var> by 1.
+
+     <li>
       If <var>sequence</var>[<var>s</var>] is undefined, return
       <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-
-     <li>
-      If <var>sequence</var>[<var>s</var>] is not equal to U+003B
-      ("<code title="">;</code>"), return undefined.
-
-     <li>
-      Increment <var>s</var> by 1.
 
      <li>
       Initialize <var>name</var> to the empty string ("<code title=""></code>").
@@ -635,55 +636,40 @@
         </ol>
       </ol>
 
-      Otherwise, execute the following steps:
+      Otherwise, enter loop <var>M</var>:
 
       <ol>
        <li>
-        Enter loop <var>M</var>:
+        If <var>sequence</var>[<var>s</var>] is undefined, execute the
+        following steps:
 
         <ol>
          <li>
-          If <var>sequence</var>[<var>s</var>] is undefined, execute the
-          following steps:
-
-          <ol>
-           <li>
-            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-           <li>
-            Return <var>type</var>, <var>subtype</var>, and
-            <var>parameters</var>.
-          </ol>
+          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
          <li>
-          If <var>sequence</var>[<var>s</var>] is a <span>whitespace
-          character</span> or is equal to U+003B ("<code>;</code>"),
-          execute the following steps:
-
-          <ol>
-           <li>
-            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-           <li>
-            Exit loop <var>M</var>.
-          </ol>
-
-         <li>
-          Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
-
-         <li>
-          Increment <var>s</var> by 1.
+          Return <var>type</var>, <var>subtype</var>, and
+          <var>parameters</var>.
         </ol>
 
        <li>
-        While <var>sequence</var>[<var>s</var>] is not equal to U+003B
-        ("<code title="">;</code>"), continuously execute the following
-        steps:
+        If <var>sequence</var>[<var>s</var>] is a <span>whitespace
+        character</span> or is equal to U+003B ("<code>;</code>"),
+        execute the following steps:
 
         <ol>
          <li>
-          Increment <var>s</var> by 1.
+          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+
+         <li>
+          Exit loop <var>M</var>.
         </ol>
+
+       <li>
+        Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
+
+       <li>
+        Increment <var>s</var> by 1.
       </ol>
     </ol>
  </ol>
