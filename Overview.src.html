@@ -567,26 +567,21 @@
        <li>
         Increment <var>s</var> by 1.
 
-       <li class=XXX>
-        If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
-
        <li>
         Enter loop <var>M</var>:
 
         <ol>
-         <li class=XXX>
-          If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
-
          <li>
-          If <var>sequence</var>[<var>s</var>] is equal to U+0022
-          ("<code title>&#x0022;</code>"), execute the following steps:
+          If <var>sequence</var>[<var>s</var>] is undefined or is equal to
+          U+0022 ("<code title>&#x0022;</code>"), execute the following steps:
 
           <ol>
            <li>
-            Increment <var>s</var> by 1.
+            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
            <li>
-            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+            If <var>sequence</var>[<var>s</var>] is equal to U+0022
+            ("<code title>&#x0022;</code>"), increment <var>s</var> by 1.
 
            <li>
             Exit loop <var>M</var>.
