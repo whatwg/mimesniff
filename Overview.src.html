@@ -373,8 +373,7 @@
    Initialize <var>t</var> to 0.
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
-   character</span> and is not equal to U+002F
+   While <var>sequence</var>[<var>s</var>] is not equal to U+002F
    ("<code title>&#x002F;</code>"), continuously execute the following steps:
 
    <ol>
@@ -393,10 +392,6 @@
    </ol>
 
   <li>
-   If <var>sequence</var>[<var>s</var>] is not equal to U+002F
-   ("<code title>&#x002F;</code>"), return undefined.
-
-  <li>
    Increment <var>s</var> by 1.
 
   <li class=XXX>
@@ -412,17 +407,8 @@
      If <var>u</var> is greater than 127, return undefined.
 
     <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, execute the following
-     steps:
-
-     <ol>
-      <li class=XXX>
-       If <var>subtype</var> is equal to the empty string
-       ("<code title></code>"), return undefined.
-
-      <li>
-       Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-     </ol>
+     If <var>sequence</var>[<var>s</var>] is undefined, return
+     <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
     <li>
      Append <var>sequence</var>[<var>s</var>], <span>converted to ASCII

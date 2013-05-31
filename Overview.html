@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-30-may-2013">Living Standard — Last Updated 30 May 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-31-may-2013">Living Standard — Last Updated 31 May 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 30 May 2013, the editor has made this
+  In addition, as of 31 May 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -405,8 +405,7 @@
    Initialize <var>t</var> to 0.
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
-   character</span> and is not equal to U+002F
+   While <var>sequence</var>[<var>s</var>] is not equal to U+002F
    ("<code title="">/</code>"), continuously execute the following steps:
 
    <ol>
@@ -425,10 +424,6 @@
    </ol>
 
   <li>
-   If <var>sequence</var>[<var>s</var>] is not equal to U+002F
-   ("<code title="">/</code>"), return undefined.
-
-  <li>
    Increment <var>s</var> by 1.
 
   <li class="XXX">
@@ -444,17 +439,8 @@
      If <var>u</var> is greater than 127, return undefined.
 
     <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, execute the following
-     steps:
-
-     <ol>
-      <li class="XXX">
-       If <var>subtype</var> is equal to the empty string
-       ("<code title=""></code>"), return undefined.
-
-      <li>
-       Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-     </ol>
+     If <var>sequence</var>[<var>s</var>] is undefined, return
+     <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
     <li>
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
