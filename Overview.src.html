@@ -984,6 +984,7 @@
     </thead>
     <tbody>
      <!-- http://www.iana.org/assignments/media-types/image/vnd.microsoft.icon -->
+     <!-- http://msdn.microsoft.com/en-us/library/ms997538.aspx -->
      <tr>
       <td>
        00 00 01 00
@@ -995,10 +996,28 @@
        None.
       </td>
       <td>
-       <code title>image/vnd.microsoft.icon</code>
+       <code title>image/x-icon</code>
       </td>
       <td>
        A Windows Icon signature.
+      </td>
+     </tr>
+     <!-- http://msdn.microsoft.com/en-us/library/ms997538.aspx -->
+     <tr>
+      <td>
+       00 00 02 00
+      </td>
+      <td>
+       FF FF FF FF
+      </td>
+      <td>
+       None.
+      </td>
+      <td>
+       <code title>image/x-icon</code>
+      </td>
+      <td>
+       A Windows Cursor signature.
       </td>
      </tr>
      <tr>
