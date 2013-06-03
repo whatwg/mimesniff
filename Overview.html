@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-2-june-2013">Living Standard — Last Updated 2 June 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-3-june-2013">Living Standard — Last Updated 3 June 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 2 June 2013, the editor has made this
+  In addition, as of 3 June 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -235,29 +235,24 @@
  <a class="informative" href="#refsMIMETYPE">[MIMETYPE]</a>
 
 <p>
- A <dfn id="valid-mime-type">valid MIME type</dfn> is a
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">media-type</a>, as defined in HTTP/1.1 or its
- successor, and is made up in part by a
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> and a
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>.
+ A <dfn id="parsable-mime-type">parsable MIME type</dfn> is a <a href="#mime-type">MIME type</a> for which the
+ <a href="#parse-a-mime-type">parse a MIME type</a> algorithm does not return undefined.
 
- The <dfn id="mime-type-portion">MIME type portion</dfn> of a <a href="#valid-mime-type">valid MIME type</a> is the
- string represented by concatenating <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a>,
- the string "<code title="">/</code>", and
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a>.
+ A <a href="#parsable-mime-type">parsable MIME type</a> has a <dfn id="type">type</dfn>, a
+ <dfn id="subtype">subtype</dfn>, and a dictionary of <dfn id="parameters">parameters</dfn>.
 
- <a href="#refsHTTP">[HTTP]</a>
+ The <dfn id="mime-type-portion">MIME type portion</dfn> of a <a href="#parsable-mime-type">parsable MIME type</a> is the
+ string represented by the concatenation of its <a href="#type">type</a>, the U+002F
+ SOLIDUS character ("<code title="">/</code>"), and its
+ <a href="#subtype">subtype</a>.
 
 <p class="note">
- The <a href="#mime-type-portion">MIME type portion</a> of a <a href="#valid-mime-type">valid MIME type</a>
- excludes all <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7" title="parameter">parameters</a>
- and is case-insensitive.
-
- <a href="#refsHTTP">[HTTP]</a>
+ The <a href="#mime-type-portion">MIME type portion</a> of a <a href="#parsable-mime-type">parsable MIME type</a>
+ excludes all <a href="#parameters">parameters</a> and is case-insensitive.
 
 <p>
- A <a href="#valid-mime-type">valid MIME type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn> if
- the user agent has the capability to interpret a <a href="#resource">resource</a> of
+ A <a href="#parsable-mime-type">parsable MIME type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn>
+ if the user agent has the capability to interpret a <a href="#resource">resource</a> of
  that <a href="#mime-type">MIME type</a> and present it to the user.
 
 
@@ -265,20 +260,19 @@
 <h3 id="mime-type-categories"><span class="secno">4.1 </span>MIME type categories</h3>
 
 <p>
- An <dfn id="image-type">image type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
- "<code title="">image</code>"<!-- or the <span>MIME type portion</span> is
- equal to one of the following:
+ An <dfn id="image-type">image type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
+ <a href="#type">type</a> is equal to "<code title="">image</code>"<!-- or the
+ <span>MIME type portion</span> is equal to one of the following:
 
  <ul>
   <li>
  </ul>-->.
 
 <p>
- An <dfn id="audio-or-video-type">audio or video type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">type</a> is equal to
- "<code title="">audio</code>" or "<code title="">video</code>" or where the
- <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
+ An <dfn id="audio-or-video-type">audio or video type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a>
+ where <a href="#type">type</a> is equal to "<code title="">audio</code>" or
+ "<code title="">video</code>" or where the <a href="#mime-type-portion">MIME type portion</a> is
+ equal to one of the following:
 
  <ul>
   <li>
@@ -286,9 +280,9 @@
  </ul>
 
 <p>
- A <dfn id="font-type">font type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
- <!--<span data-anolis-spec=http>type</span> is equal to "<code title>font</code>"
- or--> the <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
+ A <dfn id="font-type">font type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
+ <!--<span>type</span> is equal to "<code title>font</code>" or--> the
+ <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
 
  <ul class="XXX">
   <li>
@@ -314,9 +308,9 @@
  </ul>
 
 <p>
- A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where the
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+zip</code>"
- or the <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
+ A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where the
+ <a href="#subtype">subtype</a> ends in "<code title="">+zip</code>" or the <a href="#mime-type-portion">MIME type
+ portion</a> is equal to one of the following:
 
  <ul class="XXX">
   <li>
@@ -324,10 +318,9 @@
  </ul>
 
 <p>
- An <dfn id="archive-type">archive type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where
- <!--<span data-anolis-spec=http>type</span> is equal to
- "<code title>archive</code>" or--> the <a href="#mime-type-portion">MIME type portion</a> is equal
- to one of the following:
+ An <dfn id="archive-type">archive type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
+ <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
+ <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
 
  <ul>
   <li>
@@ -341,16 +334,16 @@
  </ul>
 
 <p>
- An <dfn id="xml-type">XML type</dfn> is any <a href="#valid-mime-type">valid MIME type</a> where the
- <a class="external" data-anolis-spec="http" href="http://tools.ietf.org/html/rfc2616/#section-3.7">subtype</a> ends in "<code title="">+xml</code>"
- or the <a href="#mime-type-portion">MIME type portion</a> is equal to
- "<code title="">text/xml</code>" or "<code title="">application/xml</code>".
+ An <dfn id="xml-type">XML type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where the
+ <a href="#subtype">subtype</a> ends in "<code title="">+xml</code>" or the <a href="#mime-type-portion">MIME type
+ portion</a> is equal to "<code title="">text/xml</code>" or
+ "<code title="">application/xml</code>".
 
  <a class="informative" href="#refsRFC3023">[RFC3023]</a>
 
 <p>
  A <dfn id="scriptable-mime-type">scriptable MIME type</dfn> is an <a href="#xml-type">XML type</a> or any
- <a href="#valid-mime-type">valid MIME type</a> where the <a href="#mime-type-portion">MIME type portion</a> is
+ <a href="#parsable-mime-type">parsable MIME type</a> where the <a href="#mime-type-portion">MIME type portion</a> is
  equal to one of the following:
 
  <ul>
@@ -383,11 +376,11 @@
    Initialize <var>s</var> to 0.
 
   <li>
-   Initialize <var>type</var> and <var>subtype</var> to the empty string
+   Initialize <a href="#type"><var>type</var></a> and <a href="#subtype"><var>subtype</var></a> to the empty string
    ("<code title=""></code>").
 
   <li>
-   Initialize <var>parameters</var> to the empty dictionary ({}).
+   Initialize <a href="#parameters"><var>parameters</var></a> to the empty dictionary ({}).
 
   <li>
    While <var>sequence</var>[<var>s</var>] is a <span>whitespace
@@ -414,7 +407,7 @@
 
     <li>
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
-     lowercase</a>, to <var>type</var>.
+     lowercase</a>, to <a href="#type"><var>type</var></a>.
 
     <li class="XXX">
      Increment <var>s</var> and <var>t</var> by 1.
@@ -437,11 +430,11 @@
 
     <li>
      If <var>sequence</var>[<var>s</var>] is undefined, return
-     <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+     <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and <a href="#parameters"><var>parameters</var></a>.
 
     <li>
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
-     lowercase</a>, to <var>subtype</var>.
+     lowercase</a>, to <a href="#subtype"><var>subtype</var></a>.
 
     <li class="XXX">
      Increment <var>s</var> and <var>u</var> by 1.
@@ -517,7 +510,7 @@
 
      <li>
       If <var>sequence</var>[<var>s</var>] is undefined, return
-      <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+      <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and <a href="#parameters"><var>parameters</var></a>.
 
      <li>
       Increment <var>s</var> by 1.
@@ -561,12 +554,12 @@
           <ol>
            <li>
             If <var>name</var> is not equal to the empty string
-            ("<code title=""></code>") and <var>parameters</var>[<var>name</var>]
-            is undefined, set <var>parameters</var>[<var>name</var>] to null.
+            ("<code title=""></code>") and <a href="#parameters"><var>parameters</var></a>[<var>name</var>]
+            is undefined, set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to null.
 
            <li>
-            Return <var>type</var>, <var>subtype</var>, and
-            <var>parameters</var>.
+            Return <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and
+            <a href="#parameters"><var>parameters</var></a>.
           </ol>
 
          <li>
@@ -598,7 +591,7 @@
       Increment <var>s</var> by 1.
 
      <li>
-      Initialize <var>parameters</var>[<var>name</var>] to null.
+      Initialize <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to null.
 
      <li>
       While <var>sequence</var>[<var>s</var>] is a <span>whitespace
@@ -618,10 +611,10 @@
 
       <ol>
        <li>
-        Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+        Set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to <var>value</var>.
 
        <li>
-        Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
+        Return <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and <a href="#parameters"><var>parameters</var></a>.
       </ol>
 
      <li>
@@ -642,7 +635,7 @@
 
           <ol>
            <li>
-            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+            Set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to <var>value</var>.
 
            <li>
             If <var>sequence</var>[<var>s</var>] is equal to U+0022
@@ -676,7 +669,7 @@
 
         <ol>
          <li>
-          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
+          Set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to <var>value</var>.
 
          <li>
           Exit loop <var>M</var>.
@@ -709,12 +702,8 @@
 
  <ul>
   <li>
-   A <dfn id="supplied-mime-type">supplied MIME type</dfn>, the <a href="#valid-mime-type">valid MIME type</a>
-   determined by the <a href="#supplied-mime-type-detection-algorithm">supplied MIME type detection algorithm</a>.
-
-  <li>
-   A <dfn id="sniffed-mime-type">sniffed MIME type</dfn>, the <a href="#valid-mime-type">valid MIME type</a>
-   determined by the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
+   A <dfn id="supplied-mime-type">supplied MIME type</dfn>, the <a href="#mime-type">MIME type</a> determined by
+   the <a href="#supplied-mime-type-detection-algorithm">supplied MIME type detection algorithm</a>.
 
   <li>
    A <dfn id="check-for-apache-bug-flag">check-for-apache-bug flag</dfn>, which defaults to unset.
@@ -731,6 +720,10 @@
     out of sniffing for all <a href="#resource" title="resource">resources</a>. However,
     opting out of sniffing does not exempt the user agent from using the
     <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
+
+  <li>
+   A <dfn id="sniffed-mime-type">sniffed MIME type</dfn>, the <a href="#parsable-mime-type">parsable MIME type</a>
+   determined by the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
  </ul>
 
 
@@ -800,7 +793,7 @@
    <a class="informative" href="#refsFTP">[FTP]</a>
 
   <li>
-   If <var>supplied-type</var> is not a <a href="#valid-mime-type">valid MIME type</a>, the
+   If <var>supplied-type</var> is not a <a href="#parsable-mime-type">parsable MIME type</a>, the
    <a href="#supplied-mime-type">supplied MIME type</a> is undefined.
 
    Abort these steps.
@@ -2477,7 +2470,7 @@
 
    <p>
     User agents may implicitly extend this table to support additional
-    <a href="#valid-mime-type" title="valid MIME type">valid MIME types</a>.
+    <a href="#parsable-mime-type" title="parsable MIME type">parsable MIME types</a>.
 
     However, user agents should not implicitly extend this table to include
     additional <a href="#byte-pattern" title="byte pattern">byte patterns</a> for any

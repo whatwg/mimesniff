@@ -203,29 +203,24 @@
  <span data-anolis-ref class=informative>MIMETYPE</span>
 
 <p>
- A <dfn>valid MIME type</dfn> is a
- <span data-anolis-spec=http>media-type</span>, as defined in HTTP/1.1 or its
- successor, and is made up in part by a
- <span data-anolis-spec=http>type</span> and a
- <span data-anolis-spec=http>subtype</span>.
+ A <dfn>parsable MIME type</dfn> is a <span>MIME type</span> for which the
+ <span>parse a MIME type</span> algorithm does not return undefined.
 
- The <dfn>MIME type portion</dfn> of a <span>valid MIME type</span> is the
- string represented by concatenating <span data-anolis-spec=http>type</span>,
- the string "<code title>/</code>", and
- <span data-anolis-spec=http>subtype</span>.
+ A <span>parsable MIME type</span> has a <dfn>type</dfn>, a
+ <dfn>subtype</dfn>, and a dictionary of <dfn>parameters</dfn>.
 
- <span data-anolis-ref>HTTP</span>
+ The <dfn>MIME type portion</dfn> of a <span>parsable MIME type</span> is the
+ string represented by the concatenation of its <span>type</span>, the U+002F
+ SOLIDUS character ("<code title>&#x002F;</code>"), and its
+ <span>subtype</span>.
 
 <p class=note>
- The <span>MIME type portion</span> of a <span>valid MIME type</span>
- excludes all <span title=parameter data-anolis-spec=http>parameters</span>
- and is case-insensitive.
-
- <span data-anolis-ref>HTTP</span>
+ The <span>MIME type portion</span> of a <span>parsable MIME type</span>
+ excludes all <span>parameters</span> and is case-insensitive.
 
 <p>
- A <span>valid MIME type</span> is <dfn>supported by the user agent</dfn> if
- the user agent has the capability to interpret a <span>resource</span> of
+ A <span>parsable MIME type</span> is <dfn>supported by the user agent</dfn>
+ if the user agent has the capability to interpret a <span>resource</span> of
  that <span>MIME type</span> and present it to the user.
 
 
@@ -233,20 +228,19 @@
 <h3>MIME type categories</h3>
 
 <p>
- An <dfn>image type</dfn> is any <span>valid MIME type</span> where
- <span data-anolis-spec=http>type</span> is equal to
- "<code title>image</code>"<!-- or the <span>MIME type portion</span> is
- equal to one of the following:
+ An <dfn>image type</dfn> is any <span>parsable MIME type</span> where
+ <span>type</span> is equal to "<code title>image</code>"<!-- or the
+ <span>MIME type portion</span> is equal to one of the following:
 
  <ul>
   <li>
  </ul>-->.
 
 <p>
- An <dfn>audio or video type</dfn> is any <span>valid MIME type</span> where
- <span data-anolis-spec=http>type</span> is equal to
- "<code title>audio</code>" or "<code title>video</code>" or where the
- <span>MIME type portion</span> is equal to one of the following:
+ An <dfn>audio or video type</dfn> is any <span>parsable MIME type</span>
+ where <span>type</span> is equal to "<code title>audio</code>" or
+ "<code title>video</code>" or where the <span>MIME type portion</span> is
+ equal to one of the following:
 
  <ul>
   <li>
@@ -254,9 +248,9 @@
  </ul>
 
 <p>
- A <dfn>font type</dfn> is any <span>valid MIME type</span> where
- <!--<span data-anolis-spec=http>type</span> is equal to "<code title>font</code>"
- or--> the <span>MIME type portion</span> is equal to one of the following:
+ A <dfn>font type</dfn> is any <span>parsable MIME type</span> where
+ <!--<span>type</span> is equal to "<code title>font</code>" or--> the
+ <span>MIME type portion</span> is equal to one of the following:
 
  <ul class=XXX>
   <li>
@@ -282,9 +276,9 @@
  </ul>
 
 <p>
- A <dfn>ZIP-based type</dfn> is any <span>valid MIME type</span> where the
- <span data-anolis-spec=http>subtype</span> ends in "<code title>+zip</code>"
- or the <span>MIME type portion</span> is equal to one of the following:
+ A <dfn>ZIP-based type</dfn> is any <span>parsable MIME type</span> where the
+ <span>subtype</span> ends in "<code title>+zip</code>" or the <span>MIME type
+ portion</span> is equal to one of the following:
 
  <ul class=XXX>
   <li>
@@ -292,10 +286,9 @@
  </ul>
 
 <p>
- An <dfn>archive type</dfn> is any <span>valid MIME type</span> where
- <!--<span data-anolis-spec=http>type</span> is equal to
- "<code title>archive</code>" or--> the <span>MIME type portion</span> is equal
- to one of the following:
+ An <dfn>archive type</dfn> is any <span>parsable MIME type</span> where
+ <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
+ <span>MIME type portion</span> is equal to one of the following:
 
  <ul>
   <li>
@@ -309,16 +302,16 @@
  </ul>
 
 <p>
- An <dfn>XML type</dfn> is any <span>valid MIME type</span> where the
- <span data-anolis-spec=http>subtype</span> ends in "<code title>+xml</code>"
- or the <span>MIME type portion</span> is equal to
- "<code title>text/xml</code>" or "<code title>application/xml</code>".
+ An <dfn>XML type</dfn> is any <span>parsable MIME type</span> where the
+ <span>subtype</span> ends in "<code title>+xml</code>" or the <span>MIME type
+ portion</span> is equal to "<code title>text/xml</code>" or
+ "<code title>application/xml</code>".
 
  <span data-anolis-ref class=informative>RFC3023</span>
 
 <p>
  A <dfn>scriptable MIME type</dfn> is an <span>XML type</span> or any
- <span>valid MIME type</span> where the <span>MIME type portion</span> is
+ <span>parsable MIME type</span> where the <span>MIME type portion</span> is
  equal to one of the following:
 
  <ul>
@@ -677,12 +670,8 @@
 
  <ul>
   <li>
-   A <dfn>supplied MIME type</dfn>, the <span>valid MIME type</span>
-   determined by the <span>supplied MIME type detection algorithm</span>.
-
-  <li>
-   A <dfn>sniffed MIME type</dfn>, the <span>valid MIME type</span>
-   determined by the <span>MIME type sniffing algorithm</span>.
+   A <dfn>supplied MIME type</dfn>, the <span>MIME type</span> determined by
+   the <span>supplied MIME type detection algorithm</span>.
 
   <li>
    A <dfn>check-for-apache-bug flag</dfn>, which defaults to unset.
@@ -699,6 +688,10 @@
     out of sniffing for all <span title=resource>resources</span>. However,
     opting out of sniffing does not exempt the user agent from using the
     <span>MIME type sniffing algorithm</span>.
+
+  <li>
+   A <dfn>sniffed MIME type</dfn>, the <span>parsable MIME type</span>
+   determined by the <span>MIME type sniffing algorithm</span>.
  </ul>
 
 
@@ -768,7 +761,7 @@
    <span data-anolis-ref class=informative>FTP</span>
 
   <li>
-   If <var>supplied-type</var> is not a <span>valid MIME type</span>, the
+   If <var>supplied-type</var> is not a <span>parsable MIME type</span>, the
    <span>supplied MIME type</span> is undefined.
 
    Abort these steps.
@@ -2445,7 +2438,7 @@
 
    <p>
     User agents may implicitly extend this table to support additional
-    <span title="valid MIME type">valid MIME types</span>.
+    <span title="parsable MIME type">parsable MIME types</span>.
 
     However, user agents should not implicitly extend this table to include
     additional <span title="byte pattern">byte patterns</span> for any
