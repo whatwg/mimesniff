@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-3-june-2013">Living Standard — Last Updated 3 June 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-4-june-2013">Living Standard — Last Updated 4 June 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 3 June 2013, the editor has made this
+  In addition, as of 4 June 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -74,31 +74,32 @@
  <li><a href="#introduction"><span class="secno">1 </span>Introduction</a></li>
  <li><a href="#conformance-requirements"><span class="secno">2 </span>Conformance requirements</a></li>
  <li><a href="#terminology"><span class="secno">3 </span>Terminology</a></li>
- <li><a href="#the-basics-of-a-mime-type"><span class="secno">4 </span>The basics of a MIME type</a>
+ <li><a href="#understanding-mime-types"><span class="secno">4 </span>Understanding MIME types</a>
   <ol>
-   <li><a href="#mime-type-categories"><span class="secno">4.1 </span>MIME type categories</a></ol></li>
- <li><a href="#parsing-a-mime-type"><span class="secno">5 </span>Parsing a MIME type</a></li>
- <li><a href="#handling-a-resource"><span class="secno">6 </span>Handling a resource</a></li>
- <li><a href="#determining-the-supplied-mime-type-of-a-resource"><span class="secno">7 </span>Determining the supplied MIME type of a resource</a></li>
- <li><a href="#reading-the-resource-header"><span class="secno">8 </span>Reading the resource header</a></li>
- <li><a href="#matching-a-mime-type-pattern"><span class="secno">9 </span>Matching a MIME type pattern</a>
+   <li><a href="#parsing-a-mime-type"><span class="secno">4.1 </span>Parsing a MIME type</a></li>
+   <li><a href="#mime-type-groups"><span class="secno">4.2 </span>MIME type groups</a></ol></li>
+ <li><a href="#handling-a-resource"><span class="secno">5 </span>Handling a resource</a>
   <ol>
-   <li><a href="#matching-an-image-type-pattern"><span class="secno">9.1 </span>Matching an image type pattern</a></li>
-   <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">9.2 </span>Matching an audio or video type pattern</a>
+   <li><a href="#interpreting-the-resource-metadata"><span class="secno">5.1 </span>Interpreting the resource metadata</a></li>
+   <li><a href="#reading-the-resource-header"><span class="secno">5.2 </span>Reading the resource header</a></ol></li>
+ <li><a href="#matching-a-mime-type-pattern"><span class="secno">6 </span>Matching a MIME type pattern</a>
+  <ol>
+   <li><a href="#matching-an-image-type-pattern"><span class="secno">6.1 </span>Matching an image type pattern</a></li>
+   <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">6.2 </span>Matching an audio or video type pattern</a>
     <ol>
-     <li><a href="#signature-for-mp4"><span class="secno">9.2.1 </span>Signature for MP4</a></ol></li>
-   <li><a href="#matching-a-font-type-pattern"><span class="secno">9.3 </span>Matching a font type pattern</a></li>
-   <li><a href="#matching-an-archive-type-pattern"><span class="secno">9.4 </span>Matching an archive type pattern</a></ol></li>
- <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">10 </span>Determining the sniffed MIME type of a resource</a>
+     <li><a href="#signature-for-mp4"><span class="secno">6.2.1 </span>Signature for MP4</a></ol></li>
+   <li><a href="#matching-a-font-type-pattern"><span class="secno">6.3 </span>Matching a font type pattern</a></li>
+   <li><a href="#matching-an-archive-type-pattern"><span class="secno">6.4 </span>Matching an archive type pattern</a></ol></li>
+ <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the sniffed MIME type of a resource</a>
   <ol>
-   <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">10.1 </span>Identifying a resource with an unknown MIME type</a></li>
-   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">10.2 </span>Sniffing a mislabeled feed</a></li>
-   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">10.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
- <li><a href="#context-specific-sniffing"><span class="secno">11 </span>Context-specific sniffing</a>
+   <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">7.1 </span>Identifying a resource with an unknown MIME type</a></li>
+   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">7.2 </span>Sniffing a mislabeled feed</a></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">7.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
+ <li><a href="#context-specific-sniffing"><span class="secno">8 </span>Context-specific sniffing</a>
   <ol>
-   <li><a href="#sniffing-images-specifically"><span class="secno">11.1 </span>Sniffing images specifically</a></li>
-   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">11.2 </span>Sniffing audio and video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">11.3 </span>Sniffing fonts specifically</a></ol></li>
+   <li><a href="#sniffing-images-specifically"><span class="secno">8.1 </span>Sniffing images specifically</a></li>
+   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">8.2 </span>Sniffing audio and video specifically</a></li>
+   <li><a href="#sniffing-fonts-specifically"><span class="secno">8.3 </span>Sniffing fonts specifically</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -226,7 +227,7 @@
 
 
 
-<h2 id="the-basics-of-a-mime-type"><span class="secno">4 </span>The basics of a MIME type</h2>
+<h2 id="understanding-mime-types"><span class="secno">4 </span>Understanding MIME types</h2>
 
 <p>
  The <dfn id="mime-type">MIME type</dfn> of a <a href="#resource">resource</a> is a technical hint
@@ -257,109 +258,11 @@
 
 
 
-<h3 id="mime-type-categories"><span class="secno">4.1 </span>MIME type categories</h3>
+<h3 id="parsing-a-mime-type"><span class="secno">4.1 </span>Parsing a MIME type</h3>
 
 <p>
- An <dfn id="image-type">image type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
- <a href="#type">type</a> is equal to "<code title="">image</code>"<!-- or the
- <span>MIME type portion</span> is equal to one of the following:
-
- <ul>
-  <li>
- </ul>-->.
-
-<p>
- An <dfn id="audio-or-video-type">audio or video type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a>
- where <a href="#type">type</a> is equal to "<code title="">audio</code>" or
- "<code title="">video</code>" or where the <a href="#mime-type-portion">MIME type portion</a> is
- equal to one of the following:
-
- <ul>
-  <li>
-   <code title="">application/ogg</code>
- </ul>
-
-<p>
- A <dfn id="font-type">font type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
- <!--<span>type</span> is equal to "<code title>font</code>" or--> the
- <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
-
- <ul class="XXX">
-  <li>
-   <code title="">application/font-ttf</code>
-
-  <li>
-   <code title="">application/font-cff</code>
-
-  <li>
-   <code title="">application/font-off</code>
-
-  <li>
-   <code title="">application/font-sfnt</code>
-
-  <li>
-   <code title="">application/vnd.ms-opentype</code>
-
-  <li>
-   <code title="">application/font-woff</code>
-
-  <li>
-   <code title="">application/vnd.ms-fontobject</code>
- </ul>
-
-<p>
- A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where the
- <a href="#subtype">subtype</a> ends in "<code title="">+zip</code>" or the <a href="#mime-type-portion">MIME type
- portion</a> is equal to one of the following:
-
- <ul class="XXX">
-  <li>
-   <code title="">application/zip</code>
- </ul>
-
-<p>
- An <dfn id="archive-type">archive type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
- <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
- <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
-
- <ul>
-  <li>
-   <code title="">application/x-rar-compressed</code>
-
-  <li>
-   <code title="">application/zip</code>
-
-  <li>
-   <code title="">application/x-gzip</code>
- </ul>
-
-<p>
- An <dfn id="xml-type">XML type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where the
- <a href="#subtype">subtype</a> ends in "<code title="">+xml</code>" or the <a href="#mime-type-portion">MIME type
- portion</a> is equal to "<code title="">text/xml</code>" or
- "<code title="">application/xml</code>".
-
- <a class="informative" href="#refsRFC3023">[RFC3023]</a>
-
-<p>
- A <dfn id="scriptable-mime-type">scriptable MIME type</dfn> is an <a href="#xml-type">XML type</a> or any
- <a href="#parsable-mime-type">parsable MIME type</a> where the <a href="#mime-type-portion">MIME type portion</a> is
- equal to one of the following:
-
- <ul>
-  <li>
-   <code title="">text/html</code>
-
-  <li>
-   <code title="">application/pdf</code>
- </ul>
-
-
-
-<h2 id="parsing-a-mime-type"><span class="secno">5 </span>Parsing a MIME type</h2>
-
-<p>
- To <dfn id="parse-a-mime-type">parse a MIME type</dfn>, execute the following steps:
+ To <dfn id="parse-a-mime-type">parse a MIME type</dfn>, the user agent must execute the following
+ steps:
 
  <ol>
   <li>
@@ -691,7 +594,106 @@
 
 
 
-<h2 id="handling-a-resource"><span class="secno">6 </span>Handling a resource</h2>
+<h3 id="mime-type-groups"><span class="secno">4.2 </span>MIME type groups</h3>
+
+<p>
+ An <dfn id="image-type">image type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
+ <a href="#type">type</a> is equal to "<code title="">image</code>"<!-- or the
+ <span>MIME type portion</span> is equal to one of the following:
+
+ <ul>
+  <li>
+ </ul>-->.
+
+<p>
+ An <dfn id="audio-or-video-type">audio or video type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a>
+ where <a href="#type">type</a> is equal to "<code title="">audio</code>" or
+ "<code title="">video</code>" or where the <a href="#mime-type-portion">MIME type portion</a> is
+ equal to one of the following:
+
+ <ul>
+  <li>
+   <code title="">application/ogg</code>
+ </ul>
+
+<p>
+ A <dfn id="font-type">font type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
+ <!--<span>type</span> is equal to "<code title>font</code>" or--> the
+ <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
+
+ <ul class="XXX">
+  <li>
+   <code title="">application/font-ttf</code>
+
+  <li>
+   <code title="">application/font-cff</code>
+
+  <li>
+   <code title="">application/font-off</code>
+
+  <li>
+   <code title="">application/font-sfnt</code>
+
+  <li>
+   <code title="">application/vnd.ms-opentype</code>
+
+  <li>
+   <code title="">application/font-woff</code>
+
+  <li>
+   <code title="">application/vnd.ms-fontobject</code>
+ </ul>
+
+<p>
+ A <dfn id="zip-based-type">ZIP-based type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where the
+ <a href="#subtype">subtype</a> ends in "<code title="">+zip</code>" or the <a href="#mime-type-portion">MIME type
+ portion</a> is equal to one of the following:
+
+ <ul class="XXX">
+  <li>
+   <code title="">application/zip</code>
+ </ul>
+
+<p>
+ An <dfn id="archive-type">archive type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
+ <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
+ <a href="#mime-type-portion">MIME type portion</a> is equal to one of the following:
+
+ <ul>
+  <li>
+   <code title="">application/x-rar-compressed</code>
+
+  <li>
+   <code title="">application/zip</code>
+
+  <li>
+   <code title="">application/x-gzip</code>
+ </ul>
+
+<p>
+ An <dfn id="xml-type">XML type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where the
+ <a href="#subtype">subtype</a> ends in "<code title="">+xml</code>" or the <a href="#mime-type-portion">MIME type
+ portion</a> is equal to "<code title="">text/xml</code>" or
+ "<code title="">application/xml</code>".
+
+ <a class="informative" href="#refsRFC3023">[RFC3023]</a>
+
+<p>
+ A <dfn id="scriptable-mime-type">scriptable MIME type</dfn> is an <a href="#xml-type">XML type</a> or any
+ <a href="#parsable-mime-type">parsable MIME type</a> where the <a href="#mime-type-portion">MIME type portion</a> is
+ equal to one of the following:
+
+ <ul>
+  <li>
+   <code title="">text/html</code>
+
+  <li>
+   <code title="">application/pdf</code>
+ </ul>
+
+
+
+<h2 id="handling-a-resource"><span class="secno">5 </span>Handling a resource</h2>
 
 <p class="XXX">
  A <dfn id="resource">resource</dfn> is ….
@@ -728,7 +730,7 @@
 
 
 
-<h2 id="determining-the-supplied-mime-type-of-a-resource"><span class="secno">7 </span>Determining the supplied MIME type of a resource</h2>
+<h3 id="interpreting-the-resource-metadata"><span class="secno">5.1 </span>Interpreting the resource metadata</h3>
 
 <p>
  The <a href="#supplied-mime-type">supplied MIME type</a> of a <a href="#resource">resource</a> is provided
@@ -758,7 +760,7 @@
 
      <ol>
       <li>
-       Set <var>supplied-type</var> to the value associated with the last
+       Set <var>supplied-type</var> to the value of the last
        <code>Content-Type</code> header associated with the
        <a href="#resource">resource</a>.
 
@@ -804,7 +806,7 @@
 
 
 
-<h2 id="reading-the-resource-header"><span class="secno">8 </span>Reading the resource header</h2>
+<h3 id="reading-the-resource-header"><span class="secno">5.2 </span>Reading the resource header</h3>
 
 <p>
  A <dfn id="resource-header">resource header</dfn> is the <a href="#byte-sequence">byte sequence</a> at the
@@ -854,7 +856,7 @@
 
 
 
-<h2 id="matching-a-mime-type-pattern"><span class="secno">9 </span>Matching a MIME type pattern</h2>
+<h2 id="matching-a-mime-type-pattern"><span class="secno">6 </span>Matching a MIME type pattern</h2>
 
 <p>
  A <dfn id="byte-pattern">byte pattern</dfn> is a <a href="#byte-sequence">byte sequence</a> used as a template
@@ -948,7 +950,7 @@
 
 
 
-<h3 id="matching-an-image-type-pattern"><span class="secno">9.1 </span>Matching an image type pattern</h3>
+<h3 id="matching-an-image-type-pattern"><span class="secno">6.1 </span>Matching an image type pattern</h3>
 
 <p>
  To determine which <a href="#image-type">image type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1166,7 +1168,7 @@
 
 
 
-<h3 id="matching-an-audio-or-video-type-pattern"><span class="secno">9.2 </span>Matching an audio or video type pattern</h3>
+<h3 id="matching-an-audio-or-video-type-pattern"><span class="secno">6.2 </span>Matching an audio or video type pattern</h3>
 
 <p>
  To determine which <a href="#audio-or-video-type">audio or video type</a> <a href="#byte-pattern">byte pattern</a>
@@ -1398,7 +1400,7 @@
 
 
 
-<h4 id="signature-for-mp4"><span class="secno">9.2.1 </span>Signature for MP4</h4>
+<h4 id="signature-for-mp4"><span class="secno">6.2.1 </span>Signature for MP4</h4>
 
 <p>
  To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp4">matches the signature
@@ -1465,7 +1467,7 @@
 
 
 
-<h3 id="matching-a-font-type-pattern"><span class="secno">9.3 </span>Matching a font type pattern</h3>
+<h3 id="matching-a-font-type-pattern"><span class="secno">6.3 </span>Matching a font type pattern</h3>
 
 <p>
  To determine which <a href="#font-type">font type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1633,7 +1635,7 @@
 
 
 
-<h3 id="matching-an-archive-type-pattern"><span class="secno">9.4 </span>Matching an archive type pattern</h3>
+<h3 id="matching-an-archive-type-pattern"><span class="secno">6.4 </span>Matching an archive type pattern</h3>
 
 <p>
  To determine which <a href="#archive-type">archive type</a> <a href="#byte-pattern">byte pattern</a> a
@@ -1757,7 +1759,7 @@
 
 
 
-<h2 id="determining-the-sniffed-mime-type-of-a-resource"><span class="secno">10 </span>Determining the sniffed MIME type of a resource</h2>
+<h2 id="determining-the-sniffed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the sniffed MIME type of a resource</h2>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>,
@@ -1925,7 +1927,7 @@
 
 
 
-<h3 id="identifying-a-resource-with-an-unknown-mime-type"><span class="secno">10.1 </span>Identifying a resource with an unknown MIME type</h3>
+<h3 id="identifying-a-resource-with-an-unknown-mime-type"><span class="secno">7.1 </span>Identifying a resource with an unknown MIME type</h3>
 
 <p>
  The <dfn id="sniff-scriptable-flag">sniff-scriptable flag</dfn> is used by the <a href="#rules-for-identifying-an-unknown-mime-type">rules for
@@ -2540,7 +2542,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-feed"><span class="secno">10.2 </span>Sniffing a mislabeled feed</h3>
+<h3 id="sniffing-a-mislabeled-feed"><span class="secno">7.2 </span>Sniffing a mislabeled feed</h3>
 
 <p>
  To determine whether a feed has been mislabeled as HTML, execute the
@@ -2813,7 +2815,7 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">10.3 </span>Sniffing a mislabeled binary resource</h3>
+<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">7.3 </span>Sniffing a mislabeled binary resource</h3>
 
 <p>
  To determine whether a binary <a href="#resource">resource</a> has been mislabeled as
@@ -2860,7 +2862,7 @@
 
 
 
-<h2 id="context-specific-sniffing"><span class="secno">11 </span>Context-specific sniffing</h2>
+<h2 id="context-specific-sniffing"><span class="secno">8 </span>Context-specific sniffing</h2>
 
 <p class="XXX">
  A <dfn id="context">context</dfn> is ….
@@ -2875,7 +2877,7 @@
 
 
 
-<h3 id="sniffing-images-specifically"><span class="secno">11.1 </span>Sniffing images specifically</h3>
+<h3 id="sniffing-images-specifically"><span class="secno">8.1 </span>Sniffing images specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2907,7 +2909,7 @@
 
 
 
-<h3 id="sniffing-audio-and-video-specifically"><span class="secno">11.2 </span>Sniffing audio and video specifically</h3>
+<h3 id="sniffing-audio-and-video-specifically"><span class="secno">8.2 </span>Sniffing audio and video specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2940,7 +2942,7 @@
 
 
 
-<h3 id="sniffing-fonts-specifically"><span class="secno">11.3 </span>Sniffing fonts specifically</h3>
+<h3 id="sniffing-fonts-specifically"><span class="secno">8.3 </span>Sniffing fonts specifically</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>

@@ -194,7 +194,7 @@
 
 
 
-<h2>The basics of a MIME type</h2>
+<h2>Understanding MIME types</h2>
 
 <p>
  The <dfn>MIME type</dfn> of a <span>resource</span> is a technical hint
@@ -225,109 +225,11 @@
 
 
 
-<h3>MIME type categories</h3>
+<h3>Parsing a MIME type</h3>
 
 <p>
- An <dfn>image type</dfn> is any <span>parsable MIME type</span> where
- <span>type</span> is equal to "<code title>image</code>"<!-- or the
- <span>MIME type portion</span> is equal to one of the following:
-
- <ul>
-  <li>
- </ul>-->.
-
-<p>
- An <dfn>audio or video type</dfn> is any <span>parsable MIME type</span>
- where <span>type</span> is equal to "<code title>audio</code>" or
- "<code title>video</code>" or where the <span>MIME type portion</span> is
- equal to one of the following:
-
- <ul>
-  <li>
-   <code title>application/ogg</code>
- </ul>
-
-<p>
- A <dfn>font type</dfn> is any <span>parsable MIME type</span> where
- <!--<span>type</span> is equal to "<code title>font</code>" or--> the
- <span>MIME type portion</span> is equal to one of the following:
-
- <ul class=XXX>
-  <li>
-   <code title>application/font-ttf</code>
-
-  <li>
-   <code title>application/font-cff</code>
-
-  <li>
-   <code title>application/font-off</code>
-
-  <li>
-   <code title>application/font-sfnt</code>
-
-  <li>
-   <code title>application/vnd.ms-opentype</code>
-
-  <li>
-   <code title>application/font-woff</code>
-
-  <li>
-   <code title>application/vnd.ms-fontobject</code>
- </ul>
-
-<p>
- A <dfn>ZIP-based type</dfn> is any <span>parsable MIME type</span> where the
- <span>subtype</span> ends in "<code title>+zip</code>" or the <span>MIME type
- portion</span> is equal to one of the following:
-
- <ul class=XXX>
-  <li>
-   <code title>application/zip</code>
- </ul>
-
-<p>
- An <dfn>archive type</dfn> is any <span>parsable MIME type</span> where
- <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
- <span>MIME type portion</span> is equal to one of the following:
-
- <ul>
-  <li>
-   <code title>application/x-rar-compressed</code>
-
-  <li>
-   <code title>application/zip</code>
-
-  <li>
-   <code title>application/x-gzip</code>
- </ul>
-
-<p>
- An <dfn>XML type</dfn> is any <span>parsable MIME type</span> where the
- <span>subtype</span> ends in "<code title>+xml</code>" or the <span>MIME type
- portion</span> is equal to "<code title>text/xml</code>" or
- "<code title>application/xml</code>".
-
- <span data-anolis-ref class=informative>RFC3023</span>
-
-<p>
- A <dfn>scriptable MIME type</dfn> is an <span>XML type</span> or any
- <span>parsable MIME type</span> where the <span>MIME type portion</span> is
- equal to one of the following:
-
- <ul>
-  <li>
-   <code title>text/html</code>
-
-  <li>
-   <code title>application/pdf</code>
- </ul>
-
-
-
-<h2>Parsing a MIME type</h2>
-
-<p>
- To <dfn>parse a MIME type</dfn>, execute the following steps:
+ To <dfn>parse a MIME type</dfn>, the user agent must execute the following
+ steps:
 
  <ol>
   <li>
@@ -659,6 +561,105 @@
 
 
 
+<h3>MIME type groups</h3>
+
+<p>
+ An <dfn>image type</dfn> is any <span>parsable MIME type</span> where
+ <span>type</span> is equal to "<code title>image</code>"<!-- or the
+ <span>MIME type portion</span> is equal to one of the following:
+
+ <ul>
+  <li>
+ </ul>-->.
+
+<p>
+ An <dfn>audio or video type</dfn> is any <span>parsable MIME type</span>
+ where <span>type</span> is equal to "<code title>audio</code>" or
+ "<code title>video</code>" or where the <span>MIME type portion</span> is
+ equal to one of the following:
+
+ <ul>
+  <li>
+   <code title>application/ogg</code>
+ </ul>
+
+<p>
+ A <dfn>font type</dfn> is any <span>parsable MIME type</span> where
+ <!--<span>type</span> is equal to "<code title>font</code>" or--> the
+ <span>MIME type portion</span> is equal to one of the following:
+
+ <ul class=XXX>
+  <li>
+   <code title>application/font-ttf</code>
+
+  <li>
+   <code title>application/font-cff</code>
+
+  <li>
+   <code title>application/font-off</code>
+
+  <li>
+   <code title>application/font-sfnt</code>
+
+  <li>
+   <code title>application/vnd.ms-opentype</code>
+
+  <li>
+   <code title>application/font-woff</code>
+
+  <li>
+   <code title>application/vnd.ms-fontobject</code>
+ </ul>
+
+<p>
+ A <dfn>ZIP-based type</dfn> is any <span>parsable MIME type</span> where the
+ <span>subtype</span> ends in "<code title>+zip</code>" or the <span>MIME type
+ portion</span> is equal to one of the following:
+
+ <ul class=XXX>
+  <li>
+   <code title>application/zip</code>
+ </ul>
+
+<p>
+ An <dfn>archive type</dfn> is any <span>parsable MIME type</span> where
+ <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
+ <span>MIME type portion</span> is equal to one of the following:
+
+ <ul>
+  <li>
+   <code title>application/x-rar-compressed</code>
+
+  <li>
+   <code title>application/zip</code>
+
+  <li>
+   <code title>application/x-gzip</code>
+ </ul>
+
+<p>
+ An <dfn>XML type</dfn> is any <span>parsable MIME type</span> where the
+ <span>subtype</span> ends in "<code title>+xml</code>" or the <span>MIME type
+ portion</span> is equal to "<code title>text/xml</code>" or
+ "<code title>application/xml</code>".
+
+ <span data-anolis-ref class=informative>RFC3023</span>
+
+<p>
+ A <dfn>scriptable MIME type</dfn> is an <span>XML type</span> or any
+ <span>parsable MIME type</span> where the <span>MIME type portion</span> is
+ equal to one of the following:
+
+ <ul>
+  <li>
+   <code title>text/html</code>
+
+  <li>
+   <code title>application/pdf</code>
+ </ul>
+
+
+
 <h2>Handling a resource</h2>
 
 <p class=XXX>
@@ -696,7 +697,7 @@
 
 
 
-<h2>Determining the supplied MIME type of a resource</h2>
+<h3>Interpreting the resource metadata</h3>
 
 <p>
  The <span>supplied MIME type</span> of a <span>resource</span> is provided
@@ -726,7 +727,7 @@
 
      <ol>
       <li>
-       Set <var>supplied-type</var> to the value associated with the last
+       Set <var>supplied-type</var> to the value of the last
        <code>Content-Type</code> header associated with the
        <span>resource</span>.
 
@@ -772,7 +773,7 @@
 
 
 
-<h2>Reading the resource header</h2>
+<h3>Reading the resource header</h3>
 
 <p>
  A <dfn>resource header</dfn> is the <span>byte sequence</span> at the
