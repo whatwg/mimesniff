@@ -93,8 +93,8 @@
  <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the sniffed MIME type of a resource</a>
   <ol>
    <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">7.1 </span>Identifying a resource with an unknown MIME type</a></li>
-   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">7.2 </span>Sniffing a mislabeled feed</a></li>
-   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">7.3 </span>Sniffing a mislabeled binary resource</a></ol></li>
+   <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">7.2 </span>Sniffing a mislabeled binary resource</a></li>
+   <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">7.3 </span>Sniffing a mislabeled feed</a></ol></li>
  <li><a href="#context-specific-sniffing"><span class="secno">8 </span>Context-specific sniffing</a>
   <ol>
    <li><a href="#sniffing-images-specifically"><span class="secno">8.1 </span>Sniffing images specifically</a></li>
@@ -1842,6 +1842,11 @@
    Abort these steps.
 
   <li>
+   If the <a href="#check-for-apache-bug-flag">check-for-apache-bug flag</a> is set, execute the
+   <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is text or binary</a> and
+   abort these steps.
+
+  <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
    <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
@@ -1851,11 +1856,6 @@
    If the <a href="#mime-type-portion">MIME type portion</a> of the <a href="#supplied-mime-type">supplied MIME
    type</a> is equal to "<code title="">text/html</code>", execute the
    <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules for distinguishing if a resource is a feed or HTML</a> and
-   abort these steps.
-
-  <li>
-   If the <a href="#check-for-apache-bug-flag">check-for-apache-bug flag</a> is set, execute the
-   <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is text or binary</a> and
    abort these steps.
 
   <li>
@@ -2543,7 +2543,54 @@
 
 
 
-<h3 id="sniffing-a-mislabeled-feed"><span class="secno">7.2 </span>Sniffing a mislabeled feed</h3>
+<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">7.2 </span>Sniffing a mislabeled binary resource</h3>
+
+<p>
+ To determine whether a binary <a href="#resource">resource</a> has been mislabeled as
+ plain text, execute the following <dfn id="rules-for-text-or-binary">rules for
+ distinguishing if a resource is text or binary</dfn>:
+
+<ol>
+ <li>
+  Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in the
+  <a href="#resource-header">resource header</a>.
+
+ <li>
+  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
+  the <a href="#resource-header">resource header</a> are equal to 0xFE 0xFF (UTF-16BE BOM) or
+  0xFF 0xFE (UTF-16LE BOM), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
+  "<code title="">text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
+  the <a href="#resource-header">resource header</a> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
+  the <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  If the <a href="#resource-header">resource header</a> contains no
+  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-mime-type">sniffed
+  MIME type</a> is "<code title="">text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  Execute the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a> with
+  the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> unset.
+
+  <p class="warning">
+   It is critical that the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is
+   text or binary</a> never determine the <a href="#sniffed-mime-type">sniffed MIME type</a>
+   to be a <a href="#scriptable-mime-type">scriptable MIME type</a>, as this could allow a privilege
+   escalation attack.
+</ol>
+
+
+
+<h3 id="sniffing-a-mislabeled-feed"><span class="secno">7.3 </span>Sniffing a mislabeled feed</h3>
 
 <p>
  To determine whether a feed has been mislabeled as HTML, execute the
@@ -2813,53 +2860,6 @@
  It might be more efficient for the user agent to implement the <a href="#rules-for-distinguishing-if-a-resource-is-a-feed-or-html">rules
  for distinguishing if a resource is a feed or HTML</a> in parallel with
  its algorithm for detecting the character encoding of an HTML document.
-
-
-
-<h3 id="sniffing-a-mislabeled-binary-resource"><span class="secno">7.3 </span>Sniffing a mislabeled binary resource</h3>
-
-<p>
- To determine whether a binary <a href="#resource">resource</a> has been mislabeled as
- plain text, execute the following <dfn id="rules-for-text-or-binary">rules for
- distinguishing if a resource is text or binary</dfn>:
-
-<ol>
- <li>
-  Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in the
-  <a href="#resource-header">resource header</a>.
-
- <li>
-  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
-  the <a href="#resource-header">resource header</a> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
-  "<code title="">text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
-  the <a href="#resource-header">resource header</a> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  If the <a href="#resource-header">resource header</a> contains no
-  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-mime-type">sniffed
-  MIME type</a> is "<code title="">text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  Execute the <a href="#rules-for-identifying-an-unknown-mime-type">rules for identifying an unknown MIME type</a> with
-  the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> unset.
-
-  <p class="warning">
-   It is critical that the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is
-   text or binary</a> never determine the <a href="#sniffed-mime-type">sniffed MIME type</a>
-   to be a <a href="#scriptable-mime-type">scriptable MIME type</a>, as this could allow a privilege
-   escalation attack.
-</ol>
 
 
 

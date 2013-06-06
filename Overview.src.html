@@ -1809,6 +1809,11 @@
    Abort these steps.
 
   <li>
+   If the <span>check-for-apache-bug flag</span> is set, execute the
+   <span>rules for distinguishing if a resource is text or binary</span> and
+   abort these steps.
+
+  <li>
    If the <span>supplied MIME type</span> is an <span>XML type</span>, the
    <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
 
@@ -1818,11 +1823,6 @@
    If the <span>MIME type portion</span> of the <span>supplied MIME
    type</span> is equal to "<code title>text/html</code>", execute the
    <span>rules for distinguishing if a resource is a feed or HTML</span> and
-   abort these steps.
-
-  <li>
-   If the <span>check-for-apache-bug flag</span> is set, execute the
-   <span>rules for distinguishing if a resource is text or binary</span> and
    abort these steps.
 
   <li>
@@ -2510,6 +2510,53 @@
 
 
 
+<h3>Sniffing a mislabeled binary resource</h3>
+
+<p>
+ To determine whether a binary <span>resource</span> has been mislabeled as
+ plain text, execute the following <dfn id=rules-for-text-or-binary>rules for
+ distinguishing if a resource is text or binary</dfn>:
+
+<ol>
+ <li>
+  Let <var>length</var> be the number of <span title=byte>bytes</span> in the
+  <span>resource header</span>.
+
+ <li>
+  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
+  the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
+  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed MIME type</span> is
+  "<code title>text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
+  the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
+  the <span>sniffed MIME type</span> is "<code title>text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  If the <span>resource header</span> contains no
+  <span title="binary data byte">binary data bytes</span>, the <span>sniffed
+  MIME type</span> is "<code title>text/plain</code>".
+
+  Abort these steps.
+
+ <li>
+  Execute the <span>rules for identifying an unknown MIME type</span> with
+  the <span>sniff-scriptable flag</span> unset.
+
+  <p class=warning>
+   It is critical that the <span>rules for distinguishing if a resource is
+   text or binary</span> never determine the <span>sniffed MIME type</span>
+   to be a <span>scriptable MIME type</span>, as this could allow a privilege
+   escalation attack.
+</ol>
+
+
+
 <h3>Sniffing a mislabeled feed</h3>
 
 <p>
@@ -2780,53 +2827,6 @@
  It might be more efficient for the user agent to implement the <span>rules
  for distinguishing if a resource is a feed or HTML</span> in parallel with
  its algorithm for detecting the character encoding of an HTML document.
-
-
-
-<h3>Sniffing a mislabeled binary resource</h3>
-
-<p>
- To determine whether a binary <span>resource</span> has been mislabeled as
- plain text, execute the following <dfn id=rules-for-text-or-binary>rules for
- distinguishing if a resource is text or binary</dfn>:
-
-<ol>
- <li>
-  Let <var>length</var> be the number of <span title=byte>bytes</span> in the
-  <span>resource header</span>.
-
- <li>
-  If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
-  the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed MIME type</span> is
-  "<code title>text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
-  the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <span>sniffed MIME type</span> is "<code title>text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  If the <span>resource header</span> contains no
-  <span title="binary data byte">binary data bytes</span>, the <span>sniffed
-  MIME type</span> is "<code title>text/plain</code>".
-
-  Abort these steps.
-
- <li>
-  Execute the <span>rules for identifying an unknown MIME type</span> with
-  the <span>sniff-scriptable flag</span> unset.
-
-  <p class=warning>
-   It is critical that the <span>rules for distinguishing if a resource is
-   text or binary</span> never determine the <span>sniffed MIME type</span>
-   to be a <span>scriptable MIME type</span>, as this could allow a privilege
-   escalation attack.
-</ol>
 
 
 
