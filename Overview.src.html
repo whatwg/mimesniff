@@ -737,7 +737,67 @@
         unreliable and easily spoofed.
 
       <li>
-       Set the <span>check-for-apache-bug flag</span>.
+       Set the <span>check-for-apache-bug flag</span> if
+       <var>supplied-type</var> is <strong>exactly</strong> equal to one of
+       the values in the following table:
+
+       <table>
+        <thead>
+         <tr>
+          <th>Bytes in Hexadecimal</th>
+          <th>Bytes in ASCII</th>
+         </tr>
+        </thead>
+        <tbody>
+         <tr>
+          <td>
+           74 65 78 74 2F 70 6C 61 69 6E
+          </td>
+          <td>
+           <code title>text/plain</code>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           74 65 78 74 2F 70 6C 61 69 6E<br>
+           3B 20 63 68 61 72 73 65 74 3D<br>
+           49 53 4F 2D 38 38 35 39 2D 31
+          </td>
+          <td>
+           <code title>text/plain; charset=ISO-8859-1</code>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           74 65 78 74 2F 70 6C 61 69 6E<br>
+           3B 20 63 68 61 72 73 65 74 3D<br>
+           69 73 6F 2D 38 38 35 39 2D 31
+          </td>
+          <td>
+           <code title>text/plain; charset=iso-8859-1</code>
+          </td>
+         </tr>
+         <tr>
+          <td>
+           74 65 78 74 2F 70 6C 61 69 6E<br>
+           3B 20 63 68 61 72 73 65 74 3D<br>
+           55 54 46 2D 38
+          </td>
+          <td>
+           <code title>text/plain; charset=UTF-8</code>
+          </td>
+         </tr>
+        </tbody>
+       </table>
+
+       <p class=note>
+        The <span>supplied MIME type detection algorithm</span> detects these
+        exact <span>byte</span> sequences because some older installations of
+        Apache contain
+        <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
+        bug</a> that causes them to supply one of these Content-Type headers
+        when serving files with unrecognized <span title="MIME type">MIME
+        types</span>.
      </ol>
 
     <li>
@@ -1761,68 +1821,9 @@
    abort these steps.
 
   <li>
-   If the <span>check-for-apache-bug flag</span> is set and the <span>supplied
-   MIME type</span> is <strong>exactly</strong> equal to one of the values in
-   the following table, execute the <span>rules for distinguishing if a
-   resource is text or binary</span> and abort these steps:
-
-   <table>
-    <thead>
-     <tr>
-      <th>Bytes in Hexadecimal</th>
-      <th>Bytes in ASCII</th>
-     </tr>
-    </thead>
-    <tbody>
-     <tr>
-      <td>
-       74 65 78 74 2F 70 6C 61 69 6E
-      </td>
-      <td>
-       <code title>text/plain</code>
-      </td>
-     </tr>
-     <tr>
-      <td>
-       74 65 78 74 2F 70 6C 61 69 6E<br>
-       3B 20 63 68 61 72 73 65 74 3D<br>
-       49 53 4F 2D 38 38 35 39 2D 31
-      </td>
-      <td>
-       <code title>text/plain; charset=ISO-8859-1</code>
-      </td>
-     </tr>
-     <tr>
-      <td>
-       74 65 78 74 2F 70 6C 61 69 6E<br>
-       3B 20 63 68 61 72 73 65 74 3D<br>
-       69 73 6F 2D 38 38 35 39 2D 31
-      </td>
-      <td>
-       <code title>text/plain; charset=iso-8859-1</code>
-      </td>
-     </tr>
-     <tr>
-      <td>
-       74 65 78 74 2F 70 6C 61 69 6E<br>
-       3B 20 63 68 61 72 73 65 74 3D<br>
-       55 54 46 2D 38
-      </td>
-      <td>
-       <code title>text/plain; charset=UTF-8</code>
-      </td>
-     </tr>
-    </tbody>
-   </table>
-
-   <p class=note>
-    The <span>MIME type sniffing algorithm</span> detects these exact
-    <span>byte</span> sequences because some older installations of Apache
-    contain
-    <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
-    bug</a> that causes them to supply one of these Content-Type headers when
-    serving files with unrecognized <span title="MIME type">MIME
-    types</span>.
+   If the <span>check-for-apache-bug flag</span> is set, execute the
+   <span>rules for distinguishing if a resource is text or binary</span> and
+   abort these steps.
 
   <li>
    <!-- XXX: Why are we checking to see if the image type is supported by the
