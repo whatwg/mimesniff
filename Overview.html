@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-6-june-2013">Living Standard — Last Updated 6 June 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-7-june-2013">Living Standard — Last Updated 7 June 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 6 June 2013, the editor has made this
+  In addition, as of 7 June 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -1859,8 +1859,6 @@
    abort these steps.
 
   <li>
-   <!-- XXX: Why are we checking to see if the image type is supported by the
-             user agent if we're just going to sniff it again anyway? -->
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#image-type">image type</a>
    <a href="#supported-by-the-user-agent">supported by the user agent</a>, let <var>matched-type</var> be
    the result of executing the <a href="#image-type-pattern-matching-algorithm">image type pattern matching
@@ -1874,46 +1872,11 @@
    Abort these steps.
 
   <li>
-   <!-- XXX: Why are we checking to see if the audio or video type is
-             supported by the user agent if we're just going to sniff it again
-             anyway? -->
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#audio-or-video-type">audio or video
    type</a> <a href="#supported-by-the-user-agent">supported by the user agent</a>, let
    <var>matched-type</var> be the result of executing the <a href="#audio-or-video-type-pattern-matching-algorithm">audio or video
    type pattern matching algorithm</a> with the <a href="#resource-header">resource
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
-
-  <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
-   type</a> is <var>matched-type</var>.
-
-   Abort these steps.
-
-  <!-- Major browsers do not implement font sniffing in the regular browsing context.
-  <li>
-   <! - - XXX: Why are we checking to see if the font type is supported by the
-             user agent if we're just going to sniff it again anyway? - - >
-   If the <span>supplied MIME type</span> is a <span>font type</span>
-   <span>supported by the user agent</span>, let <var>matched-type</var> be
-   the result of executing the <span>font type pattern matching
-   algorithm</span> with the <span>resource header</span> as the <span>byte
-   sequence</span> to be matched.
-
-  <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
-   type</span> is <var>matched-type</var>.
-
-   Abort these steps.
-  -->
-
-  <li>
-   <!-- XXX: Why are we checking to see if the archive type is supported by
-             the user agent if we're just going to sniff it again anyway? -->
-   If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#archive-type">archive type</a>
-   <a href="#supported-by-the-user-agent">supported by the user agent</a>, let <var>matched-type</var> be
-   the result of executing the <a href="#archive-type-pattern-matching-algorithm">archive type pattern matching
-   algorithm</a> with the <a href="#resource-header">resource header</a> as the <a href="#byte-sequence">byte
-   sequence</a> to be matched.
 
   <li>
    If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
