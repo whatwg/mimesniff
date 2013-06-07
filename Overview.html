@@ -97,9 +97,15 @@
    <li><a href="#sniffing-a-mislabeled-feed"><span class="secno">7.3 </span>Sniffing a mislabeled feed</a></ol></li>
  <li><a href="#context-specific-sniffing"><span class="secno">8 </span>Context-specific sniffing</a>
   <ol>
-   <li><a href="#sniffing-images-specifically"><span class="secno">8.1 </span>Sniffing images specifically</a></li>
-   <li><a href="#sniffing-audio-and-video-specifically"><span class="secno">8.2 </span>Sniffing audio and video specifically</a></li>
-   <li><a href="#sniffing-fonts-specifically"><span class="secno">8.3 </span>Sniffing fonts specifically</a></ol></li>
+   <li><a href="#sniffing-in-a-browsing-context"><span class="secno">8.1 </span>Sniffing in a browsing context</a></li>
+   <li><a href="#sniffing-in-an-image-context"><span class="secno">8.2 </span>Sniffing in an image context</a></li>
+   <li><a href="#sniffing-in-an-audio-or-video-context"><span class="secno">8.3 </span>Sniffing in an audio or video context</a></li>
+   <li><a href="#sniffing-in-a-plugin-context"><span class="secno">8.4 </span>Sniffing in a plugin context</a></li>
+   <li><a href="#sniffing-in-a-style-context"><span class="secno">8.5 </span>Sniffing in a style context</a></li>
+   <li><a href="#sniffing-in-a-script-context"><span class="secno">8.6 </span>Sniffing in a script context</a></li>
+   <li><a href="#sniffing-in-a-font-context"><span class="secno">8.7 </span>Sniffing in a font context</a></li>
+   <li><a href="#sniffing-in-a-text-track-context"><span class="secno">8.8 </span>Sniffing in a text track context</a></li>
+   <li><a href="#sniffing-in-a-cache-manifest-context"><span class="secno">8.9 </span>Sniffing in a cache manifest context</a></ol></li>
  <li><a class="no-num" href="#references">References</a></li>
  <li><a class="no-num" href="#acknowledgements">Acknowledgements</a></ol>
 <!--end-toc-->
@@ -2841,7 +2847,14 @@
 
 
 
-<h3 id="sniffing-images-specifically"><span class="secno">8.1 </span>Sniffing images specifically</h3>
+<h3 id="sniffing-in-a-browsing-context"><span class="secno">8.1 </span>Sniffing in a browsing context</h3>
+
+<p class="XXX">
+ Use the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
+
+
+
+<h3 id="sniffing-in-an-image-context"><span class="secno">8.2 </span>Sniffing in an image context</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2873,7 +2886,7 @@
 
 
 
-<h3 id="sniffing-audio-and-video-specifically"><span class="secno">8.2 </span>Sniffing audio and video specifically</h3>
+<h3 id="sniffing-in-an-audio-or-video-context"><span class="secno">8.3 </span>Sniffing in an audio or video context</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2906,7 +2919,28 @@
 
 
 
-<h3 id="sniffing-fonts-specifically"><span class="secno">8.3 </span>Sniffing fonts specifically</h3>
+<h3 id="sniffing-in-a-plugin-context"><span class="secno">8.4 </span>Sniffing in a plugin context</h3>
+
+<p class="XXX">
+ The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+
+
+
+<h3 id="sniffing-in-a-style-context"><span class="secno">8.5 </span>Sniffing in a style context</h3>
+
+<p class="XXX">
+ The <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/css</code>".
+
+
+
+<h3 id="sniffing-in-a-script-context"><span class="secno">8.6 </span>Sniffing in a script context</h3>
+
+<p class="XXX">
+ The <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/javascript</code>".
+
+
+
+<h3 id="sniffing-in-a-font-context"><span class="secno">8.7 </span>Sniffing in a font context</h3>
 
 <p>
  To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
@@ -2935,6 +2969,21 @@
    The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
+
+
+
+<h3 id="sniffing-in-a-text-track-context"><span class="secno">8.8 </span>Sniffing in a text track context</h3>
+
+<p class="XXX">
+ The <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/vtt</code>".
+
+
+
+<h3 id="sniffing-in-a-cache-manifest-context"><span class="secno">8.9 </span>Sniffing in a cache manifest context</h3>
+
+<p class="XXX">
+ The <a href="#sniffed-mime-type">sniffed MIME type</a> is
+ "<code title="">text/cache-manifest</code>".
 
 
 
