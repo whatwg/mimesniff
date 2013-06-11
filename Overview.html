@@ -77,7 +77,8 @@
  <li><a href="#understanding-mime-types"><span class="secno">4 </span>Understanding MIME types</a>
   <ol>
    <li><a href="#parsing-a-mime-type"><span class="secno">4.1 </span>Parsing a MIME type</a></li>
-   <li><a href="#mime-type-groups"><span class="secno">4.2 </span>MIME type groups</a></ol></li>
+   <li><a href="#serializing-a-mime-type"><span class="secno">4.2 </span>Serializing a MIME type</a></li>
+   <li><a href="#mime-type-groups"><span class="secno">4.3 </span>MIME type groups</a></ol></li>
  <li><a href="#handling-a-resource"><span class="secno">5 </span>Handling a resource</a>
   <ol>
    <li><a href="#interpreting-the-resource-metadata"><span class="secno">5.1 </span>Interpreting the resource metadata</a></li>
@@ -453,7 +454,7 @@
         steps:
 
         <ol>
-         <li>
+         <li class="XXX">
           If <var>p</var> is greater than 127, return undefined.
 
          <li>
@@ -600,7 +601,120 @@
 
 
 
-<h3 id="mime-type-groups"><span class="secno">4.2 </span>MIME type groups</h3>
+<h3 id="serializing-a-mime-type"><span class="secno">4.2 </span>Serializing a MIME type</h3>
+
+<p>
+ To <dfn id="serialize-a-mime-type">serialize a MIME type</dfn>, given a <var>type</var>, a
+ <var>subtype</var>, and a dictionary of <var>parameters</var>, execute the
+ following steps:
+
+ <ol>
+  <li>
+   If <var>type</var> is undefined, is null, is equal to the empty string
+   ("<code title=""></code>"), or <span class="XXX">has a length greater than
+   127</span>, return undefined.
+
+  <li>
+   If <var>subtype</var> is undefined, is null, or <span class="XXX">has a
+   length greater than 127</span>, return undefined.
+
+  <li>
+   Let <var>serialization</var> be the concatenation of <var>type</var>, the
+   U+002F SOLIDUS <span>character</span> ("<code title="">/</code>"), and
+   <var>subtype</var>.
+
+  <li>
+   If <var>parameters</var> is undefined or is null, return
+   <var>serialization</var>.
+
+  <li>
+   Let <var>names</var> be a list of the keys in <var>parameters</var>,
+   <span class="XXX">sorted <span title="ASCII case-insensitive">ASCII
+   case-insensitively</span> in ascending alphabetical order</span>.
+
+  <li class="XXX">
+   Should this special-case the "<code>charset</code>" or
+   "<code>codecs</code>" parameters first?
+
+  <li>
+   For each item <var>name</var> in <var>names</var>, execute the following
+   steps:
+
+   <ol>
+    <li class="XXX">
+     If <var>name</var> has a length greater than 127, return undefined.
+
+    <li>
+     If <var>parameters</var>[<var>name</var>] is not null, execute the
+     following steps:
+
+     <ol>
+      <li>
+       Append the U+003B SEMICOLON <span>character</span>
+       ("<code title="">;</code>") to <var>serialization</var>.
+
+      <li>
+       Append <var>name</var>, <a href="#converted-to-ascii-lowercase">converted to ASCII lowercase</a>, to
+       <var>serialization</var>.
+
+      <li>
+       Append the U+003D EQUALS SIGN <span>character</span>
+       ("<code title="">=</code>") to <var>serialization</var>.
+
+      <li>
+       Append the U+0022 QUOTATION MARK <span>character</span>
+       ("<code title="">"</code>") to <var>serialization</var>.
+
+      <li>
+       For each <span>character</span> <var>char</var> in
+       <var>parameters</var>[<var>name</var>], execute the following steps:
+
+       <ol>
+        <li>
+         If <var>char</var> is equal to the U+0022 QUOTATION MARK
+         <span>character</span> ("<code title="">"</code>") or to the
+         U+005C REVERSE SOLIDUS <span>character</span>
+         ("<code title="">\</code>"), append the U+005C REVERSE SOLIDUS
+         <span>character</span> ("<code title="">\</code>") to
+         <var>serialization</var>.
+
+        <li>
+         Append <var>char</var> to <var>serialization</var>.
+       </ol>
+
+      <li>
+       Append the U+0022 QUOTATION MARK <span>character</span>
+       ("<code title="">"</code>") to <var>serialization</var>.
+
+      <li>
+       Remove <var>name</var> from <var>names</var>.
+     </ol>
+   </ol>
+
+  <li>
+   For each item <var>name</var> in <var>names</var>, execute the following
+   steps:
+
+   <ol>
+    <li>
+     Append the U+003B SEMICOLON <span>character</span>
+     ("<code title="">;</code>") to <var>serialization</var>.
+
+    <li>
+     Append <var>name</var>, <a href="#converted-to-ascii-lowercase">converted to ASCII lowercase</a>, to
+     <var>serialization</var>.
+   </ol>
+
+  <li class="XXX">
+   Should this special-case the "<code>base64</code>" boolean parameter last?
+
+  <li>
+   Return <var>serialization</var>.
+ </ol>
+
+
+
+<h3 id="mime-type-groups"><span class="secno">4.3 </span>MIME type groups</h3>
 
 <p>
  An <dfn id="image-type">image type</dfn> is any <a href="#parsable-mime-type">parsable MIME type</a> where
