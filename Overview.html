@@ -13,7 +13,7 @@
 
  <p><a class="logo" href="http://www.whatwg.org/"><img alt="WHATWG" height="101" src="http://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-7-june-2013">Living Standard — Last Updated 7 June 2013</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-11-june-2013">Living Standard — Last Updated 11 June 2013</h2>
 
  <dl>
   <dt>This Version:
@@ -56,7 +56,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 7 June 2013, the editor has made this
+  In addition, as of 11 June 2013, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -285,11 +285,11 @@
    Initialize <var>s</var> to 0.
 
   <li>
-   Initialize <a href="#type"><var>type</var></a> and <a href="#subtype"><var>subtype</var></a> to the empty string
+   Initialize <var>type</var> and <var>subtype</var> to the empty string
    ("<code title=""></code>").
 
   <li>
-   Initialize <a href="#parameters"><var>parameters</var></a> to the empty dictionary ({}).
+   Initialize <var>parameters</var> to the empty dictionary ({}).
 
   <li>
    While <var>sequence</var>[<var>s</var>] is a <span>whitespace
@@ -316,7 +316,7 @@
 
     <li>
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
-     lowercase</a>, to <a href="#type"><var>type</var></a>.
+     lowercase</a>, to <var>type</var>.
 
     <li class="XXX">
      Increment <var>s</var> and <var>t</var> by 1.
@@ -339,11 +339,11 @@
 
     <li>
      If <var>sequence</var>[<var>s</var>] is undefined, return
-     <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and <a href="#parameters"><var>parameters</var></a>.
+     <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
     <li>
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
-     lowercase</a>, to <a href="#subtype"><var>subtype</var></a>.
+     lowercase</a>, to <var>subtype</var>.
 
     <li class="XXX">
      Increment <var>s</var> and <var>u</var> by 1.
@@ -419,7 +419,7 @@
 
      <li>
       If <var>sequence</var>[<var>s</var>] is undefined, return
-      <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and <a href="#parameters"><var>parameters</var></a>.
+      <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
      <li>
       Increment <var>s</var> by 1.
@@ -463,12 +463,12 @@
           <ol>
            <li>
             If <var>name</var> is not equal to the empty string
-            ("<code title=""></code>") and <a href="#parameters"><var>parameters</var></a>[<var>name</var>]
-            is undefined, set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to null.
+            ("<code title=""></code>") and <var>parameters</var>[<var>name</var>]
+            is undefined, set <var>parameters</var>[<var>name</var>] to null.
 
            <li>
-            Return <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and
-            <a href="#parameters"><var>parameters</var></a>.
+            Return <var>type</var>, <var>subtype</var>, and
+            <var>parameters</var>.
           </ol>
 
          <li>
@@ -500,7 +500,7 @@
       Increment <var>s</var> by 1.
 
      <li>
-      Initialize <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to null.
+      Initialize <var>parameters</var>[<var>name</var>] to null.
 
      <li>
       While <var>sequence</var>[<var>s</var>] is a <span>whitespace
@@ -520,10 +520,10 @@
 
       <ol>
        <li>
-        Set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to <var>value</var>.
+        Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
        <li>
-        Return <a href="#type"><var>type</var></a>, <a href="#subtype"><var>subtype</var></a>, and <a href="#parameters"><var>parameters</var></a>.
+        Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
       </ol>
 
      <li>
@@ -544,7 +544,7 @@
 
           <ol>
            <li>
-            Set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to <var>value</var>.
+            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
            <li>
             If <var>sequence</var>[<var>s</var>] is equal to U+0022
@@ -578,7 +578,7 @@
 
         <ol>
          <li>
-          Set <a href="#parameters"><var>parameters</var></a>[<var>name</var>] to <var>value</var>.
+          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
          <li>
           Exit loop <var>M</var>.
