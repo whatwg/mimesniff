@@ -246,17 +246,28 @@
  A <dfn id="parsable-mime-type">parsable MIME type</dfn> is a <a href="#mime-type">MIME type</a> for which the
  <a href="#parse-a-mime-type">parse a MIME type</a> algorithm does not return undefined.
 
- A <a href="#parsable-mime-type">parsable MIME type</a> has a <dfn id="type">type</dfn>, a
+ Every <a href="#parsable-mime-type">parsable MIME type</a> has a corresponding <dfn id="parsed-mime-type">parsed MIME
+ type</dfn>, which is the result of
+ <a href="#parse-a-mime-type" title="parse a MIME type">parsing</a> the <a href="#parsable-mime-type">parsable MIME
+ type</a>.
+
+ A <a href="#parsed-mime-type">parsed MIME type</a> is made up of a <dfn id="type">type</dfn>, a
  <dfn id="subtype">subtype</dfn>, and a dictionary of <dfn id="parameters">parameters</dfn>.
 
+<p>
+ A <dfn id="serialized-mime-type">serialized MIME type</dfn> is the result of
+ <a href="#serialize-a-mime-type" title="serialize a MIME type">serializing</a> a <a href="#parsed-mime-type">parsed MIME
+ type</a>.
+
+<p>
  The <dfn id="mime-type-portion">MIME type portion</dfn> of a <a href="#parsable-mime-type">parsable MIME type</a> is the
- string represented by the concatenation of its <a href="#type">type</a>, the U+002F
- SOLIDUS character ("<code title="">/</code>"), and its
- <a href="#subtype">subtype</a>.
+ result of <a href="#serialize-a-mime-type" title="serialize a MIME type">serializing</a> the
+ <a href="#type">type</a> and <a href="#subtype">subtype</a> of its <a href="#parsed-mime-type">parsed MIME
+ type</a> with null <a href="#parameters">parameters</a>.
 
 <p class="note">
  The <a href="#mime-type-portion">MIME type portion</a> of a <a href="#parsable-mime-type">parsable MIME type</a>
- excludes all <a href="#parameters">parameters</a> and is case-insensitive.
+ excludes any and all <a href="#parameters">parameters</a>.
 
 <p>
  A <a href="#parsable-mime-type">parsable MIME type</a> is <dfn id="supported-by-the-user-agent">supported by the user agent</dfn>

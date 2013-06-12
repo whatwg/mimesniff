@@ -206,17 +206,28 @@
  A <dfn>parsable MIME type</dfn> is a <span>MIME type</span> for which the
  <span>parse a MIME type</span> algorithm does not return undefined.
 
- A <span>parsable MIME type</span> has a <dfn>type</dfn>, a
+ Every <span>parsable MIME type</span> has a corresponding <dfn>parsed MIME
+ type</dfn>, which is the result of
+ <span title="parse a MIME type">parsing</span> the <span>parsable MIME
+ type</span>.
+
+ A <span>parsed MIME type</span> is made up of a <dfn>type</dfn>, a
  <dfn>subtype</dfn>, and a dictionary of <dfn>parameters</dfn>.
 
+<p>
+ A <dfn>serialized MIME type</dfn> is the result of
+ <span title="serialize a MIME type">serializing</span> a <span>parsed MIME
+ type</span>.
+
+<p>
  The <dfn>MIME type portion</dfn> of a <span>parsable MIME type</span> is the
- string represented by the concatenation of its <span>type</span>, the U+002F
- SOLIDUS character ("<code title>&#x002F;</code>"), and its
- <span>subtype</span>.
+ result of <span title="serialize a MIME type">serializing</span> the
+ <span>type</span> and <span>subtype</span> of its <span>parsed MIME
+ type</span> with null <span>parameters</span>.
 
 <p class=note>
  The <span>MIME type portion</span> of a <span>parsable MIME type</span>
- excludes all <span>parameters</span> and is case-insensitive.
+ excludes any and all <span>parameters</span>.
 
 <p>
  A <span>parsable MIME type</span> is <dfn>supported by the user agent</dfn>
