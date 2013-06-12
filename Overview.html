@@ -305,8 +305,9 @@
    Initialize <var>t</var> to 0.
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is not equal to U+002F
-   ("<code title="">/</code>"), continuously execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is not equal to the U+002F SOLIDUS
+   character ("<code title="">/</code>"), continuously execute the
+   following steps:
 
    <ol>
     <li class="XXX">
@@ -319,8 +320,8 @@
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
      lowercase</a>, to <var>type</var>.
 
-    <li class="XXX">
-     Increment <var>s</var> and <var>t</var> by 1.
+    <li>
+     Increment <var>s</var> <span class="XXX">and <var>t</var></span> by 1.
    </ol>
 
   <li>
@@ -331,7 +332,7 @@
 
   <li>
    While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
-   character</span> and is not equal to U+003B
+   character</span> and is not equal to the U+003B SEMICOLON character
    ("<code title="">;</code>"), continuously execute the following steps:
 
    <ol>
@@ -346,8 +347,8 @@
      Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
      lowercase</a>, to <var>subtype</var>.
 
-    <li class="XXX">
-     Increment <var>s</var> and <var>u</var> by 1.
+    <li>
+     Increment <var>s</var> <span class="XXX">and <var>u</var></span> by 1.
    </ol>
 
    <li>
@@ -359,10 +360,13 @@
 
       <ol>
        <li>
-        If <var>sequence</var>[<var>s</var>] is undefined or is equal to U+003B ("<code>;</code>"), exit loop <var>M</var>.
+        If <var>sequence</var>[<var>s</var>] is undefined or is equal to the
+        U+003B SEMICOLON character ("<code>;</code>"), exit loop
+        <var>M</var>.
 
        <li>
-        While <var>sequence</var>[<var>s</var>] is a <span>whitespace character</span>, continuously execute the following steps:
+        While <var>sequence</var>[<var>s</var>] is a <span>whitespace
+        character</span>, continuously execute the following steps:
 
         <ol>
          <li>
@@ -370,8 +374,9 @@
         </ol>
 
        <li>
-        If <var>sequence</var>[<var>s</var>] is equal to U+0022
-        ("<code title="">"</code>"), execute the following steps:
+        If <var>sequence</var>[<var>s</var>] is equal to the U+0022 QUOTATION
+        MARK character ("<code title="">"</code>"), execute the following
+        steps:
 
         <ol>
          <li>
@@ -383,20 +388,22 @@
           <ol>
            <li>
             If <var>sequence</var>[<var>s</var>] is undefined or is equal to
-            U+0022 ("<code title="">"</code>"), execute the following steps:
+            the U+0022 QUOTATION MARK character
+            ("<code title="">"</code>"), execute the following steps:
 
             <ol>
              <li>
-              If <var>sequence</var>[<var>s</var>] is equal to U+0022
-              ("<code title="">"</code>"), increment <var>s</var> by 1.
+              If <var>sequence</var>[<var>s</var>] is equal to the U+0022
+              QUOTATION MARK character ("<code title="">"</code>"),
+              increment <var>s</var> by 1.
 
              <li>
               Exit loop <var>N</var>.
             </ol>
 
            <li>
-            If <var>sequence</var>[<var>s</var>] is equal to U+005C
-            ("<code title="">\</code>") and
+            If <var>sequence</var>[<var>s</var>] is equal to the U+005C
+            REVERSE SOLIDUS character ("<code title="">\</code>") and
             <var>sequence</var>[<var>s</var> + 1] is not undefined, increment
             <var>s</var> by 1.
 
@@ -410,8 +417,9 @@
         <ol>
          <li>
           If <var>sequence</var>[<var>s</var>] is undefined or is a
-          <span>whitespace character</span> or is equal to U+003B
-          ("<code>;</code>"), exit loop <var>N</var>.
+          <span>whitespace character</span> or is equal to the U+003B
+          SEMICOLON character ("<code>;</code>"), exit loop
+          <var>N</var>.
 
          <li>
           Increment <var>s</var> by 1.
@@ -435,7 +443,8 @@
       </ol>
 
      <li>
-      Initialize <var>name</var> and <var>extra</var> to the empty string ("<code title=""></code>").
+      Initialize <var>name</var> and <var>extra</var> to the empty string
+      ("<code title=""></code>").
 
      <li class="XXX">
       Initialize <var>p</var> to 0.
@@ -449,7 +458,7 @@
 
        <li>
         While <var>sequence</var>[<var>s</var>] is not a <span>whitespace
-        character</span> and is not equal to U+003D
+        character</span> and is not equal to the U+003D EQUALS SIGN character
         ("<code title="">=</code>"), continuously execute the following
         steps:
 
@@ -476,8 +485,8 @@
           Append <var>sequence</var>[<var>s</var>], <a href="#converted-to-ascii-lowercase">converted to ASCII
           lowercase</a>, to <var>name</var>.
 
-         <li class="XXX">
-          Increment <var>s</var> and <var>p</var> by 1.
+         <li>
+          Increment <var>s</var> <span class="XXX">and <var>p</var></span> by 1.
         </ol>
 
        <li class="XXX">
@@ -488,13 +497,14 @@
          <li>
           Append <var>sequence</var>[<var>s</var>] to <var>extra</var>.
 
-         <li class="XXX">
-          Increment <var>s</var> and <var>p</var> by 1.
+         <li>
+          Increment <var>s</var> <span class="XXX">and <var>p</var></span> by 1.
         </ol>
 
        <li>
-        If <var>sequence</var>[<var>s</var>] is equal to U+003D
-        ("<code title="">=</code>"), exit loop <var>M</var>.
+        If <var>sequence</var>[<var>s</var>] is equal to the U+003D EQUALS
+        SIGN character ("<code title="">=</code>"), exit loop
+        <var>M</var>.
       </ol>
 
      <li>
@@ -528,8 +538,9 @@
       </ol>
 
      <li>
-      If <var>sequence</var>[<var>s</var>] is equal to U+0022
-      ("<code title="">"</code>"), execute the following steps:
+      If <var>sequence</var>[<var>s</var>] is equal to the U+0022 QUOTATION
+      MARK character ("<code title="">"</code>"), execute the following
+      steps:
 
       <ol>
        <li>
@@ -540,24 +551,26 @@
 
         <ol>
          <li>
-          If <var>sequence</var>[<var>s</var>] is undefined or is equal to
-          U+0022 ("<code title="">"</code>"), execute the following steps:
+          If <var>sequence</var>[<var>s</var>] is undefined or is equal to the
+          U+0022 QUOTATION MARK character ("<code title="">"</code>"),
+          execute the following steps:
 
           <ol>
            <li>
             Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
 
            <li>
-            If <var>sequence</var>[<var>s</var>] is equal to U+0022
-            ("<code title="">"</code>"), increment <var>s</var> by 1.
+            If <var>sequence</var>[<var>s</var>] is equal to the U+0022
+            QUOTATION MARK character ("<code title="">"</code>"),
+            increment <var>s</var> by 1.
 
            <li>
             Exit loop <var>M</var>.
           </ol>
 
          <li>
-          If <var>sequence</var>[<var>s</var>] is equal to U+005C
-          ("<code title="">\</code>") and
+          If <var>sequence</var>[<var>s</var>] is equal to the U+005C REVERSE
+          SOLIDUS character ("<code title="">\</code>") and
           <var>sequence</var>[<var>s</var> + 1] is not undefined, increment
           <var>s</var> by 1.
 
@@ -574,8 +587,8 @@
       <ol>
        <li>
         If <var>sequence</var>[<var>s</var>] is undefined or is a
-        <span>whitespace character</span> or is equal to U+003B
-        ("<code>;</code>"), execute the following steps:
+        <span>whitespace character</span> or is equal to the U+003B SEMICOLON
+        character ("<code>;</code>"), execute the following steps:
 
         <ol>
          <li>
