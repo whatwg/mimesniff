@@ -1409,27 +1409,6 @@
      </tr>
     </thead>
     <tbody>
-     <!-- http://ebml.sourceforge.net/specs/ -->
-     <!-- http://www.matroska.org/technical/specs/index.html -->
-     <!-- http://www.webmproject.org/code/specs/container/ -->
-     <tr>
-      <td class=XXX>
-       <!-- This only indicates that the file is EBML-based. -->
-       1A 45 DF A3
-      </td>
-      <td>
-       FF FF FF FF
-      </td>
-      <td>
-       None.
-      </td>
-      <td>
-       <code title>video/webm</code>
-      </td>
-      <td class=XXX>
-       The WebM signature. [TODO: Use more bytes?]
-      </td>
-     </tr>
      <!-- http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/AU/AU.html -->
      <tr>
       <td>
@@ -1576,6 +1555,10 @@
    for MP4</span>, return "<code title>video/mp4</code>".
 
   <li>
+   If the <span>byte sequence</span> to be matched <span>matches the signature
+   for WebM</span>, return "<code title>video/webm</code>".
+
+  <li>
    Return undefined.
  </ol>
 
@@ -1646,7 +1629,109 @@
    Return false.
  </ol>
 
+<h4>Signature for WebM</h4>
 
+<!-- http://ebml.sourceforge.net/specs/ -->
+<!-- http://www.matroska.org/technical/specs/index.html -->
+<!-- http://www.webmproject.org/code/specs/container/ -->
+
+<p>
+ To determine whether a <span>byte sequence</span> <dfn>matches the signature
+ for WebM</dfn>, use the following steps:
+
+ <ol>
+  <li>
+   Let <var>sequence</var> be the <span>byte sequence</span> to be matched,
+   where <var>sequence</var>[<var>s</var>] is <span>byte</span> <var>s</var>
+   in <var>sequence</var> and <var>sequence</var>[0] is the first
+   <span>byte</span> in <var>sequence</var>.
+
+  <li>
+   Let <var>length</var> be the number of <span title=byte>bytes</span> in
+   <var>sequence</var>.
+
+  <li>
+   If <var>length</var> is less than 4, return false.
+
+  <li>
+   If the four <span title=byte>bytes</span> from
+   <var>sequence</var>[0] to <var>sequence</var>[3], are not equal to 0x1A
+   0x45 0xDF 0xA3, return false.
+
+  <li>
+   Let <var>iter</var> be 4.
+
+  <li>
+  While <var>iter</var> is less than <var>length</var> and <var>iter</var> is
+  less than 38, continuously loop through these steps:
+
+  <ol>
+    <li> If the two bytes from <var>sequence</var>[<var>iter</var>] to
+    <var>sequence</var>[<var>iter</var> + 1] are equal to 0x42 0x82,
+    <ol>
+      <li> Increment <var>iter</var> by 2.
+      <li> If <var>iter</var> is greater or equal than <var>length</var>, abort
+      these steps.
+      <li> Let <var>doctype size</var> and <var>number size</var> be the result
+      of <a href=#parse-a-vint>parsing a <code>vint</code></a> starting at <var>sequence</var>[<var>iter</var>].  </li>
+      <li> Increment <var>iter</var> by <var>number size</var>. </li>
+      <li> If <var>iter</var> is less than <var>length</var> - 4, abort these
+      steps. </li>
+      <li> Let <var>matched</var> be the result of <a
+        href="#matching-a-padded-sequence">matching a padded
+        sequence</a> 0x77 0x65 0x62 0x6D
+      ("<code title>webm</code>") on <var>sequence</var> at offset
+      <var>iter</var>. </li>
+      <li> If <var>matched</var> is true, abort these steps and return true. </li>
+    </ol>
+    <li> Increment <var>iter</var> by 1.
+  </ol>
+  <li> Return false.
+  </ol>
+
+To <dfn>parse a <code>vint</code></dfn> on a <span>byte sequence</span>
+<var>sequence</var> of size <var>length</var>, starting at index <var>iter</var>
+use the following steps:
+<ol>
+  <li> Let <var>mask</var> be 128. </li>
+  <li> Let <var>max vint length</var> be 8. </li>
+  <li> Let <var>number size</var> be 1. </li>
+  <li> While <var>number size</var> is less than <var>max vint length</var>, and
+  less than <var>length</var>, continuously loop through these steps:
+  <ol>
+    <li> If the <var>sequence</var>[<var>index</var>] &amp; <var>mask</var> is
+    not zero, abort these steps.</li>
+    <li> Let <var>mask</var> be the value of <var>mask</var> &gt;&gt; 1. </li>
+    <li> Increment <var>number size</var> by one. </li>
+  </ol>
+  <li> Let <var>index</var> be 0. </li>
+  <li> Let <var>parsed number</var> be <var>sequence</var>[<var>index</var>]
+  &amp; ~<var>mask</var>. </li>
+  <li> Increment <var>index</var> by one. </li>
+  <li> Let <var>bytes remaining</var> be the value of <var>number size</var>.
+    <li> While <var>bytes remaining</var> is not zero, execute there steps:
+    <ol>
+      <li> Let <var>parsed number</var> be <var>parsed number</var> &lt;&lt;
+      8.</li>
+      <li> Let <var>parsed number</var> be <var>parsed number</var> |
+      <var>sequence</var>[<var>index</var>].</li>
+      <li> Increment <var>index</var> by one. </li>
+      <li> If <var>index</var> is greater or equal than <var>length</var>, abort
+      these steps.
+      <li> Decrement <var>bytes remaining</var> by one.</li>
+    </ol>
+    </li>
+    <li>Return <var>parsed number</var> and <var>number size</var></li>
+</ol>
+
+<p>
+<dfn>Matching a padded sequence</dfn> <var>pattern</var> on a sequence
+<var>sequence</var> at starting at byte <var>offset</var> and ending at by
+<var>end</var> means returning true if <var>sequence</var> has a length greater
+than <var>end</var>, and contains exactly, in the range [<var>offset</var>,
+<var>end</var>], the bytes in <var>pattern</var>, in the same order, eventually
+preceded by bytes with a value of 0x00, false otherwise.
+</p>
 
 <h3>Matching a font type pattern</h3>
 
