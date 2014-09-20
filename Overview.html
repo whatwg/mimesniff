@@ -1,7 +1,18 @@
 <!DOCTYPE html><meta charset="utf-8">
 <title>MIME Sniffing Standard</title>
 <style>
- @media print { [data-anolis-spec]::after { content:"[" attr(data-anolis-spec) "]"; font-size:.6em; vertical-align:super; text-transform:uppercase } }
+ @media print {
+  [data-anolis-spec]::after {
+   content: "[" attr(data-anolis-spec) "]";
+   font-size: 0.6em;
+   vertical-align: super;
+   text-transform: uppercase;
+  }
+
+  a.bug-link {
+   display: none;
+  }
+ }
 </style>
 <link href="https://www.whatwg.org/style/specification" rel="stylesheet">
 <link href="https://resources.whatwg.org/logo-mime.png" rel="icon" type="image/png">
