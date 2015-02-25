@@ -843,7 +843,7 @@
     <span>MIME type sniffing algorithm</span>.
 
   <li>
-   A <dfn>sniffed MIME type</dfn>, the <span>parsable MIME type</span>
+   A <dfn>computed MIME type</dfn>, the <span>parsable MIME type</span>
    determined by the <span>MIME type sniffing algorithm</span>.
  </ul>
 
@@ -1937,10 +1937,10 @@
 
 
 
-<h2>Determining the sniffed MIME type of a resource</h2>
+<h2>Determining the computed MIME type of a resource</h2>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>,
+ To determine the <span>computed MIME type</span> of a <span>resource</span>,
  user agents must use the following <dfn>MIME type sniffing algorithm</dfn>:
 
  <ol>
@@ -1954,7 +1954,7 @@
    <span>no-sniff flag</span> and abort these steps.
 
   <li>
-   If the <span>no-sniff flag</span> is set, the <span>sniffed MIME
+   If the <span>no-sniff flag</span> is set, the <span>computed MIME
    type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
@@ -1966,7 +1966,7 @@
 
   <li>
    If the <span>supplied MIME type</span> is an <span>XML type</span>, the
-   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   <span>computed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -1984,7 +1984,7 @@
    sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -1997,13 +1997,13 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME
+   The <span>computed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
@@ -2021,7 +2021,7 @@
  the <span>sniff-scriptable flag</span> must default to unset.
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  with an unknown <span>MIME type</span>, execute the following <dfn>rules for
  identifying an unknown MIME type</dfn>:
 
@@ -2054,8 +2054,8 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <span>sniffed MIME type</span>
-     is the value in the fourth column of the current row.
+     If <var>pattern-matched</var> is true, the <span>computed MIME
+     type</span> is the value in the fourth column of the current row.
 
      Abort these steps.
    </ol>
@@ -2073,7 +2073,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Sniffed MIME Type</span>
+       <span>Computed MIME Type</span>
       </th>
       <th>
        Note
@@ -2454,7 +2454,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <span>sniffed MIME
+     If <var>pattern-matched</var> is true, the <span>computed MIME
      type</span> is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -2473,7 +2473,7 @@
        Leading <span title=byte>Bytes</span> to Be Ignored
       </th>
       <th>
-       <span>Sniffed MIME Type</span>
+       <span>Computed MIME Type</span>
       </th>
       <th>
        Note
@@ -2558,7 +2558,7 @@
 
     However, user agents should not implicitly extend this table to include
     additional <span title="byte pattern">byte patterns</span> for any
-    <span>sniffed MIME type</span> already present in this table, as doing so
+    <span>computed MIME type</span> already present in this table, as doing so
     could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
@@ -2570,7 +2570,7 @@
    the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2581,7 +2581,7 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2593,7 +2593,7 @@
    the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2605,20 +2605,20 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
    If the <span>resource header</span> contains no
-   <span title="binary data byte">binary data bytes</span>, the <span>sniffed
+   <span title="binary data byte">binary data bytes</span>, the <span>computed
    MIME type</span> is "<code title>text/plain</code>".
 
    Abort these steps.
 
   <li>
-   The <span>sniffed MIME type</span> is
+   The <span>computed MIME type</span> is
    "<code title>application/octet-stream</code>".
  </ol>
 
@@ -2639,7 +2639,7 @@
  <li>
   If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
   the <span>resource header</span> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <span>sniffed MIME type</span> is
+  0xFF 0xFE (UTF-16LE BOM), the <span>computed MIME type</span> is
   "<code title>text/plain</code>".
 
   Abort these steps.
@@ -2647,24 +2647,24 @@
  <li>
   If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
   the <span>resource header</span> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <span>sniffed MIME type</span> is "<code title>text/plain</code>".
+  the <span>computed MIME type</span> is "<code title>text/plain</code>".
 
   Abort these steps.
 
  <li>
   If the <span>resource header</span> contains no
-  <span title="binary data byte">binary data bytes</span>, the <span>sniffed
+  <span title="binary data byte">binary data bytes</span>, the <span>computed
   MIME type</span> is "<code title>text/plain</code>".
 
   Abort these steps.
 
  <li>
-  The <span>sniffed MIME type</span> is
+  The <span>computed MIME type</span> is
   "<code title>application/octet-stream</code>".
 
   <p class=warning>
    It is critical that the <span>rules for distinguishing if a resource is
-   text or binary</span> never determine the <span>sniffed MIME type</span>
+   text or binary</span> never determine the <span>computed MIME type</span>
    to be a <span>scriptable MIME type</span>, as this could allow a privilege
    escalation attack.
 </ol>
@@ -2708,7 +2708,7 @@
 
      <ol>
       <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
+       If <var>sequence</var>[<var>s</var>] is undefined, the <span>computed
        MIME type</span> is the <span>supplied MIME type</span>.
 
        Abort these steps.
@@ -2720,7 +2720,7 @@
 
       <li>
        If <var>sequence</var>[<var>s</var>] is not a <span>whitespace
-       byte</span>, the <span>sniffed MIME type</span> is the <span>supplied
+       byte</span>, the <span>computed MIME type</span> is the <span>supplied
        MIME type</span>.
 
        Abort these steps.
@@ -2734,7 +2734,7 @@
 
      <ol>
       <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
+       If <var>sequence</var>[<var>s</var>] is undefined, the <span>computed
        MIME type</span> is the <span>supplied MIME type</span>.
 
        Abort these steps.
@@ -2749,7 +2749,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <span>computed
          MIME type</span> is the <span>supplied MIME type</span>.
 
          Abort these steps.
@@ -2774,7 +2774,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <span>computed
          MIME type</span> is the <span>supplied MIME type</span>.
 
          Abort these steps.
@@ -2797,7 +2797,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <span>computed
          MIME type</span> is the <span>supplied MIME type</span>.
 
          Abort these steps.
@@ -2819,7 +2819,7 @@
        the three <span title=byte>bytes</span> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 2] are equal to 0x72 0x73 0x73
-       ("<code title>rss</code>"), the <span>sniffed MIME type</span> is
+       ("<code title>rss</code>"), the <span>computed MIME type</span> is
        "<code title>application/rss+xml</code>".
 
        Abort these steps.
@@ -2829,7 +2829,7 @@
        the four <span title=byte>bytes</span> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 3] are equal to 0x66 0x65 0x65 0x64
-       ("<code title>feed</code>"), the <span>sniffed MIME type</span> is
+       ("<code title>feed</code>"), the <span>computed MIME type</span> is
        "<code title>application/atom+xml</code>".
 
        Abort these steps.
@@ -2844,7 +2844,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <span>sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <span>computed
          MIME type</span> is the <span>supplied MIME type</span>.
 
          Abort these steps.
@@ -2862,7 +2862,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <span>sniffed MIME type</span> is the <span>supplied MIME
+           <span>computed MIME type</span> is the <span>supplied MIME
            type</span>.
 
            Abort these steps.
@@ -2877,7 +2877,7 @@
            0x72 0x64 0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73
            0x23
            ("<code title>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
-           the <span>sniffed MIME type</span> is
+           the <span>computed MIME type</span> is
            "<code title>application/rss+xml</code>".
 
            Abort these steps.
@@ -2900,7 +2900,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <span>sniffed MIME type</span> is the <span>supplied MIME
+           <span>computed MIME type</span> is the <span>supplied MIME
            type</span>.
 
            Abort these steps.
@@ -2912,7 +2912,7 @@
            <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
            0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F
            0x72 0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
-           ("<code title>http://purl.org/rss/1.0/</code>"), the <span>sniffed
+           ("<code title>http://purl.org/rss/1.0/</code>"), the <span>computed
            MIME type</span> is "<code title>application/rss+xml</code>".
 
            Abort these steps.
@@ -2926,7 +2926,7 @@
        </ol>
 
       <li>
-       The <span>sniffed MIME type</span> is the <span>supplied MIME
+       The <span>computed MIME type</span> is the <span>supplied MIME
        type</span>.
 
        Abort these steps.
@@ -2934,7 +2934,7 @@
    </ol>
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   The <span>computed MIME type</span> is the <span>supplied MIME type</span>.
  </ol>
 
 <p class=note>
@@ -2950,12 +2950,20 @@
  A <dfn>context</dfn> is &hellip;.
 
 <p>
- In certain <span title=context>contexts</span>, it is only useful to identify <span title=resource>resources</span> that belong to a certain subset of <span title="MIME type">MIME types</span>.
+ In certain <span title=context>contexts</span>, it is only useful to identify
+ <span title=resource>resources</span> that belong to a certain subset of
+ <span title="MIME type">MIME types</span>.
 
- In such <span title=context>contexts</span>, it is appropriate to use a <span>context-specific sniffing algorithm</span> in place of the <span>MIME type sniffing algorithm</span> in order to determine the <span>sniffed MIME type</span> of a <span>resource</span>.
+ In such <span title=context>contexts</span>, it is appropriate to use a
+ <span>context-specific sniffing algorithm</span> in place of the <span>MIME
+ type sniffing algorithm</span> in order to determine the <span>computed MIME
+ type</span> of a <span>resource</span>.
 
 <p>
- A <dfn>context-specific sniffing algorithm</dfn> determines the <span>sniffed MIME type</span> of a <span>resource</span> only if the <span>resource</span> is a <span>MIME type</span> relevant to a particular <span>context</span>.
+ A <dfn>context-specific sniffing algorithm</dfn> determines the
+ <span>computed MIME type</span> of a <span>resource</span> only if the
+ <span>resource</span> is a <span>MIME type</span> relevant to a particular
+ <span>context</span>.
 
 
 
@@ -2969,14 +2977,14 @@
 <h3>Sniffing in an image context</h3>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  with an <span>image type</span>, execute the following <dfn>rules for
  sniffing images specifically</dfn>:
 
  <ol>
   <li>
    If the <span>supplied MIME type</span> is an <span>XML type</span>, the
-   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   <span>computed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -2986,13 +2994,13 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>image-type-matched</var> is not undefined, the <span>sniffed MIME
+   If <var>image-type-matched</var> is not undefined, the <span>computed MIME
    type</span> is <var>image-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME
+   The <span>computed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
@@ -3001,14 +3009,14 @@
 <h3>Sniffing in an audio or video context</h3>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  with an <span>audio or video type</span>, execute the following <dfn>rules
  for sniffing audio and video specifically</dfn>:
 
  <ol>
   <li>
    If the <span>supplied MIME type</span> is an <span>XML type</span>, the
-   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   <span>computed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -3020,12 +3028,12 @@
 
   <li>
    If <var>audio-or-video-type-matched</var> is not undefined, the
-   <span>sniffed MIME type</span> is <var>audio-or-video-type-matched</var>.
+   <span>computed MIME type</span> is <var>audio-or-video-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME
+   The <span>computed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
@@ -3034,17 +3042,17 @@
 <h3>Sniffing in a plugin context</h3>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  <span title=fetch>fetched</span> in a <span>plugin context</span>, execute
  the following <dfn>rules for sniffing in a plugin context</dfn>:
 
  <ol>
   <li class=XXX>
-   If the <span>supplied MIME type</span> is undefined, the <span>sniffed MIME
-   type</span> is "<code title>application/octet-stream</code>".
+   If the <span>supplied MIME type</span> is undefined, the <span>computed
+   MIME type</span> is "<code title>application/octet-stream</code>".
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   The <span>computed MIME type</span> is the <span>supplied MIME type</span>.
  </ol>
 
 
@@ -3052,7 +3060,7 @@
 <h3>Sniffing in a style context</h3>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  <span title=fetch>fetched</span> in a <span>style context</span>, execute the
  following <dfn>rules for sniffing in a style context</dfn>:
 
@@ -3061,7 +3069,7 @@
    If the <span>supplied MIME type</span> is undefined, &hellip;.
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   The <span>computed MIME type</span> is the <span>supplied MIME type</span>.
  </ol>
 
 
@@ -3069,7 +3077,7 @@
 <h3>Sniffing in a script context</h3>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  <span title=fetch>fetched</span> in a <span>script context</span>, execute
  the following <dfn>rules for sniffing in a script context</dfn>:
 
@@ -3078,7 +3086,7 @@
    If the <span>supplied MIME type</span> is undefined, &hellip;.
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   The <span>computed MIME type</span> is the <span>supplied MIME type</span>.
  </ol>
 
 
@@ -3086,14 +3094,14 @@
 <h3>Sniffing in a font context</h3>
 
 <p>
- To determine the <span>sniffed MIME type</span> of a <span>resource</span>
+ To determine the <span>computed MIME type</span> of a <span>resource</span>
  with a <span>font type</span>, execute the following <dfn>rules for sniffing
  fonts specifically</dfn>:
 
  <ol>
   <li>
    If the <span>supplied MIME type</span> is an <span>XML type</span>, the
-   <span>sniffed MIME type</span> is the <span>supplied MIME type</span>.
+   <span>computed MIME type</span> is the <span>supplied MIME type</span>.
 
    Abort these steps.
 
@@ -3103,13 +3111,13 @@
    header</span> as the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>font-type-matched</var> is not undefined, the <span>sniffed MIME
+   If <var>font-type-matched</var> is not undefined, the <span>computed MIME
    type</span> is <var>font-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <span>sniffed MIME type</span> is the <span>supplied MIME
+   The <span>computed MIME type</span> is the <span>supplied MIME
    type</span>.
  </ol>
 
@@ -3118,14 +3126,14 @@
 <h3>Sniffing in a text track context</h3>
 
 <p class=XXX>
- The <span>sniffed MIME type</span> is "<code title>text/vtt</code>".
+ The <span>computed MIME type</span> is "<code title>text/vtt</code>".
 
 
 
 <h3>Sniffing in a cache manifest context</h3>
 
 <p class=XXX>
- The <span>sniffed MIME type</span> is
+ The <span>computed MIME type</span> is
  "<code title>text/cache-manifest</code>".
 
 

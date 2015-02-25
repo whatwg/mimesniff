@@ -24,7 +24,7 @@
 
  <p><a class="logo" href="https://www.whatwg.org/"><img alt="WHATWG" height="101" src="https://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-20-september-2014">Living Standard — Last Updated 20 September 2014</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-24-february-2015">Living Standard — Last Updated 24 February 2015</h2>
 
  <dl>
   <dt>This Version:
@@ -67,7 +67,7 @@
   To the extent possible under law, the editor has waived all copyright and
   related or neighboring rights to this work.
 
-  In addition, as of 20 September 2014, the editor has made this
+  In addition, as of 24 February 2015, the editor has made this
   specification available under the
   <a href="http://www.openwebfoundation.org/legal/the-owf-1-0-agreements/owfa-1-0" rel="license">Open Web Foundation Agreement Version 1.0</a>,
   which is available at
@@ -102,7 +102,7 @@
      <li><a href="#signature-for-mp4"><span class="secno">6.2.1 </span>Signature for MP4</a></ol></li>
    <li><a href="#matching-a-font-type-pattern"><span class="secno">6.3 </span>Matching a font type pattern</a></li>
    <li><a href="#matching-an-archive-type-pattern"><span class="secno">6.4 </span>Matching an archive type pattern</a></ol></li>
- <li><a href="#determining-the-sniffed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the sniffed MIME type of a resource</a>
+ <li><a href="#determining-the-computed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the computed MIME type of a resource</a>
   <ol>
    <li><a href="#identifying-a-resource-with-an-unknown-mime-type"><span class="secno">7.1 </span>Identifying a resource with an unknown MIME type</a></li>
    <li><a href="#sniffing-a-mislabeled-binary-resource"><span class="secno">7.2 </span>Sniffing a mislabeled binary resource</a></li>
@@ -883,7 +883,7 @@
     <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
 
   <li>
-   A <dfn id="sniffed-mime-type">sniffed MIME type</dfn>, the <a href="#parsable-mime-type">parsable MIME type</a>
+   A <dfn id="computed-mime-type">computed MIME type</dfn>, the <a href="#parsable-mime-type">parsable MIME type</a>
    determined by the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a>.
  </ul>
 
@@ -1977,10 +1977,10 @@
 
 
 
-<h2 id="determining-the-sniffed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the sniffed MIME type of a resource</h2>
+<h2 id="determining-the-computed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the computed MIME type of a resource</h2>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>,
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>,
  user agents must use the following <dfn id="mime-type-sniffing-algorithm">MIME type sniffing algorithm</dfn>:
 
  <ol>
@@ -1994,7 +1994,7 @@
    <a href="#no-sniff-flag">no-sniff flag</a> and abort these steps.
 
   <li>
-   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#sniffed-mime-type">sniffed MIME
+   If the <a href="#no-sniff-flag">no-sniff flag</a> is set, the <a href="#computed-mime-type">computed MIME
    type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
@@ -2006,7 +2006,7 @@
 
   <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -2024,7 +2024,7 @@
    sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>matched-type</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2037,13 +2037,13 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>matched-type</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
@@ -2061,7 +2061,7 @@
  the <a href="#sniff-scriptable-flag">sniff-scriptable flag</a> must default to unset.
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  with an unknown <a href="#mime-type">MIME type</a>, execute the following <dfn id="rules-for-identifying-an-unknown-mime-type">rules for
  identifying an unknown MIME type</dfn>:
 
@@ -2094,8 +2094,8 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <a href="#sniffed-mime-type">sniffed MIME type</a>
-     is the value in the fourth column of the current row.
+     If <var>pattern-matched</var> is true, the <a href="#computed-mime-type">computed MIME
+     type</a> is the value in the fourth column of the current row.
 
      Abort these steps.
    </ol>
@@ -2113,7 +2113,7 @@
        Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
       </th>
       <th>
-       <a href="#sniffed-mime-type">Sniffed MIME Type</a>
+       <a href="#computed-mime-type">Computed MIME Type</a>
       </th>
       <th>
        Note
@@ -2494,7 +2494,7 @@
      </ul>
 
     <li>
-     If <var>pattern-matched</var> is true, the <a href="#sniffed-mime-type">sniffed MIME
+     If <var>pattern-matched</var> is true, the <a href="#computed-mime-type">computed MIME
      type</a> is the value in the fourth column of the current row.
 
      Abort these steps.
@@ -2513,7 +2513,7 @@
        Leading <a href="#byte" title="byte">Bytes</a> to Be Ignored
       </th>
       <th>
-       <a href="#sniffed-mime-type">Sniffed MIME Type</a>
+       <a href="#computed-mime-type">Computed MIME Type</a>
       </th>
       <th>
        Note
@@ -2598,7 +2598,7 @@
 
     However, user agents should not implicitly extend this table to include
     additional <a href="#byte-pattern" title="byte pattern">byte patterns</a> for any
-    <a href="#sniffed-mime-type">sniffed MIME type</a> already present in this table, as doing so
+    <a href="#computed-mime-type">computed MIME type</a> already present in this table, as doing so
     could introduce privilege escalation vulnerabilities.
 
     User agents must not introduce any privilege escalation vulnerabilities
@@ -2610,7 +2610,7 @@
    the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>matched-type</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2621,7 +2621,7 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>matched-type</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2633,7 +2633,7 @@
    the <span>byte sequence</span> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <span>sniffed MIME
+   If <var>matched-type</var> is not undefined, the <span>computed MIME
    type</span> is <var>matched-type</var>.
 
    Abort these steps.
@@ -2645,20 +2645,20 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>matched-type</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>matched-type</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>matched-type</var>.
 
    Abort these steps.
 
   <li>
    If the <a href="#resource-header">resource header</a> contains no
-   <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-mime-type">sniffed
+   <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#computed-mime-type">computed
    MIME type</a> is "<code title="">text/plain</code>".
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is
+   The <a href="#computed-mime-type">computed MIME type</a> is
    "<code title="">application/octet-stream</code>".
  </ol>
 
@@ -2679,7 +2679,7 @@
  <li>
   If <var>length</var> is greater than or equal to 2 and the first 2 bytes of
   the <a href="#resource-header">resource header</a> are equal to 0xFE 0xFF (UTF-16BE BOM) or
-  0xFF 0xFE (UTF-16LE BOM), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
+  0xFF 0xFE (UTF-16LE BOM), the <a href="#computed-mime-type">computed MIME type</a> is
   "<code title="">text/plain</code>".
 
   Abort these steps.
@@ -2687,24 +2687,24 @@
  <li>
   If <var>length</var> is greater than or equal to 3 and the first 3 bytes of
   the <a href="#resource-header">resource header</a> are equal to 0xEF 0xBB 0xBF (UTF-8 BOM),
-  the <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/plain</code>".
+  the <a href="#computed-mime-type">computed MIME type</a> is "<code title="">text/plain</code>".
 
   Abort these steps.
 
  <li>
   If the <a href="#resource-header">resource header</a> contains no
-  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#sniffed-mime-type">sniffed
+  <a href="#binary-data-byte" title="binary data byte">binary data bytes</a>, the <a href="#computed-mime-type">computed
   MIME type</a> is "<code title="">text/plain</code>".
 
   Abort these steps.
 
  <li>
-  The <a href="#sniffed-mime-type">sniffed MIME type</a> is
+  The <a href="#computed-mime-type">computed MIME type</a> is
   "<code title="">application/octet-stream</code>".
 
   <p class="warning">
    It is critical that the <a href="#rules-for-text-or-binary">rules for distinguishing if a resource is
-   text or binary</a> never determine the <a href="#sniffed-mime-type">sniffed MIME type</a>
+   text or binary</a> never determine the <a href="#computed-mime-type">computed MIME type</a>
    to be a <a href="#scriptable-mime-type">scriptable MIME type</a>, as this could allow a privilege
    escalation attack.
 </ol>
@@ -2748,7 +2748,7 @@
 
      <ol>
       <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#computed-mime-type">computed
        MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
        Abort these steps.
@@ -2760,7 +2760,7 @@
 
       <li>
        If <var>sequence</var>[<var>s</var>] is not a <a href="#whitespace-byte">whitespace
-       byte</a>, the <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied
+       byte</a>, the <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied
        MIME type</a>.
 
        Abort these steps.
@@ -2774,7 +2774,7 @@
 
      <ol>
       <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+       If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#computed-mime-type">computed
        MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
        Abort these steps.
@@ -2789,7 +2789,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#computed-mime-type">computed
          MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
          Abort these steps.
@@ -2814,7 +2814,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#computed-mime-type">computed
          MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
          Abort these steps.
@@ -2837,7 +2837,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#computed-mime-type">computed
          MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
          Abort these steps.
@@ -2859,7 +2859,7 @@
        the three <a href="#byte" title="byte">bytes</a> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 2] are equal to 0x72 0x73 0x73
-       ("<code title="">rss</code>"), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
+       ("<code title="">rss</code>"), the <a href="#computed-mime-type">computed MIME type</a> is
        "<code title="">application/rss+xml</code>".
 
        Abort these steps.
@@ -2869,7 +2869,7 @@
        the four <a href="#byte" title="byte">bytes</a> from
        <var>sequence</var>[<var>s</var>] to
        <var>sequence</var>[<var>s</var> + 3] are equal to 0x66 0x65 0x65 0x64
-       ("<code title="">feed</code>"), the <a href="#sniffed-mime-type">sniffed MIME type</a> is
+       ("<code title="">feed</code>"), the <a href="#computed-mime-type">computed MIME type</a> is
        "<code title="">application/atom+xml</code>".
 
        Abort these steps.
@@ -2884,7 +2884,7 @@
 
        <ol>
         <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#sniffed-mime-type">sniffed
+         If <var>sequence</var>[<var>s</var>] is undefined, the <a href="#computed-mime-type">computed
          MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
          Abort these steps.
@@ -2902,7 +2902,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+           <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
            type</a>.
 
            Abort these steps.
@@ -2917,7 +2917,7 @@
            0x72 0x64 0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73
            0x23
            ("<code title="">http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
-           the <a href="#sniffed-mime-type">sniffed MIME type</a> is
+           the <a href="#computed-mime-type">computed MIME type</a> is
            "<code title="">application/rss+xml</code>".
 
            Abort these steps.
@@ -2940,7 +2940,7 @@
          <ol>
           <li>
            If <var>sequence</var>[<var>s</var>] is undefined, the
-           <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+           <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
            type</a>.
 
            Abort these steps.
@@ -2952,7 +2952,7 @@
            <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
            0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F
            0x72 0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
-           ("<code title="">http://purl.org/rss/1.0/</code>"), the <a href="#sniffed-mime-type">sniffed
+           ("<code title="">http://purl.org/rss/1.0/</code>"), the <a href="#computed-mime-type">computed
            MIME type</a> is "<code title="">application/rss+xml</code>".
 
            Abort these steps.
@@ -2966,7 +2966,7 @@
        </ol>
 
       <li>
-       The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+       The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
        type</a>.
 
        Abort these steps.
@@ -2974,7 +2974,7 @@
    </ol>
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
  </ol>
 
 <p class="note">
@@ -2990,12 +2990,20 @@
  A <dfn id="context">context</dfn> is ….
 
 <p>
- In certain <a href="#context" title="context">contexts</a>, it is only useful to identify <a href="#resource" title="resource">resources</a> that belong to a certain subset of <a href="#mime-type" title="MIME type">MIME types</a>.
+ In certain <a href="#context" title="context">contexts</a>, it is only useful to identify
+ <a href="#resource" title="resource">resources</a> that belong to a certain subset of
+ <a href="#mime-type" title="MIME type">MIME types</a>.
 
- In such <a href="#context" title="context">contexts</a>, it is appropriate to use a <a href="#context-specific-sniffing-algorithm">context-specific sniffing algorithm</a> in place of the <a href="#mime-type-sniffing-algorithm">MIME type sniffing algorithm</a> in order to determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>.
+ In such <a href="#context" title="context">contexts</a>, it is appropriate to use a
+ <a href="#context-specific-sniffing-algorithm">context-specific sniffing algorithm</a> in place of the <a href="#mime-type-sniffing-algorithm">MIME
+ type sniffing algorithm</a> in order to determine the <a href="#computed-mime-type">computed MIME
+ type</a> of a <a href="#resource">resource</a>.
 
 <p>
- A <dfn id="context-specific-sniffing-algorithm">context-specific sniffing algorithm</dfn> determines the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a> only if the <a href="#resource">resource</a> is a <a href="#mime-type">MIME type</a> relevant to a particular <a href="#context">context</a>.
+ A <dfn id="context-specific-sniffing-algorithm">context-specific sniffing algorithm</dfn> determines the
+ <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a> only if the
+ <a href="#resource">resource</a> is a <a href="#mime-type">MIME type</a> relevant to a particular
+ <a href="#context">context</a>.
 
 
 
@@ -3009,14 +3017,14 @@
 <h3 id="sniffing-in-an-image-context"><span class="secno">8.2 </span>Sniffing in an image context</h3>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  with an <a href="#image-type">image type</a>, execute the following <dfn id="rules-for-sniffing-images-specifically">rules for
  sniffing images specifically</dfn>:
 
  <ol>
   <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -3026,13 +3034,13 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>image-type-matched</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>image-type-matched</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>image-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
@@ -3041,14 +3049,14 @@
 <h3 id="sniffing-in-an-audio-or-video-context"><span class="secno">8.3 </span>Sniffing in an audio or video context</h3>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  with an <a href="#audio-or-video-type">audio or video type</a>, execute the following <dfn id="rules-for-sniffing-audio-and-video-specifically">rules
  for sniffing audio and video specifically</dfn>:
 
  <ol>
   <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -3060,12 +3068,12 @@
 
   <li>
    If <var>audio-or-video-type-matched</var> is not undefined, the
-   <a href="#sniffed-mime-type">sniffed MIME type</a> is <var>audio-or-video-type-matched</var>.
+   <a href="#computed-mime-type">computed MIME type</a> is <var>audio-or-video-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
@@ -3074,17 +3082,17 @@
 <h3 id="sniffing-in-a-plugin-context"><span class="secno">8.4 </span>Sniffing in a plugin context</h3>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  <span title="fetch">fetched</span> in a <span>plugin context</span>, execute
  the following <dfn id="rules-for-sniffing-in-a-plugin-context">rules for sniffing in a plugin context</dfn>:
 
  <ol>
   <li class="XXX">
-   If the <a href="#supplied-mime-type">supplied MIME type</a> is undefined, the <a href="#sniffed-mime-type">sniffed MIME
-   type</a> is "<code title="">application/octet-stream</code>".
+   If the <a href="#supplied-mime-type">supplied MIME type</a> is undefined, the <a href="#computed-mime-type">computed
+   MIME type</a> is "<code title="">application/octet-stream</code>".
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
  </ol>
 
 
@@ -3092,7 +3100,7 @@
 <h3 id="sniffing-in-a-style-context"><span class="secno">8.5 </span>Sniffing in a style context</h3>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  <span title="fetch">fetched</span> in a <span>style context</span>, execute the
  following <dfn id="rules-for-sniffing-in-a-style-context">rules for sniffing in a style context</dfn>:
 
@@ -3101,7 +3109,7 @@
    If the <a href="#supplied-mime-type">supplied MIME type</a> is undefined, ….
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
  </ol>
 
 
@@ -3109,7 +3117,7 @@
 <h3 id="sniffing-in-a-script-context"><span class="secno">8.6 </span>Sniffing in a script context</h3>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  <span title="fetch">fetched</span> in a <span>script context</span>, execute
  the following <dfn id="rules-for-sniffing-in-a-script-context">rules for sniffing in a script context</dfn>:
 
@@ -3118,7 +3126,7 @@
    If the <a href="#supplied-mime-type">supplied MIME type</a> is undefined, ….
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
  </ol>
 
 
@@ -3126,14 +3134,14 @@
 <h3 id="sniffing-in-a-font-context"><span class="secno">8.7 </span>Sniffing in a font context</h3>
 
 <p>
- To determine the <a href="#sniffed-mime-type">sniffed MIME type</a> of a <a href="#resource">resource</a>
+ To determine the <a href="#computed-mime-type">computed MIME type</a> of a <a href="#resource">resource</a>
  with a <a href="#font-type">font type</a>, execute the following <dfn id="rules-for-sniffing-fonts-specifically">rules for sniffing
  fonts specifically</dfn>:
 
  <ol>
   <li>
    If the <a href="#supplied-mime-type">supplied MIME type</a> is an <a href="#xml-type">XML type</a>, the
-   <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
+   <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME type</a>.
 
    Abort these steps.
 
@@ -3143,13 +3151,13 @@
    header</a> as the <a href="#byte-sequence">byte sequence</a> to be matched.
 
   <li>
-   If <var>font-type-matched</var> is not undefined, the <a href="#sniffed-mime-type">sniffed MIME
+   If <var>font-type-matched</var> is not undefined, the <a href="#computed-mime-type">computed MIME
    type</a> is <var>font-type-matched</var>.
 
    Abort these steps.
 
   <li>
-   The <a href="#sniffed-mime-type">sniffed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
+   The <a href="#computed-mime-type">computed MIME type</a> is the <a href="#supplied-mime-type">supplied MIME
    type</a>.
  </ol>
 
@@ -3158,14 +3166,14 @@
 <h3 id="sniffing-in-a-text-track-context"><span class="secno">8.8 </span>Sniffing in a text track context</h3>
 
 <p class="XXX">
- The <a href="#sniffed-mime-type">sniffed MIME type</a> is "<code title="">text/vtt</code>".
+ The <a href="#computed-mime-type">computed MIME type</a> is "<code title="">text/vtt</code>".
 
 
 
 <h3 id="sniffing-in-a-cache-manifest-context"><span class="secno">8.9 </span>Sniffing in a cache manifest context</h3>
 
 <p class="XXX">
- The <a href="#sniffed-mime-type">sniffed MIME type</a> is
+ The <a href="#computed-mime-type">computed MIME type</a> is
  "<code title="">text/cache-manifest</code>".
 
 
