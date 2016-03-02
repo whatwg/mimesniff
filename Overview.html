@@ -100,7 +100,8 @@
    <li><a href="#matching-an-audio-or-video-type-pattern"><span class="secno">6.2 </span>Matching an audio or video type pattern</a>
     <ol>
      <li><a href="#signature-for-mp4"><span class="secno">6.2.1 </span>Signature for MP4</a></li>
-     <li><a href="#signature-for-webm"><span class="secno">6.2.2 </span>Signature for WebM</a></ol></li>
+     <li><a href="#signature-for-webm"><span class="secno">6.2.2 </span>Signature for WebM</a></li>
+     <li><a href="#signature-for-mp3-without-id3"><span class="secno">6.2.3 </span>Signature for MP3 without ID3</a></ol></li>
    <li><a href="#matching-a-font-type-pattern"><span class="secno">6.3 </span>Matching a font type pattern</a></li>
    <li><a href="#matching-an-archive-type-pattern"><span class="secno">6.4 </span>Matching an archive type pattern</a></ol></li>
  <li><a href="#determining-the-computed-mime-type-of-a-resource"><span class="secno">7 </span>Determining the computed MIME type of a resource</a>
@@ -1053,7 +1054,7 @@
 
     <li>
      the number of <a href="#byte" title="byte">bytes</a> in <var>buffer</var> is
-     greater than or equal to 512.
+     greater than or equal to 1445.
 
     <li>
      a reasonable amount of time has elapsed, as determined by the user
@@ -1062,7 +1063,7 @@
 
    <p class="note">
     If the number of <a href="#byte" title="byte">bytes</a> in <var>buffer</var> is
-    greater than or equal to 512, the <a href="#mime-type-sniffing-algorithm">MIME type sniffing
+    greater than or equal to 1445, the <a href="#mime-type-sniffing-algorithm">MIME type sniffing
     algorithm</a> will be deterministic for the majority of cases.
 
     However, certain factors (such as a slow connection) may prevent the
@@ -1588,9 +1589,6 @@
     </tbody>
    </table>
 
-   <p class="XXX">
-    MP3 audio without ID3 tags.
-
   <li>
    If the <a href="#byte-sequence">byte sequence</a> to be matched <a href="#matches-the-signature-for-mp4">matches the signature
    for MP4</a>, return "<code title="">video/mp4</code>".
@@ -1598,6 +1596,10 @@
   <li>
    If the <a href="#byte-sequence">byte sequence</a> to be matched <a href="#matches-the-signature-for-webm">matches the signature
    for WebM</a>, return "<code title="">video/webm</code>".
+
+  <li>
+   If the <a href="#byte-sequence">byte sequence</a> to be matched <a href="#matches-the-signature-for-mp3-without-id3">matches the signature
+   for MP3 without ID3</a>, return "<code title="">audio/mpeg</code>".
 
   <li>
    Return undefined.
@@ -1772,6 +1774,222 @@ than <var>end</var>, and contains exactly, in the range [<var>offset</var>,
 <var>end</var>], the bytes in <var>pattern</var>, in the same order, eventually
 preceded by bytes with a value of 0x00, false otherwise.
 </p>
+
+<h4 id="signature-for-mp3-without-id3"><span class="secno">6.2.3 </span>Signature for MP3 without ID3</h4>
+
+To determine whether a <a href="#byte-sequence">byte sequence</a> <dfn id="matches-the-signature-for-mp3-without-id3">matches the signature
+for MP3 without ID3</dfn>, use the following steps:
+
+<ol>
+  <li>
+  Let <var>sequence</var> be the <a href="#byte-sequence">byte sequence</a> to be matched,
+  where <var>sequence</var>[<var>s</var>] is <a href="#byte">byte</a> <var>s</var> in
+  <var>sequence</var> and <var>sequence</var>[0] is the first <a href="#byte">byte</a>
+  in <var>sequence</var>.</li>
+  <li> Let <var>length</var> be the number of <a href="#byte" title="byte">bytes</a> in
+  <var>sequence</var>.  </li>
+  <li>Initialize s to 0.</li>
+  <li>If the result of the operation <a href="#match-an-mp3-header">match mp3
+  header</a> is false, return false.</li>
+  <li><a href="#parse-an-mp3-frame">Parse an mp3 frame</a> on
+  <var>sequence</var> at offset <var>s</var></li>
+  <li>Let <var>skipped-bytes</var> the return value of the execution of <a href="#compute-an-mp3-frame-size">mp3 framesize computation</a></li>
+  <li>If <var>skipped-bytes</var> is less than 4, or <var>skipped-bytes</var> is
+  greater than <var>s - length</var>, return false.</li>
+  <li>Increment s by <var>skipped-bytes</var>.</li>
+  <li>If the result of the operation <a href="#match-an-mp3-header">match mp3
+  header</a> operation is false, return false, else, return true.</li>
+</ol>
+
+To <dfn id="match-an-mp3-header">match an mp3 header</dfn>, using a <a href="#byte-sequence">byte sequence</a>
+<var>sequence</var> of length <var>length</var> at offset <var>s</var>
+execute these steps:
+<ol>
+  <li>If <var>length</var> is less than 4, return false.</li>
+  <li>If <var>sequence</var>[<var>s</var>] is not equal to 0xff and
+  <var>sequence</var>[<var>s</var> + 1] &amp; 0xe0 is not equal to 0xe0, return
+  false.</li>
+  <li>Let <var>layer</var> be the result of <var>sequence</var>[<var>s</var> +
+  1] &amp; 0x06.</li>
+  <li>If <var>layer</var> &gt;&gt; is not 0, return false.</li>
+  <li>Let <var>bit-rate</var> be <var>sequence</var>[<var>s</var> + 2] &amp;
+  0xf0.</li>
+  <li>If <var>bit-rate</var> &gt;&gt; 4 is not 15, return false.</li>
+  <li>Let <var>sample-rate</var> be <var>sequence</var>[<var>s</var> + 3] &amp;
+  0x0c.</li>
+  <li>If <var>sample-rate</var> &gt;&gt; 2 is not 3, return false.</li>
+  <li>Let <var>final-layer</var> be the result of 4 -
+  (<var>sequence</var>[<var>s</var> + 1])</li>
+  <li>If <var>final-layer</var> &amp; 0x06 &gt;&gt; 1 is not 3, return
+  false.</li>
+  <li>Return true.</li>
+</ol>
+
+To <dfn id="compute-an-mp3-frame-size">compute an mp3 frame size</dfn>, execute these steps:
+<ol>
+  <li>If <var>version</var> is 1, let <var>scale</var> be 72, else, let
+  <var>scale</var> be 144.</li>
+  <li>Let <var>size</var> be <var>bitrate</var> * <var>scale</var> /
+  <var>freq</var>.</li>
+  <li>If <var>pad</var> is not zero, increment <var>size</var> by 1.</li>
+  <li>Return <var>size</var>.</li>
+</ol>
+
+To <dfn id="parse-an-mp3-frame">parse an mp3 frame</dfn>, execute these steps:
+<ol>
+  <li>Let <var>version</var> be <var>sequence</var>[<var>s</var> + 1] &amp; 0x18
+  &gt;&gt; 3.</li>
+  <li>Let <var>bitrate-index</var> be sequence[s + 2] &amp; 0xf0 &gt;&gt;
+  4.</li>
+  <li>If the <var>version</var> &amp; 0x01 is non-zero, let <var>bitrate</var>
+  be the value given by <var>bitrate-index</var> in the table mp2.5-rates</li>
+  <li>If <var>version</var> &amp; 0x01 is zero, let <var>bitrate</var> be the
+  value given by <var>bitrate-index</var> in the table mp3-rates</li>
+  <li>Let <var>samplerate-index</var> be <var>sequence</var>[<var>s</var> + 2]
+  &amp; 0x0c &gt;&gt; 2.</li>
+  <li>Let <var>samplerate</var> be the value given by
+  <var>samplerate-index</var> in the <var>sample-rate</var> table.</li>
+  <li>Let <var>pad</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x02
+  &gt;&gt; 1.</li>
+</ol>
+
+<figure>
+<figcaption>mp3-rates table</figcaption>
+<table>
+<thead>
+<tr><th>index</th>
+<th>mp3-rates</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0</td>
+<td>0</td>
+</tr>
+<tr><td>1</td>
+<td>32000</td>
+</tr>
+<tr><td>2</td>
+<td>40000</td>
+</tr>
+<tr><td>3</td>
+<td>48000</td>
+</tr>
+<tr><td>4</td>
+<td>56000</td>
+</tr>
+<tr><td>5</td>
+<td>64000</td>
+</tr>
+<tr><td>6</td>
+<td>80000</td>
+</tr>
+<tr><td>7</td>
+<td>96000</td>
+</tr>
+<tr><td>8</td>
+<td>112000</td>
+</tr>
+<tr><td>9</td>
+<td>128000</td>
+</tr>
+<tr><td>10</td>
+<td>160000</td>
+</tr>
+<tr><td>11</td>
+<td>192000</td>
+</tr>
+<tr><td>12</td>
+<td>224000</td>
+</tr>
+<tr><td>13</td>
+<td>256000</td>
+</tr>
+<tr><td>14</td>
+<td>320000</td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+<figure>
+<figcaption>mp2.5-rates</figcaption>
+<table>
+<thead>
+<tr><th>index</th>
+<th>mp2.5-rates</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>0</td>
+<td>0</td>
+</tr>
+<tr><td>1</td>
+<td>8000</td>
+</tr>
+<tr><td>2</td>
+<td>16000</td>
+</tr>
+<tr><td>3</td>
+<td>24000</td>
+</tr>
+<tr><td>4</td>
+<td>32000</td>
+</tr>
+<tr><td>5</td>
+<td>40000</td>
+</tr>
+<tr><td>6</td>
+<td>48000</td>
+</tr>
+<tr><td>7</td>
+<td>56000</td>
+</tr>
+<tr><td>8</td>
+<td>64000</td>
+</tr>
+<tr><td>9</td>
+<td>80000</td>
+</tr>
+<tr><td>10</td>
+<td>96000</td>
+</tr>
+<tr><td>11</td>
+<td>112000</td>
+</tr>
+<tr><td>12</td>
+<td>128000</td>
+</tr>
+<tr><td>13</td>
+<td>144000</td>
+</tr>
+<tr><td>14</td>
+<td>160000</td>
+</tr>
+</tbody>
+</table>
+</figure>
+
+<figure>
+<figcaption>sample-rate table</figcaption>
+<table>
+<thead>
+<tr><th>index</th>
+<th>samplerate</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>0</td>
+<td>44100</td>
+</tr>
+<tr><td>1</td>
+<td>48000</td>
+</tr>
+<tr><td>T2</td>
+<td>32000</td>
+</tr>
+</tbody>
+</table>
+</figure>
 
 <h3 id="matching-a-font-type-pattern"><span class="secno">6.3 </span>Matching a font type pattern</h3>
 
@@ -3324,6 +3542,7 @@ preceded by bytes with a value of 0x00, false otherwise.
  Joshua Cranmer,
  Larry Masinter,
  Mark Pilgrim,
+ Paul Adenot,
  Peter Occil,
  Russ Cox,
  and
