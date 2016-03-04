@@ -1,49 +1,22 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
-<title>MIME Sniffing Standard</title>
-<style>
- @media print {
-  [data-anolis-spec]::after {
-   content: "[" attr(data-anolis-spec) "]";
-   font-size: 0.6em;
-   vertical-align: super;
-   text-transform: uppercase;
-  }
+<pre class='metadata'>
+Title: MIME Sniffing Standard
+H1: MIME Sniffing
+Shortname: mimesniff
+Status: LS
+Group: WHATWG
+No Editor: true
+!Participate: <a href=https://github.com/whatwg/mimesniff>GitHub whatwg/mimesniff</a> (<a href=https://github.com/whatwg/mimesniff/issues/new>new issue</a>, <a href=https://github.com/whatwg/mimesniff/issues>open issues</a>, <a href=https://www.w3.org/Bugs/Public/buglist.cgi?component=MIME&amp;product=WHATWG&amp;resolution=--->legacy open bugs</a>)
+!Participate: <a href=https://wiki.whatwg.org/wiki/IRC>IRC: #whatwg on Freenode</a>
+!Commits: <a href=https://github.com/whatwg/dom/commits>GitHub whatwg/dom/commits</a>
+!Commits: <a href=https://twitter.com/thedomstandard>@thedomstandard</a>
+Logo: https://resources.whatwg.org/logo-mime.svg
+Abstract: blah
+Boilerplate: omit conformance, omit feedback-header
+</pre>
 
-  a.bug-link {
-   display: none;
-  }
- }
-</style>
 <link rel="stylesheet" href="https://resources.whatwg.org/standard.css" />
 <link rel="icon" href="https://resources.whatwg.org/logo-mime.png" type="image/png" />
 <link rel="icon" href="https://resources.whatwg.org/logo-mime.svg" type="image/svg+xml" />
-
-
-
-<div class="head">
-
- <p><a class="logo" href="https://www.whatwg.org/"><img src="https://resources.whatwg.org/logo-mime.svg" width="101" height="101" alt="WHATWG"></a></p>
- <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc">Living Standard &mdash; Last Updated [DATE: 01 Jan 1901]</h2>
-
- <dl>
-  <dt>Participate:
-  <dd><a href=https://github.com/whatwg/mimesniff>GitHub whatwg/mimesniff</a>
-  (<a href=https://github.com/whatwg/mimesniff/issues/new>file an issue</a>,
-  <a href=https://github.com/whatwg/mimesniff/issues>open issues</a>,
-  <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WHATWG&amp;component=MIME&amp;resolution=---">legacy open bugs</a>)
-  <dd><a href=https://wiki.whatwg.org/wiki/IRC>IRC: #whatwg on Freenode</a>
-
-  <dt>Commits:
-  <dd><a href="https://github.com/whatwg/mimesniff/commits">GitHub whatwg/mimesniff/commits</a>
-  <dd><a href="https://twitter.com/mimesniff">@mimesniff</a>
- </dl>
-
- <script src=https://resources.whatwg.org/file-issue.js async></script>
- <script id=head src=https://resources.whatwg.org/dfn.js defer></script>
-
-</div>
 
 
 
@@ -116,7 +89,7 @@
  For readability, these keywords will generally not appear in all uppercase
  letters.
 
- <span data-anolis-ref>RFC2119</span>
+ [[!RFC2119]]
 
 <p>
  Requirements phrased in the imperative as part of algorithms (such as "strip
@@ -138,11 +111,9 @@
 <p>
  A <dfn>byte</dfn> is a <span data-anolis-spec=encoding>byte</span> as defined
  in the Encoding Standard.
-
  When helpful, a <span>byte</span> will be accompanied by information about
  the ASCII code point it represents.
-
- <span data-anolis-ref>ENCODING</span>
+ [[!ENCODING]]
  <span data-anolis-ref class=informative>ASCII</span>
 
 <p>
@@ -173,12 +144,11 @@
  lowercase</dfn> is accomplished by
  <span data-anolis-spec=html title="converted to ASCII lowercase">converting a
  string to ASCII lowercase</span> as defined in the HTML Standard.
-
- <span data-anolis-ref>HTML</span>
+ [[!HTML]]
 
 <p>
   Equations are using the mathematical operators as defined in
-  <span data-anolis-ref>ENCODING</span>. In addition, the bitwise NOT is
+  [[!ENCODING]]. In addition, the bitwise NOT is
   represented by ~.
 
 
@@ -770,8 +740,7 @@
  <span>subtype</span> ends in "<code title>+xml</code>" or the <span>MIME type
  portion</span> is equal to "<code title>text/xml</code>" or
  "<code title>application/xml</code>".
-
- <span data-anolis-ref class=informative>RFC3023</span>
+ [[RFC3023]]
 
 <p>
  A <dfn>scriptable MIME type</dfn> is an <span>XML type</span> or any
@@ -935,7 +904,7 @@
      "<code title>nosniff</code>", set the <span>no-sniff flag</span>.
    </ol>
 
-   <span data-anolis-ref=http>HTTP</span>
+   [[!HTTP11]]
 
   <li>
    If the <span>resource</span> is retrieved directly from the file system,
@@ -946,8 +915,7 @@
    If the <span>resource</span> is retrieved via another protocol (such as
    FTP), set <var>supplied-type</var> to the <span>MIME type</span> as
    determined by that protocol, if any.
-
-   <span data-anolis-ref class=informative>FTP</span>
+   [[RFC959]]
 
   <li>
    If <var>supplied-type</var> is not a <span>parsable MIME type</span>, the
@@ -3414,12 +3382,6 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 <p class=XXX>
  The <span>computed MIME type</span> is
  "<code title>text/cache-manifest</code>".
-
-
-
-<h2 class=no-num>References</h2>
-
-<div id=anolis-references></div>
 
 
 
