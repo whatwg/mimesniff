@@ -14,6 +14,20 @@ Abstract: blah
 Boilerplate: omit conformance, omit feedback-header
 </pre>
 
+<pre class='biblio'>
+{
+    "SECCONTSNIFF": {
+        "authors": [
+            "Adam Barth",
+            "Juan Caballero",
+            "Dawn Song"
+        ],
+        "href": "http://www.adambarth.com/papers/2009/barth-caballero-song.pdf",
+        "title": "Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves"
+    }
+}
+</pre>
+
 <link rel="stylesheet" href="https://resources.whatwg.org/standard.css" />
 <link rel="icon" href="https://resources.whatwg.org/logo-mime.png" type="image/png" />
 <link rel="icon" href="https://resources.whatwg.org/logo-mime.svg" type="image/svg+xml" />
@@ -69,13 +83,11 @@ Boilerplate: omit conformance, omit feedback-header
  This document describes a content sniffing algorithm that carefully balances
  the compatibility needs of user agent with the security constraints imposed
  by existing web content.
-
  The algorithm originated from research conducted by Adam Barth, Juan
  Caballero, and Dawn Song, based on content sniffing algorithms present in
  popular user agents, an extensive database of existing web content, and
  metrics collected from implementations deployed to a sizable number of users.
-
- <span data-anolis-ref class=informative>SECCONTSNIFF</span>
+ [[SECCONTSNIFF]]
 
 
 
@@ -114,7 +126,7 @@ Boilerplate: omit conformance, omit feedback-header
  When helpful, a <span>byte</span> will be accompanied by information about
  the ASCII code point it represents.
  [[!ENCODING]]
- <span data-anolis-ref class=informative>ASCII</span>
+ [[RFC20]]
 
 <p>
  A <dfn>binary data byte</dfn> is a <span>byte</span> in the range 0x00 to
@@ -157,8 +169,7 @@ Boilerplate: omit conformance, omit feedback-header
 <p>
  The <dfn>MIME type</dfn> of a <span>resource</span> is a technical hint
  about the use and format of that <span>resource</span>.
-
- <span data-anolis-ref class=informative>MIMETYPE</span>
+ [[RFC2046]]
 
 <p>
  A <dfn>parsable MIME type</dfn> is a <span>MIME type</span> for which the

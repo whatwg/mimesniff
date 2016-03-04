@@ -128,12 +128,11 @@
    <p>(Malicious servers, of course, can specify an arbitrary MIME type in the <code>Content-Type</code> header field.)</p>
    <p> This document describes a content sniffing algorithm that carefully balances
  the compatibility needs of user agent with the security constraints imposed
- by existing web content. </p>
-   <p>The algorithm originated from research conducted by Adam Barth, Juan
+ by existing web content.
+ The algorithm originated from research conducted by Adam Barth, Juan
  Caballero, and Dawn Song, based on content sniffing algorithms present in
  popular user agents, an extensive database of existing web content, and
- metrics collected from implementations deployed to a sizable number of users.</p>
-   <p><span class="informative" data-anolis-ref="">SECCONTSNIFF</span></p>
+ metrics collected from implementations deployed to a sizable number of users. <a data-link-type="biblio" href="#biblio-seccontsniff">[SECCONTSNIFF]</a> </p>
    <h2 class="heading settled" data-level="2" id="conformance-requirements"><span class="secno">2. </span><span class="content">Conformance requirements</span><a class="self-link" href="#conformance-requirements"></a></h2>
    <p> The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
  "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -153,7 +152,7 @@
    <p> A <dfn data-dfn-type="dfn" data-noexport="" id="byte">byte<a class="self-link" href="#byte"></a></dfn> is a <span data-anolis-spec="encoding">byte</span> as defined
  in the Encoding Standard.
  When helpful, a <span>byte</span> will be accompanied by information about
- the ASCII code point it represents. <a data-link-type="biblio" href="#biblio-encoding">[ENCODING]</a> <span class="informative" data-anolis-ref="">ASCII</span> </p>
+ the ASCII code point it represents. <a data-link-type="biblio" href="#biblio-encoding">[ENCODING]</a> <a data-link-type="biblio" href="#biblio-rfc20">[RFC20]</a> </p>
    <p> A <dfn data-dfn-type="dfn" data-noexport="" id="binary-data-byte">binary data byte<a class="self-link" href="#binary-data-byte"></a></dfn> is a <span>byte</span> in the range 0x00 to
  0x08 (NUL to BS), the <span>byte</span> 0x0B (VT), a <span>byte</span> in the
  range 0x0E to 0x1A (SO to SUB), or a <span>byte</span> in the range 0x1C to
@@ -170,8 +169,7 @@
   represented by ~. </p>
    <h2 class="heading settled" data-level="4" id="understanding-mime-types"><span class="secno">4. </span><span class="content">Understanding MIME types</span><a class="self-link" href="#understanding-mime-types"></a></h2>
    <p> The <dfn data-dfn-type="dfn" data-noexport="" id="mime-type">MIME type<a class="self-link" href="#mime-type"></a></dfn> of a <span>resource</span> is a technical hint
- about the use and format of that <span>resource</span>. </p>
-   <p><span class="informative" data-anolis-ref="">MIMETYPE</span></p>
+ about the use and format of that <span>resource</span>. <a data-link-type="biblio" href="#biblio-rfc2046">[RFC2046]</a> </p>
    <p> A <dfn data-dfn-type="dfn" data-noexport="" id="parsable-mime-type">parsable MIME type<a class="self-link" href="#parsable-mime-type"></a></dfn> is a <span>MIME type</span> for which the <span>parse a MIME type</span> algorithm does not return undefined. </p>
    <p>Every <span>parsable MIME type</span> has a corresponding <dfn data-dfn-type="dfn" data-noexport="" id="parsed-mime-type">parsed MIME
  type<a class="self-link" href="#parsed-mime-type"></a></dfn>, which is the result of <span title="parse a MIME type">parsing</span> the <span>parsable MIME
@@ -1880,6 +1878,12 @@ for MP3 without ID3</a><span>, in §6.2.3</span>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
+   <dt id="biblio-seccontsniff"><a class="self-link" href="#biblio-seccontsniff"></a>[SECCONTSNIFF]
+   <dd>Adam Barth; Juan Caballero; Dawn Song. <a href="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves</a>. URL: <a href="http://www.adambarth.com/papers/2009/barth-caballero-song.pdf">http://www.adambarth.com/papers/2009/barth-caballero-song.pdf</a>
+   <dt id="biblio-rfc20"><a class="self-link" href="#biblio-rfc20"></a>[RFC20]
+   <dd>V.G. Cerf. <a href="https://tools.ietf.org/html/rfc20">ASCII format for network interchange</a>. October 1969. Internet Standard. URL: <a href="https://tools.ietf.org/html/rfc20">https://tools.ietf.org/html/rfc20</a>
+   <dt id="biblio-rfc2046"><a class="self-link" href="#biblio-rfc2046"></a>[RFC2046]
+   <dd>N. Freed; N. Borenstein. <a href="https://tools.ietf.org/html/rfc2046">Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</a>. November 1996. Draft Standard. URL: <a href="https://tools.ietf.org/html/rfc2046">https://tools.ietf.org/html/rfc2046</a>
    <dt id="biblio-rfc3023"><a class="self-link" href="#biblio-rfc3023"></a>[RFC3023]
    <dd>M. Murata; S. St. Laurent; D. Kohn. <a href="https://tools.ietf.org/html/rfc3023">XML Media Types</a>. January 2001. Proposed Standard. URL: <a href="https://tools.ietf.org/html/rfc3023">https://tools.ietf.org/html/rfc3023</a>
    <dt id="biblio-rfc959"><a class="self-link" href="#biblio-rfc959"></a>[RFC959]
