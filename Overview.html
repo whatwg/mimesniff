@@ -24,7 +24,7 @@
 
  <p><a class="logo" href="https://www.whatwg.org/"><img alt="WHATWG" height="101" src="https://resources.whatwg.org/logo-mime.svg" width="101"></a></p>
  <h1>MIME Sniffing</h1>
- <h2 class="no-num no-toc" id="living-standard-—-last-updated-18-july-2016">Living Standard — Last Updated 18 July 2016</h2>
+ <h2 class="no-num no-toc" id="living-standard-—-last-updated-28-september-2016">Living Standard — Last Updated 28 September 2016</h2>
 
  <dl>
   <dt>Participate:
@@ -1777,16 +1777,18 @@ execute these steps:
   <var>sequence</var>[<var>s</var> + 1] &amp; 0xe0 is not equal to 0xe0, return
   false.</li>
   <li>Let <var>layer</var> be the result of <var>sequence</var>[<var>s</var> +
-  1] &amp; 0x06.</li>
-  <li>If <var>layer</var> &gt;&gt; is not 0, return false.</li>
+  1] &amp; 0x06 &gt;&gt; 1.</li>
+  <li>If <var>layer</var> is 0, return false.</li>
   <li>Let <var>bit-rate</var> be <var>sequence</var>[<var>s</var> + 2] &amp;
-  0xf0.</li>
-  <li>If <var>bit-rate</var> &gt;&gt; 4 is not 15, return false.</li>
-  <li>Let <var>sample-rate</var> be <var>sequence</var>[<var>s</var> + 3] &amp;
-  0x0c.</li>
-  <li>If <var>sample-rate</var> &gt;&gt; 2 is not 3, return false.</li>
+  0xf0 &gt;&gt; 4.</li>
+  <li>If <var>bit-rate</var> is 15, return false.</li>
+  <li>Let <var>sample-rate</var> be <var>sequence</var>[<var>s</var> + 2] &amp;
+  0x0c &gt;&gt; 2.</li>
+  <li>If <var>sample-rate</var> is 3, return false.</li>
+  <li>Let <var>freq</var> be the value given by <var>sample-rate</var>
+  in the table sample-rate.</li>
   <li>Let <var>final-layer</var> be the result of 4 -
-  (<var>sequence</var>[<var>s</var> + 1])</li>
+  (<var>sequence</var>[<var>s</var> + 1]).</li>
   <li>If <var>final-layer</var> &amp; 0x06 &gt;&gt; 1 is not 3, return
   false.</li>
   <li>Return true.</li>
@@ -1951,7 +1953,7 @@ To <dfn id="parse-an-mp3-frame">parse an mp3 frame</dfn>, execute these steps:
 <tr><td>1</td>
 <td>48000</td>
 </tr>
-<tr><td>T2</td>
+<tr><td>2</td>
 <td>32000</td>
 </tr>
 </tbody>
