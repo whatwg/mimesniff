@@ -40,10 +40,10 @@
   <dd><a href="https://twitter.com/mimesniff">@mimesniff</a>
  </dl>
 
- <script src=https://resources.whatwg.org/file-issue.js async></script>
- <script id=head src=https://resources.whatwg.org/dfn.js defer></script>
-
 </div>
+
+<script src=https://resources.whatwg.org/file-issue.js async></script>
+<script src=https://resources.whatwg.org/dfn.js defer></script>
 
 
 
@@ -53,7 +53,7 @@
 
 
 
-<h2>Introduction</h2>
+<h2 id=introduction>Introduction</h2>
 
 <p>
  The HTTP <code>Content-Type</code> header field is intended to indicate the
@@ -106,7 +106,7 @@
 
 
 
-<h2>Conformance requirements</h2>
+<h2 id=conformance-requirements>Conformance requirements</h2>
 
 <p>
  The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
@@ -133,7 +133,7 @@
 
 
 
-<h2>Terminology</h2>
+<h2 id=terminology>Terminology</h2>
 
 <p>
  A <dfn>byte</dfn> is a <span data-anolis-spec=encoding>byte</span> as defined
@@ -182,7 +182,7 @@
   represented by ~.
 
 
-<h2>Understanding MIME types</h2>
+<h2 id=understanding-mime-types>Understanding MIME types</h2>
 
 <p>
  The <dfn>MIME type</dfn> of a <span>resource</span> is a technical hint
@@ -224,7 +224,7 @@
 
 
 
-<h3>Parsing a MIME type</h3>
+<h3 id=parsing-a-mime-type>Parsing a MIME type</h3>
 
 <p>
  To <dfn>parse a MIME type</dfn>, the user agent must execute the following
@@ -576,7 +576,7 @@
 
 
 
-<h3>Serializing a MIME type</h3>
+<h3 id=serializing-a-mime-type>Serializing a MIME type</h3>
 
 <p>
  To <dfn>serialize a MIME type</dfn>, given a <var>type</var>, a
@@ -689,7 +689,7 @@
 
 
 
-<h3>MIME type groups</h3>
+<h3 id=mime-type-groups>MIME type groups</h3>
 
 <p>
  An <dfn>image type</dfn> is any <span>parsable MIME type</span> where
@@ -788,7 +788,7 @@
 
 
 
-<h2>Handling a resource</h2>
+<h2 id=handling-a-resource>Handling a resource</h2>
 
 <p class=XXX>
  A <dfn>resource</dfn> is &hellip;.
@@ -825,7 +825,7 @@
 
 
 
-<h3>Interpreting the resource metadata</h3>
+<h3 id=interpreting-the-resource-metadata>Interpreting the resource metadata</h3>
 
 <p>
  The <span>supplied MIME type</span> of a <span>resource</span> is provided
@@ -955,7 +955,7 @@
 
 
 
-<h3>Reading the resource header</h3>
+<h3 id=reading-the-resource-header>Reading the resource header</h3>
 
 <p>
  A <dfn>resource header</dfn> is the <span>byte sequence</span> at the
@@ -1005,7 +1005,7 @@
 
 
 
-<h2>Matching a MIME type pattern</h2>
+<h2 id=matching-a-mime-type-pattern>Matching a MIME type pattern</h2>
 
 <p>
  A <dfn>byte pattern</dfn> is a <span>byte sequence</span> used as a template
@@ -1099,7 +1099,7 @@
 
 
 
-<h3>Matching an image type pattern</h3>
+<h3 id=matching-an-image-type-pattern>Matching an image type pattern</h3>
 
 <p>
  To determine which <span>image type</span> <span>byte pattern</span> a
@@ -1316,7 +1316,7 @@
 
 
 
-<h3>Matching an audio or video type pattern</h3>
+<h3 id=matching-an-audio-or-video-type-pattern>Matching an audio or video type pattern</h3>
 
 <p>
  To determine which <span>audio or video type</span> <span>byte pattern</span>
@@ -1532,7 +1532,7 @@
 
 
 
-<h4>Signature for MP4</h4>
+<h4 id=signature-for-mp4>Signature for MP4</h4>
 
 <p>
  To determine whether a <span>byte sequence</span> <dfn>matches the signature
@@ -1597,7 +1597,7 @@
    Return false.
  </ol>
 
-<h4>Signature for WebM</h4>
+<h4 id=signature-for-webm>Signature for WebM</h4>
 
 <!-- http://ebml.sourceforge.net/specs/ -->
 <!-- http://www.matroska.org/technical/specs/index.html -->
@@ -1701,7 +1701,7 @@ than <var>end</var>, and contains exactly, in the range [<var>offset</var>,
 preceded by bytes with a value of 0x00, false otherwise.
 </p>
 
-<h4>Signature for MP3 without ID3</h4>
+<h4 id=signature-for-mp3-without-id3>Signature for MP3 without ID3</h4>
 
 To determine whether a <span>byte sequence</span> <dfn>matches the signature
 for MP3 without ID3</dfn>, use the following steps:
@@ -1920,7 +1920,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 </table>
 </figure>
 
-<h3>Matching a font type pattern</h3>
+<h3 id=matching-a-font-type-pattern>Matching a font type pattern</h3>
 
 <p>
  To determine which <span>font type</span> <span>byte pattern</span> a
@@ -2088,7 +2088,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Matching an archive type pattern</h3>
+<h3 id=matching-an-archive-type-pattern>Matching an archive type pattern</h3>
 
 <p>
  To determine which <span>archive type</span> <span>byte pattern</span> a
@@ -2212,7 +2212,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h2>Determining the computed MIME type of a resource</h2>
+<h2 id=determining-the-computed-mime-type-of-a-resource>Determining the computed MIME type of a resource</h2>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>,
@@ -2284,7 +2284,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Identifying a resource with an unknown MIME type</h3>
+<h3 id=identifying-a-resource-with-an-unknown-mime-type>Identifying a resource with an unknown MIME type</h3>
 
 <p>
  The <dfn>sniff-scriptable flag</dfn> is used by the <span>rules for
@@ -2899,7 +2899,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing a mislabeled binary resource</h3>
+<h3 id=sniffing-a-mislabeled-binary-resource>Sniffing a mislabeled binary resource</h3>
 
 <p>
  To determine whether a binary <span>resource</span> has been mislabeled as
@@ -2946,7 +2946,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing a mislabeled feed</h3>
+<h3 id=sniffing-a-mislabeled-feed>Sniffing a mislabeled feed</h3>
 
 <p>
  To determine whether a feed has been mislabeled as HTML, execute the
@@ -3219,7 +3219,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h2>Context-specific sniffing</h2>
+<h2 id=context-specific-sniffing>Context-specific sniffing</h2>
 
 <p class=XXX>
  A <dfn>context</dfn> is &hellip;.
@@ -3242,14 +3242,14 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in a browsing context</h3>
+<h3 id=sniffing-in-a-browsing-context>Sniffing in a browsing context</h3>
 
 <p class=XXX>
  Use the <span>MIME type sniffing algorithm</span>.
 
 
 
-<h3>Sniffing in an image context</h3>
+<h3 id=sniffing-in-an-image-context>Sniffing in an image context</h3>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>
@@ -3281,7 +3281,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in an audio or video context</h3>
+<h3 id=sniffing-in-an-audio-or-video-context>Sniffing in an audio or video context</h3>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>
@@ -3314,7 +3314,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in a plugin context</h3>
+<h3 id=sniffing-in-a-plugin-context>Sniffing in a plugin context</h3>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>
@@ -3332,7 +3332,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in a style context</h3>
+<h3 id=sniffing-in-a-style-context>Sniffing in a style context</h3>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>
@@ -3349,7 +3349,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in a script context</h3>
+<h3 id=sniffing-in-a-script-context>Sniffing in a script context</h3>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>
@@ -3366,7 +3366,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in a font context</h3>
+<h3 id=sniffing-in-a-font-context>Sniffing in a font context</h3>
 
 <p>
  To determine the <span>computed MIME type</span> of a <span>resource</span>
@@ -3398,14 +3398,14 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h3>Sniffing in a text track context</h3>
+<h3 id=sniffing-in-a-text-track-context>Sniffing in a text track context</h3>
 
 <p class=XXX>
  The <span>computed MIME type</span> is "<code title>text/vtt</code>".
 
 
 
-<h3>Sniffing in a cache manifest context</h3>
+<h3 id=sniffing-in-a-cache-manifest-context>Sniffing in a cache manifest context</h3>
 
 <p class=XXX>
  The <span>computed MIME type</span> is
@@ -3419,7 +3419,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 
 
-<h2 class=no-num>Acknowledgements</h2>
+<h2 class=no-num id=acknowledgements>Acknowledgments</h2>
 
 <p>
  Special thanks to Adam Barth and Ian Hickson for maintaining previous
@@ -3449,5 +3449,3 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 <p>Per <a rel=license href=https://creativecommons.org/publicdomain/zero/1.0/>CC0</a>, to
 the extent possible under law, the editor has waived all copyright and related or
 neighboring rights to this work.
-
-<script id="head" src="https://www.whatwg.org/specs/web-apps/current-work/dfn.js"></script>
