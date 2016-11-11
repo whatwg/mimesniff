@@ -1,12 +1,5 @@
-# http://wiki.whatwg.org/wiki/GitHub#Makefile
+local: mimesniff.bs
+	bikeshed
 
-ANOLIS = anolis
-
-all: Overview.html ../xref/refs/network/mime.json ../xref/xrefs/network/mime.json
-
-Overview.html: Overview.src.html ../xref Makefile
-	$(ANOLIS) --omit-optional-tags --quote-attr-values --xref="../xref" \
-	--enable=xspecxref --enable=refs $< $@
-
-../xref/xrefs/network/mime.json: Overview.src.html Makefile
-	$(ANOLIS) --dump-xrefs=$@ $< /tmp/spec
+remote: mimesniff.bs
+	curl https://api.csswg.org/bikeshed/ -f -F file=@mimesniff.bs > mimesniff.html
