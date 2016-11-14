@@ -155,9 +155,13 @@ Markup Shorthands: css off
 <h2 id=understanding-mime-types>Understanding MIME types</h2>
 
 <p>
- The <dfn>MIME type</dfn> of a <a>resource</a> is a technical hint
- about the use and format of that <a>resource</a>.
- [[!MIMETYPE]]
+ The <dfn export>MIME type</dfn> of a <a>resource</a> is a technical hint about the use and format
+ of that <a>resource</a>. [[!MIMETYPE]]
+
+<p class=note>
+ A <a>MIME type</a> is sometimes called an <i>Internet media type</i> in protocol literature, but
+ consistently using the term <a>MIME type</a> avoids confusion with the use of "media type" as
+ described in the <cite>Media Queries</cite> CSS specification. [[MEDIAQUERIES-4]]
 
 <p>
  A <dfn>parsable MIME type</dfn> is a <a>MIME type</a> for which the
@@ -170,6 +174,21 @@ Markup Shorthands: css off
 
  A <a>parsed MIME type</a> is made up of a <dfn>type</dfn>, a
  <dfn>subtype</dfn>, and a dictionary of <dfn>parameters</dfn>.
+
+<p>
+ A <dfn export>valid MIME type</dfn> is a string that matches the
+ <code>media-type</code> rule defined in
+ <a href="https://tools.ietf.org/html/rfc7231#section-3.1.1.1">section 3.1.1.1 "Media Type" of RFC
+ 7231</a>. In particular, a <a>valid MIME type</a> may include <a>parameters</a>. [[!RFC7231]]
+
+<p class=XXX>
+ TODO: give an example of a string that is a <a>parsable MIME type</a> but not a
+ <a>valid MIME type</a>.
+
+<p>
+  A <dfn export>valid MIME type with no parameters</dfn> is a <a>MIME type</a> that does not contain
+  any U+003B SEMICOLON (;) characters. In other words, it consists only of a <a>type</a> and
+  <a>subtype</a>, with no <a>parameters</a>.
 
 <p>
  A <dfn>serialized MIME type</dfn> is the result of
@@ -735,15 +754,16 @@ Markup Shorthands: css off
  </ul>
 
 <p>
- An <dfn>XML type</dfn> is any <a>parsable MIME type</a> where the
- <a>subtype</a> ends in "<code>+xml</code>" or the <a>MIME type
- portion</a> is equal to "<code>text/xml</code>" or
- "<code>application/xml</code>".
-
- [[!RFC3023]]
+ An <dfn export>XML MIME type</dfn> is any <a>parsable MIME type</a> where either the <a>subtype</a>
+ ends in "<code>+xml</code>", or the <a>MIME type portion</a> is equal to "<code>text/xml</code>" or
+ "<code>application/xml</code>". [[!RFC3023]]
 
 <p>
- A <dfn>scriptable MIME type</dfn> is an <a>XML type</a> or any
+ An <dfn export>HTML MIME type</dfn> is any <a>parsable MIME type</a> where the
+ <a>MIME type portion</a> is equal to "<code>text/html</code>".
+
+<p>
+ A <dfn>scriptable MIME type</dfn> is an <a>XML MIME type</a> or any
  <a>parsable MIME type</a> where the <a>MIME type portion</a> is
  equal to one of the following:
 
@@ -2201,7 +2221,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
    abort these steps.
 
   <li>
-   If the <a>supplied MIME type</a> is an <a>XML type</a>, the
+   If the <a>supplied MIME type</a> is an <a>XML MIME type</a>, the
    <a>computed MIME type</a> is the <a>supplied MIME type</a>.
 
    Abort these steps.
@@ -3219,7 +3239,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
  <ol>
   <li>
-   If the <a>supplied MIME type</a> is an <a>XML type</a>, the
+   If the <a>supplied MIME type</a> is an <a>XML MIME type</a>, the
    <a>computed MIME type</a> is the <a>supplied MIME type</a>.
 
    Abort these steps.
@@ -3251,7 +3271,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
  <ol>
   <li>
-   If the <a>supplied MIME type</a> is an <a>XML type</a>, the
+   If the <a>supplied MIME type</a> is an <a>XML MIME type</a>, the
    <a>computed MIME type</a> is the <a>supplied MIME type</a>.
 
    Abort these steps.
@@ -3336,7 +3356,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
  <ol>
   <li>
-   If the <a>supplied MIME type</a> is an <a>XML type</a>, the
+   If the <a>supplied MIME type</a> is an <a>XML MIME type</a>, the
    <a>computed MIME type</a> is the <a>supplied MIME type</a>.
 
    Abort these steps.
