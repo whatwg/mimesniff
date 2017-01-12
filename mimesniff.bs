@@ -1831,7 +1831,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 <th>mp2.5-rates
 
 
-<tbody valign=top>
+<tbody>
 <tr><td>0
 <td>0
 
