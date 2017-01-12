@@ -12,10 +12,12 @@ Markup Shorthands: css off
 !Participate: <a href=https://github.com/whatwg/mimesniff>GitHub whatwg/mimesniff</a> (<a href=https://github.com/whatwg/mimesniff/issues/new>file an issue</a>, <a href=https://github.com/whatwg/mimesniff/issues>open issues</a>, <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WHATWG&amp;component=MIME&amp;resolution=---">legacy open bugs</a>)
 !Participate: <a href=https://wiki.whatwg.org/wiki/IRC>IRC: #whatwg on Freenode</a>
 !Commits: <a href=https://github.com/whatwg/mimesniff/commits>GitHub whatwg/mimesniff/commits</a>
+!Commits: [SNAPSHOT-LINK]
 !Commits: <a href=https://twitter.com/mimesniff>@mimesniff</a>
 </pre>
 
 <script src=https://resources.whatwg.org/file-issue.js async></script>
+<script src=https://resources.whatwg.org/commit-snapshot-shortcut-key.js async></script>
 <script src=https://resources.whatwg.org/dfn.js defer></script>
 
 <pre class=biblio>

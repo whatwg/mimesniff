@@ -7,8 +7,8 @@ respect the [WHATWG Code of Conduct](https://wiki.whatwg.org/wiki/Code_of_Conduc
 
 ### Contribution opportunities
 
-Folks notice minor and larger issues with the DOM Standard all the time and we'd love your help
-fixing those. Pull requests for typographical and grammar errors are also most welcome.
+Folks notice minor and larger issues with the MIME Sniffing Standard all the time and we'd love your
+help fixing those. Pull requests for typographical and grammar errors are also most welcome.
 
 We'd be happy to mentor you through this process. If you're interested and need help getting
 started, leave a comment on the issue or ask around [on IRC](https://wiki.whatwg.org/wiki/IRC).
@@ -25,6 +25,12 @@ fixes. The names are sorted lexicographically.
 If you want to preview the spec locally, you can either use a locally installed copy of
 [Bikeshed](https://github.com/tabatkins/bikeshed) by running `make` or use the HTTP API version by
 running `make remote`.
+
+If you want to do a complete "local deploy" including commit and/or branch snapshots, run
+
+```
+./deploy.sh --local
+```
 
 ### Merge policy
 
