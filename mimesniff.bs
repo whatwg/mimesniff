@@ -115,15 +115,8 @@ Markup Shorthands: css off
 
 <h2 id=terminology>Terminology</h2>
 
-<p>Some terminology is defined in the DOM Standard. [[!DOM]]
-
 <p>
- A <dfn>byte</dfn> is a <a>byte</a> as defined
- in the Encoding Standard.
- When helpful, a <a>byte</a> will be accompanied by information about
- the ASCII code point it represents.
- [[!ENCODING]]
- [[!ASCII]]
+ This specification depends on the Infra Standard. [[!INFRA]]
 
 <p>
  A <dfn>binary data byte</dfn> is a <a>byte</a> in the range 0x00 to
@@ -141,12 +134,6 @@ Markup Shorthands: css off
  A <dfn>tag-terminating byte</dfn> (abbreviated
  <abbr lt="tag terminating byte">0xTT</abbr>) is any one of the following
  <a>bytes</a>: 0x20 (SP), 0x3E ("<code>></code>").
-
-<p>
- A <dfn>byte sequence</dfn> is a list of one or more
- <a>bytes</a>, such that the position of the first
- <a>byte</a> and the position of the last <a>byte</a> are
- unambiguously identifiable.
 
 <p>
   Equations are using the mathematical operators as defined in
@@ -242,8 +229,8 @@ Markup Shorthands: css off
    Initialize <var>parameters</var> to the empty dictionary ({}).
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is a <a>whitespace
-   character</a>, continuously execute the following steps:
+   While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>,
+   continuously execute the following steps:
 
    <ol>
     <li>
@@ -269,8 +256,7 @@ Markup Shorthands: css off
      If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
 
     <li>
-     Append <var>sequence</var>[<var>s</var>], <a>converted to ASCII
-     lowercase</a>, to <var>type</var>.
+     Append <var>sequence</var>[<var>s</var>], <a>ASCII lowercased</a>, to <var>type</var>.
 
     <li>
      Increment <var>s</var> <span class=XXX>and <var>t</var></span> by 1.
@@ -283,8 +269,8 @@ Markup Shorthands: css off
    Initialize <var>u</var> to 0.
 
   <li>
-   While <var>sequence</var>[<var>s</var>] is not a <a>whitespace
-   character</a> and is not equal to the U+003B SEMICOLON character
+   While <var>sequence</var>[<var>s</var>] is not <a>ASCII whitespace</a>
+   and is not equal to the U+003B SEMICOLON character
    ("<code>;</code>"), continuously execute the following steps:
 
    <ol>
@@ -296,8 +282,7 @@ Markup Shorthands: css off
      <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
 
     <li>
-     Append <var>sequence</var>[<var>s</var>], <a>converted to ASCII
-     lowercase</a>, to <var>subtype</var>.
+     Append <var>sequence</var>[<var>s</var>], <a>ASCII lowercased</a>, to <var>subtype</var>.
 
     <li>
      Increment <var>s</var> <span class=XXX>and <var>u</var></span> by 1.
@@ -317,8 +302,8 @@ Markup Shorthands: css off
         <var>M</var>.
 
        <li>
-        While <var>sequence</var>[<var>s</var>] is a <a>whitespace
-        character</a>, continuously execute the following steps:
+        While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
+        following steps:
 
         <ol>
          <li>
@@ -368,8 +353,8 @@ Markup Shorthands: css off
 
         <ol>
          <li>
-          If <var>sequence</var>[<var>s</var>] is undefined or is a
-          <a>whitespace character</a> or is equal to the U+003B
+          If <var>sequence</var>[<var>s</var>] is undefined or is
+          <a>ASCII whitespace</a> or is equal to the U+003B
           SEMICOLON character ("<code>;</code>"), exit loop
           <var>N</var>.
 
@@ -386,8 +371,8 @@ Markup Shorthands: css off
       Increment <var>s</var> by 1.
 
      <li>
-      While <var>sequence</var>[<var>s</var>] is a <a>whitespace
-      character</a>, continuously execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
+      following steps:
 
       <ol>
        <li>
@@ -409,9 +394,8 @@ Markup Shorthands: css off
         Append <var>extra</var> to <var>name</var>.
 
        <li>
-        While <var>sequence</var>[<var>s</var>] is not a <a>whitespace
-        character</a> and is not equal to the U+003D EQUALS SIGN character
-        ("<code>=</code>"), continuously execute the following
+        While <var>sequence</var>[<var>s</var>] is not <a>ASCII whitespace</a> and is not equal to
+        the U+003D EQUALS SIGN character ("<code>=</code>"), continuously execute the following
         steps:
 
         <ol>
@@ -434,16 +418,15 @@ Markup Shorthands: css off
           </ol>
 
          <li>
-          Append <var>sequence</var>[<var>s</var>], <a>converted to ASCII
-          lowercase</a>, to <var>name</var>.
+          Append <var>sequence</var>[<var>s</var>], <a>ASCII lowercased</a>, to <var>name</var>.
 
          <li>
           Increment <var>s</var> <span class=XXX>and <var>p</var></span> by 1.
         </ol>
 
        <li class=XXX>
-        While <var>sequence</var>[<var>s</var>] is a <a>whitespace
-        character</a>, continuously execute the following steps:
+        While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
+        following steps:
 
         <ol>
          <li>
@@ -466,8 +449,8 @@ Markup Shorthands: css off
       Initialize <var>parameters</var>[<var>name</var>] to null.
 
      <li>
-      While <var>sequence</var>[<var>s</var>] is a <a>whitespace
-      character</a>, continuously execute the following steps:
+      While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
+      following steps:
 
       <ol>
        <li>
@@ -538,8 +521,8 @@ Markup Shorthands: css off
 
       <ol>
        <li>
-        If <var>sequence</var>[<var>s</var>] is undefined or is a
-        <a>whitespace character</a> or is equal to the U+003B SEMICOLON
+        If <var>sequence</var>[<var>s</var>] is undefined or is
+        <a>ASCII whitespace</a> or is equal to the U+003B SEMICOLON
         character ("<code>;</code>"), execute the following steps:
 
         <ol>
@@ -594,7 +577,7 @@ Markup Shorthands: css off
 
   <li>
    Let <var>names</var> be a list of the keys in <var>parameters</var>,
-   <span class=XXX>sorted <a>ASCII
+   <span class=XXX>sorted <a lt="ASCII case-insensitive">ASCII
    case-insensitively</a> in ascending alphabetical order</span>.
 
   <li class=XXX>
@@ -619,7 +602,7 @@ Markup Shorthands: css off
        ("<code>;</code>") to <var>serialization</var>.
 
       <li>
-       Append <var>name</var>, <a>converted to ASCII lowercase</a>, to
+       Append <var>name</var>, <a>ASCII lowercased</a>, to
        <var>serialization</var>.
 
       <li>
@@ -666,7 +649,7 @@ Markup Shorthands: css off
      ("<code>;</code>") to <var>serialization</var>.
 
     <li>
-     Append <var>name</var>, <a>converted to ASCII lowercase</a>, to
+     Append <var>name</var>, <a>ASCII lowercased</a>, to
      <var>serialization</var>.
    </ol>
 
@@ -1630,7 +1613,7 @@ Markup Shorthands: css off
       <li> Increment <var>iter</var> by 2.
       <li> If <var>iter</var> is greater or equal than <var>length</var>, abort
       these steps.
-      <li> Let <var>doctype size</var> and <var>number size</var> be the result
+      <li> Let <var>number size</var> be the result
       of <a href=#parse-a-vint>parsing a <code>vint</code></a> starting at <var>sequence</var>[<var>iter</var>].
       <li> Increment <var>iter</var> by <var>number size</var>.
       <li> If <var>iter</var> is less than <var>length</var> - 4, abort these
@@ -3301,7 +3284,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- <a lt=fetch for=/>fetched</a> in a <a>plugin context</a>, execute
+ <a lt=fetch for=/>fetched</a> in a plugin context, execute
  the following <dfn>rules for sniffing in a plugin context</dfn>:
 
  <ol>
@@ -3319,7 +3302,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- <a lt=fetch for=/>fetched</a> in a <a>style context</a>, execute the
+ <a lt=fetch for=/>fetched</a> in a style context, execute the
  following <dfn>rules for sniffing in a style context</dfn>:
 
  <ol>
@@ -3336,7 +3319,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- <a lt=fetch for=/>fetched</a> in a <a>script context</a>, execute
+ <a lt=fetch for=/>fetched</a> in a script context, execute
  the following <dfn>rules for sniffing in a script context</dfn>:
 
  <ol>
