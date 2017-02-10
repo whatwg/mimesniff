@@ -153,7 +153,7 @@ Markup Shorthands: css off
  described in the <cite>Media Queries</cite> CSS specification. [[MEDIAQUERIES-4]]
 
 <p>
- A <dfn>parsable MIME type</dfn> is a <a>MIME type</a> for which the
+ A <dfn export>parsable MIME type</dfn> is a <a>MIME type</a> for which the
  <a>parse a MIME type</a> algorithm does not return undefined.
 
  Every <a>parsable MIME type</a> has a corresponding <dfn>parsed MIME
@@ -195,7 +195,7 @@ Markup Shorthands: css off
  excludes any and all <a>parameters</a>.
 
 <p>
- A <a>parsable MIME type</a> is <dfn>supported by the user agent</dfn>
+ A <a>parsable MIME type</a> is <dfn export>supported by the user agent</dfn>
  if the user agent has the capability to interpret a <a>resource</a> of
  that <a>MIME type</a> and present it to the user.
 
