@@ -27,10 +27,7 @@ If you want to preview the spec locally, you can either use a locally installed 
 running `make remote`.
 
 If you want to do a complete "local deploy" including commit and/or branch snapshots, run
-
-```
-./deploy.sh --local
-```
+`make deploy`.
 
 ### Merge policy
 
@@ -40,4 +37,4 @@ If you can commit to this repository, see the
 ### Tests
 
 Tests have not yet been created.
-[Contributions welcome!](https://github.com/w3c/web-platform-tests/issues/1851).
+[Contributions welcome!](https://github.com/w3c/web-platform-tests/issues/1851)
