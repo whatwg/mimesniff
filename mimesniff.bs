@@ -185,7 +185,7 @@ Markup Shorthands: css off
  type</a>.
 
 <p>
- The <dfn>MIME type portion</dfn> of a <a>parsable MIME type</a> is the
+ The <dfn export>MIME type portion</dfn> of a <a>parsable MIME type</a> is the
  result of <a lt="serialize a MIME type">serializing</a> the
  <a>type</a> and <a>subtype</a> of its <a>parsed MIME
  type</a> with null <a>parameters</a>.
