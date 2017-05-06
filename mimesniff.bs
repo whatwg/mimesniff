@@ -1042,41 +1042,19 @@ and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and ret
 
 <h3 id=matching-an-image-type-pattern>Matching an image type pattern</h3>
 
-<p>
- To determine which <a>image type</a> <a>byte pattern</a> a
- <a>byte sequence</a> matches, if any, use the following <dfn>image type
- pattern matching algorithm</dfn>:
+<p>To determine which <a>image type</a> <a>byte pattern</a> a <a>byte sequence</a> <var>input</var>
+matches, if any, use the following <dfn>image type pattern matching algorithm</dfn>:
 
  <ol>
-  <li>
-   Execute the following steps for each row in the following table:
+  <li><p>Execute the following steps for each row <var>row</var> in the following table:
 
    <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <a>pattern matching algorithm</a> with the following parameters:
+    <li><p>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+    given <var>input</var>, the value in the first column of <var>row</var>, the value in the second
+    column of <var>row</var>, and the value in the third column of <var>row</var>.
 
-     <ul>
-      <li>
-       Let the <a>byte sequence</a> to be matched be the <a>byte
-       sequence</a> to be matched.
-
-      <li>
-       Let the <a>byte pattern</a> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <a>pattern mask</a> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <a>bytes</a> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, return the value in the fourth
-     column of the current row.
+    <li><p>If <var>patternMatched</var> is true, return the value in the fourth column of
+    <var>row</var>.
    </ol>
 
    <table>
@@ -1251,49 +1229,27 @@ and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and ret
 
    </table>
 
-  <li>
-   Return undefined.
+  <li><p>Return undefined.
  </ol>
 
 
 
 <h3 id=matching-an-audio-or-video-type-pattern>Matching an audio or video type pattern</h3>
 
-<p>
- To determine which <a>audio or video type</a> <a>byte pattern</a>
- a <a>byte sequence</a> matches, if any, use the following <dfn>audio or
- video type pattern matching algorithm</dfn>:
+<p>To determine which <a>audio or video type</a> <a>byte pattern</a> a <a>byte sequence</a>
+<var>input</var> matches, if any, use the following <dfn>audio or video type pattern matching
+algorithm</dfn>:
 
  <ol>
-  <li>
-   Execute the following steps for each row in the following table:
+  <li><p>Execute the following steps for each row <var>row</var> in the following table:
 
    <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <a>pattern matching algorithm</a> with the following parameters:
+    <li><p>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+    given <var>input</var>, the value in the first column of <var>row</var>, the value in the second
+    column of <var>row</var>, and the value in the third column of <var>row</var>.
 
-     <ul>
-      <li>
-       Let the <a>byte sequence</a> to be matched be the <a>byte
-       sequence</a> to be matched.
-
-      <li>
-       Let the <a>byte pattern</a> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <a>pattern mask</a> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <a>bytes</a> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, return the value in the fourth
-     column of the current row.
+    <li><p>If <var>patternMatched</var> is true, return the value in the fourth column of
+    <var>row</var>.
    </ol>
 
    <table>
@@ -1455,20 +1411,15 @@ and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and ret
 
    </table>
 
-  <li>
-   If the <a>byte sequence</a> to be matched <a>matches the signature
-   for MP4</a>, return "<code>video/mp4</code>".
+  <li><p>If <var>input</var> <a>matches the signature for MP4</a>, return "<code>video/mp4</code>".
 
-  <li>
-   If the <a>byte sequence</a> to be matched <a>matches the signature
-   for WebM</a>, return "<code>video/webm</code>".
+  <li><p>If <var>input</var> <a>matches the signature for WebM</a>, return
+  "<code>video/webm</code>".
 
-  <li>
-   If the <a>byte sequence</a> to be matched <a>matches the signature
-   for MP3 without ID3</a>, return "<code>audio/mpeg</code>".
+  <li><p>If <var>input</var> <a>matches the signature for MP3 without ID3</a>, return
+  "<code>audio/mpeg</code>".
 
-  <li>
-   Return undefined.
+  <li><p>Return undefined.
  </ol>
 
 
@@ -1856,41 +1807,19 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 <h3 id=matching-a-font-type-pattern>Matching a font type pattern</h3>
 
-<p>
- To determine which <a>font type</a> <a>byte pattern</a> a
- <a>byte sequence</a> matches, if any, use the following <dfn>font type
- pattern matching algorithm</dfn>:
+<p>To determine which <a>font type</a> <a>byte pattern</a> a <a>byte sequence</a> <var>input</var>
+matches, if any, use the following <dfn>font type pattern matching algorithm</dfn>:
 
  <ol>
-  <li>
-   Execute the following steps for each row in the following table:
+  <li><p>Execute the following steps for each row <var>row</var> in the following table:
 
    <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <a>pattern matching algorithm</a> with the following parameters:
+    <li><p>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+    given <var>input</var>, the value in the first column of <var>row</var>, the value in the second
+    column of <var>row</var>, and the value in the third column of <var>row</var>.
 
-     <ul>
-      <li>
-       Let the <a>byte sequence</a> to be matched be the <a>byte
-       sequence</a> to be matched.
-
-      <li>
-       Let the <a>byte pattern</a> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <a>pattern mask</a> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <a>bytes</a> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, return the value in the fourth
-     column of the current row.
+    <li><p>If <var>patternMatched</var> is true, return the value in the fourth column of
+    <var>row</var>.
    </ol>
 
    <table>
@@ -2016,49 +1945,27 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
    </table>
 
-  <li>
-   Return undefined.
+  <li><p>Return undefined.
  </ol>
 
 
 
 <h3 id=matching-an-archive-type-pattern>Matching an archive type pattern</h3>
 
-<p>
- To determine which <a>archive type</a> <a>byte pattern</a> a
- <a>byte sequence</a> matches, if any, use the following <dfn>archive
- type pattern matching algorithm</dfn>:
+<p>To determine which <a>archive type</a> <a>byte pattern</a> a <a>byte sequence</a>
+<var>input</var> matches, if any, use the following <dfn>archive type pattern matching
+algorithm</dfn>:
 
  <ol>
-  <li>
-   Execute the following steps for each row in the following table:
+  <li><p>Execute the following steps for each row <var>row</var> in the following table:
 
    <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <a>pattern matching algorithm</a> with the following parameters:
+    <li><p>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+    given <var>input</var>, the value in the first column of <var>row</var>, the value in the second
+    column of <var>row</var>, and the value in the third column of <var>row</var>.
 
-     <ul>
-      <li>
-       Let the <a>byte sequence</a> to be matched be the <a>byte
-       sequence</a> to be matched.
-
-      <li>
-       Let the <a>byte pattern</a> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <a>pattern mask</a> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <a>bytes</a> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, return the value in the fourth
-     column of the current row.
+    <li><p>If <var>patternMatched</var> is true, return the value in the fourth column of
+    <var>row</var>.
    </ol>
 
    <table>
@@ -2140,8 +2047,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
    </table>
 
-  <li>
-   Return undefined.
+  <li><p>Return undefined.
  </ol>
 
 
@@ -2229,44 +2135,23 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
  when calling the <a>rules for identifying an unknown MIME type</a>,
  the <a>sniff-scriptable flag</a> must default to unset.
 
-<p>
- To determine the <a>computed MIME type</a> of a <a>resource</a>
- with an unknown <a>MIME type</a>, execute the following <dfn>rules for
- identifying an unknown MIME type</dfn>:
+<p>To determine the <a>computed MIME type</a> of a <a>resource</a> <var>resource</var> with an
+unknown <a>MIME type</a>, execute the following <dfn>rules for identifying an unknown MIME
+type</dfn>:
 
  <ol>
   <li>
-   If the <a>sniff-scriptable flag</a> is set, execute the following
-   steps for each row in the following table:
+   <p>If the <a>sniff-scriptable flag</a> is set, execute the following steps for each row
+   <var>row</var> in the following table:
 
    <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <a>pattern matching algorithm</a> with the following parameters:
+    <li><p>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+    given <var>resource</var>'s <a>resource header</a>, the value in the first column of
+    <var>row</var>, the value in the second column of <var>row</var>, and the value in the third
+    column of <var>row</var>.
 
-     <ul>
-      <li>
-       Let the <a>byte sequence</a> to be matched be the <a>resource
-       header</a>.
-
-      <li>
-       Let the <a>byte pattern</a> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <a>pattern mask</a> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <a>bytes</a> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, the <a>computed MIME
-     type</a> is the value in the fourth column of the current row.
-
-     Abort these steps.
+    <li><p>If <var>patternMatched</var> is true, return the value in the fourth column of
+    <var>row</var>.
    </ol>
 
    <table>
@@ -2637,36 +2522,16 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
     What about feeds?
 
   <li>
-   Execute the following steps for each row in the following table:
+   <p>Execute the following steps for each row <var>row</var> in the following table:
 
    <ol>
-    <li>
-     Let <var>pattern-matched</var> be the result of executing the
-     <a>pattern matching algorithm</a> with the following parameters:
+    <li><p>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+    given <var>resource</var>'s <a>resource header</a>, the value in the first column of
+    <var>row</var>, the value in the second column of <var>row</var>, and the value in the third
+    column of <var>row</var>.
 
-     <ul>
-      <li>
-       Let the <a>byte sequence</a> to be matched be the <a>resource
-       header</a>.
-
-      <li>
-       Let the <a>byte pattern</a> to be matched against be the value in
-       the first column of the current row.
-
-      <li>
-       Let the <a>pattern mask</a> be the value in the second column of
-       the current row.
-
-      <li>
-       Let the leading <a>bytes</a> to be ignored be the
-       value in the third column of the current row.
-     </ul>
-
-    <li>
-     If <var>pattern-matched</var> is true, the <a>computed MIME
-     type</a> is the value in the fourth column of the current row.
-
-     Abort these steps.
+    <li><p>If <var>patternMatched</var> is true, return the value in the fourth column of
+    <var>row</var>.
    </ol>
 
    <table>
@@ -2761,39 +2626,25 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
    </table>
 
-   <p>
-    User agents may implicitly extend this table to support additional
-    <a>parsable MIME types</a>.
+   <p>User agents may implicitly extend this table to support additional <a>parsable MIME types</a>.
 
-    However, user agents should not implicitly extend this table to include
-    additional <a>byte patterns</a> for any
-    <a>computed MIME type</a> already present in this table, as doing so
-    could introduce privilege escalation vulnerabilities.
+   <p>However, user agents should not implicitly extend this table to include additional
+   <a>byte patterns</a> for any <a>computed MIME type</a> already present in this table, as doing so
+   could introduce privilege escalation vulnerabilities.
 
-    User agents must not introduce any privilege escalation vulnerabilities
-    when extending this table.
+   <p>User agents must not introduce any privilege escalation vulnerabilities when extending this
+   table.
 
-  <li>
-   Let <var>matched-type</var> be the result of executing the <a>image type
-   pattern matching algorithm</a> with the <a>resource header</a> as
-   the <a>byte sequence</a> to be matched.
+  <li><p>Let <var>matchedType</var> be the result of executing the
+  <a>image type pattern matching algorithm</a> given <var>resource</var>'s <a>resource header</a>.
 
-  <li>
-   If <var>matched-type</var> is not undefined, the <a>computed MIME
-   type</a> is <var>matched-type</var>.
+  <li><p>If <var>matchedType</var> is not undefined, return <var>matchedType</var>.
 
-   Abort these steps.
+  <li><p>Set <var>matchedType</var> to the result of executing the
+  <a>audio or video type pattern matching algorithm</a> given <var>resource</var>'s
+  <a>resource header</a>.
 
-  <li>
-   Let <var>matched-type</var> be the result of executing the <a>audio or
-   video type pattern matching algorithm</a> with the <a>resource
-   header</a> as the <a>byte sequence</a> to be matched.
-
-  <li>
-   If <var>matched-type</var> is not undefined, the <a>computed MIME
-   type</a> is <var>matched-type</var>.
-
-   Abort these steps.
+  <li><p>If <var>matchedType</var> is not undefined, return <var>matchedType</var>.
 
   <!-- Major browsers do not implement font sniffing in the regular browsing context.
   <li>
@@ -2808,27 +2659,16 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
    Abort these steps.
   -->
 
-  <li>
-   Let <var>matched-type</var> be the result of executing the <a>archive
-   type pattern matching algorithm</a> with the <a>resource
-   header</a> as the <a>byte sequence</a> to be matched.
+  <li><p>Set <var>matchedType</var> to the result of executing the
+  <a>archive type pattern matching algorithm</a> given <var>resource</var>'s
+  <a>resource header</a>.
 
-  <li>
-   If <var>matched-type</var> is not undefined, the <a>computed MIME
-   type</a> is <var>matched-type</var>.
+  <li><p>If <var>matchedType</var> is not undefined, return <var>matchedType</var>.
 
-   Abort these steps.
+  <li><p>If <var>resource</var>'s <a>resource header</a> contains no <a>binary data bytes</a>,
+  return  "<code>text/plain</code>".
 
-  <li>
-   If the <a>resource header</a> contains no
-   <a>binary data bytes</a>, the <a>computed
-   MIME type</a> is "<code>text/plain</code>".
-
-   Abort these steps.
-
-  <li>
-   The <a>computed MIME type</a> is
-   "<code>application/octet-stream</code>".
+  <li><p>Return "<code>application/octet-stream</code>".
  </ol>
 
 
@@ -3367,6 +3207,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
  Jonathan Neal,
  Joshua Cranmer,
  Larry Masinter,
+ Mariko Kosaka,
  Mark Pilgrim,
  Paul Adenot,
  Peter Occil,
