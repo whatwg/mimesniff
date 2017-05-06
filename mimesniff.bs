@@ -995,80 +995,48 @@ Markup Shorthands: css off
  significant in an ASCII case-insensitive way, and 0x00 indicates that the
  <a>byte</a> is not significant.
 
-<p>
- To determine whether a <a>byte sequence</a> matches a particular
- <a>byte pattern</a>, use the following <dfn>pattern matching
- algorithm</dfn>:
+<p>To determine whether a <a>byte sequence</a> matches a particular <a>byte pattern</a>, use the
+following <dfn>pattern matching algorithm</dfn>. It is given a <a>byte sequence</a>
+<var>input</var>, a <a>byte pattern</a> <var>pattern</var>, a <a>pattern mask</a> <var>mask</var>,
+and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and returns true or false.
 
- <ol>
-  <li>
-   Let <var>sequence</var> be the <a>byte sequence</a> to be matched,
-   where <var>sequence</var>[<var>s</var>] is <a>byte</a> <var>s</var>
-   in <var>sequence</var> and <var>sequence</var>[0] is the first
-   <a>byte</a> in <var>sequence</var>.
+<ol>
+ <li><p>Assert: <var>pattern</var>'s <a for="byte sequence">length</a> is equal to
+ <var>mask</var>'s <a for="byte sequence">length</a>.
 
-  <li>
-   Let <var>pattern</var> be the <a>byte pattern</a> to be matched
-   against, where <var>pattern</var>[<var>p</var>] is <a>byte</a>
-   <var>p</var> in <var>pattern</var> and <var>pattern</var>[0] is the first
-   <a>byte</a> in <var>pattern</var>.
+ <li><p>If <var>input</var>'s <a for="byte sequence">length</a> is less than <var>pattern</var>'s
+ <a for="byte sequence">length</a>, return false.
 
-  <li>
-   Let <var>mask</var> be the <a>pattern mask</a>, where
-   <var>mask</var>[<var>m</var>] is <a>byte</a> <var>m</var> in
-   <var>mask</var> and <var>mask</var>[0] is the first <a>byte</a> in
-   <var>mask</var>.
+ <li><p>Let <var>s</var> be 0.
 
-  <li>
-   Let <var>length</var> be the number of <a>bytes</a> in
-   <var>pattern</var>, which is equal to the number of
-   <a>bytes</a> in <var>mask</var>.
+ <li>
+  <p>While <var>s</var> &lt; <var>input</var>'s <a for="byte sequence">length</a>:
 
-  <li>
-   If the number of <a>bytes</a> in <var>sequence</var> is
-   less than <var>length</var>, return false.
+  <ol>
+   <li><p>If <var>ignored</var> does not <a for=set>contain</a> <var>input</var>[<var>s</var>],
+   <a for=iteration>break</a>.
 
-  <li>
-   Initialize <var>s</var>, <var>p</var>, and <var>m</var> to 0.
+   <li><p>Set <var>s</var> to <var>s</var> + 1.
+  </ol>
 
-  <li>
-   Enter loop <var>L</var>:
+ <li><p>Let <var>p</var> be 0.
 
-   <ol>
-    <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, return false.
+ <li>
+  <p>While <var>p</var> &lt; <var>pattern</var>'s <a for="byte sequence">length</a>:
 
-    <li>
-     If <var>sequence</var>[<var>s</var>] is not one of the leading
-     <a>bytes</a> to be ignored, exit loop <var>L</var>.
+  <ol>
+   <li><p>Let <var>maskedData</var> be the result of applying the bitwise AND operator to
+   <var>input</var>[<var>s</var>] and <var>mask</var>[<var>p</var>].
 
-    <li>
-     Increment <var>s</var> by 1.
-   </ol>
+   <li><p>If <var>maskedData</var> is not equal to <var>pattern</var>[<var>p</var>], return false.
 
-  <li>
-   Enter loop <var>L</var>:
+   <li><p>Set <var>s</var> to <var>s</var> + 1.
 
-   <ol>
-    <li>
-     If <var>pattern</var>[<var>p</var>] is undefined, exit loop <var>L</var>.
+   <li><p>Set <var>p</var> to <var>p</var> + 1.
+  </ol>
 
-    <li>
-     Let <var>masked-data</var> be the result of applying the bitwise AND
-     operator to <var>sequence</var>[<var>s</var>] and
-     <var>mask</var>[<var>m</var>].
-
-    <li>
-     If <var>masked-data</var> is not equal to
-     <var>pattern</var>[<var>p</var>], return false.
-
-    <li>
-     Increment <var>s</var>, <var>p</var>, and <var>m</var> by 1.
-   </ol>
-
-  <li>
-   Return true.
- </ol>
+ <li><p>Return true.
+</ol>
 
 
 
