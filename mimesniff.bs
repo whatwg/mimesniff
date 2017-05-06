@@ -741,7 +741,7 @@ Markup Shorthands: css off
 <p>
  An <dfn export>XML MIME type</dfn> is any <a>parsable MIME type</a> where either the <a>subtype</a>
  ends in "<code>+xml</code>", or the <a>MIME type portion</a> is equal to "<code>text/xml</code>" or
- "<code>application/xml</code>". [[!RFC3023]]
+ "<code>application/xml</code>". [[!RFC7303]]
 
 <p>
  An <dfn export>HTML MIME type</dfn> is any <a>parsable MIME type</a> where the
