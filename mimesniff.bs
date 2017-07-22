@@ -965,7 +965,7 @@ Markup Shorthands: css off
     algorithm</a> will be deterministic for the majority of cases.
 
     However, certain factors (such as a slow connection) may prevent the
-    user agent from reading 512 <a>bytes</a> in a
+    user agent from reading 1445 <a>bytes</a> in a
     reasonable amount of time.
 
    <li>
@@ -3207,6 +3207,7 @@ type</dfn>:
  Jonathan Neal,
  Joshua Cranmer,
  Larry Masinter,
+ 罗泽轩,
  Mariko Kosaka,
  Mark Pilgrim,
  Paul Adenot,
