@@ -240,11 +240,20 @@ Indent: 1
    <li><p><a>Skip ASCII whitespace</a> within <var>input</var> given <var>position</var>.
 
    <li><p>Let <var>parameterName</var> be the result of <a>collecting a sequence of code points</a>
-   that are not U+003D (=) from <var>input</var>, given <var>position</var>.
+   that are not U+003B (;) or U+003D (=) from <var>input</var>, given <var>position</var>.
 
-   <li><p>If <var>position</var> is not past the end of <var>input</var>, then advance
-   <var>position</var> to the next <a>code point</a> in <var>input</var>. (This skips past
-   U+003D (=).)
+   <li><p>Set <var>parameterName</var> to <var>parameterName</var>, in <a>ASCII lowercase</a>.
+
+   <li>
+    <p>If <var>position</var> is not past the end of <var>input</var>, then:
+
+    <ol>
+     <li><p>If the current <a>code point</a> in <var>input</var> is U+003B (;), then
+     <a for=iteration>continue</a>.
+
+     <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>. (This
+     skips past U+003D (=).)
+    </ol>
 
    <li><p><a>Skip ASCII whitespace</a> within <var>input</var> given <var>position</var>.
    <!-- This is against the RFC, but all browsers do it consistently. -->
