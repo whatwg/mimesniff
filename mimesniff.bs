@@ -201,349 +201,94 @@ Indent: 1
 
 <h3 id=parsing-a-mime-type>Parsing a MIME type</h3>
 
-<p>
- To <dfn>parse a MIME type</dfn>, the user agent must execute the following
- steps:
+<p>To <dfn export>parse a MIME type</dfn>, given a string <var>input</var>, run these steps:
 
- <ol>
-  <li>
-   Let <var>sequence</var> be the <a>byte sequence</a> of the <a>MIME
-   type</a>, where <var>sequence</var>[<var>s</var>] is <a>byte</a>
-   <var>s</var> in <var>sequence</var> and <var>sequence</var>[0] is the first
-   <a>byte</a> in <var>sequence</var>.
+<ol>
+ <li><p>Remove any leading and trailing <a>ASCII whitespace</a> from <var>input</var>.
 
-  <li>
-   If the number of <a>bytes</a> in <var>sequence</var> is
-   less than 1, return undefined.
+ <li><p>If <var>input</var> is the empty string, then return missing.
 
-  <li>
-   Initialize <var>s</var> to 0.
+ <li><p>Let <var>position</var> be a position variable for <var>input</var>, initially pointing at
+ the start of <var>input</var>.
 
-  <li>
-   Initialize <var>type</var> and <var>subtype</var> to the empty string
-   ("<code></code>").
+ <li><p>Let <var>type</var> be the result of <a>collecting a sequence of code points</a> that are
+ not U+002F (/) from <var>input</var>, given <var>position</var>.
 
-  <li>
-   Initialize <var>parameters</var> to the empty dictionary ({}).
+ <li><p>If <var>position</var> is past the end of <var>input</var>, then return failure.
 
-  <li>
-   While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>,
-   continuously execute the following steps:
+ <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>. (This skips
+ past U+002F (/).)
 
-   <ol>
-    <li>
-     Increment <var>s</var> by 1.
+ <li><p>Let <var>subtype</var> be the result of <a>collecting a sequence of code points</a> that are
+ not U+003B (;) from <var>input</var>, given <var>position</var>.
 
-    <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
-   </ol>
+ <li><p>Remove any trailing <a>ASCII whitespace</a> from <var>subtype</var>.
 
-  <li class=XXX>
-   Initialize <var>t</var> to 0.
+ <li><p>If <var>subtype</var> is the empty string, then return failure.
 
-  <li>
-   While <var>sequence</var>[<var>s</var>] is not equal to the U+002F SOLIDUS
-   character ("<code>/</code>"), continuously execute the
-   following steps:
+ <li><p>Let <var>mimeType</var> be a new <a>MIME type record</a> whose <a for="MIME type">type</a>
+ is <var>type</var>, in <a>ASCII lowercase</a>, and <a for="MIME type">subtype</a> is
+ <var>subtype</var>, in <a>ASCII lowercase</a>.
 
-   <ol>
-    <li class=XXX>
-     If <var>t</var> is greater than 127, return undefined.
+ <li>
+  <p>While <var>position</var> is not past the end of <var>input</var>:
 
-    <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, return undefined.
+  <ol>
+   <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>. (This skips
+   past U+003B (;).)
 
-    <li>
-     Append <var>sequence</var>[<var>s</var>], <a>ASCII lowercased</a>, to <var>type</var>.
+   <li><p><a>Skip ASCII whitespace</a> within <var>input</var> given <var>position</var>.
 
-    <li>
-     Increment <var>s</var> <span class=XXX>and <var>t</var></span> by 1.
-   </ol>
+   <li><p>Let <var>parameterName</var> be the result of <a>collecting a sequence of code points</a>
+   that are not U+003D (=) from <var>input</var>, given <var>position</var>.
 
-  <li>
-   Increment <var>s</var> by 1.
+   <li><p>If <var>position</var> is not past the end of <var>input</var>, then advance
+   <var>position</var> to the next <a>code point</a> in <var>input</var>. (This skips past
+   U+003D (=).)
 
-  <li class=XXX>
-   Initialize <var>u</var> to 0.
+   <li><p><a>Skip ASCII whitespace</a> within <var>input</var> given <var>position</var>.
+   <!-- This is against the RFC, but all browsers do it consistently. -->
 
-  <li>
-   While <var>sequence</var>[<var>s</var>] is not <a>ASCII whitespace</a>
-   and is not equal to the U+003B SEMICOLON character
-   ("<code>;</code>"), continuously execute the following steps:
-
-   <ol>
-    <li class=XXX>
-     If <var>u</var> is greater than 127, return undefined.
-
-    <li>
-     If <var>sequence</var>[<var>s</var>] is undefined, return
-     <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-
-    <li>
-     Append <var>sequence</var>[<var>s</var>], <a>ASCII lowercased</a>, to <var>subtype</var>.
-
-    <li>
-     Increment <var>s</var> <span class=XXX>and <var>u</var></span> by 1.
-   </ol>
+   <li><p>Let <var>parameterValue</var> be null.
 
    <li>
-    Enter loop <var>L</var>:
+    <p>If <var>position</var> is not past the end of <var>input</var>, then:
 
     <ol>
      <li>
-      Enter loop <var>M</var>:
+      <p>If the current <a>code point</a> in <var>input</var> is U+0022 ("), then advance
+      <var>position</var> to the next <a>code point</a> in <var>input</var> and:
 
       <ol>
-       <li>
-        If <var>sequence</var>[<var>s</var>] is undefined or is equal to the
-        U+003B SEMICOLON character ("<code>;</code>"), exit loop
-        <var>M</var>.
+       <li><p>Set <var>parameterValue</var> to the result of <a>collecting a sequence of code
+       points</a> that are not U+0022 (") from <var>input</var>, given <var>position</var>.
 
-       <li>
-        While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
-        following steps:
-
-        <ol>
-         <li>
-          Increment <var>s</var> by 1.
-        </ol>
-
-       <li>
-        If <var>sequence</var>[<var>s</var>] is equal to the U+0022 QUOTATION
-        MARK character ("<code>"</code>"), execute the following
-        steps:
-
-        <ol>
-         <li>
-          Increment <var>s</var> by 1.
-
-         <li>
-          Enter loop <var>N</var>:
-
-          <ol>
-           <li>
-            If <var>sequence</var>[<var>s</var>] is undefined or is equal to
-            the U+0022 QUOTATION MARK character
-            ("<code>"</code>"), execute the following steps:
-
-            <ol>
-             <li>
-              If <var>sequence</var>[<var>s</var>] is equal to the U+0022
-              QUOTATION MARK character ("<code>"</code>"),
-              increment <var>s</var> by 1.
-
-             <li>
-              Exit loop <var>N</var>.
-            </ol>
-
-           <li>
-            If <var>sequence</var>[<var>s</var>] is equal to the U+005C
-            REVERSE SOLIDUS character ("<code>\</code>") and
-            <var>sequence</var>[<var>s</var> + 1] is not undefined, increment
-            <var>s</var> by 1.
-
-           <li>
-            Increment <var>s</var> by 1.
-          </ol>
-        </ol>
-
-        Otherwise, enter loop <var>N</var>:
-
-        <ol>
-         <li>
-          If <var>sequence</var>[<var>s</var>] is undefined or is
-          <a>ASCII whitespace</a> or is equal to the U+003B
-          SEMICOLON character ("<code>;</code>"), exit loop
-          <var>N</var>.
-
-         <li>
-          Increment <var>s</var> by 1.
-        </ol>
+       <li><p>If <var>position</var> is not past the end of <var>input</var>, then <a>collect a
+       sequence of code points</a> that are not U+003B (;) from <var>input</var>, given
+       <var>position</var>.
+       <!-- Only Safari is suitably strict. Suspect other browsers do not want to align. -->
       </ol>
 
      <li>
-      If <var>sequence</var>[<var>s</var>] is undefined, return
-      <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-
-     <li>
-      Increment <var>s</var> by 1.
-
-     <li>
-      While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
-      following steps:
+      <p>Otherwise:
 
       <ol>
-       <li>
-        Increment <var>s</var> by 1.
-      </ol>
+       <li><p>Set <var>parameterValue</var> to the result of <a>collecting a sequence of code
+       points</a> that are not U+003B (;) from <var>input</var>, given <var>position</var>.
 
-     <li>
-      Initialize <var>name</var> and <var>extra</var> to the empty string
-      ("<code></code>").
-
-     <li class=XXX>
-      Initialize <var>p</var> to 0.
-
-     <li>
-      Enter loop <var>M</var>:
-
-      <ol>
-       <li class=XXX>
-        Append <var>extra</var> to <var>name</var>.
-
-       <li>
-        While <var>sequence</var>[<var>s</var>] is not <a>ASCII whitespace</a> and is not equal to
-        the U+003D EQUALS SIGN character ("<code>=</code>"), continuously execute the following
-        steps:
-
-        <ol>
-         <li class=XXX>
-          If <var>p</var> is greater than 127, return undefined.
-
-         <li>
-          If <var>sequence</var>[<var>s</var>] is undefined, execute the
-          following steps:
-
-          <ol>
-           <li>
-            If <var>name</var> is not equal to the empty string
-            ("<code></code>") and <var>parameters</var>[<var>name</var>]
-            is undefined, set <var>parameters</var>[<var>name</var>] to null.
-
-           <li>
-            Return <var>type</var>, <var>subtype</var>, and
-            <var>parameters</var>.
-          </ol>
-
-         <li>
-          Append <var>sequence</var>[<var>s</var>], <a>ASCII lowercased</a>, to <var>name</var>.
-
-         <li>
-          Increment <var>s</var> <span class=XXX>and <var>p</var></span> by 1.
-        </ol>
-
-       <li class=XXX>
-        While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
-        following steps:
-
-        <ol>
-         <li>
-          Append <var>sequence</var>[<var>s</var>] to <var>extra</var>.
-
-         <li>
-          Increment <var>s</var> <span class=XXX>and <var>p</var></span> by 1.
-        </ol>
-
-       <li>
-        If <var>sequence</var>[<var>s</var>] is equal to the U+003D EQUALS
-        SIGN character ("<code>=</code>"), exit loop
-        <var>M</var>.
-      </ol>
-
-     <li>
-      Increment <var>s</var> by 1.
-
-     <li>
-      Initialize <var>parameters</var>[<var>name</var>] to null.
-
-     <li>
-      While <var>sequence</var>[<var>s</var>] is <a>ASCII whitespace</a>, continuously execute the
-      following steps:
-
-      <ol>
-       <li>
-        Increment <var>s</var> by 1.
-      </ol>
-
-     <li>
-      Initialize <var>value</var> to the empty string ("<code></code>").
-
-     <li>
-      If <var>sequence</var>[<var>s</var>] is undefined, execute the following
-      steps:
-
-      <ol>
-       <li>
-        Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-       <li>
-        Return <var>type</var>, <var>subtype</var>, and <var>parameters</var>.
-      </ol>
-
-     <li>
-      If <var>sequence</var>[<var>s</var>] is equal to the U+0022 QUOTATION
-      MARK character ("<code>"</code>"), execute the following
-      steps:
-
-      <ol>
-       <li>
-        Increment <var>s</var> by 1.
-
-       <li>
-        Enter loop <var>M</var>:
-
-        <ol>
-         <li>
-          If <var>sequence</var>[<var>s</var>] is undefined or is equal to the
-          U+0022 QUOTATION MARK character ("<code>"</code>"),
-          execute the following steps:
-
-          <ol>
-           <li>
-            Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-           <li>
-            If <var>sequence</var>[<var>s</var>] is equal to the U+0022
-            QUOTATION MARK character ("<code>"</code>"),
-            increment <var>s</var> by 1.
-
-           <li>
-            Exit loop <var>M</var>.
-          </ol>
-
-         <li>
-          If <var>sequence</var>[<var>s</var>] is equal to the U+005C REVERSE
-          SOLIDUS character ("<code>\</code>") and
-          <var>sequence</var>[<var>s</var> + 1] is not undefined, increment
-          <var>s</var> by 1.
-
-         <li>
-          Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
-
-         <li>
-          Increment <var>s</var> by 1.
-        </ol>
-      </ol>
-
-      Otherwise, enter loop <var>M</var>:
-
-      <ol>
-       <li>
-        If <var>sequence</var>[<var>s</var>] is undefined or is
-        <a>ASCII whitespace</a> or is equal to the U+003B SEMICOLON
-        character ("<code>;</code>"), execute the following steps:
-
-        <ol>
-         <li>
-          Set <var>parameters</var>[<var>name</var>] to <var>value</var>.
-
-         <li>
-          Exit loop <var>M</var>.
-        </ol>
-
-       <li>
-        Append <var>sequence</var>[<var>s</var>] to <var>value</var>.
-
-       <li>
-        Increment <var>s</var> by 1.
+       <li><p>Remove any trailing <a>ASCII whitespace</a> from <var>parameterValue</var>.
       </ol>
     </ol>
- </ol>
 
-<p class=note>
- The <a>parse a MIME type</a> algorithm is intended to be executed after
- any protocol-specific syntax within the <a>MIME type</a> has been
- handled.
+   <li><p>If <var>parameterName</var> and <var>parameterValue</var> are not the empty string, and
+   <var>mimeType</var>'s <a for="MIME type">parameters</a>[<var>parameterName</var>]
+   <a for=map lt=exist>does not exist</a>, then <a for=map>set</a> <var>mimeType</var>'s
+   <a for="MIME type">parameters</a>[<var>parameterName</var>] to <var>parameterValue</var>.
+   <!-- Chrome and Firefox implement last wins. -->
+  </ol>
+
+ <li><p>Return <var>mimeType</var>
+</ol>
 
 
 
