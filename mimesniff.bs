@@ -139,63 +139,58 @@ Indent: 1
   represented by ~.
 
 
-<h2 id=understanding-mime-types>Understanding MIME types</h2>
+<h2 id=understanding-mime-types>MIME types</h2>
 
-<p>
- The <dfn export>MIME type</dfn> of a <a>resource</a> is a technical hint about the use and format
- of that <a>resource</a>. [[!MIMETYPE]]
+<h3 id=mime-type-representation>MIME type representation</h3>
 
-<p class=note>
- A <a>MIME type</a> is sometimes called an <i>Internet media type</i> in protocol literature, but
- consistently using the term <a>MIME type</a> avoids confusion with the use of "media type" as
- described in the <cite>Media Queries</cite> CSS specification. [[MEDIAQUERIES-4]]
+<p>A <dfn export lt="MIME type|MIME type record">MIME type</dfn> represents an
+<i>internet media type</i> as defined by
+<cite>Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</cite>. It can also be
+referred to as a <a>MIME type record</a>. [[!MIMETYPE]]
 
-<p>
- A <dfn export>parsable MIME type</dfn> is a <a>MIME type</a> for which the
- <a>parse a MIME type</a> algorithm does not return undefined.
+<p class=note>Standards are encouraged to consistently use the term <a>MIME type</a> to avoid
+confusion with the use of <i>media type</i> as described in <cite>Media Queries</cite>.
+[[MEDIAQUERIES]]
 
- Every <a>parsable MIME type</a> has a corresponding <dfn>parsed MIME
- type</dfn>, which is the result of
- <a lt="parse a MIME type">parsing</a> the <a>parsable MIME
- type</a>.
+<p>A <a>MIME type</a>'s <dfn for="MIME type">type</dfn> is a non-empty <a>ASCII string</a>.
 
- A <a>parsed MIME type</a> is made up of a <dfn>type</dfn>, a
- <dfn>subtype</dfn>, and a dictionary of <dfn>parameters</dfn>.
+<p>A <a>MIME type</a>'s <dfn for="MIME type">subtype</dfn> is a non-empty <a>ASCII string</a>.
 
-<p>
- A <dfn export>valid MIME type</dfn> is a string that matches the
- <code>media-type</code> rule defined in
- <a href="https://tools.ietf.org/html/rfc7231#section-3.1.1.1">section 3.1.1.1 "Media Type" of RFC
- 7231</a>. In particular, a <a>valid MIME type</a> may include <a>parameters</a>. [[!RFC7231]]
+<p>A <a>MIME type</a>'s <dfn for="MIME type">parameters</dfn> is an <a>ordered map</a>. It is
+initially empty.
 
-<p class=XXX>
- TODO: give an example of a string that is a <a>parsable MIME type</a> but not a
- <a>valid MIME type</a>.
+<h3 id=mime-type-miscellaneous>MIME type miscellaneous</h3>
 
-<p>
-  A <dfn export>valid MIME type with no parameters</dfn> is a <a>MIME type</a> that does not contain
-  any U+003B SEMICOLON (;) characters. In other words, it consists only of a <a>type</a> and
-  <a>subtype</a>, with no <a>parameters</a>.
+<p>The <dfn export for="MIME type">essence</dfn> of a <a>MIME type</a> <var>mimeType</var> is the
+result of <a lt="serialize a MIME type">serializing</a> <var>mimeType</var> with
+<var>exclude parameters</var> set to true.
 
-<p>
- A <dfn>serialized MIME type</dfn> is the result of
- <a lt="serialize a MIME type">serializing</a> a <a>parsed MIME
- type</a>.
+<p>A <a>MIME type</a> is <dfn export>supported by the user agent</dfn> if the user agent has the
+capability to interpret a <a>resource</a> of that <a>MIME type</a> and present it to the user.
 
-<p>
- The <dfn export>MIME type portion</dfn> of a <a>parsable MIME type</a> is the
- result of <a lt="serialize a MIME type">serializing</a> the
- <a>type</a> and <a>subtype</a> of its <a>parsed MIME
- type</a> with null <a>parameters</a>.
+<p class=XXX>This needs more work. See
+<a href=https://github.com/w3c/preload/issues/113>w3c/preload #113</a>.
 
-<p class=note>
- The <a>MIME type portion</a> of a <a>parsable MIME type</a>
- excludes any and all <a>parameters</a>.
 
-<p>
- A <a>parsable MIME type</a> is <dfn export>supported by the user agent</dfn>
- if the user agent has the capability to interpret a <a>resource</a> of
- that <a>MIME type</a> and present it to the user.
+<h3 id=mime-type-writing>MIME type writing</h3>
+
+<p>A <dfn export>valid MIME type string</dfn> is a string that matches the <code>media-type</code>
+production defined in
+<a href="https://tools.ietf.org/html/rfc7231#section-3.1.1.1">section 3.1.1.1 "Media Type" of RFC 7231</a>.
+In particular, a <a>valid MIME type</a> may include <a>parameters</a>. [[!RFC7231]]
+
+<p class=note>A <a>valid MIME type string</a> is supposed to be used for conformance checkers only.
+
+<div class=example id=example-valid-mime-type-string>
+ <p>"<code>text/html</code>" is a <a>valid MIME type string</a>.
+
+ <p>"<code>text/html;</code>" is not a <a>valid MIME type string</a>, though
+ <a>parse a MIME type</a> returns a <a>MIME type record</a> for it identical to if the input had
+ been "<code>text/html</code>".
+</div>
+
+<p>A <dfn export>valid MIME type string with no parameters</dfn> is a <a>valid MIME type string</a>
+that does not contain U+003B (;).
 
 
 
@@ -300,118 +295,37 @@ Indent: 1
 </ol>
 
 
-
 <h3 id=serializing-a-mime-type>Serializing a MIME type</h3>
 
-<p>
- To <dfn>serialize a MIME type</dfn>, given a <var>type</var>, a
- <var>subtype</var>, and a dictionary of <var>parameters</var>, execute the
- following steps:
+<p>To <dfn export>serialize a MIME type</dfn>, given a <a>MIME type</a> <var>mimeType</var> and an
+optional boolean <var>exclude parameters</var>, run these steps:
 
- <ol>
-  <li>
-   If <var>type</var> is undefined, is null, is equal to the empty string
-   ("<code></code>"), or <span class=XXX>has a length greater than
-   127</span>, return undefined.
+<ol>
+ <li><p>If <var>exclude parameters</var> is not given, then set it to false.
 
-  <li>
-   If <var>subtype</var> is undefined, is null, or <span class=XXX>has a
-   length greater than 127</span>, return undefined.
+ <li><p>Let <var>serialization</var> be the concatenation of <var>mimeType</var>'s
+ <a for="MIME type">type</a>, U+002F ("<code>/</code>"), and <var>mimeType</var>'s
+ <a for="MIME type">subtype</a>.
 
-  <li>
-   Let <var>serialization</var> be the concatenation of <var>type</var>, the
-   U+002F SOLIDUS character ("<code>/</code>"), and
-   <var>subtype</var>.
+ <li><p>If <var>exclude parameters is true or <var>mimeType</var>'s
+ <a for="MIME type">parameters</a> <a for=map>is empty</a>, then return <var>serialization</var>.
 
-  <li>
-   If <var>parameters</var> is undefined or is null, return
-   <var>serialization</var>.
+ <li>
+  <p><a for=map>For each</a> <var>name</var> → <var>value</var> of <var>mimeType</var>'s
+  <a for="MIME type">parameters</a>:
 
-  <li>
-   Let <var>names</var> be a list of the keys in <var>parameters</var>,
-   <span class=XXX>sorted <a lt="ASCII case-insensitive">ASCII
-   case-insensitively</a> in ascending alphabetical order</span>.
+  <ol>
+   <li><p>Append U+003B (;) to <var>serialization</var>.
 
-  <li class=XXX>
-   Should this special-case the "<code>charset</code>" or
-   "<code>codecs</code>" parameters first?
+   <li><p>Append <var>name</var> to <var>serialization</var>.
 
-  <li>
-   For each item <var>name</var> in <var>names</var>, execute the following
-   steps:
+   <li><p>Append U+003D (=) to <var>serialization</var>.
 
-   <ol>
-    <li class=XXX>
-     If <var>name</var> has a length greater than 127, return undefined.
+   <li><p>Append <var>value</var> to <var>serialization</var>.
+  </ol>
 
-    <li>
-     If <var>parameters</var>[<var>name</var>] is not null, execute the
-     following steps:
-
-     <ol>
-      <li>
-       Append the U+003B SEMICOLON character
-       ("<code>;</code>") to <var>serialization</var>.
-
-      <li>
-       Append <var>name</var>, <a>ASCII lowercased</a>, to
-       <var>serialization</var>.
-
-      <li>
-       Append the U+003D EQUALS SIGN character
-       ("<code>=</code>") to <var>serialization</var>.
-
-      <li>
-       Append the U+0022 QUOTATION MARK character
-       ("<code>"</code>") to <var>serialization</var>.
-
-      <li>
-       For each character <var>char</var> in
-       <var>parameters</var>[<var>name</var>], execute the following steps:
-
-       <ol>
-        <li>
-         If <var>char</var> is equal to the U+0022 QUOTATION MARK
-         character ("<code>"</code>") or to the
-         U+005C REVERSE SOLIDUS character
-         ("<code>\</code>"), append the U+005C REVERSE SOLIDUS
-         character ("<code>\</code>") to
-         <var>serialization</var>.
-
-        <li>
-         Append <var>char</var> to <var>serialization</var>.
-       </ol>
-
-      <li>
-       Append the U+0022 QUOTATION MARK character
-       ("<code>"</code>") to <var>serialization</var>.
-
-      <li>
-       Remove <var>name</var> from <var>names</var>.
-     </ol>
-   </ol>
-
-  <li>
-   For each item <var>name</var> in <var>names</var>, execute the following
-   steps:
-
-   <ol>
-    <li>
-     Append the U+003B SEMICOLON character
-     ("<code>;</code>") to <var>serialization</var>.
-
-    <li>
-     Append <var>name</var>, <a>ASCII lowercased</a>, to
-     <var>serialization</var>.
-   </ol>
-
-  <li class=XXX>
-   Should this special-case the "<code>base64</code>" boolean parameter last?
-
-  <li>
-   Return <var>serialization</var>.
- </ol>
-
+ <li><p>Return <var>serialization</var>.
+</ol>
 
 
 <h3 id=mime-type-groups>MIME type groups</h3>
