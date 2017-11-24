@@ -269,7 +269,7 @@ that does not contain U+003B (;).
      skips past U+003D (=).)
     </ol>
 
-   <li><p>Let <var>parameterValue</var> be null.
+   <li><p>Let <var>parameterValue</var> be the empty string.
 
    <li>
     <p>If <var>position</var> is not past the end of <var>input</var>, then:
@@ -336,8 +336,8 @@ that does not contain U+003B (;).
       </ol>
     </ol>
 
-   <li><p>If <var>parameterName</var> and <var>parameterValue</var> are not the empty string, and
-   <var>mimeType</var>'s <a for="MIME type">parameters</a>[<var>parameterName</var>]
+   <li><p>If neither <var>parameterName</var> nor <var>parameterValue</var> are the empty string,
+   and <var>mimeType</var>'s <a for="MIME type">parameters</a>[<var>parameterName</var>]
    <a for=map lt=exist>does not exist</a>, then <a for=map>set</a> <var>mimeType</var>'s
    <a for="MIME type">parameters</a>[<var>parameterName</var>] to <var>parameterValue</var>.
    <!-- Chrome and Firefox implement last wins. -->
