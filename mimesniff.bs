@@ -362,7 +362,7 @@ optional boolean <var>exclude parameters</var>, run these steps:
  <a for="MIME type">type</a>, U+002F ("<code>/</code>"), and <var>mimeType</var>'s
  <a for="MIME type">subtype</a>.
 
- <li><p>If <var>exclude parameters is true or <var>mimeType</var>'s
+ <li><p>If <var>exclude parameters</var> is true or <var>mimeType</var>'s
  <a for="MIME type">parameters</a> <a for=map>is empty</a>, then return <var>serialization</var>.
 
  <li>
