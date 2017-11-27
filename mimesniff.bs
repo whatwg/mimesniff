@@ -40,6 +40,11 @@ Indent: 1
 }
 </pre>
 
+<pre class=anchors>
+url:https://tools.ietf.org/html/rfc7230#section-3.2.6;text:token;type:dfn;spec:http
+url:https://tools.ietf.org/html/rfc7230#section-3.2.6;text:quoted-string;type:dfn;spec:http
+</pre>
+
 
 
 <h2 id=introduction>Introduction</h2>
@@ -115,6 +120,12 @@ Indent: 1
 
 <p>
  This specification depends on the Infra Standard. [[!INFRA]]
+
+<p>An <dfn>HTTP token</dfn> is a <a>string</a> that matches the <a spec=http>token</a> token
+production.
+
+<p>An <dfn>HTTP quoted-string</dfn> is a <a>string</a> that matches the
+<a spec=http>quoted-string</a> token production.
 
 <p>
  A <dfn>binary data byte</dfn> is a <a>byte</a> in the range 0x00 to
@@ -228,6 +239,8 @@ that does not contain U+003B (;).
  <li><p>Let <var>type</var> be the result of <a>collecting a sequence of code points</a> that are
  not U+002F (/) from <var>input</var>, given <var>position</var>.
 
+ <li><p>If <var>type</var> is the empty string or is not an <a>HTTP token</a>, then return failure.
+
  <li><p>If <var>position</var> is past the end of <var>input</var>, then return failure.
 
  <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>. (This skips
@@ -238,7 +251,8 @@ that does not contain U+003B (;).
 
  <li><p>Remove any trailing <a>ASCII whitespace</a> from <var>subtype</var>.
 
- <li><p>If <var>subtype</var> is the empty string, then return failure.
+ <li><p>If <var>subtype</var> is the empty string or is not an <a>HTTP token</a>, then return
+ failure.
 
  <li><p>Let <var>mimeType</var> be a new <a>MIME type record</a> whose <a for="MIME type">type</a>
  is <var>type</var>, in <a>ASCII lowercase</a>, and <a for="MIME type">subtype</a> is
@@ -336,11 +350,23 @@ that does not contain U+003B (;).
       </ol>
     </ol>
 
-   <li><p>If neither <var>parameterName</var> nor <var>parameterValue</var> are the empty string,
-   and <var>mimeType</var>'s <a for="MIME type">parameters</a>[<var>parameterName</var>]
-   <a for=map lt=exist>does not exist</a>, then <a for=map>set</a> <var>mimeType</var>'s
-   <a for="MIME type">parameters</a>[<var>parameterName</var>] to <var>parameterValue</var>.
-   <!-- Chrome and Firefox implement last wins. -->
+   <li>
+    <p>If all of the following are true
+
+    <ul class=brief>
+     <li>neither <var>parameterName</var> nor <var>parameterValue</var> are the empty string
+
+     <li><var>parameterName</var> is an <a>HTTP token</a>
+
+     <li><var>parameterValue</var> is an <a>HTTP token</a> or <a>HTTP quoted-string</a>
+
+     <li><var>mimeType</var>'s <a for="MIME type">parameters</a>[<var>parameterName</var>]
+     <a for=map lt=exist>does not exist</a>
+    </ul>
+
+    <p>then <a for=map>set</a> <var>mimeType</var>'s
+    <a for="MIME type">parameters</a>[<var>parameterName</var>] to <var>parameterValue</var>.
+    <!-- Chrome and Firefox implement last wins. -->
   </ol>
 
  <li><p>Return <var>mimeType</var>.
