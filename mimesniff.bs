@@ -14,6 +14,7 @@ Markup Shorthands: css off
 !Commits: <a href=https://github.com/whatwg/mimesniff/commits>GitHub whatwg/mimesniff/commits</a>
 !Commits: [SNAPSHOT-LINK]
 !Commits: <a href=https://twitter.com/mimesniff>@mimesniff</a>
+Indent: 1
 </pre>
 
 <script src=https://resources.whatwg.org/file-issue.js async></script>
@@ -22,23 +23,20 @@ Markup Shorthands: css off
 
 <pre class=biblio>
 {
-  "ASCII": {
-    "aliasOf": "RFC20"
-  },
-  "FTP": {
-    "aliasOf": "RFC959"
-  },
-  "HTTP": {
-    "aliasOf": "HTTP11"
-  },
-  "MIMETYPE": {
-    "aliasOf": "RFC2046"
-  },
-  "SECCONTSNIFF": {
-    "authors": ["Adam Barth", "Juan Caballero", "Dawn Song"],
-    "href": "http://www.adambarth.com/papers/2009/barth-caballero-song.pdf",
-    "title": "Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves"
-  }
+ "FTP": {
+  "aliasOf": "RFC959"
+ },
+ "HTTP": {
+  "aliasOf": "HTTP11"
+ },
+ "MIMETYPE": {
+  "aliasOf": "RFC2046"
+ },
+ "SECCONTSNIFF": {
+  "authors": ["Adam Barth", "Juan Caballero", "Dawn Song"],
+  "href": "https://www.adambarth.com/papers/2009/barth-caballero-song.pdf",
+  "title": "Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves"
+ }
 }
 </pre>
 
@@ -1078,8 +1076,8 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
 
 
     <tbody>
-     <!-- http://www.iana.org/assignments/media-types/image/vnd.microsoft.icon -->
-     <!-- http://msdn.microsoft.com/en-us/library/ms997538.aspx -->
+     <!-- https://www.iana.org/assignments/media-types/image/vnd.microsoft.icon -->
+     <!-- https://msdn.microsoft.com/en-us/library/ms997538.aspx -->
      <tr>
       <td>
        00 00 01 00
@@ -1097,7 +1095,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
        A Windows Icon signature.
 
 
-     <!-- http://msdn.microsoft.com/en-us/library/ms997538.aspx -->
+     <!-- https://msdn.microsoft.com/en-us/library/ms997538.aspx -->
      <tr>
       <td>
        00 00 02 00
@@ -1132,7 +1130,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
        The string "<code>BM</code>", a BMP signature.
 
 
-     <!-- http://www.w3.org/Graphics/GIF/spec-gif87.txt -->
+     <!-- https://www.w3.org/Graphics/GIF/spec-gif87.txt -->
      <tr>
       <td>
        47 49 46 38 37 61
@@ -1150,7 +1148,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
        The string "<code>GIF87a</code>", a GIF signature.
 
 
-     <!-- http://www.w3.org/Graphics/GIF/spec-gif89a.txt -->
+     <!-- https://www.w3.org/Graphics/GIF/spec-gif89a.txt -->
      <tr>
       <td>
        47 49 46 38 39 61
@@ -1188,7 +1186,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
        "<code>WEBPVP</code>".
 
 
-     <!-- http://www.w3.org/TR/PNG/#5PNG-file-signature -->
+     <!-- https://www.w3.org/TR/PNG/#5PNG-file-signature -->
      <tr>
       <td>
        89 50 4E 47 0D 0A 1A 0A
@@ -1207,7 +1205,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
        "<code>PNG</code>" followed by CR LF SUB LF, the PNG signature.
 
 
-     <!-- http://www.digicamsoft.com/itu/itu-t81-36.html -->
+     <!-- https://www.digicamsoft.com/itu/itu-t81-36.html -->
      <tr>
       <td>
        FF D8 FF
@@ -1291,7 +1289,7 @@ algorithm</dfn>:
        The string "<code>.snd</code>", the basic audio signature.
 
 
-     <!-- http://multimedia.cx/mirror/AudioIFF1_2_1.htm -->
+     <!-- https://multimedia.cx/mirror/AudioIFF1_2_1.htm -->
      <tr>
       <td>
        46 4F 52 4D 00 00 00 00 41 49 46 46
@@ -1347,7 +1345,7 @@ algorithm</dfn>:
        signature.
 
 
-     <!-- http://localhostr.com/file/LJUEw0K/midiformat.pdf -->
+     <!-- https://hostr.co/LJUEw0K -->
      <tr>
       <td>
        4D 54 68 64 00 00 00 06
@@ -1491,9 +1489,9 @@ algorithm</dfn>:
 
 <h4 id=signature-for-webm>Signature for WebM</h4>
 
-<!-- http://ebml.sourceforge.net/specs/ -->
-<!-- http://www.matroska.org/technical/specs/index.html -->
-<!-- http://www.webmproject.org/code/specs/container/ -->
+<!-- https://matroska-org.github.io/libebml/specs.html -->
+<!-- https://www.matroska.org/technical/specs/index.html -->
+<!-- https://www.webmproject.org/docs/container/ -->
 
 <p>
  To determine whether a <a>byte sequence</a> <dfn>matches the signature
@@ -1843,7 +1841,7 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
 
 
     <tbody>
-     <!-- http://www.w3.org/Submission/EOT/ -->
+     <!-- https://www.w3.org/Submission/EOT/ -->
      <tr>
       <td>
        00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
@@ -1864,8 +1862,8 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
        "<code>LP</code>", the Embedded OpenType signature.
 
 
-     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
-     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <!-- https://www.microsoft.com/typography/otspec/recom.htm -->
+     <!-- https://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
      <tr>
       <td>
        00 01 00 00
@@ -1884,8 +1882,8 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
        TrueType signature.
 
 
-     <!-- http://www.microsoft.com/typography/otspec/recom.htm -->
-     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <!-- https://www.microsoft.com/typography/otspec/recom.htm -->
+     <!-- https://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
      <tr>
       <td>
        4F 54 54 4F
@@ -1903,8 +1901,8 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
        The string "<code>OTTO</code>", the OpenType signature.
 
 
-     <!-- http://www.microsoft.com/typography/otspec/otff.htm -->
-     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <!-- https://www.microsoft.com/typography/otspec/otff.htm -->
+     <!-- https://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
      <tr>
       <td>
        74 74 63 66
@@ -1923,7 +1921,7 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
        signature.
 
 
-     <!-- http://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
+     <!-- https://www.ietf.org/mail-archive/web/websec/current/msg00235.html -->
      <tr>
       <td>
        77 4F 46 46
@@ -1989,7 +1987,7 @@ algorithm</dfn>:
 
 
     <tbody>
-     <!-- http://tools.ietf.org/html/rfc1952 -->
+     <!-- https://tools.ietf.org/html/rfc1952 -->
      <tr>
       <td>
        <!-- 0x1F 0x8B = gzip format, 0x08 = deflate compression -->
@@ -3217,7 +3215,7 @@ type</dfn>:
  Simon Pieters
  for their invaluable contributions.
 
-<p>This standard is written by <a href=http://gphemsley.org/>Gordon P. Hemsley</a>
+<p>This standard is written by <a href=https://gphemsley.org/>Gordon P. Hemsley</a>
 (<a href=mailto:me@gphemsley.org>me@gphemsley.org</a>).
 
 <p>Per <a rel=license href=https://creativecommons.org/publicdomain/zero/1.0/>CC0</a>, to
