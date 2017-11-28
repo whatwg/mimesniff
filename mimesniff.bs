@@ -403,30 +403,16 @@ optional boolean <var>exclude parameters</var>, run these steps:
 
 <h3 id=mime-type-groups>MIME type groups</h3>
 
-<p>
- An <dfn>image type</dfn> is any <a>parsable MIME type</a> where
- <a>type</a> is equal to "<code>image</code>"<!-- or the
- <span>MIME type portion</span> is equal to one of the following:
+<p>An <dfn>image type</dfn> is a <a>MIME type</a> whose <a for="MIME type">type</a> is equal to
+"<code>image</code>".
 
- <ul>
-  <li>
- </ul>-->.
+<p>An <dfn>audio or video type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a> is
+"<code>audio</code>" or "<code>video</code>", or whose <a for="MIME type">essence</a> is
+"<code>application/ogg</code>".
 
-<p>
- An <dfn>audio or video type</dfn> is any <a>parsable MIME type</a>
- where <a>type</a> is equal to "<code>audio</code>" or
- "<code>video</code>" or where the <a>MIME type portion</a> is
- equal to one of the following:
-
- <ul>
-  <li>
-   <code>application/ogg</code>
- </ul>
-
-<p>
- A <dfn>font type</dfn> is any <a>parsable MIME type</a> where
- <!--<span>type</span> is equal to "<code title>font</code>" or--> the
- <a>MIME type portion</a> is equal to one of the following:
+<p>A <dfn>font type</dfn> is any <a>MIME type</a> whose
+ <!--<span>type</span> is equal to "<code title>font</code>" or-->
+<a for="MIME type">essence</a> is one of the following:
 
  <ul class=XXX>
   <li>
@@ -451,20 +437,17 @@ optional boolean <var>exclude parameters</var>, run these steps:
    <code>application/vnd.ms-fontobject</code>
  </ul>
 
-<p>
- A <dfn>ZIP-based type</dfn> is any <a>parsable MIME type</a> where the
- <a>subtype</a> ends in "<code>+zip</code>" or the <a>MIME type
- portion</a> is equal to one of the following:
+<p>A <dfn>ZIP-based type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a> ends in
+"<code>+zip</code>" or whose <a for="MIME type">essence</a> is one of the following:
 
  <ul class=XXX>
   <li>
    <code>application/zip</code>
  </ul>
 
-<p>
- An <dfn>archive type</dfn> is any <a>parsable MIME type</a> where
- <!--<span>type</span> is equal to "<code title>archive</code>" or--> the
- <a>MIME type portion</a> is equal to one of the following:
+<p>An <dfn>archive type</dfn> is any <a>MIME type</a> whose
+<!--<span>type</span> is equal to "<code title>archive</code>" or-->
+<a for="MIME type">essence</a> is one of the following:
 
  <ul>
   <li>
@@ -477,24 +460,17 @@ optional boolean <var>exclude parameters</var>, run these steps:
    <code>application/x-gzip</code>
  </ul>
 
-<p>
- An <dfn export>XML MIME type</dfn> is any <a>parsable MIME type</a> where either the <a>subtype</a>
- ends in "<code>+xml</code>", or the <a>MIME type portion</a> is equal to "<code>text/xml</code>" or
- "<code>application/xml</code>". [[!RFC7303]]
+<p>An <dfn export>XML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a>
+ends in "<code>+xml</code>" or whose <a for="MIME type">essence</a> is "<code>text/xml</code>" or
+"<code>application/xml</code>". [[!RFC7303]]
 
-<p>
- An <dfn export>HTML MIME type</dfn> is any <a>parsable MIME type</a> where the
- <a>MIME type portion</a> is equal to "<code>text/html</code>".
+<p>An <dfn export>HTML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">essence</a>
+"<code>text/html</code>".
 
-<p>
- A <dfn>scriptable MIME type</dfn> is an <a>XML MIME type</a> or any
- <a>parsable MIME type</a> where the <a>MIME type portion</a> is
- equal to one of the following:
+<p>A <dfn>scriptable MIME type</dfn> is an <a>XML MIME type</a>, <a>HTML MIME type</a> or any
+<a>MIME type</a> whose <a for="MIME type">essence</a> is one of the following:
 
  <ul>
-  <li>
-   <code>text/html</code>
-
   <li>
    <code>application/pdf</code>
  </ul>
@@ -532,7 +508,7 @@ optional boolean <var>exclude parameters</var>, run these steps:
     <a>MIME type sniffing algorithm</a>.
 
   <li>
-   A <dfn>computed MIME type</dfn>, the <a>parsable MIME type</a>
+   A <dfn>computed MIME type</dfn>, the <a>MIME type</a>
    determined by the <a>MIME type sniffing algorithm</a>.
  </ul>
 
@@ -656,7 +632,7 @@ optional boolean <var>exclude parameters</var>, run these steps:
    [[!FTP]]
 
   <li>
-   If <var>supplied-type</var> is not a <a>parsable MIME type</a>, the
+   If <var>supplied-type</var> is not a <a>MIME type</a>, the
    <a>supplied MIME type</a> is undefined.
 
    Abort these steps.
@@ -1825,9 +1801,8 @@ algorithm</dfn>:
    Abort these steps.
 
   <li>
-   If the <a>MIME type portion</a> of the <a>supplied MIME
-   type</a> is equal to "<code>text/html</code>", execute the
-   <a>rules for distinguishing if a resource is a feed or HTML</a> and
+   If the <a>supplied MIME type</a>'s <a for="MIME type">essence</a> is "<code>text/html</code>",
+   execute the <a>rules for distinguishing if a resource is a feed or HTML</a> and
    abort these steps.
 
   <li>
@@ -2365,7 +2340,7 @@ type</dfn>:
 
    </table>
 
-   <p>User agents may implicitly extend this table to support additional <a>parsable MIME types</a>.
+   <p>User agents may implicitly extend this table to support additional <a>MIME types</a>.
 
    <p>However, user agents should not implicitly extend this table to include additional
    <a>byte patterns</a> for any <a>computed MIME type</a> already present in this table, as doing so
