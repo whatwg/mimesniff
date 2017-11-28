@@ -357,6 +357,17 @@ that does not contain U+003B (;).
  <li><p>Return <var>mimeType</var>.
 </ol>
 
+<hr>
+
+<p>To <dfn export>parse a MIME type from bytes</dfn>, given a <a>byte sequence</a> <var>input</var>,
+run these steps:
+
+<ol>
+ <li><p>Let <var>string</var> be <var>input</var>, <a>isomorphic decoded</a>.
+
+ <li><p>Return the result of <a>parse a MIME type</a> with <var>string</var>.
+</ol>
+
 
 <h3 id=serializing-a-mime-type>Serializing a MIME type</h3>
 
@@ -398,6 +409,20 @@ optional boolean <var>exclude parameters</var>, run these steps:
   </ol>
 
  <li><p>Return <var>serialization</var>.
+</ol>
+
+<hr>
+
+<p>To <dfn export>serialize a MIME type to bytes</dfn>, given a <a>MIME type</a> <var>mimeType</var>
+and an optional boolean <var>exclude parameters</var>, run these steps:
+
+<ol>
+ <li><p>If <var>exclude parameters</var> is not given, then set it to false.
+
+ <li><p>Let <var>stringSerialization</var> be the result of <a>serialize a MIME type</a> given
+ <var>mimeType</var> and <var>exclude parameters</var>.
+
+ <li><p>Return <var>stringSerialization</var>, <a>isomorphic encoded</a>.
 </ol>
 
 
