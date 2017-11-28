@@ -32,6 +32,9 @@ Indent: 1
  "MIMETYPE": {
   "aliasOf": "RFC2046"
  },
+ "MEDIAQUERIES": {
+  "aliasOf": "mediaqueries-4"
+},
  "SECCONTSNIFF": {
   "authors": ["Adam Barth", "Juan Caballero", "Dawn Song"],
   "href": "https://www.adambarth.com/papers/2009/barth-caballero-song.pdf",
@@ -43,6 +46,7 @@ Indent: 1
 <pre class=anchors>
 url:https://tools.ietf.org/html/rfc7230#section-3.2.6;text:token;type:dfn;spec:http
 url:https://tools.ietf.org/html/rfc7230#section-3.2.6;text:quoted-string;type:dfn;spec:http
+url:https://tools.ietf.org/html/rfc7231#section-3.1.1.1;text:media-type;type:dfn;spec:http
 </pre>
 
 
@@ -121,11 +125,18 @@ url:https://tools.ietf.org/html/rfc7230#section-3.2.6;text:quoted-string;type:df
 <p>
  This specification depends on the Infra Standard. [[!INFRA]]
 
-<p>An <dfn>HTTP token</dfn> is a <a>string</a> that matches the <a spec=http>token</a> token
-production.
+<p>An <dfn>HTTP token</dfn> is U+0021 (!), U+0023 (#), U+0024 ($), U+0025 (%), U+0026 (&amp;),
+U+0027 ('), U+002A (*), U+002B (+), U+002D (-), U+002E (.), U+005E (^), U+005F (_), U+0060 (`),
+U+007C (|), U+007E (~), or an <a>ASCII alphanumeric</a>.</p>
 
-<p>An <dfn>HTTP quoted-string</dfn> is a <a>string</a> that matches the
-<a spec=http>quoted-string</a> token production.
+<p class=note>This matches the <a spec=http>token</a> token production.
+
+<p>An <dfn>HTTP quoted-string token</dfn> is U+0009 TAB, a <a>code point</a> in the range
+U+0020 SPACE to U+007E (~), inclusive, or a <a>code point</a> in the range U+0080 through
+U+00FF (ÿ), inclusive.
+
+<p class=note>This matches the effective value space of the <a spec=http>quoted-string</a> token
+production. By definition it is a superset of an <a>HTTP token</a>.
 
 <p>
  A <dfn>binary data byte</dfn> is a <a>byte</a> in the range 0x00 to
@@ -167,26 +178,8 @@ confusion with the use of <i>media type</i> as described in <cite>Media Queries<
 
 <p>A <a>MIME type</a>'s <dfn for="MIME type">subtype</dfn> is a non-empty <a>ASCII string</a>.
 
-<p>A <a>MIME type</a>'s <dfn for="MIME type">parameters</dfn> is an <a>ordered map</a>. It is
-initially empty.
-
-<p>To compute a <dfn export>normalized MIME type parameter value</dfn>, given a string
-<var>value</var>, run these steps:
-
-<ol>
- <li><p>If <var>value</var> does not start with U+0022 ("), then return <var>value</var>.
-
- <li><p>Remove the leading and trailing U+0022 (") from <var>value</var>.
-
- <li><p>Replace any "<code>\\</code>" sequence with U+005C (\) within <var>value</var>.
-
- <li><p>Replace any "<code>\"</code>" sequence with U+0022 (") within <var>value</var>.
-
- <li><p>Return <var>value</var>.
-</ol>
-
-<p class=note>If a MIME type parameter value is significant, then the
-<a>normalized MIME type parameter value</a> algorithm has to be used.
+<p>A <a>MIME type</a>'s <dfn for="MIME type">parameters</dfn> is an <a>ordered map</a> whose
+<a for=map>keys</a> and <a for=map>values</a> are <a>ASCII strings</a>. It is initially empty.
 
 
 <h3 id=mime-type-miscellaneous>MIME type miscellaneous</h3>
@@ -204,10 +197,9 @@ capability to interpret a <a>resource</a> of that <a>MIME type</a> and present i
 
 <h3 id=mime-type-writing>MIME type writing</h3>
 
-<p>A <dfn export>valid MIME type string</dfn> is a string that matches the <code>media-type</code>
-production defined in
-<a href="https://tools.ietf.org/html/rfc7231#section-3.1.1.1">section 3.1.1.1 "Media Type" of RFC 7231</a>.
-In particular, a <a>valid MIME type</a> may include <a>parameters</a>. [[!RFC7231]]
+<p>A <dfn export>valid MIME type string</dfn> is a string that matches the
+<a spec=http>media-type</a> token production. In particular, a <a>valid MIME type</a> may include
+<a for="MIME type">parameters</a>. [[!RFC7231]]
 
 <p class=note>A <a>valid MIME type string</a> is supposed to be used for conformance checkers only.
 
@@ -221,7 +213,6 @@ In particular, a <a>valid MIME type</a> may include <a>parameters</a>. [[!RFC723
 
 <p>A <dfn export>valid MIME type string with no parameters</dfn> is a <a>valid MIME type string</a>
 that does not contain U+003B (;).
-
 
 
 <h3 id=parsing-a-mime-type>Parsing a MIME type</h3>
@@ -239,7 +230,8 @@ that does not contain U+003B (;).
  <li><p>Let <var>type</var> be the result of <a>collecting a sequence of code points</a> that are
  not U+002F (/) from <var>input</var>, given <var>position</var>.
 
- <li><p>If <var>type</var> is the empty string or is not an <a>HTTP token</a>, then return failure.
+ <li><p>If <var>type</var> is the empty string or does not solely contain <a>HTTP tokens</a>, then
+ return failure.
 
  <li><p>If <var>position</var> is past the end of <var>input</var>, then return failure.
 
@@ -251,8 +243,8 @@ that does not contain U+003B (;).
 
  <li><p>Remove any trailing <a>ASCII whitespace</a> from <var>subtype</var>.
 
- <li><p>If <var>subtype</var> is the empty string or is not an <a>HTTP token</a>, then return
- failure.
+ <li><p>If <var>subtype</var> is the empty string or does not solely contain <a>HTTP tokens</a>,
+ then return failure.
 
  <li><p>Let <var>mimeType</var> be a new <a>MIME type record</a> whose <a for="MIME type">type</a>
  is <var>type</var>, in <a>ASCII lowercase</a>, and <a for="MIME type">subtype</a> is
@@ -291,8 +283,7 @@ that does not contain U+003B (;).
     <ol>
      <li>
       <p>If the current <a>code point</a> in <var>input</var> is U+0022 ("), then advance
-      <var>position</var> to the next <a>code point</a> in <var>input</var>, set
-      <var>parameterValue</var> to U+0022 ("), and:
+      <var>position</var> to the next <a>code point</a> in <var>input</var> and:
 
       <ol>
        <li>
@@ -313,11 +304,7 @@ that does not contain U+003B (;).
             <p>If <var>position</var> is not past the end of <var>input</var>, then:
 
             <ol>
-             <li><p>If the current <a>code point</a> in <var>input</var> is U+0022 (") or
-             U+005C (\), then append U+005C (\) followed by the current <a>code point</a> in
-             <var>input</var>, to <var>parameterValue</var>.
-
-             <li><p>Otherwise, append the current <a>code point</a> in <var>input</var> to
+             <li><p>Append the current <a>code point</a> in <var>input</var> to
              <var>parameterValue</var>.
 
              <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>.
@@ -331,8 +318,6 @@ that does not contain U+003B (;).
 
          <li><p>Otherwise, <a for=iteration>break</a>.
         </ol>
-
-       <li><p>Append U+0022 (") to <var>parameterValue</var>.
 
        <li><a>Collect a sequence of code points</a> that are not U+003B (;) from <var>input</var>,
        given <var>position</var>.
@@ -356,9 +341,9 @@ that does not contain U+003B (;).
     <ul class=brief>
      <li>neither <var>parameterName</var> nor <var>parameterValue</var> are the empty string
 
-     <li><var>parameterName</var> is an <a>HTTP token</a>
+     <li><var>parameterName</var> solely contains <a>HTTP tokens</a>
 
-     <li><var>parameterValue</var> is an <a>HTTP token</a> or <a>HTTP quoted-string</a>
+     <li><var>parameterValue</var> solely contains <a>HTTP quoted-string tokens</a>
 
      <li><var>mimeType</var>'s <a for="MIME type">parameters</a>[<var>parameterName</var>]
      <a for=map lt=exist>does not exist</a>
@@ -382,8 +367,7 @@ optional boolean <var>exclude parameters</var>, run these steps:
  <li><p>If <var>exclude parameters</var> is not given, then set it to false.
 
  <li><p>Let <var>serialization</var> be the concatenation of <var>mimeType</var>'s
- <a for="MIME type">type</a>, U+002F ("<code>/</code>"), and <var>mimeType</var>'s
- <a for="MIME type">subtype</a>.
+ <a for="MIME type">type</a>, U+002F (/), and <var>mimeType</var>'s <a for="MIME type">subtype</a>.
 
  <li><p>If <var>exclude parameters</var> is true or <var>mimeType</var>'s
  <a for="MIME type">parameters</a> <a for=map>is empty</a>, then return <var>serialization</var>.
@@ -398,6 +382,17 @@ optional boolean <var>exclude parameters</var>, run these steps:
    <li><p>Append <var>name</var> to <var>serialization</var>.
 
    <li><p>Append U+003D (=) to <var>serialization</var>.
+
+   <li>
+    <p>If <var>value</var> does not solely contain <a>HTTP tokens</a>:
+
+    <ol>
+     <li><p>Precede each occurence of U+0022 (") or U+005C (\) in <var>value</var> with U+005A (\).
+
+     <li><p>Prepend U+0022 (") to <var>value</var>.
+
+     <li><p>Append U+0022 (") to <var>value</var>.
+    </ol>
 
    <li><p>Append <var>value</var> to <var>serialization</var>.
   </ol>
