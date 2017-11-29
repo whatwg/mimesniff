@@ -1798,8 +1798,8 @@ algorithm</dfn>:
 
  <ol>
   <li>
-   If the <a>supplied MIME type</a> is undefined or if the <a>MIME
-   type portion</a> of the <a>supplied MIME type</a> is equal to
+   If the <a>supplied MIME type</a> is undefined or if the
+   <a>supplied MIME type</a>'s <a for="MIME type">essence</a> is
    "<code>unknown/unknown</code>",
    "<code>application/unknown</code>", or "<code>*/*</code>",
    execute the <a>rules for identifying an unknown MIME type</a> with
