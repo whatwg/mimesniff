@@ -222,8 +222,6 @@ that does not contain U+003B (;).
 <ol>
  <li><p>Remove any leading and trailing <a>ASCII whitespace</a> from <var>input</var>.
 
- <li><p>If <var>input</var> is the empty string, then return null.
-
  <li><p>Let <var>position</var> be a <a for=string>position variable</a> for <var>input</var>,
  initially pointing at the start of <var>input</var>.
 
