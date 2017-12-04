@@ -165,7 +165,7 @@ production. By definition it is a superset of the <a>HTTP token code points</a>.
 
 <h3 id=mime-type-representation>MIME type representation</h3>
 
-<p>A <dfn export lt="MIME type|MIME type record">MIME type</dfn> represents an
+<p>A <dfn export lt="MIME type|MIME type record" id=mime-type>MIME type</dfn> represents an
 <i>internet media type</i> as defined by
 <cite>Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types</cite>. It can also be
 referred to as a <a>MIME type record</a>. [[!MIMETYPE]]
@@ -174,12 +174,13 @@ referred to as a <a>MIME type record</a>. [[!MIMETYPE]]
 confusion with the use of <i>media type</i> as described in <cite>Media Queries</cite>.
 [[MEDIAQUERIES]]
 
-<p>A <a>MIME type</a>'s <dfn for="MIME type">type</dfn> is a non-empty <a>ASCII string</a>.
+<p>A <a>MIME type</a>'s <dfn for="MIME type" id=type>type</dfn> is a non-empty <a>ASCII string</a>.
 
-<p>A <a>MIME type</a>'s <dfn for="MIME type">subtype</dfn> is a non-empty <a>ASCII string</a>.
+<p>A <a>MIME type</a>'s <dfn for="MIME type" id=subtype>subtype</dfn> is a non-empty
+<a>ASCII string</a>.
 
-<p>A <a>MIME type</a>'s <dfn for="MIME type">parameters</dfn> is an <a>ordered map</a> whose
-<a for=map>keys</a> and <a for=map>values</a> are <a>ASCII strings</a>. It is initially empty.
+<p>A <a>MIME type</a>'s <dfn for="MIME type" id=parameters>parameters</dfn> is an <a>ordered map</a>
+whose <a for=map>keys</a> and <a for=map>values</a> are <a>ASCII strings</a>. It is initially empty.
 
 
 <h3 id=mime-type-miscellaneous>MIME type miscellaneous</h3>
@@ -197,7 +198,7 @@ capability to interpret a <a>resource</a> of that <a>MIME type</a> and present i
 
 <h3 id=mime-type-writing>MIME type writing</h3>
 
-<p>A <dfn export>valid MIME type string</dfn> is a string that matches the
+<p>A <dfn export id=valid-mime-type>valid MIME type string</dfn> is a string that matches the
 <a spec=http>media-type</a> token production. In particular, a <a>valid MIME type</a> may include
 <a for="MIME type">parameters</a>. [[!RFC7231]]
 
@@ -211,8 +212,9 @@ capability to interpret a <a>resource</a> of that <a>MIME type</a> and present i
  been "<code>text/html</code>".
 </div>
 
-<p>A <dfn export>valid MIME type string with no parameters</dfn> is a <a>valid MIME type string</a>
-that does not contain U+003B (;).
+<p>A
+<dfn export id=valid-mime-type-with-no-parameters>valid MIME type string with no parameters</dfn> is
+a <a>valid MIME type string</a> that does not contain U+003B (;).
 
 
 <h3 id=parsing-a-mime-type>Parsing a MIME type</h3>
