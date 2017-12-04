@@ -32,9 +32,6 @@ Indent: 1
  "MIMETYPE": {
   "aliasOf": "RFC2046"
  },
- "MEDIAQUERIES": {
-  "aliasOf": "mediaqueries-4"
-},
  "SECCONTSNIFF": {
   "authors": ["Adam Barth", "Juan Caballero", "Dawn Song"],
   "href": "https://www.adambarth.com/papers/2009/barth-caballero-song.pdf",
