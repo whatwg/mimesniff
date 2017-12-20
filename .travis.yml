@@ -1,13 +1,15 @@
-dist: trusty
 language: generic
 
 env:
   global:
     - ENCRYPTION_LABEL="41e7267a37f4"
-    - DEPLOY_USER="annevankesteren"
 
 script:
   - curl --remote-name --fail https://resources.whatwg.org/build/deploy.sh && bash ./deploy.sh
+
+branches:
+  only:
+    - master
 
 notifications:
   email:
