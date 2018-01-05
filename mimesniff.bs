@@ -1,25 +1,12 @@
 <pre class=metadata>
-Title: MIME Sniffing Standard
 Group: WHATWG
 H1: MIME Sniffing
 Shortname: mimesniff
-Status: LS
-No Editor: true
+Text Macro: TWITTER mimesniff
 Abstract: The MIME Sniffing standard defines sniffing resources.
-Logo: https://resources.whatwg.org/logo-mime.svg
-Boilerplate: omit feedback-header, omit conformance, omit index, omit idl-index
+!Participate: <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WHATWG&amp;component=MIME&amp;resolution=---">legacy open bugs</a>
 Markup Shorthands: css off
-!Participate: <a href=https://github.com/whatwg/mimesniff>GitHub whatwg/mimesniff</a> (<a href=https://github.com/whatwg/mimesniff/issues/new>file an issue</a>, <a href=https://github.com/whatwg/mimesniff/issues>open issues</a>, <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WHATWG&amp;component=MIME&amp;resolution=---">legacy open bugs</a>)
-!Participate: <a href=https://wiki.whatwg.org/wiki/IRC>IRC: #whatwg on Freenode</a>
-!Commits: <a href=https://github.com/whatwg/mimesniff/commits>GitHub whatwg/mimesniff/commits</a>
-!Commits: [SNAPSHOT-LINK]
-!Commits: <a href=https://twitter.com/mimesniff>@mimesniff</a>
-Indent: 1
 </pre>
-
-<script src=https://resources.whatwg.org/file-issue.js async></script>
-<script src=https://resources.whatwg.org/commit-snapshot-shortcut-key.js async></script>
-<script src=https://resources.whatwg.org/dfn.js defer></script>
 
 <pre class=biblio>
 {
@@ -196,8 +183,8 @@ capability to interpret a <a>resource</a> of that <a>MIME type</a> and present i
 <h3 id=mime-type-writing>MIME type writing</h3>
 
 <p>A <dfn export id=valid-mime-type>valid MIME type string</dfn> is a string that matches the
-<a spec=http>media-type</a> token production. In particular, a <a>valid MIME type</a> may include
-<a for="MIME type">parameters</a>. [[!RFC7231]]
+<a spec=http>media-type</a> token production. In particular, a <a>valid MIME type string</a> may
+include <a for="MIME type">parameters</a>. [[!RFC7231]]
 
 <p class=note>A <a>valid MIME type string</a> is supposed to be used for conformance checkers only.
 
@@ -2924,10 +2911,6 @@ type</dfn>:
 
 
 
-<div data-fill-with=references></div>
-
-
-
 <h2 class=no-num id=acknowledgements>Acknowledgments</h2>
 
 <p>
@@ -2956,7 +2939,3 @@ type</dfn>:
 
 <p>This standard is written by <a href=https://gphemsley.org/>Gordon P. Hemsley</a>
 (<a href=mailto:me@gphemsley.org>me@gphemsley.org</a>).
-
-<p>Per <a rel=license href=https://creativecommons.org/publicdomain/zero/1.0/>CC0</a>, to
-the extent possible under law, the editor has waived all copyright and related or
-neighboring rights to this work.
