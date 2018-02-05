@@ -420,32 +420,18 @@ these steps:
 "<code>audio</code>" or "<code>video</code>", or whose <a for="MIME type">essence</a> is
 "<code>application/ogg</code>".
 
-<p>A <dfn>font type</dfn> is any <a>MIME type</a> whose
- <!--<span>type</span> is equal to "<code title>font</code>" or-->
-<a for="MIME type">essence</a> is one of the following:
+<p>A <dfn>font MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a> is
+"<code>font</code>", or whose <a for="MIME type">essence</a> is one of the following: [[!RFC8081]]
 
- <ul class=XXX>
-  <li>
-   <code>application/font-ttf</code>
-
-  <li>
-   <code>application/font-cff</code>
-
-  <li>
-   <code>application/font-off</code>
-
-  <li>
-   <code>application/font-sfnt</code>
-
-  <li>
-   <code>application/vnd.ms-opentype</code>
-
-  <li>
-   <code>application/font-woff</code>
-
-  <li>
-   <code>application/vnd.ms-fontobject</code>
- </ul>
+<ul class="brief">
+ <li><code>application/font-cff</code>
+ <li><code>application/font-off</code>
+ <li><code>application/font-sfnt</code>
+ <li><code>application/font-ttf</code>
+ <li><code>application/font-woff</code>
+ <li><code>application/vnd.ms-fontobject</code>
+ <li><code>application/vnd.ms-opentype</code>
+</ul>
 
 <p>A <dfn>ZIP-based type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a> ends in
 "<code>+zip</code>" or whose <a for="MIME type">essence</a> is one of the following:
@@ -1532,8 +1518,8 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 <h3 id=matching-a-font-type-pattern>Matching a font type pattern</h3>
 
-<p>To determine which <a>font type</a> <a>byte pattern</a> a <a>byte sequence</a> <var>input</var>
-matches, if any, use the following <dfn>font type pattern matching algorithm</dfn>:
+<p>To determine which <a>font MIME type</a> <a>byte pattern</a> a <a>byte sequence</a>
+<var>input</var> matches, if any, use the following <dfn>font type pattern matching algorithm</dfn>:
 
  <ol>
   <li><p>Execute the following steps for each row <var>row</var> in the following table:
@@ -1560,7 +1546,7 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
        Leading <a lt=byte>Bytes</a> to Be Ignored
 
       <th>
-       <a>Font Type</a>
+       <a>Font MIME Type</a>
 
       <th>
        Note
@@ -1601,8 +1587,8 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
       <td>
        None.
 
-      <td class=XXX>
-       (TrueType)
+      <td>
+       <code>font/ttf</code>
 
       <td>
        4 <a>bytes</a> representing the version number 1.0, a
@@ -1621,8 +1607,8 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
       <td>
        None.
 
-      <td class=XXX>
-       (OpenType)
+      <td>
+       <code>font/otf</code>
 
       <td>
        The string "<code>OTTO</code>", the OpenType signature.
@@ -1640,8 +1626,8 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
       <td>
        None.
 
-      <td class=XXX>
-       (TrueType Collection)
+      <td>
+       <code>font/collection</code>
 
       <td>
        The string "<code>ttcf</code>", the TrueType Collection
@@ -1660,12 +1646,29 @@ matches, if any, use the following <dfn>font type pattern matching algorithm</df
        None.
 
       <td>
-       <code>application/font-woff</code>
+       <code>font/woff</code>
 
       <td>
-       The string "<code>wOFF</code>", the Web Open Font Format
+       The string "<code>wOFF</code>", the Web Open Font Format 1.0
        signature.
 
+     <!-- https://www.w3.org/TR/WOFF2/ -->
+     <tr>
+      <td>
+       77 4F 46 32
+
+      <td>
+       FF FF FF FF
+
+      <td>
+       None.
+
+      <td>
+       <code>font/woff2</code>
+
+      <td>
+       The string "<code>wOF2</code>", the Web Open Font Format 2.0
+       signature.
 
 
    </table>
@@ -2868,7 +2871,7 @@ type</dfn>:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- with a <a>font type</a>, execute the following <dfn>rules for sniffing
+ with a <a>font MIME type</a>, execute the following <dfn>rules for sniffing
  fonts specifically</dfn>:
 
  <ol>
