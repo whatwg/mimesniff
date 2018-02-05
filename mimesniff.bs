@@ -413,11 +413,11 @@ these steps:
 
 <h3 id=mime-type-groups>MIME type groups</h3>
 
-<p>An <dfn>image type</dfn> is a <a>MIME type</a> whose <a for="MIME type">type</a> is equal to
+<p>An <dfn>image MIME type</dfn> is a <a>MIME type</a> whose <a for="MIME type">type</a> is
 "<code>image</code>".
 
-<p>An <dfn>audio or video type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a> is
-"<code>audio</code>" or "<code>video</code>", or whose <a for="MIME type">essence</a> is
+<p>An <dfn>audio or video MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a>
+is "<code>audio</code>" or "<code>video</code>", or whose <a for="MIME type">essence</a> is
 "<code>application/ogg</code>".
 
 <p>A <dfn>font MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a> is
@@ -433,43 +433,32 @@ these steps:
  <li><code>application/vnd.ms-opentype</code>
 </ul>
 
-<p>A <dfn>ZIP-based type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a> ends in
-"<code>+zip</code>" or whose <a for="MIME type">essence</a> is one of the following:
+<p>A <dfn>ZIP-based MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a>
+ends in "<code>+zip</code>" or whose <a for="MIME type">essence</a> is one of the following:
 
- <ul class=XXX>
-  <li>
-   <code>application/zip</code>
- </ul>
+<ul class="XXX brief">
+ <li><code>application/zip</code>
+</ul>
 
-<p>An <dfn>archive type</dfn> is any <a>MIME type</a> whose
+<p>An <dfn>archive MIME type</dfn> is any <a>MIME type</a> whose
 <!--<span>type</span> is equal to "<code title>archive</code>" or-->
 <a for="MIME type">essence</a> is one of the following:
 
- <ul>
-  <li>
-   <code>application/x-rar-compressed</code>
-
-  <li>
-   <code>application/zip</code>
-
-  <li>
-   <code>application/x-gzip</code>
- </ul>
+<ul class="brief">
+ <li><code>application/x-rar-compressed</code>
+ <li><code>application/zip</code>
+ <li><code>application/x-gzip</code>
+</ul>
 
 <p>An <dfn export>XML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a>
 ends in "<code>+xml</code>" or whose <a for="MIME type">essence</a> is "<code>text/xml</code>" or
 "<code>application/xml</code>". [[!RFC7303]]
 
 <p>An <dfn export>HTML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">essence</a>
-"<code>text/html</code>".
+is "<code>text/html</code>".
 
-<p>A <dfn>scriptable MIME type</dfn> is an <a>XML MIME type</a>, <a>HTML MIME type</a> or any
-<a>MIME type</a> whose <a for="MIME type">essence</a> is one of the following:
-
- <ul>
-  <li>
-   <code>application/pdf</code>
- </ul>
+<p>A <dfn>scriptable MIME type</dfn> is an <a>XML MIME type</a>, <a>HTML MIME type</a>, or any
+<a>MIME type</a> whose <a for="MIME type">essence</a> is "<code>application/pdf</code>".
 
 
 
@@ -753,8 +742,9 @@ and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and ret
 
 <h3 id=matching-an-image-type-pattern>Matching an image type pattern</h3>
 
-<p>To determine which <a>image type</a> <a>byte pattern</a> a <a>byte sequence</a> <var>input</var>
-matches, if any, use the following <dfn>image type pattern matching algorithm</dfn>:
+<p>To determine which <a>image MIME type</a> <a>byte pattern</a> a <a>byte sequence</a>
+<var>input</var> matches, if any, use the following
+<dfn>image type pattern matching algorithm</dfn>:
 
  <ol>
   <li><p>Execute the following steps for each row <var>row</var> in the following table:
@@ -781,7 +771,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
        Leading <a lt=byte>Bytes</a> to Be Ignored
 
       <th>
-       <a>Image Type</a>
+       <a>Image MIME Type</a>
 
       <th>
        Note
@@ -947,7 +937,7 @@ matches, if any, use the following <dfn>image type pattern matching algorithm</d
 
 <h3 id=matching-an-audio-or-video-type-pattern>Matching an audio or video type pattern</h3>
 
-<p>To determine which <a>audio or video type</a> <a>byte pattern</a> a <a>byte sequence</a>
+<p>To determine which <a>audio or video MIME type</a> <a>byte pattern</a> a <a>byte sequence</a>
 <var>input</var> matches, if any, use the following <dfn>audio or video type pattern matching
 algorithm</dfn>:
 
@@ -976,7 +966,7 @@ algorithm</dfn>:
        Leading <a lt=byte>Bytes</a> to Be Ignored
 
       <th>
-       <a>Audio or Video Type</a>
+       <a>Audio or Video MIME Type</a>
 
       <th>
        Note
@@ -1680,7 +1670,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 <h3 id=matching-an-archive-type-pattern>Matching an archive type pattern</h3>
 
-<p>To determine which <a>archive type</a> <a>byte pattern</a> a <a>byte sequence</a>
+<p>To determine which <a>archive MIME type</a> <a>byte pattern</a> a <a>byte sequence</a>
 <var>input</var> matches, if any, use the following <dfn>archive type pattern matching
 algorithm</dfn>:
 
@@ -1709,7 +1699,7 @@ algorithm</dfn>:
        Leading <a lt=byte>Bytes</a> to Be Ignored
 
       <th>
-       <a>Archive Type</a>
+       <a>Archive MIME Type</a>
 
       <th>
        Note
@@ -1819,7 +1809,7 @@ algorithm</dfn>:
    abort these steps.
 
   <li>
-   If the <a>supplied MIME type</a> is an <a>image type</a>
+   If the <a>supplied MIME type</a> is an <a>image MIME type</a>
    <a>supported by the user agent</a>, let <var>matched-type</var> be
    the result of executing the <a>image type pattern matching
    algorithm</a> with the <a>resource header</a> as the <a>byte
@@ -1832,8 +1822,8 @@ algorithm</dfn>:
    Abort these steps.
 
   <li>
-   If the <a>supplied MIME type</a> is an <a>audio or video
-   type</a> <a>supported by the user agent</a>, let
+   If the <a>supplied MIME type</a> is an <a>audio or video MIME type</a>
+   <a>supported by the user agent</a>, let
    <var>matched-type</var> be the result of executing the <a>audio or video
    type pattern matching algorithm</a> with the <a>resource
    header</a> as the <a>byte sequence</a> to be matched.
@@ -2754,7 +2744,7 @@ type</dfn>:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- with an <a>image type</a>, execute the following <dfn>rules for
+ with an <a>image MIME type</a>, execute the following <dfn>rules for
  sniffing images specifically</dfn>:
 
  <ol>
@@ -2786,7 +2776,7 @@ type</dfn>:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- with an <a>audio or video type</a>, execute the following <dfn>rules
+ with an <a>audio or video MIME type</a>, execute the following <dfn>rules
  for sniffing audio and video specifically</dfn>:
 
  <ol>
@@ -2926,6 +2916,7 @@ type</dfn>:
  Anne van Kesteren,
  Boris Zbarsky,
  David Singer,
+ Domenic Denicola,
  Henri Sivonen,
  Jonathan Neal,
  Joshua Cranmer,
