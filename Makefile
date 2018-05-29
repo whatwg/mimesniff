@@ -5,7 +5,9 @@ local: mimesniff.bs
 	bikeshed spec mimesniff.bs mimesniff.html --md-Text-Macro="SNAPSHOT-LINK LOCAL COPY"
 
 deploy: mimesniff.bs
-	curl --remote-name --fail https://resources.whatwg.org/build/deploy.sh && bash ./deploy.sh
+	curl --remote-name --fail https://resources.whatwg.org/build/deploy.sh
+	bash ./deploy.sh
 
 review: mimesniff.bs
-	curl --remote-name --fail https://resources.whatwg.org/build/review.sh && bash ./review.sh
+	curl --remote-name --fail https://resources.whatwg.org/build/review.sh
+	bash ./review.sh
