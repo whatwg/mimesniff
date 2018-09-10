@@ -270,71 +270,72 @@ a <a>valid MIME type string</a> that does not contain U+003B (;).
      skips past U+003D (=).)
     </ol>
 
+   <li><p>If <var>position</var> is past the end of <var>input</var>, then
+   <a for=iteration>break</a>.
+
    <li><p>Let <var>parameterValue</var> be the empty string.
 
    <li>
-    <p>If <var>position</var> is not past the end of <var>input</var>, then:
+    <p>If the <a>code point</a> at <var>position</var> within <var>input</var> is U+0022 ("),
+    then:
 
     <ol>
+     <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>.
+
      <li>
-      <p>If the <a>code point</a> at <var>position</var> within <var>input</var> is U+0022 ("),
-      then:
+      <p>While true:
 
       <ol>
-       <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>.
+       <li><p>Append the result of <a>collecting a sequence of code points</a> that are not
+       U+0022 (") or U+005C (\) from <var>input</var>, given <var>position</var>, to
+       <var>parameterValue</var>.
 
        <li>
-        <p>While true:
+        <p>If <var>position</var> is not past the end of <var>input</var> and the <a>code point</a>
+        at <var>position</var> within <var>input</var> is U+005C (\), then:
 
         <ol>
-         <li><p>Append the result of <a>collecting a sequence of code points</a> that are not
-         U+0022 (") or U+005C (\) from <var>input</var>, given <var>position</var>, to
-         <var>parameterValue</var>.
+         <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>.
 
          <li>
-          <p>If <var>position</var> is not past the end of <var>input</var> and the
-          <a>code point</a> at <var>position</var> within <var>input</var> is U+005C (\), then:
+          <p>If <var>position</var> is not past the end of <var>input</var>, then:
 
           <ol>
+           <li><p>Append the <a>code point</a> at <var>position</var> within <var>input</var> to
+           <var>parameterValue</var>.
+
            <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>.
 
-           <li>
-            <p>If <var>position</var> is not past the end of <var>input</var>, then:
-
-            <ol>
-             <li><p>Append the <a>code point</a> at <var>position</var> within <var>input</var> to
-             <var>parameterValue</var>.
-
-             <li><p>Advance <var>position</var> to the next <a>code point</a> in <var>input</var>.
-
-             <li><p><a for=iteration>Continue</a>.
-            </ol>
-
-           <li><p>Otherwise, append U+005C (\) to <var>parameterValue</var> and
-           <a for=iteration>break</a>.
+           <li><p><a for=iteration>Continue</a>.
           </ol>
 
-         <li><p>Otherwise, <a for=iteration>break</a>.
+         <li><p>Otherwise, append U+005C (\) to <var>parameterValue</var> and
+         <a for=iteration>break</a>.
         </ol>
 
-       <li>
-        <p><a>Collect a sequence of code points</a> that are not U+003B (;) from <var>input</var>,
-        given <var>position</var>.
-
-        <p class=example id=example-mime-type-parser-trailing-garbage>Given
-        <code>text/html;charset="shift_jis"iso-2022-jp</code> you end up with
-        <code>text/html;charset=shift_jis</code>.
+       <li><p>Otherwise, <a for=iteration>break</a>.
       </ol>
 
      <li>
-      <p>Otherwise:
+      <p><a>Collect a sequence of code points</a> that are not U+003B (;) from <var>input</var>,
+      given <var>position</var>.
 
-      <ol>
-       <li><p>Set <var>parameterValue</var> to the result of <a>collecting a sequence of code
-       points</a> that are not U+003B (;) from <var>input</var>, given <var>position</var>.
+      <p class=example id=example-mime-type-parser-trailing-garbage>Given
+      <code>text/html;charset="shift_jis"iso-2022-jp</code> you end up with
+      <code>text/html;charset=shift_jis</code>.
+    </ol>
 
-       <li><p>Remove any trailing <a>ASCII whitespace</a> from <var>parameterValue</var>.
-      </ol>
+   <li>
+    <p>Otherwise:
+
+    <ol>
+     <li><p>Set <var>parameterValue</var> to the result of
+     <a>collecting a sequence of code points</a> that are not U+003B (;) from <var>input</var>,
+     given <var>position</var>.
+
+     <li><p>Remove any trailing <a>ASCII whitespace</a> from <var>parameterValue</var>.
+
+     <li><p>If <var>parameterValue</var> is the empty string, then <a for=iteration>continue</a>.
     </ol>
 
    <li>
@@ -342,8 +343,6 @@ a <a>valid MIME type string</a> that does not contain U+003B (;).
 
     <ul class=brief>
      <li><var>parameterName</var> is not the empty string
-
-     <li><var>parameterValue</var> is not the empty string
 
      <li><var>parameterName</var> solely contains <a>HTTP token code points</a>
 
@@ -393,7 +392,8 @@ these steps:
    <li><p>Append U+003D (=) to <var>serialization</var>.
 
    <li>
-    <p>If <var>value</var> does not solely contain <a>HTTP token code points</a>:
+    <p>If <var>value</var> does not solely contain <a>HTTP token code points</a> or <var>value</var>
+    is the empty string, then:
 
     <ol>
      <li><p>Precede each occurence of U+0022 (") or U+005C (\) in <var>value</var> with U+005A (\).
@@ -2957,6 +2957,7 @@ type</dfn>:
  Alfred Hönes,
  Anne van Kesteren,
  Boris Zbarsky,
+ Darien Maillet Valentine,
  David Singer,
  Domenic Denicola,
  Henri Sivonen,
