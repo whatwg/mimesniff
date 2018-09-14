@@ -424,14 +424,14 @@ these steps:
 
 <h3 id=mime-type-groups>MIME type groups</h3>
 
-<p>An <dfn>image MIME type</dfn> is a <a>MIME type</a> whose <a for="MIME type">type</a> is
+<p>An <dfn export>image MIME type</dfn> is a <a>MIME type</a> whose <a for="MIME type">type</a> is
 "<code>image</code>".
 
-<p>An <dfn>audio or video MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a>
-is "<code>audio</code>" or "<code>video</code>", or whose <a for="MIME type">essence</a> is
-"<code>application/ogg</code>".
+<p>An <dfn export>audio or video MIME type</dfn> is any <a>MIME type</a> whose
+<a for="MIME type">type</a> is "<code>audio</code>" or "<code>video</code>", or whose
+<a for="MIME type">essence</a> is "<code>application/ogg</code>".
 
-<p>A <dfn>font MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a> is
+<p>A <dfn export>font MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">type</a> is
 "<code>font</code>", or whose <a for="MIME type">essence</a> is one of the following: [[!RFC8081]]
 
 <ul class="brief">
@@ -444,14 +444,15 @@ is "<code>audio</code>" or "<code>video</code>", or whose <a for="MIME type">ess
  <li><code>application/vnd.ms-opentype</code>
 </ul>
 
-<p>A <dfn>ZIP-based MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a>
-ends in "<code>+zip</code>" or whose <a for="MIME type">essence</a> is one of the following:
+<p>A <dfn export>ZIP-based MIME type</dfn> is any <a>MIME type</a> whose
+<a for="MIME type">subtype</a> ends in "<code>+zip</code>" or whose <a for="MIME type">essence</a>
+is one of the following:
 
 <ul class="XXX brief">
  <li><code>application/zip</code>
 </ul>
 
-<p>An <dfn>archive MIME type</dfn> is any <a>MIME type</a> whose
+<p>An <dfn export>archive MIME type</dfn> is any <a>MIME type</a> whose
 <!--<span>type</span> is equal to "<code title>archive</code>" or-->
 <a for="MIME type">essence</a> is one of the following:
 
@@ -468,8 +469,8 @@ ends in "<code>+xml</code>" or whose <a for="MIME type">essence</a> is "<code>te
 <p>An <dfn export>HTML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">essence</a>
 is "<code>text/html</code>".
 
-<p>A <dfn>scriptable MIME type</dfn> is an <a>XML MIME type</a>, <a>HTML MIME type</a>, or any
-<a>MIME type</a> whose <a for="MIME type">essence</a> is "<code>application/pdf</code>".
+<p>A <dfn export>scriptable MIME type</dfn> is an <a>XML MIME type</a>, <a>HTML MIME type</a>, or
+any <a>MIME type</a> whose <a for="MIME type">essence</a> is "<code>application/pdf</code>".
 
 <p>A <dfn export>JavaScript MIME type</dfn> is any <a>MIME type</a> whose
 <a for="MIME type">essence</a> is one of the following:
@@ -1404,7 +1405,7 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
  <li>If <var>version</var> &amp; 0x01 is zero, let <var>bitrate</var> be the value given by
  <var>bitrate-index</var> in the table mp3-rates
  <li>Let <var>samplerate-index</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x0c >> 2.
- <li>Let <var>samplerate</var> be the value given by <var>samplerate-index</var> in the
+ <li>Let <var ignore>samplerate</var> be the value given by <var>samplerate-index</var> in the
  <var>sample-rate</var> table.
  <li>Let <var>pad</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x02 >> 1.
 </ol>
@@ -2785,7 +2786,7 @@ type</dfn>:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- with an <a>image MIME type</a>, execute the following <dfn>rules for
+ with an <a>image MIME type</a>, execute the following <dfn export>rules for
  sniffing images specifically</dfn>:
 
  <ol>
@@ -2817,7 +2818,7 @@ type</dfn>:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- with an <a>audio or video MIME type</a>, execute the following <dfn>rules
+ with an <a>audio or video MIME type</a>, execute the following <dfn export>rules
  for sniffing audio and video specifically</dfn>:
 
  <ol>
@@ -2851,7 +2852,7 @@ type</dfn>:
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
  <a lt=fetch for=/>fetched</a> in a plugin context, execute
- the following <dfn>rules for sniffing in a plugin context</dfn>:
+ the following <dfn export>rules for sniffing in a plugin context</dfn>:
 
  <ol>
   <li class=XXX>
@@ -2869,7 +2870,7 @@ type</dfn>:
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
  <a lt=fetch for=/>fetched</a> in a style context, execute the
- following <dfn>rules for sniffing in a style context</dfn>:
+ following <dfn export>rules for sniffing in a style context</dfn>:
 
  <ol>
   <li class=XXX>
@@ -2886,7 +2887,7 @@ type</dfn>:
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
  <a lt=fetch for=/>fetched</a> in a script context, execute
- the following <dfn>rules for sniffing in a script context</dfn>:
+ the following <dfn export>rules for sniffing in a script context</dfn>:
 
  <ol>
   <li class=XXX>
@@ -2902,7 +2903,7 @@ type</dfn>:
 
 <p>
  To determine the <a>computed MIME type</a> of a <a>resource</a>
- with a <a>font MIME type</a>, execute the following <dfn>rules for sniffing
+ with a <a>font MIME type</a>, execute the following <dfn export>rules for sniffing
  fonts specifically</dfn>:
 
  <ol>
