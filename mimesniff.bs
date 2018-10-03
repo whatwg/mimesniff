@@ -2969,6 +2969,7 @@ type</dfn>:
  Mark Pilgrim,
  Paul Adenot,
  Peter Occil,
+ Rob Buis,
  Russ Cox,
  Simon Pieters, and
  triple-underscore
