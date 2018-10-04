@@ -396,7 +396,7 @@ these steps:
     is the empty string, then:
 
     <ol>
-     <li><p>Precede each occurence of U+0022 (") or U+005C (\) in <var>value</var> with U+005A (\).
+     <li><p>Precede each occurence of U+0022 (") or U+005C (\) in <var>value</var> with U+005C (\).
 
      <li><p>Prepend U+0022 (") to <var>value</var>.
 
@@ -2969,6 +2969,7 @@ type</dfn>:
  Mark Pilgrim,
  Paul Adenot,
  Peter Occil,
+ Rob Buis,
  Russ Cox,
  Simon Pieters, and
  triple-underscore
