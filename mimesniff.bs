@@ -322,7 +322,7 @@ a <a>valid MIME type string</a> that does not contain U+003B (;).
 
       <p class=example id=example-mime-type-parser-trailing-garbage>Given
       <code>text/html;charset="shift_jis"iso-2022-jp</code> you end up with
-      <code>text/html;charset=shift_jis</code>.
+      <code>text/html; charset=shift_jis</code>.
     </ol>
 
    <li>
@@ -385,7 +385,7 @@ these steps:
   <a for="MIME type">parameters</a>:
 
   <ol>
-   <li><p>Append U+003B (;) to <var>serialization</var>.
+   <li><p>Append U+003B (;) followed by U+0020 SPACE to <var>serialization</var>.
 
    <li><p>Append <var>name</var> to <var>serialization</var>.
 
