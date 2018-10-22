@@ -139,7 +139,7 @@ production. By definition it is a superset of the <a>HTTP token code points</a>.
 
 <p>
  A <dfn>whitespace byte</dfn> (abbreviated
- <abbr lt="whitespace byte">0xWS</abbr>) is any one of the following
+ <abbr lt="whitespace byte">1xWS</abbr>) is any one of the following
  <a>bytes</a>: 0x09 (HT), 0x0A (LF), 0x0C (FF), 0x0D (CR),
  0x20 (SP).
 
@@ -2750,6 +2750,562 @@ type</dfn>:
  for distinguishing if a resource is a feed or HTML</a> in parallel with
  its algorithm for detecting the character encoding of an HTML document.
 
+
+
+<h2 id=CORB-confirmation-sniffing>Confirming the resource can be CORB-protected</h2>
+
+To confirm that the response can be CORB-protected,
+user agents must use the following
+<dfn export>CORB confirmation sniffing algorithm</dfn>:
+
+ <ol>
+  <li>
+   If the <a>no-sniff flag</a> is set,
+   the <a>CORB confirmation sniffing result</a> is "<code>protected</code>".
+
+   Abort these steps.
+
+  <li>
+   If the <a>computed MIME type</a> is a <a>HTML MIME type</a>,
+   the CORB confirmation sniffing result is "<code>protected</code>" if
+   <a href=#corb-confirmation-sniffing-for-html>CORB confirmation sniffing for HTML</a>
+   algorithm returns "<code>confirmed HTML</code>".
+
+   Otherwise the <a>CORB confirmation sniffing result</a> is "<code>allowed</code>".
+
+   Abort these steps.
+
+<!-- TODO: Also document CORB confirmation sniffing for JSON...
+  <li>
+   If the <a>computed MIME type</a> is a <a>JSON MIME type</a>,
+   the CORB confirmation sniffing result is "<code>protected</code>" if
+   <a href=#corb-confirmation-sniffing-for-json>CORB confirmation sniffing for JSON</a>
+   algorithm returns "<code>confirmed JSON</code>".
+
+   Otherwise the <a>CORB confirmation sniffing result</a> is "<code>allowed</code>".
+
+   Abort these steps.
+-->
+
+  <li>
+   If the <a>computed MIME type</a> is a <a>XML MIME type</a>,
+   the CORB confirmation sniffing result is "<code>protected</code>" if
+   <a href=#corb-confirmation-sniffing-for-xml>CORB confirmation sniffing for XML</a>
+   algorithm returns "<code>confirmed XML</code>".
+
+   Otherwise the <a>CORB confirmation sniffing result</a> is "<code>allowed</code>".
+
+   Abort these steps.
+
+  <li>
+   Otherwise (if the <a>no-sniff flag</a> is not set and the <a>computed MIME
+   type</a> is not covered above)
+   the CORB confirmation sniffing result is "<code>protected</code>" if
+   <a href=#json-security-prefix-sniffing>JSON security prefix sniffing</a>
+   algorithm returns "<code>JSON security prefix is present</code>".
+   (and is "<code>allowed</code>" otherwise).
+ </ol>
+
+
+<h3 id=corb-confirmation-sniffing-for-html>CORB confirmation sniffing for HTML</h3>
+
+
+ <ol>
+  <li>Continue executing the following steps (and advancing past whitespace and
+  comments) for as long as possible:
+   <ol>
+    <li>Advance past <a lt="whitespace byte">whitespace bytes</a>.
+      <p class=note>This step intentionally ignores some characters that are
+      considered to be whitespace
+      <a href=https://www.ecma-international.org/ecma-262/8.0/index.html#prod-WhiteSpace>by Javascript</a>,
+      but not
+      <a href=https://www.w3.org/TR/2012/WD-html-markup-20120320/terminology.html#space>by HTML</a>
+      (for example &ltNBSP&gt; and/or &lt;ZWNBSP&gt;).  These characters will be
+      dealt with in a later step and result in "<code>maybe not HTML</code>".
+
+    <li>Advance past combined HTML+Javascript comment.
+        If the next bytes are 3C 21 2D 2D (the "<code>&lt;!--</code>" string), then:
+      <ol>
+        <li>Find and advance past the sequence of 2D 2D 3E bytes (the "<code>--&gt;</code>" string).
+        <li>Find and advance past the first of the following byte sequences:
+          <ul>
+            <li>0A (&lt;LF&gt; - new line)
+            <li>0D (&lt;CR&gt; - carriage return)
+            <li>E2 20 28 (UTF8 encoding of &lt;LS&gt; - line separator)
+            <li>E2 20 29 (UTF8 encoding of &lt;PS&gt; - paragraph separator)
+          </ul>
+          <p class=note>The step above advances past characters that are between "<code>--&gt;</code>"
+          and <a href="https://www.ecma-international.org/ecma-262/8.0/index.html#prod-LineTerminator">a Javascript line terminator</a>,
+          because such characters are considered to be Javascript comments according to
+          the <a href="https://www.ecma-international.org/ecma-262/8.0/index.html#prod-annexB-HTMLCloseComment">HTMLCloseComment</a> rule.
+      </ol>
+   </ol>
+
+  <li>Attempt to match one of HTML signature patterns:
+    <ol>
+      <li>Let <var>patternMatched</var> be the result of the <a>pattern
+      matching algorithm</a> given the remaining bytes from the
+      <var>resource</var>'s <a>resource header</a>, the value in the first
+      column of <var>row</var>, the value in the second column of
+      <var>row</var>, and the value in the third column of <var>row</var>.
+
+      <li>If <var>patternMatched</var> is true, return "<code>confirmed HTML</code>".
+      Otherwise return "<code>possibly not HTML</code>".
+    </ol>
+ </ol>
+
+ <p class=note>The table below is the <code>text/html</code>-specific subset
+ of the table used for
+ <a href=#identifying-a-resource-with-an-unknown-mime-type>identifying a resource with an unknown MIME type</a>
+ (excluding the pattern covering HTML comments which are dealt with separately).
+
+ <table>
+  <thead>
+   <tr>
+    <th>
+     <a>Byte Pattern</a>
+
+    <th>
+     <a>Pattern Mask</a>
+
+    <th>
+     Leading <a lt=byte>Bytes</a> to Be Ignored
+
+    <th>
+     Note
+
+
+
+  <tbody>
+   <tr>
+    <td>
+     3C 21 44 4F 43 54 59 50 45 20 48 54 4D 4C <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF FF DF DF DF DF DF DF DF FF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;!DOCTYPE HTML</code>"
+     followed by a <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 48 54 4D 4C <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;HTML</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 48 45 41 44 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;HEAD</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 53 43 52 49 50 54 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;SCRIPT</code>" followed by
+     a <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 49 46 52 41 4D 45 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;IFRAME</code>" followed by
+     a <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 48 31 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF FF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;H1</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 44 49 56 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;DIV</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 46 4F 4E 54 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;FONT</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 54 41 42 4C 45 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;TABLE</code>" followed by
+     a <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 41 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;A</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 53 54 59 4C 45 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;STYLE</code>" followed by
+     a <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 54 49 54 4C 45 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;TITLE</code>" followed by
+     a <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 42 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;B</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 42 4F 44 59 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;BODY</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 42 52 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;BR</code>" followed by a
+     <a>tag-terminating byte</a>.
+
+
+   <tr>
+    <td>
+     3C 50 <abbr lt="tag terminating byte">TT</abbr>
+
+    <td>
+     FF DF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The case-insensitive string "<code>&lt;P</code>" followed by a
+     <a>tag-terminating byte</a>.
+  </table>
+
+
+<h3 id=corb-confirmation-sniffing-for-xml>CORB confirmation sniffing for XML</h3>
+
+ <ol>
+  <li>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+  given <var>resource</var>'s <a>resource header</a>, the value in the first column of
+  <var>row</var>, the value in the second column of <var>row</var>, and the value in the third
+  column of <var>row</var>.
+
+  <li>If <var>patternMatched</var> is true, return "<code>confirmed XML</code>".
+  Otherwise return "<code>possibly not XML</code>".
+ </ol>
+
+ <p class=note>The table below is the <code>text/xml</code>-specific subset
+ of the table used for
+ <a href=#identifying-a-resource-with-an-unknown-mime-type>identifying a resource with an unknown MIME type</a>.
+
+ <table>
+  <thead>
+   <tr>
+    <th>
+     <a>Byte Pattern</a>
+
+    <th>
+     <a>Pattern Mask</a>
+
+    <th>
+     Leading <a lt=byte>Bytes</a> to Be Ignored
+
+    <th>
+     Note
+
+  <tbody>
+   <tr>
+    <td>
+     3C 3F 78 6D 6C
+
+    <td>
+     FF FF FF FF FF
+
+    <td>
+     <a lt="whitespace byte">Whitespace bytes</a>.
+
+    <td>
+     The string "<code>&lt;?xml</code>".
+ </table>
+
+
+<h3 id=json-security-prefix-sniffing>JSON security prefix sniffing</h3>
+
+ <ol>
+  <li>Let <var>patternMatched</var> be the result of the <a>pattern matching algorithm</a>
+  given <var>resource</var>'s <a>resource header</a>, the value in the first column of
+  <var>row</var>, the value in the second column of <var>row</var>, and the value in the third
+  column of <var>row</var>.
+
+  <li>If <var>patternMatched</var> is true, return "<code>JSON security prefix is present</code>".
+  Otherwise return "<code>no JSON security prefix</code>".
+ </ol>
+
+ <table>
+  <thead>
+   <tr>
+    <th>
+     <a>Byte Pattern</a>
+
+    <th>
+     <a>Pattern Mask</a>
+
+    <th>
+     Leading <a lt=byte>Bytes</a> to Be Ignored
+
+    <th>
+     Note
+
+  <tbody>
+   <tr>
+    <td>
+     29 5D 7D 27
+
+    <td>
+     FF FF FF FF
+
+    <td>
+     None.
+     <!--
+     REVIEW PLEASE / DO NOT SUBMIT:
+     Current CORB implementation in Chromium doesn't allow any whitespace bytes.
+     Would it be desirable to allow them here (or do we prefer to be as strict
+     as possible in the spec)?
+     <a lt="whitespace byte">Whitespace bytes</a>.
+     -->
+
+    <td>
+     The string "<code>)]}'</code>".
+     <p class=note>Parser breaker
+       <a href=https://docs.angularjs.org/api/ng/service/$http#json-vulnerability-protection>built into angular.js</a> (followed by a comma and a newline),
+       <a href=https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/http/converter/json/MappingJackson2HttpMessageConverter.html#setPrefixJson-boolean->built into the Java Spring framework</a> (followed by a comma and a space)
+       and observed on google.com (without a comma, followed by a newline).
+
+   <tr>
+    <td>
+     7B 7D 26 26
+
+    <td>
+     FF FF FF FF
+
+    <td>
+     None.
+
+    <td>
+     The string "<code>{}&amp;&amp;'</code>".
+     <p class=note>Parser breaker
+       used by <a href=https://struts.apache.org/plugins/json/#prefix>Apache struts</a>.
+
+   <tr>
+    <td>
+     7B 7D 20 26 26
+
+    <td>
+     FF FF FF FF FF
+
+    <td>
+     None.
+
+    <td>
+     The string "<code>{} &amp;&amp;'</code>".
+     <p class=note>Parser breaker
+       used by <a href=https://goo.gl/JYPFAv>Spring framework (historically)</a>.
+
+   <tr>
+    <td>
+     66 6F 72 28 3B 3B 29 3B
+
+    <td>
+     FF FF FF FF FF FF FF FF
+
+    <td>
+     None.
+
+    <td>
+     The string "<code>for(;;);</code>".
+     <p class=note>Infinite loop
+      observed on facebook.com
+
+   <tr>
+    <td>
+     66 6F 72 20 28 3B 3B 29 3B
+
+    <td>
+     FF FF FF FF FF FF FF FF FF
+
+    <td>
+     None.
+
+    <td>
+     The string "<code>for (;;);</code>".
+     <p class=note>Infinite loop.
+
+   <tr>
+    <td>
+     77 68 69 6C 65 28 31 29 3B
+
+    <td>
+     FF FF FF FF FF FF FF FF FF
+
+    <td>
+     None.
+
+    <td>
+     The string "<code>while(1);</code>".
+     <p class=note>Infinite loop.
+
+   <tr>
+    <td>
+     77 68 69 6C 65 20 28 31 29 3B
+
+    <td>
+     FF FF FF FF FF FF FF FF FF FF
+
+    <td>
+     None.
+
+    <td>
+     The string "<code>while (1);</code>".
+     <p class=note>Infinite loop.
+
+
+ </table>
 
 
 <h2 id=context-specific-sniffing>Context-specific sniffing</h2>
