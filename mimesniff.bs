@@ -2798,12 +2798,16 @@ user agents must use the following
    Abort these steps.
 
   <li>
-   Otherwise (if the <a>no-sniff flag</a> is not set and the <a>computed MIME
-   type</a> is not covered above)
+   If the <a>computed MIME type</a> is NOT "<code>text/css</code>", then
    the CORB confirmation sniffing result is "<code>protected</code>" if
    <a href=#json-security-prefix-sniffing>JSON security prefix sniffing</a>
    algorithm returns "<code>JSON security prefix is present</code>".
    (and is "<code>allowed</code>" otherwise).
+
+   <p class=note>"<code>text/css</code>" needs to be excluded, because
+   valid CSS may contain a JSON security prefix.  See also
+   <a href=https://github.com/web-platform-tests/wpt/blob/master/fetch/corb/style-css-with-json-parser-breaker.sub.html>fetch/corb/style-css-with-json-parser-breaker.sub.html</a>
+   in Web Platform Tests.
  </ol>
 
 
