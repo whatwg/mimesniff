@@ -472,6 +472,8 @@ any <a>MIME type</a> whose <a for="MIME type">essence</a> is "<code>application/
 ends in "<code>+json</code>" or whose <a for="MIME type">essence</a> is
 "<code>application/json</code>" or "<code>text/json</code>".
 
+<p>A <dfn export>WebAssembly MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">essence</a>
+is "<code>application/wasm</code>".
 
 <h2 id=handling-a-resource>Handling a resource</h2>
 
