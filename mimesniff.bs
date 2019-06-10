@@ -420,6 +420,14 @@ is one of the following:
  <li><code>application/zip</code>
 </ul>
 
+<p>A <dfn export>compression MIME type</dfn> is any <a>MIME type</a> whose
+<a for="MIME type">essence</a> is one of the following:
+
+<ul class="brief">
+ <li><code>application/x-bzip2</code>
+ <li><code>application/x-gzip</code>
+</ul>
+
 <p>An <dfn export>archive MIME type</dfn> is any <a>MIME type</a> whose
 <!--<span>type</span> is equal to "<code title>archive</code>" or-->
 <a for="MIME type">essence</a> is one of the following:
@@ -427,7 +435,7 @@ is one of the following:
 <ul class="brief">
  <li><code>application/x-rar-compressed</code>
  <li><code>application/zip</code>
- <li><code>application/x-gzip</code>
+ <li><code>application/x-tar</code>
 </ul>
 
 <p>An <dfn export>XML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a>
