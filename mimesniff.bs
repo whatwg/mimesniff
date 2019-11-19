@@ -471,6 +471,12 @@ any <a>MIME type</a> whose <a for="MIME type">essence</a> is "<code>application/
 ends in "<code>+json</code>" or whose <a for="MIME type">essence</a> is
 "<code>application/json</code>" or "<code>text/json</code>".
 
+<p class=note>
+Unlike [=JavaScript MIME type=], [=JSON MIME type=] allows a broad range of MIME types like
+"<code>image/foo+json</code>", because they can have valid use cases and are unlikely to cause
+security issues as JSONs are not executed
+(<a href="https://github.com/whatwg/mimesniff/issues/112">#112</a>).
+</p>
 
 <h2 id=handling-a-resource>Handling a resource</h2>
 
