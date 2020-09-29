@@ -3,6 +3,7 @@ Group: WHATWG
 H1: MIME Sniffing
 Shortname: mimesniff
 Text Macro: TWITTER mimesniff
+Text Macro: LATESTRD 2020-01
 Abstract: The MIME Sniffing standard defines sniffing resources.
 Translation: ja https://triple-underscore.github.io/mimesniff-ja.html
 Markup Shorthands: css off
