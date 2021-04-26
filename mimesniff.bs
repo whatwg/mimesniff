@@ -172,8 +172,9 @@ confusion with the use of <i>media type</i> as described in <cite>Media Queries<
 <a>ASCII string</a>.
 
 <p>A <a>MIME type</a>'s <dfn export for="MIME type" id=parameters>parameters</dfn> is an
-<a>ordered map</a> whose <a for=map>keys</a> and <a for=map>values</a> are <a>ASCII strings</a>. It
-is initially empty.
+<a>ordered map</a> whose <a for=map>keys</a> are <a>ASCII strings</a> and <a for=map>values</a> are
+<a for=/>strings</a> limited to <a>HTTP quoted-string token code points</a>. It is initially empty.
+<!-- Candidate for "isomorphic string" if we ever decide to add that. -->
 
 
 <h3 id=mime-type-miscellaneous>MIME type miscellaneous</h3>
@@ -2922,6 +2923,7 @@ type</dfn>:
 <p>
  Thanks also to
  Alfred Hönes,
+ Andreu Botella,
  Anne van Kesteren,
  Boris Zbarsky,
  Darien Maillet Valentine,
