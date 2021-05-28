@@ -1775,8 +1775,10 @@ algorithm</dfn>:
 
 
      <tr>
+      <!-- RAR Legacy (up to 4.x) signature -->
+      <!-- https://www.rarlab.com/technote.htm#rarsign -->
       <td>
-       52 61 72 20 1A 07 00
+       52 61 72 21 1A 07 00
 
       <td>
        FF FF FF FF FF FF FF
@@ -1788,8 +1790,32 @@ algorithm</dfn>:
        <code>application/x-rar-compressed</code>
 
       <td>
-       The string "<code>Rar </code>" followed by SUB BEL NUL, the RAR
-       archive signature.
+       The string "<code>Rar!</code>" followed by SUB BEL NUL, the RAR
+       4.x archive signature.
+
+
+
+   </table>
+
+
+     <tr>
+      <!-- RAR 5 signature -->
+      <!-- https://www.rarlab.com/technote.htm#rarsign -->
+      <td>
+       52 61 72 21 1A 07 01 00
+
+      <td>
+       FF FF FF FF FF FF FF FF
+
+      <td>
+       None.
+
+      <td>
+       <code>application/x-rar-compressed</code>
+
+      <td>
+       The string "<code>Rar!</code>" followed by SUB BEL SOH NUL, the
+       RAR 5.0 archive signature.
 
 
 
