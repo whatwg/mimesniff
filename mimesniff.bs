@@ -1060,7 +1060,7 @@ algorithm</dfn>:
      <!-- https://tools.ietf.org/html/rfc8216#section-4.3.1.1 -->
      <tr>
       <td>
-       23 45 58 54 4d 33 55
+       23 45 58 54 4D 33 55
 
       <td>
        FF FF FF FF FF FF FF
@@ -1072,7 +1072,7 @@ algorithm</dfn>:
        <code>application/vnd.apple.mpegurl<code>
 
       <td>
-       The string "<code>EXTM3U</code>", the tag that always
+       The string "<code>#EXTM3U</code>", the tag that always
        starts an Extended M3U playlist file.
 
 
