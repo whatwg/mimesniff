@@ -984,24 +984,6 @@ algorithm</dfn>:
 
 
     <tbody>
-     <!-- http://www-mmsp.ece.mcgill.ca/Documents/AudioFormats/AU/AU.html -->
-     <tr>
-      <td>
-       2E 73 6E 64
-
-      <td>
-       FF FF FF FF
-
-      <td>
-       None.
-
-      <td>
-       <code>audio/basic</code>
-
-      <td>
-       The string "<code>.snd</code>", the basic audio signature.
-
-
      <!-- https://multimedia.cx/mirror/AudioIFF1_2_1.htm -->
      <tr>
       <td>
