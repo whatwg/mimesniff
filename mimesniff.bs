@@ -22,6 +22,7 @@ Markup Shorthands: css off
  },
  "SECCONTSNIFF": {
   "authors": ["Adam Barth", "Juan Caballero", "Dawn Song"],
+  "date": "May 2009",
   "href": "https://www.adambarth.com/papers/2009/barth-caballero-song.pdf",
   "title": "Secure Content Sniffing for Web Browsers, or How to Stop Papers from Reviewing Themselves"
  }
