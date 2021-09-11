@@ -84,7 +84,7 @@ spec:html;
  Caballero, and Dawn Song, based on content sniffing algorithms present in
  popular user agents, an extensive database of existing web content, and
  metrics collected from implementations deployed to a sizable number of users.
- [[!SECCONTSNIFF]]
+ [[SECCONTSNIFF]]
 
 
 
@@ -433,7 +433,7 @@ is one of the following:
 
 <p>An <dfn export>XML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">subtype</a>
 ends in "<code>+xml</code>" or whose <a for="MIME type">essence</a> is "<code>text/xml</code>" or
-"<code>application/xml</code>". [[!RFC7303]]
+"<code>application/xml</code>". [[RFC7303]]
 
 <p>An <dfn export>HTML MIME type</dfn> is any <a>MIME type</a> whose <a for="MIME type">essence</a>
 is "<code>text/html</code>".
@@ -625,7 +625,7 @@ ends in "<code>+json</code>" or whose <a for="MIME type">essence</a> is
    FTP), set <var>supplied-type</var> to the <a>MIME type</a> as
    determined by that protocol, if any.
 
-   [[!FTP]]
+   [[FTP]]
 
   <li>
    If <var>supplied-type</var> is not a <a>MIME type</a>, the
