@@ -1797,30 +1797,6 @@ algorithm</dfn>:
 
    </table>
 
-
-     <tr>
-      <!-- RAR 5 signature -->
-      <!-- https://www.rarlab.com/technote.htm#rarsign -->
-      <td>
-       52 61 72 21 1A 07 01 00
-
-      <td>
-       FF FF FF FF FF FF FF FF
-
-      <td>
-       None.
-
-      <td>
-       <code>application/x-rar-compressed</code>
-
-      <td>
-       The string "<code>Rar!</code>" followed by SUB BEL SOH NUL, the
-       RAR 5.0 archive signature.
-
-
-
-   </table>
-
   <li><p>Return undefined.
  </ol>
 
