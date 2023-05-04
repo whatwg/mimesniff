@@ -198,8 +198,39 @@ confusion with the use of <i>media type</i> as described in <cite>Media Queries<
 <p>A <a>MIME type</a> is <dfn export>supported by the user agent</dfn> if the user agent has the
 capability to interpret a <a>resource</a> of that <a>MIME type</a> and present it to the user.
 
-<p class=XXX>This needs more work. See
+<p class=XXX>Ideally this would be more precise. See
 <a href=https://github.com/w3c/preload/issues/113>w3c/preload #113</a>.
+
+<div algorithm>
+<p>To <dfn export>minimize a supported MIME type</dfn> given a <a>MIME type</a> <var>mimeType</var>,
+run these steps. They return an <a>ASCII string</a>.
+
+<ol>
+ <li><p>If <var>mimeType</var> is a <a>JavaScript MIME type</a>, then return
+ "<code>text/javascript</code>".
+
+ <li><p>If <var>mimeType</var> is a <a>JSON MIME type</a>, then return
+ "<code>application/json</code>".
+
+ <li>
+  <p>If <var>mimeType</var>'s <a for="MIME type">essence</a> is "<code>image/svg+xml</code>", then
+  return "<code>image/svg+xml</code>".
+
+  <p class=note>SVG is worth distinguishing from other <a>XML MIME types</a>.
+
+ <li><p>If <var>mimeType</var> is an <a>XML MIME type</a>, then return
+ "<code>application/xml</code>".
+
+ <li><p>If <var>mimeType</var> is <a>supported by the user agent</a>, then return
+ <var>mimeType</var>'s <a for="MIME type">essence</a>.
+
+ <li><p>Return the empty string.
+</ol>
+
+<p class=note>The goal of this algorithm is to allow the caller to distinguish MIME types with
+different processing models, such as those for GIF and PNG, but otherwise provide as little
+information as possible.
+</div>
 
 
 <h3 id=mime-type-writing>MIME type writing</h3>
