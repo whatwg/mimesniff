@@ -212,8 +212,11 @@ run these steps. They return an <a>ASCII string</a>.
  <li><p>If <var>mimeType</var> is a <a>JSON MIME type</a>, then return
  "<code>application/json</code>".
 
- <li><p>If <var>mimeType</var>'s <a for="MIME type">essence</a> is "<code>image/svg+xml</code>",
- then return "<code>image/svg+xml</code>".
+ <li>
+  <p>If <var>mimeType</var>'s <a for="MIME type">essence</a> is "<code>image/svg+xml</code>", then
+  return "<code>image/svg+xml</code>".
+
+  <p class=note>SVG is worth distinguishing from other <a>XML MIME types</a>.
 
  <li><p>If <var>mimeType</var> is an <a>XML MIME type</a>, then return
  "<code>application/xml</code>".
