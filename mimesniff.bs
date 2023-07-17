@@ -648,7 +648,7 @@ ends in "<code>+json</code>" or whose <a for="MIME type">essence</a> is
         The <a>supplied MIME type detection algorithm</a> detects these
         exact <a>byte</a> sequences because some older installations of
         Apache contain
-        <a href=https://issues.apache.org/bugzilla/show_bug.cgi?id=13986>a
+        <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=13986">a
         bug</a> that causes them to supply one of these Content-Type headers
         when serving files with unrecognized <a lt="MIME type">MIME
         types</a>.
