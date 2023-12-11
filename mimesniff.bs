@@ -14,11 +14,8 @@ Markup Shorthands: css off
  "FTP": {
   "aliasOf": "rfc0959"
  },
- "HTTP-1.1": {
-  "aliasOf": "rfc7230"
- },
  "HTTP-SEMANTICS": {
-  "aliasOf": "rfc7231"
+  "aliasOf": "rfc9110"
  },
  "KEYWORDS": {
   "aliasOf": "rfc2119"
@@ -36,14 +33,11 @@ Markup Shorthands: css off
 </pre>
 
 <pre class=anchors>
-spec: HTTP-1.1; urlPrefix: https://tools.ietf.org/html/rfc7230
+spec: HTTP-SEMANTICS; urlPrefix: https://www.rfc-editor.org/rfc/rfc9110
     type: dfn
-        text: token; url: #section-3.2.6
-        text: quoted-string; url: #section-3.2.6
-
-spec: HTTP-SEMANTICS; urlPrefix: https://tools.ietf.org/html/rfc7231
-    type: dfn
-        text: media-type; url: #section-3.1.1.1
+        text: media-type; url: #name-media-type
+        text: quoted-string; url: #name-quoted-strings
+        text: token; url: #name-tokens
 </pre>
 
 <pre class=link-defaults>
@@ -132,14 +126,14 @@ spec:html;
 U+0026 (&amp;), U+0027 ('), U+002A (*), U+002B (+), U+002D (-), U+002E (.), U+005E (^), U+005F (_),
 U+0060 (`), U+007C (|), U+007E (~), or an <a>ASCII alphanumeric</a>.</p>
 
-<p class=note>This matches the value space of the <a spec="HTTP-1.1">token</a> token production. [[HTTP-1.1]]
+<p class=note>This matches the value space of the <a>token</a> token production. [[HTTP-SEMANTICS]]
 
 <p>An <dfn>HTTP quoted-string token code point</dfn> is U+0009 TAB, a <a>code point</a> in the range
 U+0020 SPACE to U+007E (~), inclusive, or a <a>code point</a> in the range U+0080 through
 U+00FF (ÿ), inclusive.
 
-<p class=note>This matches the effective value space of the <a spec="HTTP-1.1">quoted-string</a> token
-production. By definition it is a superset of the <a>HTTP token code points</a>. [[HTTP-1.1]]
+<p class=note>This matches the effective value space of the <a>quoted-string</a> token
+production. By definition it is a superset of the <a>HTTP token code points</a>. [[HTTP-SEMANTICS]]
 
 <p>
  A <dfn>binary data byte</dfn> is a <a>byte</a> in the range 0x00 to
@@ -655,7 +649,7 @@ ends in "<code>+json</code>" or whose <a for="MIME type">essence</a> is
      </ol>
    </ol>
 
-   [[!HTTP-1.1]]
+   [[!HTTP-SEMANTICS]]
 
   <li>
    If the <a>resource</a> is retrieved directly from the file system,
