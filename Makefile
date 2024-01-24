@@ -16,7 +16,7 @@ remote: mimesniff.bs
 	);
 
 local: mimesniff.bs
-	bikeshed spec mimesniff.bs mimesniff.html --md-Text-Macro="COMMIT-SHA LOCAL COPY"
+	bikeshed spec mimesniff.bs mimesniff.html --md-Text-Macro="COMMIT-SHA LOCAL-COPY"
 
 deploy: mimesniff.bs
 	curl --remote-name --fail https://resources.whatwg.org/build/deploy.sh
