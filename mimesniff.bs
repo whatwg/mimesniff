@@ -1271,7 +1271,7 @@ algorithm</dfn>:
       <li> Let <var>number size</var> be the result
       of <a href=#parse-a-vint>parsing a <code>vint</code></a> starting at <var>sequence</var>[<var>iter</var>].
       <li> Increment <var>iter</var> by <var>number size</var>.
-      <li> If <var>iter</var> is less than <var>length</var> - 4, abort these
+      <li> If <var>iter</var> is greater or equal than <var>length</var> - 4, abort these
       steps.
       <li> Let <var>matched</var> be the result of <a href=#matching-a-padded-sequence>matching a padded
         sequence</a> 0x77 0x65 0x62 0x6D
