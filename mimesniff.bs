@@ -1298,7 +1298,7 @@ use the following steps:
  <li>Let <var>index</var> be 0.
  <li>Let <var>parsed number</var> be <var>sequence</var>[<var>index</var>] &amp; ~<var>mask</var>.
  <li>Increment <var>index</var> by one.
- <li>Let <var>bytes remaining</var> be the value of <var>number size</var>.
+ <li>Let <var>bytes remaining</var> be the value of <var>number size</var> - 1.
  <li>
   While <var>bytes remaining</var> is not zero, execute there steps:
   <ol>
@@ -2949,6 +2949,7 @@ type</dfn>:
  David Singer,
  Domenic Denicola,
  Henri Sivonen,
+ Jean-Yves Avenard,
  Jonathan Neal,
  Joshua Cranmer,
  Larry Masinter,
