@@ -791,7 +791,7 @@ and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and ret
 
 <p>To determine which <a>image MIME type</a> <a>byte pattern</a> a <a>byte sequence</a>
 <var>input</var> matches, if any, use the following
-<dfn>image type pattern matching algorithm</dfn>:
+<dfn export>image type pattern matching algorithm</dfn>:
 
  <ol>
   <li><p>Execute the following steps for each row <var>row</var> in the following table:
@@ -985,7 +985,7 @@ and a <a for=/>set</a> of <a>bytes</a> to be ignored <var>ignored</var>, and ret
 <h3 id=matching-an-audio-or-video-type-pattern>Matching an audio or video type pattern</h3>
 
 <p>To determine which <a>audio or video MIME type</a> <a>byte pattern</a> a <a>byte sequence</a>
-<var>input</var> matches, if any, use the following <dfn>audio or video type pattern matching
+<var>input</var> matches, if any, use the following <dfn export>audio or video type pattern matching
 algorithm</dfn>:
 
  <ol>
