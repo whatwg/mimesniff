@@ -1807,6 +1807,12 @@ algorithm</dfn>:
 
  <ol>
   <li>
+   If the <a>supplied MIME type</a> is an <a>XML MIME type</a> or <a>HTML MIME type</a>, the
+   <a>computed MIME type</a> is the <a>supplied MIME type</a>.
+
+   Abort these steps.
+
+  <li>
    If the <a>supplied MIME type</a> is undefined or if the
    <a>supplied MIME type</a>'s <a for="MIME type">essence</a> is
    "<code>unknown/unknown</code>",
@@ -1824,17 +1830,6 @@ algorithm</dfn>:
   <li>
    If the <a>check-for-apache-bug flag</a> is set, execute the
    <a>rules for distinguishing if a resource is text or binary</a> and
-   abort these steps.
-
-  <li>
-   If the <a>supplied MIME type</a> is an <a>XML MIME type</a>, the
-   <a>computed MIME type</a> is the <a>supplied MIME type</a>.
-
-   Abort these steps.
-
-  <li>
-   If the <a>supplied MIME type</a>'s <a for="MIME type">essence</a> is "<code>text/html</code>",
-   execute the <a>rules for distinguishing if a resource is a feed or HTML</a> and
    abort these steps.
 
   <li>
@@ -2264,9 +2259,6 @@ type</dfn>:
 
    </table>
 
-   <p class=XXX>
-    What about feeds?
-
   <li>
    <p>Execute the following steps for each row <var>row</var> in the following table:
 
@@ -2463,279 +2455,6 @@ type</dfn>:
    to be a <a>scriptable MIME type</a>, as this could allow a privilege
    escalation attack.
 </ol>
-
-
-
-<h3 id=sniffing-a-mislabeled-feed>Sniffing a mislabeled feed</h3>
-
-<p>
- To determine whether a feed has been mislabeled as HTML, execute the
- following <dfn>rules for distinguishing if a resource is a feed or
- HTML</dfn>:
-
- <ol>
-  <li>
-   Let <var>sequence</var> be the <a>resource header</a>, where
-   <var>sequence</var>[<var>s</var>] is <a>byte</a> <var>s</var> in
-   <var>sequence</var> and <var>sequence</var>[0] is the first
-   <a>byte</a> in <var>sequence</var>.
-
-  <li>
-   Let <var>length</var> be the number of <a>bytes</a> in
-   <var>sequence</var>.
-
-  <li>
-   Initialize <var>s</var> to 0.
-
-  <li>
-   If <var>length</var> is greater than or equal to 3 and the three
-   <a>bytes</a> from <var>sequence</var>[0] to
-   <var>sequence</var>[2] are equal to 0xEF 0xBB 0xBF (UTF-8 BOM), increment
-   <var>s</var> by 3.
-
-  <li>
-   While <var>s</var> is less than <var>length</var>, continuously loop
-   through these steps:
-
-   <ol>
-    <li>
-     Enter loop <var>L</var>:
-
-     <ol>
-      <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <a>computed
-       MIME type</a> is the <a>supplied MIME type</a>.
-
-       Abort these steps.
-
-      <li>
-       If <var>sequence</var>[<var>s</var>] is equal to 0x3C
-       ("<code>&lt;</code>"), increment <var>s</var> by 1 and exit loop
-       <var>L</var>.
-
-      <li>
-       If <var>sequence</var>[<var>s</var>] is not a <a>whitespace
-       byte</a>, the <a>computed MIME type</a> is the <a>supplied
-       MIME type</a>.
-
-       Abort these steps.
-
-      <li>
-       Increment <var>s</var> by 1.
-     </ol>
-
-    <li>
-     Enter loop <var>L</var>:
-
-     <ol>
-      <li>
-       If <var>sequence</var>[<var>s</var>] is undefined, the <a>computed
-       MIME type</a> is the <a>supplied MIME type</a>.
-
-       Abort these steps.
-
-      <li>
-       If <var>length</var> is greater than or equal to <var>s</var> + 3 and
-       the three <a>bytes</a> from
-       <var>sequence</var>[<var>s</var>] to
-       <var>sequence</var>[<var>s</var> + 2] are equal to 0x21 0x2D 0x2D
-       ("<code>!--</code>"), increment <var>s</var> by 3 and enter loop
-       <var>M</var>:
-
-       <ol>
-        <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a>computed
-         MIME type</a> is the <a>supplied MIME type</a>.
-
-         Abort these steps.
-
-        <li>
-         If <var>length</var> is greater than or equal to <var>s</var> + 3 and
-         the three <a>bytes</a> from
-         <var>sequence</var>[<var>s</var>] to
-         <var>sequence</var>[<var>s</var> + 2] are equal to 0x2D 0x2D 0x3E
-         ("<code>--></code>"), increment <var>s</var> by 3 and exit
-         loops <var>M</var> and <var>L</var>.
-
-        <li>
-         Increment <var>s</var> by 1.
-       </ol>
-
-      <li>
-       If <var>length</var> is greater than or equal to <var>s</var> + 1 and
-       <var>sequence</var>[<var>s</var>] is equal to 0x21
-       ("<code>!</code>"), increment <var>s</var> by 1 and enter loop
-       <var>M</var>:
-
-       <ol>
-        <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a>computed
-         MIME type</a> is the <a>supplied MIME type</a>.
-
-         Abort these steps.
-
-        <li>
-         If <var>length</var> is greater than or equal to <var>s</var> + 1 and
-         <var>sequence</var>[<var>s</var>] is equal to 0x3E
-         ("<code>></code>"), increment <var>s</var> by 1 and exit loops
-         <var>M</var> and <var>L</var>.
-
-        <li>
-         Increment <var>s</var> by 1.
-       </ol>
-
-      <li>
-       If <var>length</var> is greater than or equal to <var>s</var> + 1 and
-       <var>sequence</var>[<var>s</var>] is equal to 0x3F
-       ("<code>?</code>"), increment <var>s</var> by 1 and enter loop
-       <var>M</var>:
-
-       <ol>
-        <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a>computed
-         MIME type</a> is the <a>supplied MIME type</a>.
-
-         Abort these steps.
-
-        <li>
-         If <var>length</var> is greater than or equal to <var>s</var> + 2 and
-         the two <a>bytes</a> from
-         <var>sequence</var>[<var>s</var>] to
-         <var>sequence</var>[<var>s</var> + 1] are equal to 0x3F 0x3E
-         ("<code>?></code>"), increment <var>s</var> by 2 and exit loops
-         <var>M</var> and <var>L</var>.
-
-        <li>
-         Increment <var>s</var> by 1.
-       </ol>
-
-      <li>
-       If <var>length</var> is greater than or equal to <var>s</var> + 3 and
-       the three <a>bytes</a> from
-       <var>sequence</var>[<var>s</var>] to
-       <var>sequence</var>[<var>s</var> + 2] are equal to 0x72 0x73 0x73
-       ("<code>rss</code>"), the <a>computed MIME type</a> is
-       "<code>application/rss+xml</code>".
-
-       Abort these steps.
-
-      <li>
-       If <var>length</var> is greater than or equal to <var>s</var> + 4 and
-       the four <a>bytes</a> from
-       <var>sequence</var>[<var>s</var>] to
-       <var>sequence</var>[<var>s</var> + 3] are equal to 0x66 0x65 0x65 0x64
-       ("<code>feed</code>"), the <a>computed MIME type</a> is
-       "<code>application/atom+xml</code>".
-
-       Abort these steps.
-
-      <li>
-       If <var>length</var> is greater than or equal to <var>s</var> + 7 and
-       the seven <a>bytes</a> from
-       <var>sequence</var>[<var>s</var>] to
-       <var>sequence</var>[<var>s</var> + 6] are equal to 0x72 0x64 0x66 0x3A
-       0x52 0x44 0x46 ("<code>rdf:RDF</code>"), increment <var>s</var>
-       by 7 and enter loop <var>M</var>:
-
-       <ol>
-        <li>
-         If <var>sequence</var>[<var>s</var>] is undefined, the <a>computed
-         MIME type</a> is the <a>supplied MIME type</a>.
-
-         Abort these steps.
-
-        <li>
-         If <var>length</var> is greater than or equal to <var>s</var> + 24
-         and the twenty-four <a>bytes</a> from
-         <var>sequence</var>[<var>s</var>] to
-         <var>sequence</var>[<var>s</var> + 23] are equal to 0x68 0x74 0x74
-         0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F 0x72
-         0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
-         ("<code>http://purl.org/rss/1.0/</code>"), increment
-         <var>s</var> by 24 and enter loop <var>N</var>:
-
-         <ol>
-          <li>
-           If <var>sequence</var>[<var>s</var>] is undefined, the
-           <a>computed MIME type</a> is the <a>supplied MIME
-           type</a>.
-
-           Abort these steps.
-
-          <li>
-           If <var>length</var> is greater than or equal to <var>s</var> + 43
-           and the forty-three <a>bytes</a> from
-           <var>sequence</var>[<var>s</var>] to
-           <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
-           0x70 0x3A 0x2F 0x2F 0x77 0x77 0x77 0x2E 0x77 0x33 0x2E 0x6F 0x72
-           0x67 0x2F 0x31 0x39 0x39 0x39 0x2F 0x30 0x32 0x2F 0x32 0x32 0x2D
-           0x72 0x64 0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73
-           0x23
-           ("<code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
-           the <a>computed MIME type</a> is
-           "<code>application/rss+xml</code>".
-
-           Abort these steps.
-
-          <li>
-           Increment <var>s</var> by 1.
-         </ol>
-
-        <li>
-         If <var>length</var> is greater than or equal to <var>s</var> + 24
-         and the twenty-four <a>bytes</a> from
-         <var>sequence</var>[<var>s</var>] to
-         <var>sequence</var>[<var>s</var> + 23] are equal to 0x68 0x74 0x74
-         0x70 0x3A 0x2F 0x2F 0x77 0x77 0x77 0x2E 0x77 0x33 0x2E 0x6F 0x72 0x67
-         0x2F 0x31 0x39 0x39 0x39 0x2F 0x30 0x32 0x2F 0x32 0x32 0x2D 0x72 0x64
-         0x66 0x2D 0x73 0x79 0x6E 0x74 0x61 0x78 0x2D 0x6E 0x73 0x23
-         ("<code>http://www.w3.org/1999/02/22-rdf-syntax-ns#</code>"),
-         increment <var>s</var> by 24 and enter loop <var>N</var>:
-
-         <ol>
-          <li>
-           If <var>sequence</var>[<var>s</var>] is undefined, the
-           <a>computed MIME type</a> is the <a>supplied MIME
-           type</a>.
-
-           Abort these steps.
-
-          <li>
-           If <var>length</var> is greater than or equal to <var>s</var> + 43
-           and the forty-three <a>bytes</a> from
-           <var>sequence</var>[<var>s</var>] to
-           <var>sequence</var>[<var>s</var> + 42] are equal to 0x68 0x74 0x74
-           0x70 0x3A 0x2F 0x2F 0x70 0x75 0x72 0x6C 0x2E 0x6F 0x72 0x67 0x2F
-           0x72 0x73 0x73 0x2F 0x31 0x2E 0x30 0x2F
-           ("<code>http://purl.org/rss/1.0/</code>"), the <a>computed
-           MIME type</a> is "<code>application/rss+xml</code>".
-
-           Abort these steps.
-
-          <li>
-           Increment <var>s</var> by 1.
-         </ol>
-
-        <li>
-         Increment <var>s</var> by 1.
-       </ol>
-
-      <li>
-       The <a>computed MIME type</a> is the <a>supplied MIME
-       type</a>.
-
-       Abort these steps.
-     </ol>
-   </ol>
-
-  <li>
-   The <a>computed MIME type</a> is the <a>supplied MIME type</a>.
- </ol>
-
-<p class=note>
- It might be more efficient for the user agent to implement the <a>rules
- for distinguishing if a resource is a feed or HTML</a> in parallel with
- its algorithm for detecting the character encoding of an HTML document.
 
 
 
