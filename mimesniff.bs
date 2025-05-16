@@ -1285,6 +1285,7 @@ use the following steps:
  <li>Let <var>mask</var> be 128.
  <li>Let <var>max vint length</var> be 8.
  <li>Let <var>number size</var> be 1.
+ <li>Let <var>index</var> be 0.
  <li>
   While <var>number size</var> is less than <var>max vint length</var>, and less than
   <var>length</var>, continuously loop through these steps:
@@ -1295,7 +1296,6 @@ use the following steps:
    <li>Let <var>mask</var> be the value of <var>mask</var> >> 1.
    <li>Increment <var>number size</var> by one.
   </ol>
- <li>Let <var>index</var> be 0.
  <li>Let <var>parsed number</var> be <var>sequence</var>[<var>index</var>] &amp; ~<var>mask</var>.
  <li>Increment <var>index</var> by one.
  <li>Let <var>bytes remaining</var> be the value of <var>number size</var> - 1.
@@ -2663,6 +2663,7 @@ type</dfn>:
  Alfred Hönes,
  Andreu Botella,
  Anne van Kesteren,
+ Ben Eidson,
  Boris Zbarsky,
  Darien Maillet Valentine,
  David Singer,
