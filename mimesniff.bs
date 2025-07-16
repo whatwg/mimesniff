@@ -6,6 +6,7 @@ Text Macro: TWITTER mimesniff
 Text Macro: LATESTRD 2025-01
 Abstract: The MIME Sniffing standard defines sniffing resources.
 Translation: ja https://triple-underscore.github.io/mimesniff-ja.html
+Translation: zh-Hans https://htmlspecs.com/mimesniff/
 Markup Shorthands: css off
 </pre>
 
