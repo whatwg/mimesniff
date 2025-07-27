@@ -442,7 +442,7 @@ these steps:
 
 <ul class="brief">
  <li><code>application/font-cff</code>
- <li><code>application/font-off</code>
+ <li><code>application/font-otf</code>
  <li><code>application/font-sfnt</code>
  <li><code>application/font-ttf</code>
  <li><code>application/font-woff</code>
