@@ -1368,10 +1368,8 @@ execute these steps:
   <li>If <var>sample-rate</var> is 3, return false.
   <li>Let <var>freq</var> be the value given by <var>sample-rate</var>
   in the table sample-rate.
-  <li>Let <var>final-layer</var> be the result of 4 -
-  (<var>sequence</var>[<var>s</var> + 1]).
-  <li>If <var>final-layer</var> &amp; 0x06 >> 1 is not 3, return
-  false.
+  <li>Let <var>final-layer</var> be the result of 4 - ((<var>sequence</var>[<var>s</var> + 1] &amp; 0x06) >> 1).
+  <li>If <var>final-layer</var> is not 3, return false.
   <li>Return true.
 </ol>
 
