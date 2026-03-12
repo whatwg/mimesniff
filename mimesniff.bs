@@ -1396,6 +1396,8 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
  <li>Let <var>samplerate-index</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x0c >> 2.
  <li>Let <var ignore>samplerate</var> be the value given by <var>samplerate-index</var> in the
  <var>sample-rate</var> table.
+ <li>If <var>version</var> is 2, let <var>samplerate</var> be the result of <var>samplerate</var> / 2.
+ <li>If <var>version</var> is 0, let <var>samplerate</var> be the result of <var>samplerate</var> / 4.
  <li>Let <var>pad</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x02 >> 1.
 </ol>
 
