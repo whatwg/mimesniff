@@ -1819,8 +1819,7 @@ algorithm</dfn>:
   <li>
    If the <a>supplied MIME type</a> is undefined or if the
    <a>supplied MIME type</a>'s <a for="MIME type">essence</a> is
-   "<code>unknown/unknown</code>",
-   "<code>application/unknown</code>", or "<code>*/*</code>",
+   "<code>*/*</code>",
    execute the <a>rules for identifying an unknown MIME type</a> with
    the <a>sniff-scriptable flag</a> equal to the inverse of the
    <a>no-sniff flag</a> and abort these steps.
