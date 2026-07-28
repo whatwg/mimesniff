@@ -1079,6 +1079,25 @@ algorithm</dfn>:
        signature.
 
 
+     <!-- https://tools.ietf.org/html/rfc8216#section-4.3.1.1 -->
+     <tr>
+      <td>
+       23 45 58 54 4D 33 55
+
+      <td>
+       FF FF FF FF FF FF FF
+
+      <td>
+       None.
+
+      <td>
+       <code>application/vnd.apple.mpegurl<code>
+
+      <td>
+       The string "<code>#EXTM3U</code>", the tag that always
+       starts an Extended M3U playlist file.
+
+
      <!-- https://hostr.co/LJUEw0K -->
      <tr>
       <td>
