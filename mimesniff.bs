@@ -1139,7 +1139,22 @@ algorithm</dfn>:
        <a>bytes</a> followed by the string
        "<code>WAVE</code>", the WAVE signature.
 
+     <!-- https://xiph.org/flac/format.html -->
+     <tr>
+      <td>
+       66 4C 61 43
 
+      <td>
+       FF FF FF FF
+
+      <td>
+       None.
+
+      <td>
+       <code>audio/flac</code>
+
+      <td>
+        The string "<code>fLaC</code>".
 
    </table>
 
