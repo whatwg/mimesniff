@@ -1337,66 +1337,60 @@ for MP3 without ID3</dfn>, use the following steps:
   <li> Let <var>length</var> be the number of <a>bytes</a> in
   <var>sequence</var>.
   <li>Initialize s to 0.
-  <li>If the result of the operation <a href=#match-an-mp3-header>match mp3
-  header</a> is false, return false.
-  <li><a href=#parse-an-mp3-frame>Parse an mp3 frame</a> on
-  <var>sequence</var> at offset <var>s</var>
-  <li>Let <var>skipped-bytes</var> the return value of the execution of <a href=#compute-an-mp3-frame-size>mp3 framesize computation</a>
+  <li>If the result of the operation <a href=#match-an-mp3-frame-header>match an mp3
+  frame header</a> at offset <var>s</var> is false, return false.
+  <li>Let <var>header</var> be the result of <a href=#parse-an-mp3-frame-header>parsing an mp3 frame
+  header</a> on <var>sequence</var> at offset <var>s</var>.
+  <li>Let <var>skipped-bytes</var> be the return value of <a href=#compute-an-mp3-frame-size>computing an mp3 frame size</a> on <var>header</var>.
   <li>If <var>skipped-bytes</var> is less than 4, or <var>skipped-bytes</var> is
-  greater than <var>s</var> - <var>length</var>, return false.
+  greater than <var>length</var> - <var>s</var>, return false.
   <li>Increment s by <var>skipped-bytes</var>.
-  <li>If the result of the operation <a href=#match-an-mp3-header>match mp3
-  header</a> operation is false, return false, else, return true.
+  <li>If the result of the operation <a href=#match-an-mp3-frame-header>match an mp3
+  frame header</a> at offset <var>s</var> is false, return false, else, return true.
 </ol>
 
-To <dfn>match an mp3 header</dfn>, using a <a>byte sequence</a>
+To <dfn>match an mp3 frame header</dfn>, using a <a>byte sequence</a>
 <var>sequence</var> of length <var>length</var> at offset <var>s</var>
 execute these steps:
 <ol>
-  <li>If <var>length</var> is less than 4, return false.
-  <li>If <var>sequence</var>[<var>s</var>] is not equal to 0xff and
-  <var>sequence</var>[<var>s</var> + 1] &amp; 0xe0 is not equal to 0xe0, return
+  <li>If <var>length</var> - <var>s</var> is less than 4, return false.
+  <li>If <var>sequence</var>[<var>s</var>] is not equal to 0xff or
+  (<var>sequence</var>[<var>s</var> + 1] &amp; 0xe0) is not equal to 0xe0, return
   false.
-  <li>Let <var>layer</var> be the result of <var>sequence</var>[<var>s</var> +
-  1] &amp; 0x06 >> 1.
-  <li>If <var>layer</var> is 0, return false.
-  <li>Let <var>bit-rate</var> be <var>sequence</var>[<var>s</var> + 2] &amp;
-  0xf0 >> 4.
-  <li>If <var>bit-rate</var> is 15, return false.
-  <li>Let <var>sample-rate</var> be <var>sequence</var>[<var>s</var> + 2] &amp;
-  0x0c >> 2.
-  <li>If <var>sample-rate</var> is 3, return false.
-  <li>Let <var>freq</var> be the value given by <var>sample-rate</var>
-  in the table sample-rate.
-  <li>Let <var>final-layer</var> be the result of 4 - ((<var>sequence</var>[<var>s</var> + 1] &amp; 0x06) >> 1).
-  <li>If <var>final-layer</var> is not 3, return false.
+  <li>Let <var>layer</var> be (<var>sequence</var>[<var>s</var> + 1] &amp; 0x06) >> 1.
+  <li>If <var>layer</var> is not 1, return false.
+  <li>Let <var>bitrate-index</var> be (<var>sequence</var>[<var>s</var> + 2] &amp; 0xf0) >> 4.
+  <li>If <var>bitrate-index</var> is 15, return false.
+  <li>Let <var>samplerate-index</var> be (<var>sequence</var>[<var>s</var> + 2] &amp; 0x0c) >> 2.
+  <li>If <var>samplerate-index</var> is 3, return false.
   <li>Return true.
 </ol>
 
-To <dfn>compute an mp3 frame size</dfn>, execute these steps:
+To <dfn>compute an mp3 frame size</dfn> given an mp3 frame header <var>header</var>, execute these steps:
 <ol>
-  <li>If <var>version</var> is 1, let <var>scale</var> be 72, else, let
-  <var>scale</var> be 144.
-  <li>Let <var>size</var> be <var>bitrate</var> * <var>scale</var> /
-  <var>freq</var>.
-  <li>If <var>pad</var> is not zero, increment <var>size</var> by 1.
+  <li>If <var>header</var>'s <var>version</var> &amp; 0x01 is non-zero, let <var>scale</var> be 144, else, let
+  <var>scale</var> be 72.
+  <li>Let <var>size</var> be <var>header</var>'s <var>bitrate</var> * <var>scale</var> /
+  <var>header</var>'s <var>freq</var>, rounded down.
+  <li>If <var>header</var>'s <var>pad</var> is not zero, increment <var>size</var> by 1.
   <li>Return <var>size</var>.
 </ol>
 
-To <dfn>parse an mp3 frame</dfn>, execute these steps:
+To <dfn>parse an mp3 frame header</dfn>, using a <a>byte sequence</a>
+<var>sequence</var> at offset <var>s</var>, execute these steps:
 <ol>
- <li>Let <var>version</var> be <var>sequence</var>[<var>s</var> + 1] &amp; 0x18 >> 3.
- <li>Let <var>bitrate-index</var> be sequence[s + 2] &amp; 0xf0 >> 4.
+ <li>Let <var>version</var> be (<var>sequence</var>[<var>s</var> + 1] &amp; 0x18) >> 3.
+ <li>Let <var>bitrate-index</var> be (<var>sequence</var>[<var>s</var> + 2] &amp; 0xf0) >> 4.
  <li>If the <var>version</var> &amp; 0x01 is non-zero, let <var>bitrate</var> be the value given by
- <var>bitrate-index</var> in the table mp2.5-rates
- <li>If <var>version</var> &amp; 0x01 is zero, let <var>bitrate</var> be the value given by
- <var>bitrate-index</var> in the table mp3-rates
- <li>Let <var>samplerate-index</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x0c >> 2.
- <li>Let <var ignore>samplerate</var> be the value given by <var>samplerate-index</var> in the
- <var>sample-rate</var> table.
- <li>If <var>version</var> is 2, let <var>samplerate</var> be the result of <var>samplerate</var> / 2.
- <li>If <var>version</var> is 0, let <var>samplerate</var> be the result of <var>samplerate</var> / 4.
- <li>Let <var>pad</var> be <var>sequence</var>[<var>s</var> + 2] &amp; 0x02 >> 1.
+ <var>bitrate-index</var> in the table mp3-rates, else let <var>bitrate</var> be the value given by
+ <var>bitrate-index</var> in the table mp2.5-rates.
+ <li>Let <var>samplerate-index</var> be (<var>sequence</var>[<var>s</var> + 2] &amp; 0x0c) >> 2.
+ <li>Let <var>freq</var> be the value given by <var>samplerate-index</var> in the
+ sample-rate table.
+ <li>If <var>version</var> is 2 (MPEG-2), let <var>freq</var> be <var>freq</var> / 2.
+ <li>If <var>version</var> is 0 (MPEG-2.5), let <var>freq</var> be <var>freq</var> / 4.
+ <li>Let <var>pad</var> be (<var>sequence</var>[<var>s</var> + 2] &amp; 0x02) >> 1.
+ <li>Return an mp3 frame header with <var>version</var>, <var>bitrate</var>, <var>freq</var>, and <var>pad</var>.
 </ol>
 
 <figure>
