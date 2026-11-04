@@ -1069,7 +1069,7 @@ algorithm</dfn>:
        None.
 
       <td>
-       <code>application/vnd.apple.mpegurl<code>
+       <code>application/vnd.apple.mpegurl</code>
 
       <td>
        The string "<code>#EXTM3U</code>", the tag that always
