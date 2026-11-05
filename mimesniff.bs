@@ -1139,6 +1139,38 @@ algorithm</dfn>:
        <a>bytes</a> followed by the string
        "<code>WAVE</code>", the WAVE signature.
 
+     <tr>
+      <td>
+       66 4C 61 43
+
+      <td>
+       FF FF FF FF
+
+      <td>
+       None.
+
+      <td>
+       <code>audio/flac</code>
+
+      <td>
+       The string "<code>fLaC</code>", the FLAC signature.
+
+     <tr>
+      <td>
+       23 45 58 54 4D 33 55
+
+      <td>
+       FF FF FF FF FF FF FF
+
+      <td>
+       None.
+
+      <td>
+       <code>application/vnd.apple.mpegurl</code>
+
+      <td>
+       The string "<code>#EXTM3U</code>", the HLS playlist signature.
+
 
 
    </table>
@@ -1148,8 +1180,17 @@ algorithm</dfn>:
   <li><p>If <var>input</var> <a>matches the signature for WebM</a>, return
   "<code>video/webm</code>".
 
+  <li><p>If <var>input</var> <a>matches the signature for Matroska</a>, return
+  "<code>video/matroska</code>".
+
   <li><p>If <var>input</var> <a>matches the signature for MP3 without ID3</a>, return
   "<code>audio/mpeg</code>".
+
+  <li><p>If <var>input</var> <a>matches the signature for AAC in ADTS</a>, return
+  "<code>audio/aac</code>".
+
+  <li><p>If <var>input</var> <a>matches the signature for MPEG-TS</a>, return
+  "<code>video/mp2t</code>".
 
   <li><p>Return undefined.
  </ol>
@@ -1191,9 +1232,15 @@ algorithm</dfn>:
    ("<code>ftyp</code>"), return false.
 
   <li>
-   If the three <a>bytes</a> from <var>sequence</var>[8] to
-   <var>sequence</var>[10] are equal to 0x6D 0x70 0x34
-   ("<code>mp4</code>"), return true.
+   <p>If the three <a>bytes</a> from <var>sequence</var>[8] to <var>sequence</var>[10] are equal to
+   0x63 0x72 0x78 ("<code>crx</code>"), return false.
+
+   <p class=note>This is the Canon CR3 raw image format, which also lists the "<code>isom</code>"
+   brand.
+
+  <li>
+   If the four <a>bytes</a> from <var>sequence</var>[8] to
+   <var>sequence</var>[11] are an <a>MP4 brand</a>, return true.
 
   <li>
    Let <var>bytes-read</var> be 16.
@@ -1208,10 +1255,9 @@ algorithm</dfn>:
 
    <ol>
     <li>
-     If the three <a>bytes</a> from
+     If the four <a>bytes</a> from
      <var>sequence</var>[<var>bytes-read</var>] to
-     <var>sequence</var>[<var>bytes-read</var> + 2] are equal to 0x6D 0x70
-     0x34 ("<code>mp4</code>"), return true.
+     <var>sequence</var>[<var>bytes-read</var> + 3] are an <a>MP4 brand</a>, return true.
 
     <li>
      Increment <var>bytes-read</var> by 4.
@@ -1221,15 +1267,28 @@ algorithm</dfn>:
    Return false.
  </ol>
 
-<h4 id=signature-for-webm>Signature for WebM</h4>
+<p>A <a>byte sequence</a> is an <dfn>MP4 brand</dfn> if it starts with 0x33 0x67 0x70
+("<code>3gp</code>"), 0x61 0x76 0x63 ("<code>avc</code>"), 0x69 0x73 0x6F ("<code>iso</code>"),
+0x4D 0x34 0x41 ("<code>M4A</code>"), 0x4D 0x34 0x50 ("<code>M4P</code>"), 0x4D 0x34 0x56
+("<code>M4V</code>"), 0x6D 0x6D 0x70 0x34 ("<code>mmp4</code>"), 0x6D 0x70 0x34
+("<code>mp4</code>"), or 0x71 0x74 ("<code>qt</code>").
+
+<h4 id=signature-for-webm>Signature for WebM and Matroska</h4>
 
 <!-- https://matroska-org.github.io/libebml/specs.html -->
 <!-- https://www.matroska.org/technical/specs/index.html -->
 <!-- https://www.webmproject.org/docs/container/ -->
 
+<p>A <a>byte sequence</a> <dfn>matches the signature for WebM</dfn> if it
+<a>matches the EBML signature</a> given 0x77 0x65 0x62 0x6D ("<code>webm</code>").
+
+<p>A <a>byte sequence</a> <dfn>matches the signature for Matroska</dfn> if it
+<a>matches the EBML signature</a> given 0x6D 0x61 0x74 0x72 0x6F 0x73 0x6B 0x61
+("<code>matroska</code>").
+
 <p>
- To determine whether a <a>byte sequence</a> <dfn>matches the signature
- for WebM</dfn>, use the following steps:
+ To determine whether a <a>byte sequence</a> <dfn>matches the EBML signature</dfn> given a
+ <a>byte sequence</a> <var>docType</var>, use the following steps:
 
  <ol>
   <li>
@@ -1267,13 +1326,12 @@ algorithm</dfn>:
       <li> Let <var>number size</var> be the result
       of <a href=#parse-a-vint>parsing a <code>vint</code></a> starting at <var>sequence</var>[<var>iter</var>].
       <li> Increment <var>iter</var> by <var>number size</var>.
-      <li> If <var>iter</var> is greater than or equal to <var>length</var> - 4, abort these
-      steps.
+      <li> If <var>iter</var> is greater than or equal to <var>length</var> &minus;
+      <var>docType</var>'s <a for="byte sequence">length</a>, return false.
       <li> Let <var>matched</var> be the result of <a href=#matching-a-padded-sequence>matching a padded
-        sequence</a> 0x77 0x65 0x62 0x6D
-      ("<code>webm</code>") on <var>sequence</var> at offset
+        sequence</a> <var>docType</var> on <var>sequence</var> at offset
       <var>iter</var>.
-      <li> If <var>matched</var> is true, abort these steps and return true.
+      <li> If <var>matched</var> is true, return true.
     </ol>
     <li> Increment <var>iter</var> by 1.
   </ol>
@@ -1536,6 +1594,60 @@ To <dfn>parse an mp3 frame</dfn>, execute these steps:
 
 </table>
 </figure>
+
+<h4 id=signature-for-aac-in-adts>Signature for AAC in ADTS</h4>
+
+<p>To determine whether a <a>byte sequence</a> <var>sequence</var> <dfn>matches the signature for
+AAC in ADTS</dfn>, run these steps:
+
+<ol>
+ <li><p>Let <var>length</var> be <var>sequence</var>'s <a for="byte sequence">length</a>.
+
+ <li><p>If <var>length</var> is less than 7, then return false.
+
+ <li><p>If <var>sequence</var> does not <a>start with an ADTS sync word</a> at offset 0, then
+ return false.
+
+ <li><p>If (<var>sequence</var>[2] &amp; 0x3C) >> 2 is greater than 12, then return false.
+
+ <p class=note>This is the sampling frequency index.
+
+ <li><p>Let <var>frameLength</var> be (<var>sequence</var>[3] &amp; 0x03) &lt;&lt; 11 |
+ <var>sequence</var>[4] &lt;&lt; 3 | (<var>sequence</var>[5] &amp; 0xE0) >> 5.
+
+ <li><p>If <var>frameLength</var> is less than 7, or <var>frameLength</var> + 2 is greater than
+ <var>length</var>, then return false.
+
+ <li><p>Return true if <var>sequence</var> <a>starts with an ADTS sync word</a> at offset
+ <var>frameLength</var>; otherwise false.
+</ol>
+
+<p class=note>Large frames can make this need more than 1445 bytes. See
+<a href=https://github.com/whatwg/mimesniff/issues/218>issue #218</a>.
+
+<p>A <a>byte sequence</a> <var>sequence</var> <dfn>starts with an ADTS sync word</dfn> at offset
+<var>offset</var> if <var>sequence</var>[<var>offset</var>] is 0xFF and
+<var>sequence</var>[<var>offset</var> + 1] &amp; 0xF6 is 0xF0.
+
+
+<h4 id=signature-for-mpeg-ts>Signature for MPEG-TS</h4>
+
+<p>To determine whether a <a>byte sequence</a> <var>sequence</var> <dfn>matches the signature for
+MPEG-TS</dfn>, run these steps:
+
+<ol>
+ <li><p>If <var>sequence</var>'s <a for="byte sequence">length</a> is less than 753, then return
+ false.
+
+ <li><p>For each <var>i</var> of « 0, 188, 376, 564, 752 »: if <var>sequence</var>[<var>i</var>] is
+ not 0x47, then return false.
+
+ <li><p>Return true.
+</ol>
+
+<p class=note>An MPEG-TS stream is a sequence of 188-byte packets that each start with the sync byte
+0x47. A single sync byte is not distinctive, so the first five packets are checked.
+
 
 <h3 id=matching-a-font-type-pattern>Matching a font type pattern</h3>
 
